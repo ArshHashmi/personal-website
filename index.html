@@ -6,7 +6,7 @@
 <title>Arsh Hashmi</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Orbitron:wght@400;500;600;700&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -14,16 +14,21 @@
   --paper:#050607;
   --surface:#0c1016;
   --surface-2:#111823;
+  --accent:#7ae7ff;
+  --accent-2:#b6ffd9;
   --fog:#7e8996;
   --mist:#b9c2cd;
   --line:rgba(243,246,250,.14);
-  --serif:'Space Grotesk',sans-serif;
-  --sans:'Space Grotesk',sans-serif;
+  --serif:'Sora',sans-serif;
+  --sans:'Sora',sans-serif;
   --mono:'IBM Plex Mono',monospace;
 }
 html{scroll-behavior:smooth}
 body{
-  background:radial-gradient(circle at 12% -10%,rgba(132,155,184,.13),transparent 42%),var(--paper);
+  background:
+    radial-gradient(circle at 12% -10%,rgba(122,231,255,.08),transparent 42%),
+    radial-gradient(circle at 90% 0%,rgba(182,255,217,.06),transparent 40%),
+    var(--paper);
   color:var(--ink);
   font-family:var(--sans);
   overflow-x:hidden;
@@ -49,9 +54,10 @@ body::before{
   animation:introOut .9s cubic-bezier(.76,0,.24,1) forwards .9s;
 }
 #intro span{
-  font-family:var(--sans);font-weight:600;
-  font-size:clamp(1.7rem,4.5vw,3.6rem);color:var(--paper);
-  letter-spacing:.02em;text-transform:uppercase;
+  font-family:'Orbitron',var(--sans);font-weight:600;
+  font-size:clamp(1.9rem,5.5vw,4rem);color:var(--paper);
+  letter-spacing:.18em;text-transform:uppercase;
+  text-shadow:0 0 30px rgba(122,231,255,.2);
   animation:introFade .5s ease forwards .1s;
   opacity:0;
 }
@@ -97,7 +103,7 @@ nav.stuck{
   display:flex;align-items:flex-end;justify-content:space-between;gap:4vw;
 }
 .hero-name{
-  font-family:var(--sans);
+  font-family:'Sora',var(--sans);
   font-size:clamp(5.5rem,13vw,13rem);
   font-weight:600;line-height:.88;letter-spacing:-.03em;
   opacity:0;animation:nameIn 1.1s cubic-bezier(.16,1,.3,1) forwards 1.4s;
@@ -169,14 +175,36 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
 .sec-title{font-family:var(--sans);font-size:clamp(2.4rem,4.4vw,3.8rem);font-weight:600;letter-spacing:-.02em;line-height:1}
 
 /* ABOUT */
-.about-layout{display:grid;grid-template-columns:1fr 420px;gap:8vw;align-items:start}
+.about-layout{display:grid;grid-template-columns:minmax(260px,360px) minmax(360px,1fr);gap:6vw;align-items:start}
 .about-sticky{position:sticky;top:120px}
 .about-carousel{
-  width:100%;aspect-ratio:4/5;
+  width:min(100%,340px);aspect-ratio:3/4;
   border:1px solid var(--line);
   background:var(--surface);
   position:relative;overflow:hidden;
 }
+.about-collage{
+  width:min(100%,360px);
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  grid-auto-rows:70px;
+  gap:10px;
+}
+.about-tile{
+  border:1px solid var(--line);
+  background-image:
+    linear-gradient(135deg,rgba(122,231,255,.16),rgba(182,255,217,.08)),
+    var(--img);
+  background-size:cover;background-position:center;
+  border-radius:12px;overflow:hidden;position:relative;
+}
+.about-tile::after{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(-45deg,transparent,transparent 14px,rgba(255,255,255,.04) 14px,rgba(255,255,255,.04) 15px);
+}
+.about-tile.tile-lg{grid-column:span 4;grid-row:span 3}
+.about-tile.tile-md{grid-column:span 3;grid-row:span 2}
+.about-tile.tile-sm{grid-column:span 2;grid-row:span 2}
 .about-slides{position:absolute;inset:0}
 .about-slide{
   position:absolute;inset:0;
@@ -220,6 +248,7 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
 .about-dot.is-active{opacity:1;background:var(--ink);transform:scale(1.03)}
 .about-pic-cap{margin-top:.85rem;font-family:var(--mono);font-size:.58rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--fog)}
 
+.about-text{justify-self:end;max-width:720px}
 .about-text .lede{font-family:var(--sans);font-size:clamp(1.3rem,2.1vw,1.75rem);font-weight:500;line-height:1.5;letter-spacing:-.01em;margin-bottom:2.5rem}
 .about-text p{font-size:.9rem;font-weight:300;line-height:1.95;color:var(--mist);margin-bottom:1.1rem}
 .about-facts{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:3rem;padding-top:3rem;border-top:1px solid var(--line)}
@@ -261,6 +290,44 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
 .proj-row:hover .proj-tag{border-color:var(--mist);color:var(--mist)}
 .proj-arrow{font-size:1.1rem;color:var(--fog);transition:transform .3s,color .3s;flex-shrink:0}
 .proj-row:hover .proj-arrow{transform:translate(4px,-4px);color:var(--ink)}
+.proj-carousel{
+  margin-top:1.2rem;
+  position:relative;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  padding-bottom:.6rem;
+}
+.proj-carousel::-webkit-scrollbar{display:none}
+.proj-carousel::before,.proj-carousel::after{
+  content:'';position:absolute;top:0;bottom:.6rem;width:40px;pointer-events:none;z-index:2;
+}
+.proj-carousel::before{left:0;background:linear-gradient(90deg,var(--paper),transparent)}
+.proj-carousel::after{right:0;background:linear-gradient(270deg,var(--paper),transparent)}
+.proj-track{
+  display:flex;gap:.75rem;width:max-content;padding-right:2rem;
+}
+.proj-card{
+  position:relative;flex:0 0 auto;border:1px solid var(--line);
+  background-image:
+    linear-gradient(135deg,rgba(122,231,255,.18),rgba(182,255,217,.08)),
+    var(--img);
+  background-size:cover;background-position:center;
+  border-radius:12px;overflow:hidden;
+  scroll-snap-align:start;
+}
+.proj-card::after{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(-45deg,transparent,transparent 16px,rgba(255,255,255,.05) 16px,rgba(255,255,255,.05) 17px);
+  opacity:.6;
+}
+.proj-card.size-sm{width:160px;height:110px}
+.proj-card.size-md{width:220px;height:150px}
+.proj-card.size-lg{width:280px;height:190px}
+.proj-card:nth-child(3n){margin-top:10px}
+.proj-card:nth-child(4n){margin-top:-8px}
+.proj-card:nth-child(5n){margin-top:6px}
+.proj-carousel.is-paused .proj-card::after{opacity:.4}
 
 /* SKILLS */
 .skills-layout{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line)}
@@ -341,6 +408,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .hb-actions{justify-content:flex-start}
   .about-layout{grid-template-columns:1fr;gap:2rem}
   .about-sticky{position:relative;top:auto}
+  .about-collage{width:100%;grid-auto-rows:80px}
   .exp-entry{grid-template-columns:1fr}
   .skills-layout{grid-template-columns:1fr 1fr}
   .sk-col:nth-child(3),.sk-col:nth-child(5){border-right:none}
@@ -355,7 +423,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   nav.stuck{padding:1rem 5vw}
   .nav-links{order:3;width:100%;gap:.75rem;overflow-x:auto;padding-bottom:.35rem}
   .nav-links::-webkit-scrollbar{display:none}
-  .nav-links a{font-size:.55rem;white-space:nowrap}
+  .nav-links a{font-size:.62rem;white-space:nowrap}
   .nav-cta{display:none}
   .hero-name{font-size:clamp(3.3rem,18vw,5rem)}
   .hero-name-wrap{padding-top:8.5rem}
@@ -365,8 +433,18 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   section.panel{padding:5rem 5vw}
   .sec-header{margin-bottom:2.8rem;gap:1rem;flex-direction:column;align-items:flex-start}
   .proj-row{grid-template-columns:1fr;gap:1rem}
+  .proj-detail{font-size:.92rem;line-height:1.85}
+  .proj-carousel{margin-top:1rem}
+  .proj-card.size-sm{width:140px;height:100px}
+  .proj-card.size-md{width:190px;height:130px}
+  .proj-card.size-lg{width:230px;height:160px}
+  .proj-card:nth-child(3n){margin-top:6px}
+  .proj-card:nth-child(4n){margin-top:-5px}
+  .proj-card:nth-child(5n){margin-top:4px}
   .about-controls{left:.75rem;right:.75rem;bottom:.75rem}
   .about-btn{padding:.48rem .62rem}
+  .hb-desc{font-size:1rem;line-height:1.85}
+  .hb-meta{font-size:.62rem}
   .ct-row{gap:1.35rem}
   footer{flex-direction:column;align-items:flex-start;gap:.6rem}
 }
@@ -382,10 +460,10 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   <a href="#hero" class="nav-logo">Arsh Hashmi</a>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#skills">Skills</a></li>
     <li><a href="#education">Education</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
   </ul>
   <a href="#contact" class="nav-cta">Contact</a>
 </nav>
@@ -432,46 +510,14 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   </div>
   <div class="about-layout">
     <div class="about-sticky rv">
-      <div class="about-carousel" data-about-carousel>
-        <div class="about-slides">
-          <!-- Template: replace each images/project-#.jpg path with your own project images -->
-          <article class="about-slide is-active" style="--slide-image:url('images/project-1.jpg')">
-            <div class="about-slide-meta">
-              <span class="about-slide-name">Project Image 1</span>
-              <span class="about-slide-index">01</span>
-            </div>
-          </article>
-          <article class="about-slide" style="--slide-image:url('images/project-2.jpg')">
-            <div class="about-slide-meta">
-              <span class="about-slide-name">Project Image 2</span>
-              <span class="about-slide-index">02</span>
-            </div>
-          </article>
-          <article class="about-slide" style="--slide-image:url('images/project-3.jpg')">
-            <div class="about-slide-meta">
-              <span class="about-slide-name">Project Image 3</span>
-              <span class="about-slide-index">03</span>
-            </div>
-          </article>
-          <article class="about-slide" style="--slide-image:url('images/project-4.jpg')">
-            <div class="about-slide-meta">
-              <span class="about-slide-name">Project Image 4</span>
-              <span class="about-slide-index">04</span>
-            </div>
-          </article>
-        </div>
-        <div class="about-controls">
-          <button class="about-btn" type="button" data-about-prev aria-label="Previous project image">Prev</button>
-          <div class="about-dots">
-            <button class="about-dot is-active" type="button" data-about-dot="0" aria-label="Show project image 1"></button>
-            <button class="about-dot" type="button" data-about-dot="1" aria-label="Show project image 2"></button>
-            <button class="about-dot" type="button" data-about-dot="2" aria-label="Show project image 3"></button>
-            <button class="about-dot" type="button" data-about-dot="3" aria-label="Show project image 4"></button>
-          </div>
-          <button class="about-btn" type="button" data-about-next aria-label="Next project image">Next</button>
-        </div>
+      <div class="about-collage" aria-label="About image collage">
+        <div class="about-tile tile-lg" style="--img:url('images/about-1.jpg')"></div>
+        <div class="about-tile tile-sm" style="--img:url('images/about-2.jpg')"></div>
+        <div class="about-tile tile-md" style="--img:url('images/about-3.jpg')"></div>
+        <div class="about-tile tile-sm" style="--img:url('images/about-4.jpg')"></div>
+        <div class="about-tile tile-md" style="--img:url('images/about-5.jpg')"></div>
       </div>
-      <p class="about-pic-cap">Carousel template ready. Update images/project-1.jpg to images/project-4.jpg with your own files.</p>
+      <p class="about-pic-cap">Collage template ready. Replace images/about-1.jpg to images/about-5.jpg with your own files.</p>
     </div>
     <div class="about-text">
       <p class="lede rv d1">Building at the intersection of engineering precision, hands-on fabrication, and applied design.</p>
@@ -488,10 +534,150 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   </div>
 </section>
 
+<!-- EDUCATION -->
+<section class="panel" id="education">
+  <div class="sec-header rv">
+    <span class="sec-label">02 — Education</span>
+    <div class="sec-title">Academic background.</div>
+  </div>
+  <div class="edu-grid">
+    <div class="edu-card rv">
+      <div class="ec-yr">Aug 2025 — May 2029</div>
+      <div class="ec-school">Binghamton University</div>
+      <div class="ec-deg">B.S. / M.S. Mechanical Engineering<br>Watson College of Engineering & Applied Science</div>
+      <div class="ec-body"><strong>Teams & Orgs:</strong> Binghamton Motorsports SAE (Aero Apprentice + EV Go-Kart Engineer), Watson Combat Robotics League (Antweight Full Engineer), ASME General Body Member, Computer Robotics & Engineering Community (CoRE).</div>
+    </div>
+    <div class="edu-card rv d1">
+      <div class="ec-yr">Graduated June 2025</div>
+      <div class="ec-school">East Meadow High School</div>
+      <div class="ec-deg">Advanced Regents Diploma · GPA 99.5/100 · SAT 1300/1600</div>
+      <div class="ec-body"><strong>Honors:</strong> National Honor Society, Science Honor Society, AP Scholar Award, AP Research & Seminar Certificate, BOF Award for Academic Excellence.<br><br><strong>AP Courses:</strong> Calculus AB & BC, Chemistry, Physics 1, Physics C Mechanics, Physics C E&M, Language & Composition, Literature, Seminar, Research. Also: Architectural Design, Graphics Design.<br><br><strong>Athletics:</strong> JV & Varsity Soccer, Cross Country, Track & Field.</div>
+    </div>
+  </div>
+</section>
+
+\r\n<!-- PROJECTS -->
+<section class="panel dark" id="projects">
+  <div class="sec-header rv">
+    <span class="sec-label">03 — Projects</span>
+    <div class="sec-title">Selected work.</div>
+  </div>
+  <div class="proj-list">
+    <div class="proj-row rv">
+      <div class="proj-num">01</div>
+      <div class="proj-main">
+        <div class="proj-title">SAE Formula Nosecone & Front Wing V2</div>
+        <p class="proj-detail">Designed in Fusion 360, CFD simulation in ANSYS Fluent â€” refined meshes with inflation layers, lift/drag coefficients, pressure/velocity distributions. DXF for waterjet manufacturing. Full 3K and 12K carbon fiber composite layups with vacuum bagging and post-processing.</p>
+        <div class="proj-tags-wrap"><span class="proj-tag">ANSYS</span><span class="proj-tag">CFD</span><span class="proj-tag">Carbon Fiber</span><span class="proj-tag">Fusion 360</span><span class="proj-tag">DXF</span></div>
+        <div class="proj-carousel" data-proj-carousel data-speed="0.36" aria-label="SAE Formula collage">
+          <div class="proj-track">
+            <div class="proj-card size-lg" style="--img:url('images/projects/sae-1.jpg')"></div>
+            <div class="proj-card size-sm" style="--img:url('images/projects/sae-2.jpg')"></div>
+            <div class="proj-card size-md" style="--img:url('images/projects/sae-3.jpg')"></div>
+            <div class="proj-card size-sm" style="--img:url('images/projects/sae-4.jpg')"></div>
+            <div class="proj-card size-md" style="--img:url('images/projects/sae-5.jpg')"></div>
+          </div>
+        </div>
+      </div>
+      <div class="proj-arrow">â†—</div>
+    </div>
+    <div class="proj-row rv">
+      <div class="proj-num">02</div>
+      <div class="proj-main">
+        <div class="proj-title">EV Go-Kart Chassis</div>
+        <p class="proj-detail">Full frame, chain guard, and caliper bracket in Fusion 360. MIG welded with 3D-printed pre-fit mockups. First full chassis iteration complete and assembled.</p>
+        <div class="proj-tags-wrap"><span class="proj-tag">Fusion 360</span><span class="proj-tag">MIG Welding</span><span class="proj-tag">EV</span><span class="proj-tag">Fabrication</span></div>
+        <div class="proj-carousel" data-proj-carousel data-speed="0.34" aria-label="EV Go-Kart collage">
+          <div class="proj-track">
+            <div class="proj-card size-md" style="--img:url('images/projects/gokart-1.jpg')"></div>
+            <div class="proj-card size-sm" style="--img:url('images/projects/gokart-2.jpg')"></div>
+            <div class="proj-card size-lg" style="--img:url('images/projects/gokart-3.jpg')"></div>
+            <div class="proj-card size-sm" style="--img:url('images/projects/gokart-4.jpg')"></div>
+            <div class="proj-card size-md" style="--img:url('images/projects/gokart-5.jpg')"></div>
+          </div>
+        </div>
+      </div>
+      <div class="proj-arrow">â†—</div>
+    </div>
+    <div class="proj-row rv">
+      <div class="proj-num">03</div>
+      <div class="proj-main">
+        <div class="proj-title">Arduino Immersive Driving Simulator</div>
+        <p class="proj-detail">Directional g-force fans via Arduino + SIMHUB CAN-BUS, real automotive tachometer reading in-game RPM via Arduino Nano, custom 3D-printed mounts, VR-ready dual monitor setup.</p>
+        <div class="proj-tags-wrap"><span class="proj-tag">Arduino</span><span class="proj-tag">CAN-BUS</span><span class="proj-tag">SIMHUB</span><span class="proj-tag">3D Printing</span></div>
+        <div class="proj-carousel" data-proj-carousel data-speed="0.32" aria-label="Driving simulator collage">
+          <div class="proj-track">
+            <div class="proj-card size-lg" style="--img:url('images/projects/sim-1.jpg')"></div>
+            <div class="proj-card size-sm" style="--img:url('images/projects/sim-2.jpg')"></div>
+            <div class="proj-card size-md" style="--img:url('images/projects/sim-3.jpg')"></div>
+            <div class="proj-card size-sm" style="--img:url('images/projects/sim-4.jpg')"></div>
+            <div class="proj-card size-md" style="--img:url('images/projects/sim-5.jpg')"></div>
+          </div>
+        </div>
+      </div>
+      <div class="proj-arrow">â†—</div>
+    </div>
+    <div class="proj-row rv">
+      <div class="proj-num">04</div>
+      <div class="proj-main">
+        <div class="proj-title">Antweight Combat Robot</div>
+        <p class="proj-detail">Full CAD-to-fabrication: Fusion 360, 3D printing, machining, complete electronics integration with weapon motors and radio system. Competed and iterated through multiple design cycles.</p>
+        <div class="proj-tags-wrap"><span class="proj-tag">Fusion 360</span><span class="proj-tag">Soldering</span><span class="proj-tag">Machining</span><span class="proj-tag">Electronics</span></div>
+        <div class="proj-carousel" data-proj-carousel data-speed="0.33" aria-label="Antweight robot collage">
+          <div class="proj-track">
+            <div class="proj-card size-md" style="--img:url('images/projects/ant-1.jpg')"></div>
+            <div class="proj-card size-sm" style="--img:url('images/projects/ant-2.jpg')"></div>
+            <div class="proj-card size-lg" style="--img:url('images/projects/ant-3.jpg')"></div>
+            <div class="proj-card size-sm" style="--img:url('images/projects/ant-4.jpg')"></div>
+            <div class="proj-card size-md" style="--img:url('images/projects/ant-5.jpg')"></div>
+          </div>
+        </div>
+      </div>
+      <div class="proj-arrow">â†—</div>
+    </div>
+    <div class="proj-row rv">
+      <div class="proj-num">05</div>
+      <div class="proj-main">
+        <div class="proj-title">Automotive Rebuilds & Custom Modifications</div>
+        <p class="proj-detail">Multiple salvage vehicle rebuilds, custom two-tone vinyl wrap, window tinting, alcantara door panels, custom leather steering wheel, full seat reupholstery, valved exhaust wiring, and aftermarket audio installs.</p>
+        <div class="proj-tags-wrap"><span class="proj-tag">Autobody</span><span class="proj-tag">Vinyl Wrap</span><span class="proj-tag">Upholstery</span><span class="proj-tag">Electrical</span></div>
+        <div class="proj-carousel" data-proj-carousel data-speed="0.35" aria-label="Automotive rebuilds collage">
+          <div class="proj-track">
+            <div class="proj-card size-lg" style="--img:url('images/projects/auto-1.jpg')"></div>
+            <div class="proj-card size-sm" style="--img:url('images/projects/auto-2.jpg')"></div>
+            <div class="proj-card size-md" style="--img:url('images/projects/auto-3.jpg')"></div>
+            <div class="proj-card size-sm" style="--img:url('images/projects/auto-4.jpg')"></div>
+            <div class="proj-card size-md" style="--img:url('images/projects/auto-5.jpg')"></div>
+          </div>
+        </div>
+      </div>
+      <div class="proj-arrow">â†—</div>
+    </div>
+    <div class="proj-row rv">
+      <div class="proj-num">06</div>
+      <div class="proj-main">
+        <div class="proj-title">AI in School Counseling â€” Research Paper</div>
+        <p class="proj-detail">IRB-style protocols, semi-structured interviews, En-vivo and Apriori coding. Presented findings to an academic panel. Published research paper on AI's future role in school counseling.</p>
+        <div class="proj-tags-wrap"><span class="proj-tag">Qualitative Research</span><span class="proj-tag">AI</span><span class="proj-tag">Academic Writing</span></div>
+        <div class="proj-carousel" data-proj-carousel data-speed="0.31" aria-label="AI research collage">
+          <div class="proj-track">
+            <div class="proj-card size-md" style="--img:url('images/projects/research-1.jpg')"></div>
+            <div class="proj-card size-sm" style="--img:url('images/projects/research-2.jpg')"></div>
+            <div class="proj-card size-lg" style="--img:url('images/projects/research-3.jpg')"></div>
+            <div class="proj-card size-sm" style="--img:url('images/projects/research-4.jpg')"></div>
+            <div class="proj-card size-md" style="--img:url('images/projects/research-5.jpg')"></div>
+          </div>
+        </div>
+      </div>
+      <div class="proj-arrow">â†—</div>
+    </div>
+  </div>
+</section>
+
 <!-- EXPERIENCE -->
 <section class="panel" id="experience">
   <div class="sec-header rv">
-    <span class="sec-label">02 — Experience</span>
+    <span class="sec-label">04 — Experience</span>
     <div class="sec-title">Where I've worked.</div>
   </div>
 
@@ -566,74 +752,10 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   </div>
 </section>
 
-<!-- PROJECTS -->
-<section class="panel dark" id="projects">
-  <div class="sec-header rv">
-    <span class="sec-label">03 — Projects</span>
-    <div class="sec-title">Selected work.</div>
-  </div>
-  <div class="proj-list">
-    <div class="proj-row rv">
-      <div class="proj-num">01</div>
-      <div class="proj-main">
-        <div class="proj-title">SAE Formula Nosecone & Front Wing V2</div>
-        <p class="proj-detail">Designed in Fusion 360, CFD simulation in ANSYS Fluent — refined meshes with inflation layers, lift/drag coefficients, pressure/velocity distributions. DXF for waterjet manufacturing. Full 3K and 12K carbon fiber composite layups with vacuum bagging and post-processing.</p>
-        <div class="proj-tags-wrap"><span class="proj-tag">ANSYS</span><span class="proj-tag">CFD</span><span class="proj-tag">Carbon Fiber</span><span class="proj-tag">Fusion 360</span><span class="proj-tag">DXF</span></div>
-      </div>
-      <div class="proj-arrow">↗</div>
-    </div>
-    <div class="proj-row rv">
-      <div class="proj-num">02</div>
-      <div class="proj-main">
-        <div class="proj-title">EV Go-Kart Chassis</div>
-        <p class="proj-detail">Full frame, chain guard, and caliper bracket in Fusion 360. MIG welded with 3D-printed pre-fit mockups. First full chassis iteration complete and assembled.</p>
-        <div class="proj-tags-wrap"><span class="proj-tag">Fusion 360</span><span class="proj-tag">MIG Welding</span><span class="proj-tag">EV</span><span class="proj-tag">Fabrication</span></div>
-      </div>
-      <div class="proj-arrow">↗</div>
-    </div>
-    <div class="proj-row rv">
-      <div class="proj-num">03</div>
-      <div class="proj-main">
-        <div class="proj-title">Arduino Immersive Driving Simulator</div>
-        <p class="proj-detail">Directional g-force fans via Arduino + SIMHUB CAN-BUS, real automotive tachometer reading in-game RPM via Arduino Nano, custom 3D-printed mounts, VR-ready dual monitor setup.</p>
-        <div class="proj-tags-wrap"><span class="proj-tag">Arduino</span><span class="proj-tag">CAN-BUS</span><span class="proj-tag">SIMHUB</span><span class="proj-tag">3D Printing</span></div>
-      </div>
-      <div class="proj-arrow">↗</div>
-    </div>
-    <div class="proj-row rv">
-      <div class="proj-num">04</div>
-      <div class="proj-main">
-        <div class="proj-title">Antweight Combat Robot</div>
-        <p class="proj-detail">Full CAD-to-fabrication: Fusion 360, 3D printing, machining, complete electronics integration with weapon motors and radio system. Competed and iterated through multiple design cycles.</p>
-        <div class="proj-tags-wrap"><span class="proj-tag">Fusion 360</span><span class="proj-tag">Soldering</span><span class="proj-tag">Machining</span><span class="proj-tag">Electronics</span></div>
-      </div>
-      <div class="proj-arrow">↗</div>
-    </div>
-    <div class="proj-row rv">
-      <div class="proj-num">05</div>
-      <div class="proj-main">
-        <div class="proj-title">Automotive Rebuilds & Custom Modifications</div>
-        <p class="proj-detail">Multiple salvage vehicle rebuilds, custom two-tone vinyl wrap, window tinting, alcantara door panels, custom leather steering wheel, full seat reupholstery, valved exhaust wiring, and aftermarket audio installs.</p>
-        <div class="proj-tags-wrap"><span class="proj-tag">Autobody</span><span class="proj-tag">Vinyl Wrap</span><span class="proj-tag">Upholstery</span><span class="proj-tag">Electrical</span></div>
-      </div>
-      <div class="proj-arrow">↗</div>
-    </div>
-    <div class="proj-row rv">
-      <div class="proj-num">06</div>
-      <div class="proj-main">
-        <div class="proj-title">AI in School Counseling — Research Paper</div>
-        <p class="proj-detail">IRB-style protocols, semi-structured interviews, En-vivo and Apriori coding. Presented findings to an academic panel. Published research paper on AI's future role in school counseling.</p>
-        <div class="proj-tags-wrap"><span class="proj-tag">Qualitative Research</span><span class="proj-tag">AI</span><span class="proj-tag">Academic Writing</span></div>
-      </div>
-      <div class="proj-arrow">↗</div>
-    </div>
-  </div>
-</section>
-
 <!-- SKILLS -->
 <section class="panel" id="skills">
   <div class="sec-header rv">
-    <span class="sec-label">04 — Skills</span>
+    <span class="sec-label">05 — Skills</span>
     <div class="sec-title">Technical toolkit.</div>
   </div>
   <div class="skills-layout">
@@ -643,28 +765,6 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
     <div class="sk-col rv"><div class="sk-head">Automotive & Fabrication</div><div class="sk-items"><span class="sk-item">Car Tinting</span><span class="sk-item">Vinyl Wrapping</span><span class="sk-item">Autobody</span><span class="sk-item">Interior Upholstery</span><span class="sk-item">Vehicle Diagnostics</span><span class="sk-item">Engine Maintenance</span><span class="sk-item">Aftermarket Audio</span><span class="sk-item">Car Flipping</span></div></div>
     <div class="sk-col rv d1"><div class="sk-head">Research & Analysis</div><div class="sk-items"><span class="sk-item">En-vivo Coding</span><span class="sk-item">Apriori Coding</span><span class="sk-item">Interview Protocols</span><span class="sk-item">Otter.ai</span><span class="sk-item">Academic Writing</span><span class="sk-item">Presentational Literacy</span></div></div>
     <div class="sk-col rv d2"><div class="sk-head">Languages</div><div class="sk-items"><span class="sk-item">English (Native)</span><span class="sk-item">Urdu (Native)</span><span class="sk-item">Hindi / Punjabi</span><span class="sk-item">Spanish (Learning)</span></div></div>
-  </div>
-</section>
-
-<!-- EDUCATION -->
-<section class="panel" id="education">
-  <div class="sec-header rv">
-    <span class="sec-label">05 — Education</span>
-    <div class="sec-title">Academic background.</div>
-  </div>
-  <div class="edu-grid">
-    <div class="edu-card rv">
-      <div class="ec-yr">Aug 2025 — May 2029</div>
-      <div class="ec-school">Binghamton University</div>
-      <div class="ec-deg">B.S. / M.S. Mechanical Engineering<br>Watson College of Engineering & Applied Science</div>
-      <div class="ec-body"><strong>Teams & Orgs:</strong> Binghamton Motorsports SAE (Aero Apprentice + EV Go-Kart Engineer), Watson Combat Robotics League (Antweight Full Engineer), ASME General Body Member, Computer Robotics & Engineering Community (CoRE).</div>
-    </div>
-    <div class="edu-card rv d1">
-      <div class="ec-yr">Graduated June 2025</div>
-      <div class="ec-school">East Meadow High School</div>
-      <div class="ec-deg">Advanced Regents Diploma · GPA 99.5/100 · SAT 1300/1600</div>
-      <div class="ec-body"><strong>Honors:</strong> National Honor Society, Science Honor Society, AP Scholar Award, AP Research & Seminar Certificate, BOF Award for Academic Excellence.<br><br><strong>AP Courses:</strong> Calculus AB & BC, Chemistry, Physics 1, Physics C Mechanics, Physics C E&M, Language & Composition, Literature, Seminar, Research. Also: Architectural Design, Graphics Design.<br><br><strong>Athletics:</strong> JV & Varsity Soccer, Cross Country, Track & Field.</div>
-    </div>
   </div>
 </section>
 
@@ -731,6 +831,44 @@ if(aboutCarousel){
   startAuto();
 }
 
+/* Project collage carousels */
+const prefersReduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+document.querySelectorAll('[data-proj-carousel]').forEach(carousel=>{
+  const track=carousel.querySelector('.proj-track');
+  if(!track)return;
+  const items=[...track.children];
+  items.forEach(node=>track.appendChild(node.cloneNode(true)));
+  let lastTime=0;
+  let resumeTimer=null;
+  let autoScrolling=false;
+  const speed=parseFloat(carousel.getAttribute('data-speed'))||0.32;
+  const pause=()=>carousel.classList.add('is-paused');
+  const resume=()=>carousel.classList.remove('is-paused');
+  const step=time=>{
+    if(!lastTime)lastTime=time;
+    const delta=time-lastTime;
+    lastTime=time;
+    if(!carousel.classList.contains('is-paused')){
+      autoScrolling=true;
+      carousel.scrollLeft+=speed*(delta/16.7);
+      if(carousel.scrollLeft>=track.scrollWidth/2){carousel.scrollLeft=0}
+      autoScrolling=false;
+    }
+    requestAnimationFrame(step);
+  };
+  if(!prefersReduced)requestAnimationFrame(step);
+  carousel.addEventListener('mouseenter',pause);
+  carousel.addEventListener('mouseleave',resume);
+  carousel.addEventListener('touchstart',pause,{passive:true});
+  carousel.addEventListener('touchend',()=>{clearTimeout(resumeTimer);resumeTimer=setTimeout(resume,1200)},{passive:true});
+  carousel.addEventListener('scroll',()=>{
+    if(autoScrolling)return;
+    pause();
+    clearTimeout(resumeTimer);
+    resumeTimer=setTimeout(resume,1200);
+  },{passive:true});
+});
+
 /* Nav */
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('stuck',window.scrollY>60),{passive:true});
 
@@ -745,3 +883,5 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
 </script>
 </body>
 </html>
+
+
