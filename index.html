@@ -530,6 +530,267 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
 .proj-card:nth-child(5n){margin-top:6px}
 .proj-carousel.is-paused .proj-card::after{opacity:.4}
 
+/* AUTOMOTIVE */
+.auto-intro{
+  margin-top:1.2rem;
+  font-size:.92rem;
+  font-weight:300;
+  line-height:1.8;
+  color:var(--mist);
+  max-width:640px;
+}
+.auto-preview{
+  margin-top:2.2rem;
+  position:relative;
+}
+.auto-carousel{
+  position:relative;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  padding-bottom:.8rem;
+}
+.auto-carousel::-webkit-scrollbar{display:none}
+.auto-track{
+  display:flex;
+  gap:1rem;
+  width:max-content;
+  padding-right:2rem;
+}
+.auto-card{
+  position:relative;
+  flex:0 0 auto;
+  border:1px solid var(--line);
+  border-radius:16px;
+  overflow:hidden;
+  background-image:
+    linear-gradient(135deg,rgba(122,231,255,.18),rgba(182,255,217,.08)),
+    var(--img);
+  background-size:cover;background-position:center;
+  scroll-snap-align:start;
+  box-shadow:0 18px 40px rgba(0,0,0,.18);
+  transition:transform .5s cubic-bezier(.16,1,.3,1),box-shadow .5s;
+}
+.auto-card::after{
+  content:'';
+  position:absolute;inset:0;
+  background:repeating-linear-gradient(-45deg,transparent,transparent 16px,rgba(255,255,255,.05) 16px,rgba(255,255,255,.05) 17px);
+  opacity:.5;
+}
+.auto-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 24px 55px rgba(0,0,0,.3);
+}
+.auto-card.size-sm{width:180px;height:120px}
+.auto-card.size-md{width:260px;height:170px}
+.auto-card.size-lg{width:340px;height:220px}
+.auto-card:nth-child(3n){margin-top:10px}
+.auto-card:nth-child(4n){margin-top:-8px}
+.auto-card:nth-child(5n){margin-top:6px}
+
+.auto-toggle{
+  margin-top:2.2rem;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.02);
+  color:var(--ink);
+  font-family:var(--mono);
+  font-size:.62rem;
+  font-weight:600;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  padding:.9rem 1.6rem;
+  cursor:pointer;
+  transition:.25s;
+  width:100%;
+  text-align:center;
+}
+.auto-toggle:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.auto-details{
+  margin-top:1.6rem;
+  width:100vw;
+  margin-left:calc(50% - 50vw);
+  margin-right:calc(50% - 50vw);
+  overflow:hidden;
+  max-height:0;
+  opacity:0;
+  transition:max-height .6s cubic-bezier(.16,1,.3,1),opacity .4s ease;
+  background:
+    linear-gradient(160deg,rgba(17,24,35,.6),rgba(5,7,10,.95));
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:0;
+}
+.auto-details.is-open{
+  opacity:1;
+}
+.auto-details-inner{
+  max-width:1200px;
+  margin:0 auto;
+  padding:3rem 5vw 3.5rem;
+}
+.auto-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:1.5rem;
+  margin-top:1.2rem;
+}
+.auto-item{
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:1.6rem 1.8rem;
+  background:rgba(255,255,255,.02);
+  transition:border-color .3s,transform .3s;
+}
+.auto-item:hover{
+  border-color:rgba(122,231,255,.35);
+  transform:translateY(-3px);
+}
+.auto-item-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+  margin-bottom:.6rem;
+}
+.auto-title{
+  font-family:var(--mono);
+  font-size:.7rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--mist);
+}
+.auto-desc{
+  font-size:.88rem;
+  line-height:1.8;
+  color:var(--mist);
+}
+.auto-action{
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.02);
+  color:var(--ink);
+  font-family:var(--mono);
+  font-size:.56rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  padding:.5rem .8rem;
+  cursor:pointer;
+  transition:.25s;
+}
+.auto-action:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.auto-thumbs{
+  margin-top:1rem;
+  display:flex;
+  gap:.6rem;
+  overflow-x:auto;
+  padding-bottom:.4rem;
+  -webkit-overflow-scrolling:touch;
+  scroll-snap-type:x mandatory;
+}
+.auto-thumbs::-webkit-scrollbar{display:none}
+.auto-thumb{
+  flex:0 0 auto;
+  width:140px;
+  height:95px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background-image:
+    linear-gradient(135deg,rgba(122,231,255,.12),rgba(182,255,217,.08)),
+    var(--img);
+  background-size:cover;
+  background-position:center;
+  scroll-snap-align:start;
+  cursor:pointer;
+  transition:transform .3s,border-color .3s;
+}
+.auto-thumb:hover{transform:translateY(-2px);border-color:rgba(122,231,255,.35)}
+
+.auto-modal{
+  position:fixed;inset:0;z-index:6400;
+  background:rgba(5,7,10,.78);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity .35s ease;
+}
+.auto-modal.is-open{opacity:1;pointer-events:auto}
+.auto-modal-card{
+  width:min(94vw,1100px);
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:18px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  transform:translateY(16px);
+  transition:transform .4s cubic-bezier(.16,1,.3,1);
+}
+.auto-modal.is-open .auto-modal-card{transform:none}
+.auto-modal-media{
+  background:var(--paper);
+  display:flex;align-items:center;justify-content:center;
+  padding:1.25rem;
+}
+.auto-modal-media img{
+  width:auto;
+  height:auto;
+  max-width:100%;
+  max-height:78vh;
+  object-fit:contain;
+  border:1px solid var(--line);
+  background:#0b0f14;
+}
+.auto-modal-body{
+  padding:1.2rem 1.8rem 1.6rem;
+  border-top:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+  flex-wrap:wrap;
+}
+.auto-modal-title{
+  font-family:var(--sans);
+  font-size:1.2rem;
+  font-weight:600;
+  letter-spacing:-.01em;
+}
+.auto-modal-count{
+  font-family:var(--mono);
+  font-size:.6rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--fog);
+}
+.auto-modal-actions{
+  display:flex;gap:.6rem;
+}
+.auto-modal-btn{
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.02);
+  color:var(--ink);
+  font-family:var(--mono);
+  font-size:.56rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  padding:.5rem .8rem;
+  cursor:pointer;
+  transition:.25s;
+}
+.auto-modal-btn:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.auto-modal-close{
+  position:absolute;top:1.2rem;right:1.2rem;
+  border:1px solid var(--line);
+  background:rgba(5,7,10,.7);
+  color:var(--ink);
+  font-family:var(--mono);
+  font-size:.55rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  padding:.45rem .7rem;
+  cursor:pointer;
+  transition:.25s;
+}
+.auto-modal-close:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
 /* SKILLS */
 .skills-layout{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line)}
 .sk-col{padding:2.5rem;border-right:1px solid var(--line)}
@@ -623,6 +884,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .about-collage{width:100%;grid-auto-rows:80px}
   .exp-entry{grid-template-columns:1fr}
   .exp-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .auto-grid{grid-template-columns:1fr}
   .skills-layout{grid-template-columns:1fr 1fr}
   .sk-col:nth-child(3),.sk-col:nth-child(5){border-right:none}
   .sk-col:nth-child(4){border-top:none}
@@ -673,6 +935,11 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .proj-card:nth-child(3n){margin-top:6px}
   .proj-card:nth-child(4n){margin-top:-5px}
   .proj-card:nth-child(5n){margin-top:4px}
+  .auto-card.size-sm{width:150px;height:105px}
+  .auto-card.size-md{width:210px;height:145px}
+  .auto-card.size-lg{width:260px;height:180px}
+  .auto-details-inner{padding:2.2rem 5vw 2.6rem}
+  .auto-thumb{width:120px;height:82px}
   .about-controls{left:.75rem;right:.75rem;bottom:.75rem}
   .about-btn{padding:.48rem .62rem}
   .hb-desc{font-size:1rem;line-height:1.85}
@@ -701,6 +968,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
     <li><a href="#about">About</a></li>
     <li><a href="#education">Education</a></li>
     <li><a href="#projects">Projects</a></li>
+    <li><a href="#automotive">Automotive</a></li>
     <li><a href="#experience">Experience</a></li>
     <li><a href="#skills">Skills</a></li>
   </ul>
@@ -902,10 +1170,149 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   </div>
 </section>
 
+<!-- AUTOMOTIVE -->
+<section class="panel" id="automotive">
+  <div class="sec-header rv">
+    <span class="sec-label">04 — Automotive</span>
+    <div class="sec-title">Automotive experience.</div>
+  </div>
+  <p class="auto-intro rv d1">Hands-on builds across restoration, fabrication, and electrical work. Preview highlights below, then expand to see the full scope.</p>
+  <div class="auto-preview rv d2">
+    <div class="auto-carousel" data-auto-carousel aria-label="Automotive preview carousel">
+      <div class="auto-track">
+        <div class="auto-card size-lg" style="--img:url('images/automotive/auto-1.jpg')"></div>
+        <div class="auto-card size-sm" style="--img:url('images/automotive/auto-2.jpg')"></div>
+        <div class="auto-card size-md" style="--img:url('images/automotive/auto-3.jpg')"></div>
+        <div class="auto-card size-sm" style="--img:url('images/automotive/auto-4.jpg')"></div>
+        <div class="auto-card size-md" style="--img:url('images/automotive/auto-5.jpg')"></div>
+        <div class="auto-card size-lg" style="--img:url('images/automotive/auto-6.jpg')"></div>
+      </div>
+    </div>
+  </div>
+  <button class="auto-toggle rv d3" data-auto-toggle aria-expanded="false">View all automotive work</button>
+  <div class="auto-details" data-auto-details>
+    <div class="auto-details-inner">
+      <div class="auto-grid">
+        <article class="auto-item rv d1" data-auto-gallery data-title="Cars I Have Sold" data-images="images/automotive/cars-sold-1.jpg|images/automotive/cars-sold-2.jpg|images/automotive/cars-sold-3.jpg|images/automotive/cars-sold-4.jpg|images/automotive/cars-sold-5.jpg|images/automotive/cars-sold-6.jpg|images/automotive/cars-sold-7.jpg|images/automotive/cars-sold-8.jpg">
+          <div class="auto-item-head">
+            <div class="auto-title">Cars I Have Sold</div>
+            <button class="auto-action" data-auto-open>Open gallery</button>
+          </div>
+          <p class="auto-desc">Placeholder details. Add makes, models, condition, and outcomes for each sale.</p>
+          <div class="auto-thumbs">
+            <button class="auto-thumb" data-auto-open data-index="0" style="--img:url('images/automotive/cars-sold-1.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="1" style="--img:url('images/automotive/cars-sold-2.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="2" style="--img:url('images/automotive/cars-sold-3.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="3" style="--img:url('images/automotive/cars-sold-4.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="4" style="--img:url('images/automotive/cars-sold-5.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="5" style="--img:url('images/automotive/cars-sold-6.jpg')"></button>
+          </div>
+        </article>
+
+        <article class="auto-item rv d2" data-auto-gallery data-title="Autobody/Restoration" data-images="images/automotive/autobody-1.jpg|images/automotive/autobody-2.jpg|images/automotive/autobody-3.jpg|images/automotive/autobody-4.jpg|images/automotive/autobody-5.jpg|images/automotive/autobody-6.jpg|images/automotive/autobody-7.jpg|images/automotive/autobody-8.jpg">
+          <div class="auto-item-head">
+            <div class="auto-title">Autobody/Restoration</div>
+            <button class="auto-action" data-auto-open>Open gallery</button>
+          </div>
+          <p class="auto-desc">Placeholder details. Paint prep, bodywork, panel alignment, and finish work.</p>
+          <div class="auto-thumbs">
+            <button class="auto-thumb" data-auto-open data-index="0" style="--img:url('images/automotive/autobody-1.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="1" style="--img:url('images/automotive/autobody-2.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="2" style="--img:url('images/automotive/autobody-3.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="3" style="--img:url('images/automotive/autobody-4.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="4" style="--img:url('images/automotive/autobody-5.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="5" style="--img:url('images/automotive/autobody-6.jpg')"></button>
+          </div>
+        </article>
+
+        <article class="auto-item rv d3" data-auto-gallery data-title="Tinting and Wrapping" data-images="images/automotive/tint-wrap-1.jpg|images/automotive/tint-wrap-2.jpg|images/automotive/tint-wrap-3.jpg|images/automotive/tint-wrap-4.jpg|images/automotive/tint-wrap-5.jpg|images/automotive/tint-wrap-6.jpg|images/automotive/tint-wrap-7.jpg|images/automotive/tint-wrap-8.jpg">
+          <div class="auto-item-head">
+            <div class="auto-title">Tinting and Wrapping</div>
+            <button class="auto-action" data-auto-open>Open gallery</button>
+          </div>
+          <p class="auto-desc">Placeholder details. Window tinting and vinyl wrap workflows.</p>
+          <div class="auto-thumbs">
+            <button class="auto-thumb" data-auto-open data-index="0" style="--img:url('images/automotive/tint-wrap-1.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="1" style="--img:url('images/automotive/tint-wrap-2.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="2" style="--img:url('images/automotive/tint-wrap-3.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="3" style="--img:url('images/automotive/tint-wrap-4.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="4" style="--img:url('images/automotive/tint-wrap-5.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="5" style="--img:url('images/automotive/tint-wrap-6.jpg')"></button>
+          </div>
+        </article>
+
+        <article class="auto-item rv d4" data-auto-gallery data-title="Upholstery and Interior Work" data-images="images/automotive/interior-1.jpg|images/automotive/interior-2.jpg|images/automotive/interior-3.jpg|images/automotive/interior-4.jpg|images/automotive/interior-5.jpg|images/automotive/interior-6.jpg|images/automotive/interior-7.jpg|images/automotive/interior-8.jpg">
+          <div class="auto-item-head">
+            <div class="auto-title">Upholstery and Interior Work</div>
+            <button class="auto-action" data-auto-open>Open gallery</button>
+          </div>
+          <p class="auto-desc">Placeholder details. Alcantara, seat reupholstery, trim, and detailing.</p>
+          <div class="auto-thumbs">
+            <button class="auto-thumb" data-auto-open data-index="0" style="--img:url('images/automotive/interior-1.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="1" style="--img:url('images/automotive/interior-2.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="2" style="--img:url('images/automotive/interior-3.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="3" style="--img:url('images/automotive/interior-4.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="4" style="--img:url('images/automotive/interior-5.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="5" style="--img:url('images/automotive/interior-6.jpg')"></button>
+          </div>
+        </article>
+
+        <article class="auto-item rv d1" data-auto-gallery data-title="Welding" data-images="images/automotive/welding-1.jpg|images/automotive/welding-2.jpg|images/automotive/welding-3.jpg|images/automotive/welding-4.jpg|images/automotive/welding-5.jpg|images/automotive/welding-6.jpg|images/automotive/welding-7.jpg|images/automotive/welding-8.jpg">
+          <div class="auto-item-head">
+            <div class="auto-title">Welding</div>
+            <button class="auto-action" data-auto-open>Open gallery</button>
+          </div>
+          <p class="auto-desc">Placeholder details. MIG welding, repairs, and fabrication fixes.</p>
+          <div class="auto-thumbs">
+            <button class="auto-thumb" data-auto-open data-index="0" style="--img:url('images/automotive/welding-1.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="1" style="--img:url('images/automotive/welding-2.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="2" style="--img:url('images/automotive/welding-3.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="3" style="--img:url('images/automotive/welding-4.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="4" style="--img:url('images/automotive/welding-5.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="5" style="--img:url('images/automotive/welding-6.jpg')"></button>
+          </div>
+        </article>
+
+        <article class="auto-item rv d2" data-auto-gallery data-title="Wrapping" data-images="images/automotive/wrap-1.jpg|images/automotive/wrap-2.jpg|images/automotive/wrap-3.jpg|images/automotive/wrap-4.jpg|images/automotive/wrap-5.jpg|images/automotive/wrap-6.jpg|images/automotive/wrap-7.jpg|images/automotive/wrap-8.jpg">
+          <div class="auto-item-head">
+            <div class="auto-title">Wrapping</div>
+            <button class="auto-action" data-auto-open>Open gallery</button>
+          </div>
+          <p class="auto-desc">Placeholder details. Custom color changes and two-tone work.</p>
+          <div class="auto-thumbs">
+            <button class="auto-thumb" data-auto-open data-index="0" style="--img:url('images/automotive/wrap-1.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="1" style="--img:url('images/automotive/wrap-2.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="2" style="--img:url('images/automotive/wrap-3.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="3" style="--img:url('images/automotive/wrap-4.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="4" style="--img:url('images/automotive/wrap-5.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="5" style="--img:url('images/automotive/wrap-6.jpg')"></button>
+          </div>
+        </article>
+
+        <article class="auto-item rv d3" data-auto-gallery data-title="Electrical Work" data-images="images/automotive/electrical-1.jpg|images/automotive/electrical-2.jpg|images/automotive/electrical-3.jpg|images/automotive/electrical-4.jpg|images/automotive/electrical-5.jpg|images/automotive/electrical-6.jpg|images/automotive/electrical-7.jpg|images/automotive/electrical-8.jpg">
+          <div class="auto-item-head">
+            <div class="auto-title">Electrical Work</div>
+            <button class="auto-action" data-auto-open>Open gallery</button>
+          </div>
+          <p class="auto-desc">Placeholder details. Harnesses, lighting, audio, and diagnostics.</p>
+          <div class="auto-thumbs">
+            <button class="auto-thumb" data-auto-open data-index="0" style="--img:url('images/automotive/electrical-1.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="1" style="--img:url('images/automotive/electrical-2.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="2" style="--img:url('images/automotive/electrical-3.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="3" style="--img:url('images/automotive/electrical-4.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="4" style="--img:url('images/automotive/electrical-5.jpg')"></button>
+            <button class="auto-thumb" data-auto-open data-index="5" style="--img:url('images/automotive/electrical-6.jpg')"></button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- EXPERIENCE -->
 <section class="panel" id="experience">
   <div class="sec-header rv">
-    <span class="sec-label">04 — Experience</span>
+    <span class="sec-label">05 — Experience</span>
     <div class="sec-title">Where I've worked.</div>
   </div>
 
@@ -1001,7 +1408,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 <!-- SKILLS -->
 <section class="panel" id="skills">
   <div class="sec-header rv">
-    <span class="sec-label">05 — Skills</span>
+    <span class="sec-label">06 — Skills</span>
     <div class="sec-title">Technical toolkit.</div>
   </div>
   <div class="skills-layout">
@@ -1047,6 +1454,23 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
       <div class="exp-modal-actions">
         <button class="exp-modal-btn" data-exp-prev>Prev</button>
         <button class="exp-modal-btn" data-exp-next>Next</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="auto-modal" data-auto-modal>
+  <button class="auto-modal-close" data-auto-close>Close</button>
+  <div class="auto-modal-card">
+    <div class="auto-modal-media">
+      <img src="" alt="" data-auto-image>
+    </div>
+    <div class="auto-modal-body">
+      <div class="auto-modal-title" data-auto-title></div>
+      <div class="auto-modal-count" data-auto-count></div>
+      <div class="auto-modal-actions">
+        <button class="auto-modal-btn" data-auto-prev>Prev</button>
+        <button class="auto-modal-btn" data-auto-next>Next</button>
       </div>
     </div>
   </div>
@@ -1133,12 +1557,129 @@ document.querySelectorAll('[data-proj-carousel]').forEach(carousel=>{
   },{passive:true});
 });
 
+/* Automotive preview carousel */
+document.querySelectorAll('[data-auto-carousel]').forEach(carousel=>{
+  const track=carousel.querySelector('.auto-track');
+  if(!track)return;
+  const items=[...track.children];
+  items.forEach(node=>track.appendChild(node.cloneNode(true)));
+  let lastTime=0;
+  let resumeTimer=null;
+  let autoScrolling=false;
+  const speed=0.28;
+  const pause=()=>carousel.classList.add('is-paused');
+  const resume=()=>carousel.classList.remove('is-paused');
+  const step=time=>{
+    if(!lastTime)lastTime=time;
+    const delta=time-lastTime;
+    lastTime=time;
+    if(!carousel.classList.contains('is-paused')){
+      autoScrolling=true;
+      carousel.scrollLeft+=speed*(delta/16.7);
+      if(carousel.scrollLeft>=track.scrollWidth/2){carousel.scrollLeft=0}
+      autoScrolling=false;
+    }
+    requestAnimationFrame(step);
+  };
+  if(!prefersReduced)requestAnimationFrame(step);
+  carousel.addEventListener('mouseenter',pause);
+  carousel.addEventListener('mouseleave',resume);
+  carousel.addEventListener('touchstart',pause,{passive:true});
+  carousel.addEventListener('touchend',()=>{clearTimeout(resumeTimer);resumeTimer=setTimeout(resume,1200)},{passive:true});
+  carousel.addEventListener('scroll',()=>{
+    if(autoScrolling)return;
+    pause();
+    clearTimeout(resumeTimer);
+    resumeTimer=setTimeout(resume,1200);
+  },{passive:true});
+});
+
 /* Nav */
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('stuck',window.scrollY>60),{passive:true});
 
 /* Reveal */
 const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('in')}),{threshold:.06,rootMargin:'0px 0px -20px 0px'});
 document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+
+/* Automotive expand/collapse */
+const autoToggle=document.querySelector('[data-auto-toggle]');
+const autoDetails=document.querySelector('[data-auto-details]');
+if(autoToggle&&autoDetails){
+  const setExpanded=expanded=>{
+    autoToggle.setAttribute('aria-expanded',String(expanded));
+    autoToggle.textContent=expanded?'Hide automotive work':'View all automotive work';
+    autoDetails.classList.toggle('is-open',expanded);
+    autoDetails.style.maxHeight=expanded?`${autoDetails.scrollHeight}px`:'0px';
+  };
+  autoToggle.addEventListener('click',()=>{
+    const expanded=autoToggle.getAttribute('aria-expanded')==='true';
+    setExpanded(!expanded);
+  });
+  window.addEventListener('resize',()=>{
+    if(autoDetails.classList.contains('is-open')){
+      autoDetails.style.maxHeight=`${autoDetails.scrollHeight}px`;
+    }
+  });
+}
+
+/* Automotive gallery modal */
+const autoGalleries=[...document.querySelectorAll('[data-auto-gallery]')];
+const autoModal=document.querySelector('[data-auto-modal]');
+if(autoGalleries.length&&autoModal){
+  const autoImage=autoModal.querySelector('[data-auto-image]');
+  const autoTitle=autoModal.querySelector('[data-auto-title]');
+  const autoCount=autoModal.querySelector('[data-auto-count]');
+  const autoPrev=autoModal.querySelector('[data-auto-prev]');
+  const autoNext=autoModal.querySelector('[data-auto-next]');
+  const autoClose=autoModal.querySelector('[data-auto-close]');
+  let autoImages=[];
+  let autoIndex=0;
+  let autoLabel='';
+
+  const setAutoImage=index=>{
+    if(!autoImages.length)return;
+    autoIndex=(index+autoImages.length)%autoImages.length;
+    const src=autoImages[autoIndex];
+    autoImage.src=src;
+    autoImage.alt=autoLabel;
+    autoTitle.textContent=autoLabel;
+    autoCount.textContent=`${autoIndex+1} / ${autoImages.length}`;
+  };
+  const openAuto=(gallery,startIndex=0)=>{
+    const list=(gallery.getAttribute('data-images')||'').split('|').map(s=>s.trim()).filter(Boolean);
+    autoImages=list;
+    autoLabel=gallery.getAttribute('data-title')||'Automotive';
+    setAutoImage(startIndex);
+    autoModal.classList.add('is-open');
+    document.body.style.overflow='hidden';
+  };
+  const closeAuto=()=>{
+    autoModal.classList.remove('is-open');
+    document.body.style.overflow='';
+  };
+  const prevAuto=()=>setAutoImage(autoIndex-1);
+  const nextAuto=()=>setAutoImage(autoIndex+1);
+
+  autoGalleries.forEach(gallery=>{
+    gallery.querySelectorAll('[data-auto-open]').forEach(btn=>{
+      btn.addEventListener('click',e=>{
+        e.preventDefault();
+        const idx=parseInt(btn.getAttribute('data-index')||'0',10);
+        openAuto(gallery,Number.isNaN(idx)?0:idx);
+      });
+    });
+  });
+  autoPrev.addEventListener('click',prevAuto);
+  autoNext.addEventListener('click',nextAuto);
+  autoClose.addEventListener('click',closeAuto);
+  autoModal.addEventListener('click',e=>{if(e.target===autoModal)closeAuto()});
+  window.addEventListener('keydown',e=>{
+    if(!autoModal.classList.contains('is-open'))return;
+    if(e.key==='Escape')closeAuto();
+    if(e.key==='ArrowLeft')prevAuto();
+    if(e.key==='ArrowRight')nextAuto();
+  });
+}
 
 /* Smooth scroll */
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
