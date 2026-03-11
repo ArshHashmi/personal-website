@@ -165,6 +165,7 @@ section.panel.dark .line-rule{background:var(--line)}
 section.panel.dark .sec-label{color:var(--fog)}
 section.panel.dark .tag{border-color:var(--line);color:var(--fog)}
 section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
+#projects{overflow-x:hidden}
 
 .sec-header{
   display:flex;align-items:center;justify-content:space-between;
@@ -270,11 +271,177 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
 .tag{font-family:var(--mono);font-size:.52rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:.22rem .62rem;border:1px solid var(--line);color:var(--fog);transition:.25s}
 .tag:hover{border-color:var(--ink);color:var(--ink)}
 
+.exp-gallery{
+  margin-top:1.4rem;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:.8rem;
+}
+.exp-thumb{
+  position:relative;
+  border:1px solid var(--line);
+  background:var(--surface);
+  border-radius:14px;
+  overflow:hidden;
+  aspect-ratio:4/3;
+  cursor:pointer;
+  transition:transform .35s,border-color .35s,box-shadow .35s;
+  display:flex;
+  align-items:flex-end;
+  padding:.8rem;
+  color:var(--ink);
+}
+.exp-thumb-img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  background:#0b0f14;
+  transition:transform .9s cubic-bezier(.16,1,.3,1);
+}
+.exp-thumb span{
+  position:relative;
+  font-family:var(--mono);
+  font-size:.56rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--ink);
+  background:rgba(5,7,10,.85);
+  border:1px solid var(--line);
+  padding:.35rem .55rem;
+  border-radius:999px;
+  max-width:100%;
+  z-index:1;
+}
+.exp-thumb:hover{
+  border-color:rgba(122,231,255,.35);
+  box-shadow:0 18px 35px rgba(0,0,0,.25);
+  transform:translateY(-3px);
+}
+.exp-thumb:hover .exp-thumb-img{transform:scale(1.03)}
+
+.exp-modal{
+  position:fixed;inset:0;z-index:6500;
+  background:rgba(5,7,10,.75);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity .35s ease;
+}
+.exp-modal.is-open{opacity:1;pointer-events:auto}
+.exp-modal-card{
+  width:min(92vw,980px);
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:18px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  transform:translateY(16px);
+  transition:transform .4s cubic-bezier(.16,1,.3,1);
+  max-height:90vh;
+}
+.exp-modal.is-open .exp-modal-card{transform:none}
+.exp-modal-media{
+  background:var(--paper);
+  display:flex;align-items:center;justify-content:center;
+  min-height:320px;
+  padding:1.25rem;
+  overflow:hidden;
+}
+.exp-modal-media img{
+  width:auto;
+  height:auto;
+  max-width:100%;
+  max-height:78vh;
+  object-fit:contain;
+  border:1px solid var(--line);
+  background:#0b0f14;
+  transition:transform .6s cubic-bezier(.16,1,.3,1);
+}
+.exp-modal-body{
+  padding:1.5rem 2rem 2rem;
+  display:flex;flex-direction:column;gap:1rem;
+  border-top:1px solid var(--line);
+}
+.exp-modal-label{
+  font-family:var(--mono);
+  font-size:.6rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--fog);
+}
+.exp-modal-title{
+  font-family:var(--sans);
+  font-size:1.5rem;
+  font-weight:600;
+  letter-spacing:-.01em;
+}
+.exp-modal-desc{
+  font-size:.88rem;
+  line-height:1.8;
+  color:var(--mist);
+}
+.exp-modal-list{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:grid;
+  gap:.6rem;
+}
+.exp-modal-list li{
+  position:relative;
+  padding-left:1rem;
+  font-size:.88rem;
+  line-height:1.75;
+  color:var(--mist);
+}
+.exp-modal-list li::before{
+  content:'-';
+  position:absolute;
+  left:0;
+  top:.1rem;
+  color:var(--fog);
+}
+.exp-modal-actions{
+  margin-top:auto;
+  display:flex;gap:.6rem;
+}
+.exp-modal-btn{
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.02);
+  color:var(--ink);
+  font-family:var(--mono);
+  font-size:.6rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  padding:.55rem .9rem;
+  cursor:pointer;
+  transition:.25s;
+}
+.exp-modal-btn:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.exp-modal-close{
+  position:absolute;top:1.2rem;right:1.2rem;
+  border:1px solid var(--line);
+  background:rgba(5,7,10,.7);
+  color:var(--ink);
+  font-family:var(--mono);
+  font-size:.55rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  padding:.45rem .7rem;
+  cursor:pointer;
+  transition:.25s;
+}
+.exp-modal-close:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
 /* PROJECTS */
 .proj-list{
   display:grid;
   gap:1.5rem;
   width:100%;
+  max-width:1200px;
+  margin:0 auto;
 }
 .proj-intro{
   margin-top:1.2rem;
@@ -297,6 +464,7 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
   cursor:default;
   width:100%;
   max-width:100%;
+  overflow:hidden;
 }
 .proj-row:hover{
   border-color:rgba(122,231,255,.35);
@@ -454,6 +622,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .about-sticky{position:relative;top:auto}
   .about-collage{width:100%;grid-auto-rows:80px}
   .exp-entry{grid-template-columns:1fr}
+  .exp-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}
   .skills-layout{grid-template-columns:1fr 1fr}
   .sk-col:nth-child(3),.sk-col:nth-child(5){border-right:none}
   .sk-col:nth-child(4){border-top:none}
@@ -508,6 +677,9 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .about-btn{padding:.48rem .62rem}
   .hb-desc{font-size:1rem;line-height:1.85}
   .hb-meta{font-size:.62rem}
+  .exp-gallery{grid-template-columns:1fr}
+  .exp-modal-card{grid-template-columns:1fr}
+  .exp-modal-body{padding:1.5rem}
   .ct-row{gap:1.35rem}
   footer{flex-direction:column;align-items:flex-start;gap:.6rem}
 }
@@ -629,25 +801,23 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
     <span class="sec-label">03 — Projects</span>
     <div class="sec-title">Selected work.</div>
   </div>
-  <p class="proj-intro rv d1">A quick scan of builds Iâ€™ve shipped or led â€” hands-on engineering, fabrication, and research with real-world constraints.</p>
+  <p class="proj-intro rv d1">A quick scan of builds I've shipped or led - hands-on engineering, fabrication, and research with real-world constraints.</p>
   <div class="proj-list">
     <div class="proj-row rv" data-fx="lift">
       <div class="proj-num">01</div>
       <div class="proj-main">
         <div class="proj-title">SAE Formula Nosecone & Front Wing V2</div>
-        <p class="proj-detail">Designed in Fusion 360, CFD simulation in ANSYS Fluent â€” refined meshes with inflation layers, lift/drag coefficients, pressure/velocity distributions. DXF for waterjet manufacturing. Full 3K and 12K carbon fiber composite layups with vacuum bagging and post-processing.</p>
+        <p class="proj-detail">Designed in Fusion 360, CFD simulation in ANSYS Fluent - refined meshes with inflation layers, lift/drag coefficients, pressure/velocity distributions. DXF for waterjet manufacturing. Full 3K and 12K carbon fiber composite layups with vacuum bagging and post-processing.</p>
         <div class="proj-tags-wrap"><span class="proj-tag">ANSYS</span><span class="proj-tag">CFD</span><span class="proj-tag">Carbon Fiber</span><span class="proj-tag">Fusion 360</span><span class="proj-tag">DXF</span></div>
         <div class="proj-carousel" data-proj-carousel data-speed="0.36" aria-label="SAE Formula collage">
           <div class="proj-track">
             <div class="proj-card size-lg" style="--img:url('images/projects/sae-1.jpg')"></div>
             <div class="proj-card size-sm" style="--img:url('images/projects/sae-2.jpg')"></div>
             <div class="proj-card size-md" style="--img:url('images/projects/sae-3.jpg')"></div>
-            <div class="proj-card size-sm" style="--img:url('images/projects/sae-4.jpg')"></div>
-            <div class="proj-card size-md" style="--img:url('images/projects/sae-5.jpg')"></div>
           </div>
         </div>
       </div>
-      <div class="proj-arrow">â†—</div>
+      <div class="proj-arrow">-></div>
     </div>
     <div class="proj-row rv" data-fx="lift">
       <div class="proj-num">02</div>
@@ -660,12 +830,10 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
             <div class="proj-card size-md" style="--img:url('images/projects/gokart-1.jpg')"></div>
             <div class="proj-card size-sm" style="--img:url('images/projects/gokart-2.jpg')"></div>
             <div class="proj-card size-lg" style="--img:url('images/projects/gokart-3.jpg')"></div>
-            <div class="proj-card size-sm" style="--img:url('images/projects/gokart-4.jpg')"></div>
-            <div class="proj-card size-md" style="--img:url('images/projects/gokart-5.jpg')"></div>
           </div>
         </div>
       </div>
-      <div class="proj-arrow">â†—</div>
+      <div class="proj-arrow">-></div>
     </div>
     <div class="proj-row rv" data-fx="lift">
       <div class="proj-num">03</div>
@@ -678,12 +846,10 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
             <div class="proj-card size-lg" style="--img:url('images/projects/sim-1.jpg')"></div>
             <div class="proj-card size-sm" style="--img:url('images/projects/sim-2.jpg')"></div>
             <div class="proj-card size-md" style="--img:url('images/projects/sim-3.jpg')"></div>
-            <div class="proj-card size-sm" style="--img:url('images/projects/sim-4.jpg')"></div>
-            <div class="proj-card size-md" style="--img:url('images/projects/sim-5.jpg')"></div>
           </div>
         </div>
       </div>
-      <div class="proj-arrow">â†—</div>
+      <div class="proj-arrow">-></div>
     </div>
     <div class="proj-row rv" data-fx="lift">
       <div class="proj-num">04</div>
@@ -696,12 +862,10 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
             <div class="proj-card size-md" style="--img:url('images/projects/ant-1.jpg')"></div>
             <div class="proj-card size-sm" style="--img:url('images/projects/ant-2.jpg')"></div>
             <div class="proj-card size-lg" style="--img:url('images/projects/ant-3.jpg')"></div>
-            <div class="proj-card size-sm" style="--img:url('images/projects/ant-4.jpg')"></div>
-            <div class="proj-card size-md" style="--img:url('images/projects/ant-5.jpg')"></div>
           </div>
         </div>
       </div>
-      <div class="proj-arrow">â†—</div>
+      <div class="proj-arrow">-></div>
     </div>
     <div class="proj-row rv" data-fx="lift">
       <div class="proj-num">05</div>
@@ -714,17 +878,15 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
             <div class="proj-card size-lg" style="--img:url('images/projects/auto-1.jpg')"></div>
             <div class="proj-card size-sm" style="--img:url('images/projects/auto-2.jpg')"></div>
             <div class="proj-card size-md" style="--img:url('images/projects/auto-3.jpg')"></div>
-            <div class="proj-card size-sm" style="--img:url('images/projects/auto-4.jpg')"></div>
-            <div class="proj-card size-md" style="--img:url('images/projects/auto-5.jpg')"></div>
           </div>
         </div>
       </div>
-      <div class="proj-arrow">â†—</div>
+      <div class="proj-arrow">-></div>
     </div>
     <div class="proj-row rv" data-fx="lift">
       <div class="proj-num">06</div>
       <div class="proj-main">
-        <div class="proj-title">AI in School Counseling â€” Research Paper</div>
+        <div class="proj-title">AI in School Counseling - Research Paper</div>
         <p class="proj-detail">IRB-style protocols, semi-structured interviews, En-vivo and Apriori coding. Presented findings to an academic panel. Published research paper on AI's future role in school counseling.</p>
         <div class="proj-tags-wrap"><span class="proj-tag">Qualitative Research</span><span class="proj-tag">AI</span><span class="proj-tag">Academic Writing</span></div>
         <div class="proj-carousel" data-proj-carousel data-speed="0.31" aria-label="AI research collage">
@@ -732,12 +894,10 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
             <div class="proj-card size-md" style="--img:url('images/projects/research-1.jpg')"></div>
             <div class="proj-card size-sm" style="--img:url('images/projects/research-2.jpg')"></div>
             <div class="proj-card size-lg" style="--img:url('images/projects/research-3.jpg')"></div>
-            <div class="proj-card size-sm" style="--img:url('images/projects/research-4.jpg')"></div>
-            <div class="proj-card size-md" style="--img:url('images/projects/research-5.jpg')"></div>
           </div>
         </div>
       </div>
-      <div class="proj-arrow">â†—</div>
+      <div class="proj-arrow">-></div>
     </div>
   </div>
 </section>
@@ -766,6 +926,24 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
       <div class="ee-co">Binghamton Motorsports SAE</div>
       <p class="ee-desc">Design and test airfoils in ANSYS Fluent and Fusion 360. Generate refined meshes with inflation layers, calculate lift/drag coefficients, visualize pressure and velocity distributions. Manufacture components via 3K and 12K carbon fiber layups — mold prep, vacuum bagging, curing, and finishing. Key projects: Nosecone, Front Wing V2, 3D-printed female molds.</p>
       <div class="tags"><span class="tag">ANSYS Fluent</span><span class="tag">CFD</span><span class="tag">Fusion 360</span><span class="tag">Carbon Fiber</span><span class="tag">Vacuum Bagging</span><span class="tag">DXF / Waterjet</span></div>
+      <div class="exp-gallery rv d1">
+        <button class="exp-thumb" data-exp-thumb data-title="Nosecone" data-desc="Designed nosecone in Fusion 360 to optimize airflow and integrate with vehicle assembly.||Performed CFD simulations in ANSYS Fluent to evaluate drag and pressure distribution.||Generated refined computational meshes and analyzed velocity and pressure contours.||Created DXF files for waterjet manufacturing and assisted in carbon fiber composite layup and finishing." data-src="images/experience/sae-nosecone-cad.jpg" aria-label="Open nosecone detail">
+          <img class="exp-thumb-img" src="images/experience/sae-nosecone-cad.jpg" alt="Nosecone CAD render">
+          <span>Nosecone</span>
+        </button>
+        <button class="exp-thumb" data-exp-thumb data-title="Front Wing V2" data-desc="Designed second front wing assembly in Fusion 360 and performed CFD analysis in ANSYS Fluent to evaluate aerodynamic performance.||Generated computational meshes with inflation layers to resolve boundary layer flow and calculated lift/drag coefficients and analyzed pressure and velocity distributions.||Tested various geometry angles to improve downforce and aerodynamic efficiency." data-src="images/experience/sae-front-wing-v2.jpg" aria-label="Open front wing V2 detail">
+          <img class="exp-thumb-img" src="images/experience/sae-front-wing-v2.jpg" alt="Front wing V2 CAD render">
+          <span>Front Wing V2</span>
+        </button>
+        <button class="exp-thumb" data-exp-thumb data-title="3D Printed Female Molds for Front Wing Element" data-desc="Designed and manufactured 3D-printed female molds in Fusion 360 for carbon fiber front wing element fabrication.||Continued with multiple layers of carbon layups and epoxy to create the element itself." data-src="images/experience/sae-wing-mold.jpg" aria-label="Open front wing mold detail">
+          <img class="exp-thumb-img" src="images/experience/sae-wing-mold.jpg" alt="Carbon fiber mold photo">
+          <span>3D Printed Female Molds for Front Wing Element</span>
+        </button>
+        <button class="exp-thumb" data-exp-thumb data-title="Sanded DXF - Nosecone" data-desc="Designed the nosecone geometry in Autodesk Fusion 360 and exported DXF profiles for waterjet cutting.||The manufactured template was used to guide carbon fiber layup and ensure accurate aerodynamic shape and fitment on the vehicle." data-src="images/experience/sae-nosecone-template.jpg" aria-label="Open sanded DXF nosecone detail">
+          <img class="exp-thumb-img" src="images/experience/sae-nosecone-template.jpg" alt="Sanded nosecone template photo">
+          <span>Sanded DXF - Nosecone</span>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -855,6 +1033,24 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   <p>© 2026 Arsh Hashmi</p>
   <p>Mechanical Engineering · Binghamton University · Class of 2029</p>
 </footer>
+
+<div class="exp-modal" data-exp-modal>
+  <button class="exp-modal-close" data-exp-close>Close</button>
+  <div class="exp-modal-card">
+    <div class="exp-modal-media">
+      <img src="" alt="" data-exp-image>
+    </div>
+    <div class="exp-modal-body">
+      <div class="exp-modal-label">Formula SAE</div>
+      <div class="exp-modal-title" data-exp-title></div>
+      <ul class="exp-modal-list" data-exp-desc></ul>
+      <div class="exp-modal-actions">
+        <button class="exp-modal-btn" data-exp-prev>Prev</button>
+        <button class="exp-modal-btn" data-exp-next>Next</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
 /* Intro */
@@ -948,6 +1144,62 @@ document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
   a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}});
 });
+
+/* Experience gallery modal */
+const expThumbs=[...document.querySelectorAll('[data-exp-thumb]')];
+const expModal=document.querySelector('[data-exp-modal]');
+if(expThumbs.length&&expModal){
+  const expImage=expModal.querySelector('[data-exp-image]');
+  const expTitle=expModal.querySelector('[data-exp-title]');
+  const expDesc=expModal.querySelector('[data-exp-desc]');
+  const expPrev=expModal.querySelector('[data-exp-prev]');
+  const expNext=expModal.querySelector('[data-exp-next]');
+  const expClose=expModal.querySelector('[data-exp-close]');
+  let expIndex=0;
+
+  const setExpContent=index=>{
+    const item=expThumbs[index];
+    if(!item)return;
+    expIndex=index;
+    const src=item.getAttribute('data-src');
+    const title=item.getAttribute('data-title')||'';
+    const desc=item.getAttribute('data-desc')||'';
+    expImage.src=src;
+    expImage.alt=title;
+    expTitle.textContent=title;
+    const parts=desc.split('||').map(x=>x.trim()).filter(Boolean);
+    expDesc.innerHTML='';
+    (parts.length?parts:[desc]).forEach(text=>{
+      if(!text)return;
+      const li=document.createElement('li');
+      li.textContent=text;
+      expDesc.appendChild(li);
+    });
+  };
+  const openExp=index=>{
+    setExpContent(index);
+    expModal.classList.add('is-open');
+    document.body.style.overflow='hidden';
+  };
+  const closeExp=()=>{
+    expModal.classList.remove('is-open');
+    document.body.style.overflow='';
+  };
+  const prevExp=()=>setExpContent((expIndex-1+expThumbs.length)%expThumbs.length);
+  const nextExp=()=>setExpContent((expIndex+1)%expThumbs.length);
+
+  expThumbs.forEach((thumb,i)=>thumb.addEventListener('click',()=>openExp(i)));
+  expPrev.addEventListener('click',prevExp);
+  expNext.addEventListener('click',nextExp);
+  expClose.addEventListener('click',closeExp);
+  expModal.addEventListener('click',e=>{if(e.target===expModal)closeExp()});
+  window.addEventListener('keydown',e=>{
+    if(!expModal.classList.contains('is-open'))return;
+    if(e.key==='Escape')closeExp();
+    if(e.key==='ArrowLeft')prevExp();
+    if(e.key==='ArrowRight')nextExp();
+  });
+}
 </script>
 </body>
 </html>
