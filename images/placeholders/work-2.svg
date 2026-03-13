@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600" viewBox="0 0 900 600">
+  <rect width="900" height="600" fill="#0b0d10"/>
+  <circle cx="700" cy="130" r="120" fill="none" stroke="#f3f6fa" stroke-width="2" opacity="0.45"/>
+  <rect x="40" y="40" width="820" height="520" fill="none" stroke="#f3f6fa" stroke-width="1.5" opacity="0.35"/>
+  <text x="50%" y="50%" fill="#f3f6fa" font-size="28" font-family="Sora, Arial, sans-serif" letter-spacing="6" text-anchor="middle" dominant-baseline="middle">
+    PLACEHOLDER 02
+  </text>
+</svg>

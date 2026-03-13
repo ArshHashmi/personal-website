@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -435,284 +435,597 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
 }
 .exp-modal-close:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 
-/* PROJECTS */
-.proj-list{
-  display:grid;
-  gap:1.5rem;
-  width:100%;
-  max-width:1200px;
-  margin:0 auto;
-}
-.proj-intro{
+/* SELECTED WORK */
+.work-intro{
   margin-top:1.2rem;
   font-size:.9rem;
   font-weight:300;
   line-height:1.8;
   color:var(--mist);
-  max-width:620px;
+  max-width:680px;
 }
-.proj-row{
-  display:grid;grid-template-columns:60px 1fr auto;
-  align-items:center;gap:3vw;
-  padding:2.2rem clamp(1.2rem,2.8vw,2rem);
-  border:1px solid var(--line);
-  border-radius:20px;
-  background:
-    linear-gradient(140deg,rgba(17,24,35,.8),rgba(5,7,10,.9));
-  box-shadow:0 18px 45px rgba(0,0,0,.18);
-  transition:opacity .25s,transform .35s,border-color .35s,box-shadow .35s;
-  cursor:default;
-  width:100%;
-  max-width:100%;
-  overflow:hidden;
-}
-.proj-row:hover{
-  border-color:rgba(122,231,255,.35);
-  box-shadow:0 22px 60px rgba(0,0,0,.28);
-  transform:translateY(-4px);
-}
-.proj-list:hover .proj-row{opacity:.45}
-.proj-list:hover .proj-row:hover{opacity:1}
-.proj-num{font-family:var(--mono);font-size:1rem;color:var(--fog);line-height:1}
-.proj-main{}
-.proj-title{font-family:var(--sans);font-size:1.35rem;font-weight:600;letter-spacing:-.01em;margin-bottom:.4rem;color:var(--ink)}
-.proj-detail{font-size:.82rem;font-weight:300;line-height:1.75;color:var(--mist);max-width:560px}
-.proj-tags-wrap{margin-top:.85rem}
-.proj-tag{font-family:var(--mono);font-size:.5rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:.18rem .55rem;border:1px solid var(--line);color:var(--fog);display:inline-block;margin:.15rem .15rem .15rem 0;transition:.25s}
-.proj-row:hover .proj-tag{border-color:var(--mist);color:var(--mist)}
-.proj-arrow{font-size:1.1rem;color:var(--fog);transition:transform .3s,color .3s;flex-shrink:0}
-.proj-row:hover .proj-arrow{transform:translate(4px,-4px);color:var(--ink)}
-.proj-carousel{
-  margin-top:1.2rem;
-  position:relative;
-  overflow-x:auto;
-  scroll-snap-type:x mandatory;
-  -webkit-overflow-scrolling:touch;
-  padding-bottom:.6rem;
-}
-.proj-carousel::-webkit-scrollbar{display:none}
-.proj-carousel::before,.proj-carousel::after{
-  content:'';position:absolute;top:0;bottom:.6rem;width:40px;pointer-events:none;z-index:2;
-}
-.proj-carousel::before{left:0;background:linear-gradient(90deg,var(--paper),transparent)}
-.proj-carousel::after{right:0;background:linear-gradient(270deg,var(--paper),transparent)}
-.proj-track{
-  display:flex;gap:.75rem;width:max-content;padding-right:2rem;
-}
-.proj-card{
-  position:relative;flex:0 0 auto;border:1px solid var(--line);
-  background-image:
-    linear-gradient(135deg,rgba(122,231,255,.18),rgba(182,255,217,.08)),
-    var(--img);
-  background-size:cover;background-position:center;
-  border-radius:12px;overflow:hidden;
-  scroll-snap-align:start;
-  transform:translateY(12px) scale(.985);
-  opacity:.82;
-  transition:transform .9s cubic-bezier(.16,1,.3,1),opacity .9s cubic-bezier(.16,1,.3,1);
-  will-change:transform,opacity;
-}
-.proj-row.in .proj-card{transform:none;opacity:1}
-.proj-row.in .proj-card:nth-child(2){transition-delay:.06s}
-.proj-row.in .proj-card:nth-child(3){transition-delay:.12s}
-.proj-row.in .proj-card:nth-child(4){transition-delay:.18s}
-.proj-row.in .proj-card:nth-child(5){transition-delay:.24s}
-.proj-card::after{
-  content:'';position:absolute;inset:0;
-  background:repeating-linear-gradient(-45deg,transparent,transparent 16px,rgba(255,255,255,.05) 16px,rgba(255,255,255,.05) 17px);
-  opacity:.6;
-}
-.proj-card.size-sm{width:160px;height:110px}
-.proj-card.size-md{width:220px;height:150px}
-.proj-card.size-lg{width:280px;height:190px}
-.proj-card:nth-child(3n){margin-top:10px}
-.proj-card:nth-child(4n){margin-top:-8px}
-.proj-card:nth-child(5n){margin-top:6px}
-.proj-carousel.is-paused .proj-card::after{opacity:.4}
-
-/* AUTOMOTIVE */
-.auto-intro{
-  margin-top:1.2rem;
-  font-size:.92rem;
-  font-weight:300;
-  line-height:1.8;
-  color:var(--mist);
-  max-width:640px;
-}
-.auto-preview{
-  margin-top:2.2rem;
-  position:relative;
-}
-.auto-carousel{
-  position:relative;
-  overflow-x:auto;
-  scroll-snap-type:x mandatory;
-  -webkit-overflow-scrolling:touch;
-  padding-bottom:.8rem;
-}
-.auto-carousel::-webkit-scrollbar{display:none}
-.auto-track{
+.work-stack{
   display:flex;
-  gap:1rem;
-  width:max-content;
-  padding-right:2rem;
-}
-.auto-card{
-  position:relative;
-  flex:0 0 auto;
-  border:1px solid var(--line);
-  border-radius:16px;
-  overflow:hidden;
-  background-image:
-    linear-gradient(135deg,rgba(122,231,255,.18),rgba(182,255,217,.08)),
-    var(--img);
-  background-size:cover;background-position:center;
-  scroll-snap-align:start;
-  box-shadow:0 18px 40px rgba(0,0,0,.18);
-  transition:transform .5s cubic-bezier(.16,1,.3,1),box-shadow .5s;
-}
-.auto-card::after{
-  content:'';
-  position:absolute;inset:0;
-  background:repeating-linear-gradient(-45deg,transparent,transparent 16px,rgba(255,255,255,.05) 16px,rgba(255,255,255,.05) 17px);
-  opacity:.5;
-}
-.auto-card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 24px 55px rgba(0,0,0,.3);
-}
-.auto-card.size-sm{width:180px;height:120px}
-.auto-card.size-md{width:260px;height:170px}
-.auto-card.size-lg{width:340px;height:220px}
-.auto-card:nth-child(3n){margin-top:10px}
-.auto-card:nth-child(4n){margin-top:-8px}
-.auto-card:nth-child(5n){margin-top:6px}
-
-.auto-toggle{
-  margin-top:2.2rem;
-  border:1px solid var(--line);
-  background:rgba(255,255,255,.02);
-  color:var(--ink);
-  font-family:var(--mono);
-  font-size:.62rem;
-  font-weight:600;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  padding:.9rem 1.6rem;
-  cursor:pointer;
-  transition:.25s;
+  flex-direction:column;
+  gap:1.7rem;
   width:100%;
-  text-align:center;
-}
-.auto-toggle:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-.auto-details{
-  margin-top:1.6rem;
-  width:100vw;
-  margin-left:calc(50% - 50vw);
-  margin-right:calc(50% - 50vw);
-  overflow:hidden;
-  max-height:0;
-  opacity:0;
-  transition:max-height .6s cubic-bezier(.16,1,.3,1),opacity .4s ease;
-  background:
-    linear-gradient(160deg,rgba(17,24,35,.6),rgba(5,7,10,.95));
-  border-top:1px solid var(--line);
-  border-bottom:1px solid var(--line);
-  padding:0;
-}
-.auto-details.is-open{
-  opacity:1;
-}
-.auto-details-inner{
   max-width:1200px;
   margin:0 auto;
-  padding:3rem 5vw 3.5rem;
 }
-.auto-grid{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:1.5rem;
-  margin-top:1.2rem;
-}
-.auto-item{
+.work-item{
+  --x-shift:0px;
   border:1px solid var(--line);
-  border-radius:16px;
-  padding:1.6rem 1.8rem;
-  background:rgba(255,255,255,.02);
-  transition:border-color .3s,transform .3s;
+  border-radius:24px;
+  background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  transform:translateX(var(--x-shift));
+  transition:transform .5s cubic-bezier(.16,1,.3,1),box-shadow .5s,border-color .5s;
 }
-.auto-item:hover{
-  border-color:rgba(122,231,255,.35);
-  transform:translateY(-3px);
+.work-item::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(130deg,rgba(255,255,255,.06),transparent 40%),
+    linear-gradient(230deg,rgba(255,255,255,.04),transparent 55%);
+  opacity:.55;
+  pointer-events:none;
+  z-index:0;
 }
-.auto-item-head{
-  display:flex;
+.work-item:hover{
+  border-color:rgba(243,246,250,.35);
+  box-shadow:0 28px 70px rgba(0,0,0,.35);
+  transform:translateX(var(--x-shift)) translateY(-2px);
+}
+.work-item.is-open{
+  border-color:rgba(243,246,250,.4);
+  box-shadow:0 34px 80px rgba(0,0,0,.45);
+}
+@media (min-width:1100px){
+  .work-item:nth-child(odd){--x-shift:-22px;}
+  .work-item:nth-child(even){--x-shift:22px;}
+}
+.work-head{
+  display:block;
+  padding:0;
+  position:relative;
+  z-index:1;
+  border-radius:24px;
+  overflow:hidden;
+}
+.work-head::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(120deg,transparent 25%,rgba(255,255,255,.06) 50%,transparent 75%);
+  opacity:0;
+  transform:translateX(-35%);
+  transition:opacity .6s ease,transform .9s cubic-bezier(.16,1,.3,1);
+  pointer-events:none;
+}
+.work-item:hover .work-head::after{
+  opacity:1;
+  transform:translateX(0);
+}
+.work-item.is-open .work-head{border-bottom:1px solid var(--line)}
+
+.work-toggle{
+  background:none;
+  border:0;
+  color:inherit;
+  text-align:left;
+  width:100%;
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  grid-template-rows:auto auto;
+  column-gap:.9rem;
+  row-gap:.35rem;
   align-items:center;
-  justify-content:space-between;
+  align-content:start;
+  justify-items:start;
+  cursor:pointer;
+  padding:1.4rem 1.6rem;
+  position:absolute;
+  inset:0;
+  z-index:3;
+  pointer-events:none;
+}
+.work-toggle::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(140deg,rgba(5,7,10,.75),transparent 60%);
+  opacity:.85;
+  z-index:0;
+}
+.work-toggle > *{
+  position:relative;
+  z-index:1;
+}
+.work-toggle:focus-visible{
+  outline:2px solid var(--ink);
+  outline-offset:4px;
+  border-radius:12px;
+}
+.work-index{
+  font-family:var(--mono);
+  font-size:.6rem;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--fog);
+  grid-row:1 / span 2;
+}
+.work-title{
+  font-family:var(--sans);
+  font-size:1.35rem;
+  font-weight:600;
+  letter-spacing:-.01em;
+  grid-column:2;
+  grid-row:1;
+}
+.work-sub{
+  font-family:var(--mono);
+  font-size:.58rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--mist);
+  grid-column:2;
+  grid-row:2;
+  justify-self:start;
+}
+.work-sub.is-pop{
+  display:inline-flex;
+  align-items:center;
+  gap:.4rem;
+  padding:.18rem .6rem;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:rgba(255,255,255,.03);
+  box-shadow:0 10px 24px rgba(0,0,0,.25);
+  opacity:.65;
+  transform:translateY(4px);
+  transition:opacity .35s ease,transform .35s cubic-bezier(.16,1,.3,1);
+}
+.work-item:hover .work-sub.is-pop{
+  opacity:1;
+  transform:translateY(0);
+}
+.work-indicator{
+  width:30px;
+  height:30px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  position:relative;
+  justify-self:end;
+  grid-column:3;
+  grid-row:1 / span 2;
+}
+.work-indicator::before,
+.work-indicator::after{
+  content:'';
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:12px;
+  height:1px;
+  background:var(--ink);
+  transform:translate(-50%,-50%);
+  transition:transform .35s cubic-bezier(.16,1,.3,1);
+}
+.work-indicator::after{transform:translate(-50%,-50%) rotate(90deg)}
+.work-item.is-open .work-indicator::after{transform:translate(-50%,-50%) rotate(0deg)}
+
+.work-preview{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  grid-auto-rows:28px;
+  gap:8px;
+  min-width:260px;
+  align-content:center;
+  opacity:.9;
+  transform:translateY(2px);
+  transition:opacity .4s ease,transform .4s cubic-bezier(.16,1,.3,1);
+  position:relative;
+  padding:10px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:rgba(255,255,255,.02);
+  overflow:hidden;
+  cursor:pointer;
+}
+.work-item:hover .work-preview{
+  opacity:1;
+  transform:translateY(0);
+}
+.work-preview::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(140deg,rgba(255,255,255,.08),transparent 60%);
+  opacity:.6;
+  pointer-events:none;
+}
+.work-preview::before{
+  content:'Click to view';
+  position:absolute;
+  left:1rem;
+  bottom:.9rem;
+  font-family:var(--mono);
+  font-size:.5rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--mist);
+  padding:.25rem .55rem;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:rgba(5,7,10,.75);
+  opacity:0;
+  transform:translateY(6px);
+  transition:opacity .35s ease,transform .35s cubic-bezier(.16,1,.3,1);
+  pointer-events:none;
+}
+.work-item:hover .work-preview::before{
+  opacity:1;
+  transform:translateY(0);
+}
+.work-thumb{
+  --tilt:0deg;
+  --shift:0px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background-image:var(--img, linear-gradient(140deg,rgba(255,255,255,.08),rgba(255,255,255,.02)));
+  background-size:cover;
+  background-position:center;
+  background-color:transparent;
+  position:relative;
+  overflow:hidden;
+  cursor:pointer;
+  transform:translateY(var(--shift)) rotate(var(--tilt));
+  transition:transform .5s cubic-bezier(.16,1,.3,1),border-color .35s,box-shadow .45s,opacity .5s ease;
+  box-shadow:0 12px 26px rgba(0,0,0,.25);
+  z-index:1;
+}
+.work-thumb::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:repeating-linear-gradient(-45deg,transparent,transparent 12px,rgba(255,255,255,.06) 12px,rgba(255,255,255,.06) 13px);
+  opacity:.45;
+}
+.work-preview .work-thumb::after{opacity:.18}
+.work-thumb span{
+  position:absolute;
+  right:.5rem;
+  bottom:.5rem;
+  font-family:var(--mono);
+  font-size:.5rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  background:rgba(5,7,10,.8);
+  color:var(--ink);
+  padding:.25rem .45rem;
+  border:1px solid var(--line);
+  border-radius:999px;
+  opacity:0;
+  transform:translateY(4px);
+  transition:opacity .3s ease,transform .3s ease;
+}
+.work-thumb:hover{
+  border-color:rgba(243,246,250,.4);
+  transform:translateY(calc(var(--shift) - 4px)) rotate(var(--tilt));
+}
+.work-thumb:hover span{opacity:1;transform:translateY(0)}
+.work-thumb.is-swapping{opacity:.35}
+
+.work-thumb.size-lg{grid-column:span 4;grid-row:span 3}
+.work-thumb.size-md{grid-column:span 3;grid-row:span 2}
+.work-thumb.size-sm{grid-column:span 2;grid-row:span 2}
+
+.work-thumb:nth-child(1){--tilt:-1.4deg;--shift:4px}
+.work-thumb:nth-child(2){--tilt:1.2deg;--shift:-2px}
+.work-thumb:nth-child(3){--tilt:-.6deg;--shift:2px}
+.work-thumb:nth-child(4){--tilt:1.6deg;--shift:-3px}
+.work-preview .work-thumb{
+  animation:previewPan 14s ease-in-out infinite alternate;
+  grid-column:span 2;
+  grid-row:span 2;
+}
+.work-preview .work-thumb:nth-child(odd){
+  animation-duration:16s;
+  animation-delay:-3s;
+}
+.work-preview .work-thumb.size-lg{grid-column:span 3;grid-row:span 3}
+.work-preview .work-thumb.size-md{grid-column:span 3;grid-row:span 2}
+.work-preview .work-thumb.size-sm{grid-column:span 2;grid-row:span 2}
+}
+
+.work-panel{
+  max-height:0;
+  overflow:hidden;
+  opacity:0;
+  transform:translateY(-6px);
+  filter:blur(6px);
+  transition:max-height .8s cubic-bezier(.16,1,.3,1),opacity .45s ease,transform .45s ease,filter .45s ease;
+}
+.work-item.is-open .work-panel{
+  opacity:1;
+  transform:none;
+  filter:blur(0);
+}
+.work-panel-inner{
+  padding:1.2rem 1.8rem 1.6rem;
+  display:flex;
+  flex-direction:column;
   gap:1rem;
+}
+.work-desc{
+  font-size:.9rem;
+  line-height:1.8;
+  color:var(--mist);
+  margin-bottom:1rem;
+}
+.work-list{
+  list-style:none;
+  display:grid;
+  gap:.55rem;
+  margin:0 0 1.2rem;
+  padding:0;
+}
+.work-list li{
+  position:relative;
+  padding-left:1rem;
+  font-size:.88rem;
+  line-height:1.75;
+  color:var(--mist);
+}
+.work-list li::before{
+  content:'-';
+  position:absolute;
+  left:0;
+  top:.05rem;
+  color:var(--fog);
+}
+.work-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.4rem;
+}
+.work-tag{
+  font-family:var(--mono);
+  font-size:.52rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  padding:.2rem .6rem;
+  border:1px solid var(--line);
+  color:var(--fog);
+}
+.work-subsections{
+  margin-top:1.1rem;
+  padding-top:1.1rem;
+  border-top:1px solid var(--line);
+  display:flex;
+  flex-direction:column;
+  gap:.8rem;
+}
+.work-subnav{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.4rem;
+  position:relative;
+  padding-bottom:.4rem;
+  border-bottom:1px solid var(--line);
+}
+.work-subtab{
+  border:1px solid transparent;
+  background:rgba(255,255,255,.02);
+  color:var(--mist);
+  font-family:var(--mono);
+  font-size:.55rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  padding:.5rem .75rem;
+  border-radius:999px;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:color .25s,border-color .25s,background .25s,transform .25s;
+}
+.work-subtab:hover{color:var(--ink);border-color:rgba(243,246,250,.25)}
+.work-subtab.is-active{
+  color:var(--ink);
+  border-color:rgba(243,246,250,.4);
+  background:rgba(255,255,255,.06);
+  transform:translateY(-1px);
+}
+.work-sub-indicator{
+  position:absolute;
+  left:0;
+  bottom:-1px;
+  height:2px;
+  width:40px;
+  background:var(--ink);
+  box-shadow:0 0 12px rgba(243,246,250,.35);
+  transition:transform .5s cubic-bezier(.16,1,.3,1),width .5s cubic-bezier(.16,1,.3,1);
+}
+.work-subpanels{
+  position:relative;
+  height:auto;
+  transition:height .6s cubic-bezier(.16,1,.3,1);
+}
+.work-subpanel{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  transform:translateY(10px);
+  filter:blur(6px);
+  pointer-events:none;
+  transition:opacity .45s ease,transform .45s ease,filter .45s ease;
+}
+.work-subpanel.is-active{
+  opacity:1;
+  transform:none;
+  filter:blur(0);
+  pointer-events:auto;
+}
+.work-subgrid{
+  display:grid;
+  grid-template-columns:minmax(0,.9fr) minmax(0,1.6fr);
+  gap:1rem;
+  align-items:start;
+}
+.work-subtitle{
+  font-family:var(--mono);
+  font-size:.6rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--fog);
   margin-bottom:.6rem;
 }
-.auto-title{
+.work-subdesc{
+  font-size:.86rem;
+  line-height:1.75;
+  color:var(--mist);
+  margin-bottom:.6rem;
+}
+.work-sublist{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:grid;
+  gap:.45rem;
+}
+.work-sublist li{
+  position:relative;
+  padding-left:.9rem;
+  font-size:.84rem;
+  line-height:1.65;
+  color:var(--mist);
+}
+.work-sublist li::before{
+  content:'-';
+  position:absolute;
+  left:0;
+  top:.05rem;
+  color:var(--fog);
+}
+.work-subgroup{
+  display:grid;
+  gap:.6rem;
+  padding-left:.85rem;
+  border-left:1px solid var(--line);
+}
+.work-subgroup-title{
   font-family:var(--mono);
-  font-size:.7rem;
+  font-size:.58rem;
   letter-spacing:.18em;
   text-transform:uppercase;
   color:var(--mist);
 }
-.auto-desc{
-  font-size:.88rem;
-  line-height:1.8;
-  color:var(--mist);
+.work-subgroup-desc{
+  font-size:.8rem;
+  line-height:1.6;
+  color:var(--fog);
 }
-.auto-action{
+.work-submedia-stack{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:1.1rem;
+}
+.work-submedia{
+  display:grid;
+  grid-template-columns:repeat(12,minmax(0,1fr));
+  grid-auto-rows:44px;
+  grid-auto-flow:dense;
+  gap:.7rem;
+}
+.work-subthumb{
+  --tilt:0deg;
+  --shift:0px;
   border:1px solid var(--line);
-  background:rgba(255,255,255,.02);
-  color:var(--ink);
-  font-family:var(--mono);
-  font-size:.56rem;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  padding:.5rem .8rem;
-  cursor:pointer;
-  transition:.25s;
-}
-.auto-action:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-.auto-thumbs{
-  margin-top:1rem;
-  display:flex;
-  gap:.6rem;
-  overflow-x:auto;
-  padding-bottom:.4rem;
-  -webkit-overflow-scrolling:touch;
-  scroll-snap-type:x mandatory;
-}
-.auto-thumbs::-webkit-scrollbar{display:none}
-.auto-thumb{
-  flex:0 0 auto;
-  width:140px;
-  height:95px;
   border-radius:12px;
-  border:1px solid var(--line);
-  background-image:
-    linear-gradient(135deg,rgba(122,231,255,.12),rgba(182,255,217,.08)),
-    var(--img);
+  background-image:var(--img,linear-gradient(140deg,rgba(255,255,255,.08),rgba(255,255,255,.02)));
+  background-color:transparent;
   background-size:cover;
   background-position:center;
-  scroll-snap-align:start;
+  aspect-ratio:auto;
+  width:100%;
+  height:100%;
   cursor:pointer;
-  transition:transform .3s,border-color .3s;
+  position:relative;
+  overflow:hidden;
+  padding:0;
+  transform:translateY(var(--shift)) rotate(var(--tilt));
+  transition:transform .35s,border-color .35s,box-shadow .35s;
+  box-shadow:0 10px 24px rgba(0,0,0,.25);
+  grid-column:span 2;
+  grid-row:span 2;
 }
-.auto-thumb:hover{transform:translateY(-2px);border-color:rgba(122,231,255,.35)}
+.work-subthumb::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:repeating-linear-gradient(-45deg,transparent,transparent 12px,rgba(255,255,255,.05) 12px,rgba(255,255,255,.05) 13px);
+  opacity:.5;
+}
+.work-subthumb:hover{
+  transform:translateY(calc(var(--shift) - 3px)) rotate(var(--tilt));
+  border-color:rgba(243,246,250,.4);
+  box-shadow:0 16px 30px rgba(0,0,0,.35);
+}
+.work-subthumb:nth-child(1){--tilt:-1.2deg;--shift:2px}
+.work-subthumb:nth-child(2){--tilt:1deg;--shift:-1px}
+.work-subthumb:nth-child(3){--tilt:-.6deg;--shift:3px}
+.work-subthumb:nth-child(6n+1){grid-column:span 4;grid-row:span 3}
+.work-subthumb:nth-child(7n+4){grid-column:span 3;grid-row:span 2}
+.work-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.55rem;
+  order:-1;
+  margin-bottom:.2rem;
+}
+.work-meta-block{
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:.35rem .7rem;
+  background:rgba(255,255,255,.02);
+  display:inline-flex;
+  align-items:center;
+  gap:.35rem;
+}
+.work-meta-label{
+  display:block;
+  font-family:var(--mono);
+  font-size:.5rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--fog);
+  margin-bottom:0;
+}
+.work-meta-value{
+  font-size:.74rem;
+  color:var(--mist);
+  line-height:1.4;
+}
+.work-item.is-placeholder .work-title{color:var(--mist)}
+.work-item.is-placeholder .work-sub{color:var(--fog)}
 
-.auto-modal{
-  position:fixed;inset:0;z-index:6400;
-  background:rgba(5,7,10,.78);
-  display:flex;align-items:center;justify-content:center;
-  opacity:0;pointer-events:none;
+/* WORK MODAL */
+.work-modal{
+  position:fixed;
+  inset:0;
+  z-index:6400;
+  background:rgba(5,7,10,.8);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  pointer-events:none;
   transition:opacity .35s ease;
 }
-.auto-modal.is-open{opacity:1;pointer-events:auto}
-.auto-modal-card{
+.work-modal.is-open{opacity:1;pointer-events:auto}
+.work-modal-card{
   width:min(94vw,1100px);
   background:var(--surface);
   border:1px solid var(--line);
@@ -723,13 +1036,15 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
   transform:translateY(16px);
   transition:transform .4s cubic-bezier(.16,1,.3,1);
 }
-.auto-modal.is-open .auto-modal-card{transform:none}
-.auto-modal-media{
+.work-modal.is-open .work-modal-card{transform:none}
+.work-modal-media{
   background:var(--paper);
-  display:flex;align-items:center;justify-content:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   padding:1.25rem;
 }
-.auto-modal-media img{
+.work-modal-media img{
   width:auto;
   height:auto;
   max-width:100%;
@@ -738,32 +1053,72 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
   border:1px solid var(--line);
   background:#0b0f14;
 }
-.auto-modal-body{
-  padding:1.2rem 1.8rem 1.6rem;
+.work-modal-body{
+  padding:1.4rem 1.8rem 1.8rem;
   border-top:1px solid var(--line);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:1rem;
-  flex-wrap:wrap;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:1.2rem;
+  align-items:start;
 }
-.auto-modal-title{
+.work-modal-label{
+  font-family:var(--mono);
+  font-size:.56rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--fog);
+  margin-bottom:.5rem;
+}
+.work-modal-title{
   font-family:var(--sans);
-  font-size:1.2rem;
+  font-size:1.3rem;
   font-weight:600;
   letter-spacing:-.01em;
+  margin-bottom:.6rem;
 }
-.auto-modal-count{
+.work-modal-caption{
+  font-size:.9rem;
+  line-height:1.7;
+  color:var(--mist);
+  margin-top:-.25rem;
+  margin-bottom:.6rem;
+}
+.work-modal-list{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:grid;
+  gap:.5rem;
+}
+.work-modal-list li{
+  position:relative;
+  padding-left:1rem;
+  font-size:.86rem;
+  line-height:1.7;
+  color:var(--mist);
+}
+.work-modal-list li::before{
+  content:'-';
+  position:absolute;
+  left:0;
+  top:.05rem;
+  color:var(--fog);
+}
+.work-modal-side{
+  display:flex;
+  flex-direction:column;
+  gap:.8rem;
+  align-items:flex-end;
+}
+.work-modal-count{
   font-family:var(--mono);
   font-size:.6rem;
   letter-spacing:.2em;
   text-transform:uppercase;
   color:var(--fog);
 }
-.auto-modal-actions{
-  display:flex;gap:.6rem;
-}
-.auto-modal-btn{
+.work-modal-actions{display:flex;gap:.6rem}
+.work-modal-btn{
   border:1px solid var(--line);
   background:rgba(255,255,255,.02);
   color:var(--ink);
@@ -775,9 +1130,11 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
   cursor:pointer;
   transition:.25s;
 }
-.auto-modal-btn:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-.auto-modal-close{
-  position:absolute;top:1.2rem;right:1.2rem;
+.work-modal-btn:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.work-modal-close{
+  position:absolute;
+  top:1.2rem;
+  right:1.2rem;
   border:1px solid var(--line);
   background:rgba(5,7,10,.7);
   color:var(--ink);
@@ -789,8 +1146,7 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
   cursor:pointer;
   transition:.25s;
 }
-.auto-modal-close:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-
+.work-modal-close:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 /* SKILLS */
 .skills-layout{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line)}
 .sk-col{padding:2.5rem;border-right:1px solid var(--line)}
@@ -859,6 +1215,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 
 /* ANIMATIONS */
 @keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes previewPan{from{background-position:45% 50%}to{background-position:55% 50%}}
 .rv{opacity:0;transform:translateY(22px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
 .rv.in{opacity:1;transform:none}
 .rv[data-fx="lift"]{
@@ -882,9 +1239,16 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .about-layout{grid-template-columns:1fr;gap:2rem}
   .about-sticky{position:relative;top:auto}
   .about-collage{width:100%;grid-auto-rows:80px}
+  .work-preview{width:100%;grid-template-columns:repeat(6,1fr);grid-auto-rows:26px;min-width:0;padding:8px}
+  .work-subgrid{grid-template-columns:1fr}
+  .work-submedia-stack{grid-template-columns:1fr}
+  .work-submedia{grid-template-columns:repeat(10,minmax(0,1fr));grid-auto-rows:40px}
+  .work-subthumb{grid-column:span 2;grid-row:span 2}
+  .work-subthumb:nth-child(6n+1),
+  .work-subthumb:nth-child(7n+4){grid-column:span 3;grid-row:span 2}
+  .work-meta{grid-template-columns:1fr 1fr}
   .exp-entry{grid-template-columns:1fr}
   .exp-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .auto-grid{grid-template-columns:1fr}
   .skills-layout{grid-template-columns:1fr 1fr}
   .sk-col:nth-child(3),.sk-col:nth-child(5){border-right:none}
   .sk-col:nth-child(4){border-top:none}
@@ -909,37 +1273,21 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .sb-item{padding:1.45rem 5vw}
   section.panel{padding:5rem 5vw}
   .sec-header{margin-bottom:2.8rem;gap:1rem;flex-direction:column;align-items:flex-start}
-  .proj-list{gap:1.1rem}
-  .proj-row{
-    grid-template-columns:1fr;
-    gap:1.1rem;
-    padding:1.45rem 1.15rem;
-    border-radius:18px;
-  }
-  .proj-num{
-    font-size:.65rem;
-    letter-spacing:.28em;
-    color:var(--mist);
-    padding:.35rem .7rem;
-    border:1px solid var(--line);
-    border-radius:999px;
-    display:inline-block;
-    width:max-content;
-  }
-  .proj-detail{font-size:.95rem;line-height:1.9}
-  .proj-carousel{margin-top:1.1rem}
-  .proj-arrow{display:none}
-  .proj-card.size-sm{width:140px;height:100px}
-  .proj-card.size-md{width:190px;height:130px}
-  .proj-card.size-lg{width:230px;height:160px}
-  .proj-card:nth-child(3n){margin-top:6px}
-  .proj-card:nth-child(4n){margin-top:-5px}
-  .proj-card:nth-child(5n){margin-top:4px}
-  .auto-card.size-sm{width:150px;height:105px}
-  .auto-card.size-md{width:210px;height:145px}
-  .auto-card.size-lg{width:260px;height:180px}
-  .auto-details-inner{padding:2.2rem 5vw 2.6rem}
-  .auto-thumb{width:120px;height:82px}
+  .work-head{gap:1.1rem}
+  .work-title{font-size:1.1rem}
+  .work-preview{grid-template-columns:repeat(4,1fr);grid-auto-rows:24px;gap:6px;min-width:0;padding:6px}
+  .work-toggle{padding:1.1rem 1.2rem}
+  .work-panel-inner{padding:1.2rem 1.2rem 1.6rem}
+  .work-meta{grid-template-columns:1fr}
+  .work-subnav{flex-wrap:nowrap;overflow-x:auto;gap:.6rem}
+  .work-subnav::-webkit-scrollbar{display:none}
+  .work-submedia-stack{grid-template-columns:1fr}
+  .work-submedia{grid-template-columns:repeat(6,minmax(0,1fr));grid-auto-rows:34px}
+  .work-subthumb{grid-column:span 2;grid-row:span 2}
+  .work-subthumb:nth-child(6n+1),
+  .work-subthumb:nth-child(7n+4){grid-column:span 2;grid-row:span 2}
+  .work-modal-body{grid-template-columns:1fr}
+  .work-modal-side{flex-direction:row;justify-content:space-between;width:100%;align-items:center}
   .about-controls{left:.75rem;right:.75rem;bottom:.75rem}
   .about-btn{padding:.48rem .62rem}
   .hb-desc{font-size:1rem;line-height:1.85}
@@ -952,7 +1300,18 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 }
 
 @media (prefers-reduced-motion: reduce){
-  .proj-card{transform:none;opacity:1;transition:none}
+  .work-item,
+  .work-head::after,
+  .work-thumb,
+  .work-panel,
+  .work-subpanel,
+  .work-subpanels,
+  .work-sub-indicator,
+  .work-subthumb,
+  .work-subtab{transition:none}
+  .work-thumb,
+  .work-subthumb{transform:none}
+  .work-preview .work-thumb{animation:none}
 }
 </style>
 </head>
@@ -968,7 +1327,6 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
     <li><a href="#about">About</a></li>
     <li><a href="#education">Education</a></li>
     <li><a href="#projects">Projects</a></li>
-    <li><a href="#automotive">Automotive</a></li>
     <li><a href="#experience">Experience</a></li>
     <li><a href="#skills">Skills</a></li>
   </ul>
@@ -1063,256 +1421,1162 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   </div>
 </section>
 
-\r\n<!-- PROJECTS -->
+<!-- PROJECTS -->
 <section class="panel dark" id="projects">
   <div class="sec-header rv">
-    <span class="sec-label">03 — Projects</span>
+    <span class="sec-label">03 - Selected Work</span>
     <div class="sec-title">Selected work.</div>
   </div>
-  <p class="proj-intro rv d1">A quick scan of builds I've shipped or led - hands-on engineering, fabrication, and research with real-world constraints.</p>
-  <div class="proj-list">
-    <div class="proj-row rv" data-fx="lift">
-      <div class="proj-num">01</div>
-      <div class="proj-main">
-        <div class="proj-title">SAE Formula Nosecone & Front Wing V2</div>
-        <p class="proj-detail">Designed in Fusion 360, CFD simulation in ANSYS Fluent - refined meshes with inflation layers, lift/drag coefficients, pressure/velocity distributions. DXF for waterjet manufacturing. Full 3K and 12K carbon fiber composite layups with vacuum bagging and post-processing.</p>
-        <div class="proj-tags-wrap"><span class="proj-tag">ANSYS</span><span class="proj-tag">CFD</span><span class="proj-tag">Carbon Fiber</span><span class="proj-tag">Fusion 360</span><span class="proj-tag">DXF</span></div>
-        <div class="proj-carousel" data-proj-carousel data-speed="0.36" aria-label="SAE Formula collage">
-          <div class="proj-track">
-            <div class="proj-card size-lg" style="--img:url('images/projects/sae-1.jpg')"></div>
-            <div class="proj-card size-sm" style="--img:url('images/projects/sae-2.jpg')"></div>
-            <div class="proj-card size-md" style="--img:url('images/projects/sae-3.jpg')"></div>
+  <p class="work-intro rv d1">A focused set of builds and research with clear outcomes, visuals, and technical scope.</p>
+  <div class="work-stack">
+    <article class="work-item rv" data-work-item>
+      <div class="work-head">
+        <button class="work-toggle" data-work-toggle aria-expanded="false">
+          <span class="work-index">01</span>
+          <span class="work-title">Automotive Rebuilds & Custom Modifications</span>
+          <span class="work-sub is-pop">Restoration + electrical</span>
+          <span class="work-indicator" aria-hidden="true"></span>
+        </button>
+        <div class="work-preview" data-work-gallery data-preview-count="8" data-preview-cycle="true" data-preview-tabs="buy" data-title="Automotive Rebuilds & Custom Modifications" data-images="images/automotive/buying-selling/jpg1.png|images/automotive/buying-selling/jpg2.png|images/automotive/buying-selling/jpg3.png|images/automotive/buying-selling/jpg4.png|images/automotive/buying-selling/jpg5.png|images/automotive/buying-selling/jpg6.png|images/automotive/buying-selling/jpg7.png|images/automotive/buying-selling/jpg8.png|images/automotive/buying-selling/jpg9.png|images/automotive/buying-selling/jpg10.png|images/automotive/buying-selling/jpg11.png|images/automotive/buying-selling/jpg12.png|images/automotive/buying-selling/jpg13.png|images/automotive/buying-selling/jpg14.png|images/automotive/buying-selling/jpg15.png|images/automotive/buying-selling/jpg16.png|images/automotive/buying-selling/jpg17.png" data-details="Buying, restoring, and flipping||Tinting, wrapping, and interior work||Electrical installs and upgrades">
+          <button class="work-thumb size-lg" data-work-open data-index="0" style="--img:url('images/automotive/buying-selling/jpg1.png')" aria-label="Open automotive gallery image 1"><span aria-hidden="true">View</span></button>
+          <button class="work-thumb size-sm" data-work-open data-index="2" style="--img:url('images/automotive/buying-selling/jpg5.png')" aria-label="Open automotive gallery image 2"><span aria-hidden="true">View</span></button>
+          <button class="work-thumb size-md" data-work-open data-index="4" style="--img:url('images/automotive/buying-selling/jpg8.png')" aria-label="Open automotive gallery image 3"><span aria-hidden="true">View</span></button>
+          <button class="work-thumb size-sm" data-work-open data-index="1" style="--img:url('images/automotive/buying-selling/jpg2.png')" aria-label="Open automotive gallery image 4"><span aria-hidden="true">View</span></button>
+        </div>
+      </div>
+      <div class="work-panel" data-work-panel>
+        <div class="work-panel-inner">
+          <div class="work-copy">
+            <p class="work-desc">I started flipping cars in freshman year and grew into full builds: maintenance, bodywork, interior, wraps, and electrical.</p>
+            <ul class="work-list">
+              <li>From $2k flips to heavier repairs that needed real bodywork.</li>
+              <li>Local tinting and wrap work with repeat clients.</li>
+              <li>Custom interior and wiring upgrades across multiple vehicles.</li>
+            </ul>
+            <div class="work-tags">
+              <span class="work-tag">Autobody</span>
+              <span class="work-tag">Vinyl Wrap</span>
+              <span class="work-tag">Upholstery</span>
+              <span class="work-tag">Electrical</span>
+              <span class="work-tag">Audio</span>
+            </div>
+            <div class="work-subsections" data-work-subsections>
+              <div class="work-subnav" data-work-subnav>
+                <button class="work-subtab is-active" data-work-subtab="buy" type="button">Buying &amp; Selling</button>
+                <button class="work-subtab" data-work-subtab="body" type="button">Autobody</button>
+                <button class="work-subtab" data-work-subtab="tint" type="button">Tinting &amp; Service</button>
+                <button class="work-subtab" data-work-subtab="upholstery" type="button">Upholstery</button>
+                <button class="work-subtab" data-work-subtab="wrap" type="button">Wraps</button>
+                <button class="work-subtab" data-work-subtab="electrical" type="button">Electrical</button>
+                <span class="work-sub-indicator" aria-hidden="true"></span>
+              </div>
+              <div class="work-subpanels" data-work-subpanels>
+                <section class="work-subpanel is-active" data-work-subpanel="buy">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Buying &amp; Selling</div>
+                      <p class="work-subdesc">Started freshman year by saving from a summer job, flipping my first car, and building a repeatable maintenance + sales flow.</p>
+                      <ul class="work-sublist">
+                        <li>2008 Chevy Impala Police Package: plugs, brakes, injectors, full fluid flush, head gasket + valve cover. Bought for $2,000 and sold for profit on Facebook Marketplace.</li>
+                        <li>2013 Toyota Corolla: repeated the same maintenance routine and refined my checklist.</li>
+                        <li>Image: Impala post-service + listing photos.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia-stack">
+                      <div class="work-subgroup">
+                      <div class="work-subgroup-title">2008 Chevy Impala Police Package</div>
+                      <p class="work-subgroup-desc">My first flip. Full maintenance pass, head gasket + valve cover, then sold on Facebook Marketplace.</p>
+                      <div class="work-submedia" data-work-gallery data-title="Buying &amp; Selling - Impala" data-images="images/automotive/buying-selling/jpg1.png|images/automotive/buying-selling/jpg2.png|images/automotive/buying-selling/jpg3.png|images/automotive/buying-selling/jpg4.png" data-captions="Impala after gasket work||Impala maintenance progress||Impala listing-ready shot||Impala handoff photo" data-details="Maintenance and repairs on a $2,000 buy||Flipped for profit through Facebook Marketplace||First full maintenance workflow">
+                        <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/automotive/buying-selling/jpg1.png')" aria-label="Open Impala gallery image 1"></button>
+                        <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/automotive/buying-selling/jpg2.png')" aria-label="Open Impala gallery image 2"></button>
+                        <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/automotive/buying-selling/jpg3.png')" aria-label="Open Impala gallery image 3"></button>
+                      </div>
+                      </div>
+                      <div class="work-subgroup">
+                      <div class="work-subgroup-title">2013 Toyota Corolla</div>
+                      <p class="work-subgroup-desc">Bought from my uncle, repeated the same maintenance checklist and refined the process.</p>
+                      <div class="work-submedia" data-work-gallery data-title="Buying &amp; Selling - Corolla" data-images="images/automotive/buying-selling/jpg5.png|images/automotive/buying-selling/jpg6.png|images/automotive/buying-selling/jpg7.png" data-captions="Corolla before service||Corolla maintenance detail||Corolla after service" data-details="Routine maintenance repeated from the Impala||Built consistency and speed in the workflow||Clean, reliable flip-ready condition">
+                        <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/automotive/buying-selling/jpg5.png')" aria-label="Open Corolla gallery image 1"></button>
+                        <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/automotive/buying-selling/jpg6.png')" aria-label="Open Corolla gallery image 2"></button>
+                        <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/automotive/buying-selling/jpg7.png')" aria-label="Open Corolla gallery image 3"></button>
+                      </div>
+                      </div>
+                      <div class="work-subgroup">
+                      <div class="work-subgroup-title">Additional Flips</div>
+                      <p class="work-subgroup-desc">A mix of basic flips and tougher projects once I understood registration, insurance, and repair planning.</p>
+                      <div class="work-submedia" data-work-gallery data-title="Buying &amp; Selling - Additional Flips" data-images="images/automotive/buying-selling/jpg8.png|images/automotive/buying-selling/jpg9.png|images/automotive/buying-selling/jpg10.png|images/automotive/buying-selling/jpg11.png|images/automotive/buying-selling/jpg12.png|images/automotive/buying-selling/jpg13.png|images/automotive/buying-selling/jpg14.png|images/automotive/buying-selling/jpg15.png|images/automotive/buying-selling/jpg16.png|images/automotive/buying-selling/jpg17.png" data-captions="Flip 01 (placeholder caption)||Flip 02 (placeholder caption)||Flip 03 (placeholder caption)||Flip 04 (placeholder caption)||Flip 05 (placeholder caption)||Flip 06 (placeholder caption)||Flip 07 (placeholder caption)||Flip 08 (placeholder caption)||Flip 09 (placeholder caption)||Flip 10 (placeholder caption)" data-details="More flips once I had the process dialed in||Mix of clean-ups and deeper fixes||Great practice for buying decisions and resale">
+                        <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/automotive/buying-selling/jpg8.png')" aria-label="Open additional flips gallery image 1"></button>
+                        <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/automotive/buying-selling/jpg9.png')" aria-label="Open additional flips gallery image 2"></button>
+                        <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/automotive/buying-selling/jpg10.png')" aria-label="Open additional flips gallery image 3"></button>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                <section class="work-subpanel" data-work-subpanel="body">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Autobody</div>
+                      <p class="work-subdesc">Moved into heavier repairs to unlock cheaper buys and level up my bodywork skills.</p>
+                      <ul class="work-sublist">
+                        <li>2010 Dodge Ram 1500: rust/rot + scuffs; wet-sanded, metal backing, filler, sanded flush, repaint + clear.</li>
+                        <li>Lexus ES 300: front collision; frame work, fender repair/removal, repaint, re-install.</li>
+                        <li>Image: Ram panel before/after + Lexus fender off-car.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Autobody" data-images="images/automotive/autobody/01.jpg|images/automotive/autobody/02.jpg|images/automotive/autobody/03.jpg|images/automotive/autobody/04.jpg|images/automotive/autobody/05.jpg" data-details="Dodge Ram rust repair before/after||Lexus ES 300 fender off-car||Repainted panel closeup">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/automotive/autobody/01.jpg')" aria-label="Open autobody gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/automotive/autobody/02.jpg')" aria-label="Open autobody gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/automotive/autobody/03.jpg')" aria-label="Open autobody gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+                <section class="work-subpanel" data-work-subpanel="tint">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Tinting &amp; Service</div>
+                      <p class="work-subdesc">Turned the skills into a local service after testing everything on my own 2013 Mazda 3.</p>
+                      <ul class="work-sublist">
+                        <li>Taillight tinting: practiced on my cars, then masked and smoked just the red section for my first client (my uncle).</li>
+                        <li>5% window tint + windshield sunstrip on most of my cars and for family/friends/neighbors.</li>
+                        <li>Image: Mazda 3 before/after + client taillight tint.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Tinting &amp; Service" data-images="images/automotive/tinting-service/01.jpg|images/automotive/tinting-service/02.jpg|images/automotive/tinting-service/03.jpg|images/automotive/tinting-service/04.jpg|images/automotive/tinting-service/05.jpg" data-details="Mazda 3 testbed before/after||Taillight tint closeup||Window tint + sunstrip shot">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/automotive/tinting-service/01.jpg')" aria-label="Open tinting gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/automotive/tinting-service/02.jpg')" aria-label="Open tinting gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/automotive/tinting-service/03.jpg')" aria-label="Open tinting gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+                <section class="work-subpanel" data-work-subpanel="upholstery">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Upholstery</div>
+                      <p class="work-subdesc">Interior work focused on hand-wrapped details and full seat transformations.</p>
+                      <ul class="work-sublist">
+                        <li>Door panels: alcantara-style suede inserts, adhered and stitched.</li>
+                        <li>Seats: removed and fitted custom stitched covers to change the whole interior feel.</li>
+                        <li>Custom steering wheel wrap; later replicated on a 2011 Lexus ES 300 with red interior conversion. Image: finished wheel + seats.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Upholstery" data-images="images/automotive/upholstery/01.jpg|images/automotive/upholstery/02.jpg|images/automotive/upholstery/03.jpg|images/automotive/upholstery/04.jpg|images/automotive/upholstery/05.jpg" data-details="Door insert wrap detail||Custom seat cover install||Steering wheel wrap + red interior">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/automotive/upholstery/01.jpg')" aria-label="Open upholstery gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/automotive/upholstery/02.jpg')" aria-label="Open upholstery gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/automotive/upholstery/03.jpg')" aria-label="Open upholstery gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+                <section class="work-subpanel" data-work-subpanel="wrap">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Wraps</div>
+                      <p class="work-subdesc">Since tinting taught me the basics, wrapping felt natural - I pushed it with a split-color build.</p>
+                      <ul class="work-sublist">
+                        <li>Half-and-half color scheme using knifeless tape and clean seam lines.</li>
+                        <li>Lots of prep, re-stretching, and edge work to keep it tight.</li>
+                        <li>Image: final full-car reveal.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Wraps" data-images="images/automotive/wraps/01.jpg|images/automotive/wraps/02.jpg|images/automotive/wraps/03.jpg|images/automotive/wraps/04.jpg|images/automotive/wraps/05.jpg" data-details="Split-color seam closeup||Half-and-half side view||Final reveal shot">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/automotive/wraps/01.jpg')" aria-label="Open wraps gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/automotive/wraps/02.jpg')" aria-label="Open wraps gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/automotive/wraps/03.jpg')" aria-label="Open wraps gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+                <section class="work-subpanel" data-work-subpanel="electrical">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Electrical</div>
+                      <p class="work-subdesc">Hands-on wiring for lighting, exhaust control, and audio upgrades.</p>
+                      <ul class="work-sublist">
+                        <li>Arduino-controlled grille lightbar with strobe + brightness control.</li>
+                        <li>Valved exhaust: remote control, hardwired switch, 12V feed, welded into the exhaust.</li>
+                        <li>Amps/speakers, cameras, aftermarket headunits. Image: personal vehicle headunit conversion.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Electrical" data-images="images/automotive/electrical/01.jpg|images/automotive/electrical/02.jpg|images/automotive/electrical/03.jpg|images/automotive/electrical/04.jpg|images/automotive/electrical/05.jpg" data-details="Arduino lightbar in grille||Valved exhaust wiring + switch||Headunit + amp install">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/automotive/electrical/01.jpg')" aria-label="Open electrical gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/automotive/electrical/02.jpg')" aria-label="Open electrical gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/automotive/electrical/03.jpg')" aria-label="Open electrical gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </div>
+          <div class="work-meta">
+            <div class="work-meta-block">
+              <span class="work-meta-label">Role</span>
+              <span class="work-meta-value">Builder and fabricator</span>
+            </div>
+            <div class="work-meta-block">
+              <span class="work-meta-label">Focus</span>
+              <span class="work-meta-value">Restoration + customization</span>
+            </div>
+            <div class="work-meta-block">
+              <span class="work-meta-label">Scope</span>
+              <span class="work-meta-value">Multiple vehicles</span>
+            </div>
+            <div class="work-meta-block">
+              <span class="work-meta-label">Location</span>
+              <span class="work-meta-value">East Meadow, NY</span>
+            </div>
           </div>
         </div>
       </div>
-      <div class="proj-arrow">-></div>
-    </div>
-    <div class="proj-row rv" data-fx="lift">
-      <div class="proj-num">02</div>
-      <div class="proj-main">
-        <div class="proj-title">EV Go-Kart Chassis</div>
-        <p class="proj-detail">Full frame, chain guard, and caliper bracket in Fusion 360. MIG welded with 3D-printed pre-fit mockups. First full chassis iteration complete and assembled.</p>
-        <div class="proj-tags-wrap"><span class="proj-tag">Fusion 360</span><span class="proj-tag">MIG Welding</span><span class="proj-tag">EV</span><span class="proj-tag">Fabrication</span></div>
-        <div class="proj-carousel" data-proj-carousel data-speed="0.34" aria-label="EV Go-Kart collage">
-          <div class="proj-track">
-            <div class="proj-card size-md" style="--img:url('images/projects/gokart-1.jpg')"></div>
-            <div class="proj-card size-sm" style="--img:url('images/projects/gokart-2.jpg')"></div>
-            <div class="proj-card size-lg" style="--img:url('images/projects/gokart-3.jpg')"></div>
+    </article>
+
+    <article class="work-item rv" data-work-item>
+      <div class="work-head">
+        <button class="work-toggle" data-work-toggle aria-expanded="false">
+          <span class="work-index">02</span>
+          <span class="work-title">SAE Formula Nosecone & Front Wing V2</span>
+          <span class="work-sub">Aero + composites</span>
+          <span class="work-indicator" aria-hidden="true"></span>
+        </button>
+        <div class="work-preview" data-preview-count="8" data-preview-cycle="true" data-preview-tabs="process|build|results|notes" data-work-gallery data-title="SAE Formula Nosecone & Front Wing V2" data-images="images/projects/sae-1.jpg|images/projects/sae-2.jpg|images/projects/sae-3.jpg" data-details="ANSYS CFD with refined meshes and inflation layers||DXF release for waterjet manufacturing||Full 3K and 12K carbon fiber layups with vacuum bagging">
+          <button class="work-thumb size-lg" data-work-open data-index="0" style="--img:url('images/projects/sae-1.jpg')" aria-label="Open SAE Formula gallery image 1"><span aria-hidden="true">View</span></button>
+          <button class="work-thumb size-sm" data-work-open data-index="1" style="--img:url('images/projects/sae-2.jpg')" aria-label="Open SAE Formula gallery image 2"><span aria-hidden="true">View</span></button>
+          <button class="work-thumb size-md" data-work-open data-index="2" style="--img:url('images/projects/sae-3.jpg')" aria-label="Open SAE Formula gallery image 3"><span aria-hidden="true">View</span></button>
+        </div>
+      </div>
+      <div class="work-panel" data-work-panel>
+        <div class="work-panel-inner">
+          <div class="work-copy">
+            <p class="work-desc">Designed a full aero package update using CFD-driven iterations and composite manufacturing.</p>
+            <ul class="work-list">
+              <li>CFD pressure and velocity analysis with ANSYS Fluent.</li>
+              <li>Released DXF templates for waterjet fabrication.</li>
+              <li>Executed carbon fiber layups with vacuum bagging and finishing.</li>
+            </ul>
+            <div class="work-tags">
+              <span class="work-tag">ANSYS</span>
+              <span class="work-tag">CFD</span>
+              <span class="work-tag">Carbon Fiber</span>
+              <span class="work-tag">Fusion 360</span>
+              <span class="work-tag">DXF</span>
+            </div>
+            <div class="work-subsections" data-work-subsections>
+              <div class="work-subnav" data-work-subnav>
+                <button class="work-subtab is-active" data-work-subtab="process" type="button">Process</button>
+                <button class="work-subtab" data-work-subtab="build" type="button">Build</button>
+                <button class="work-subtab" data-work-subtab="results" type="button">Results</button>
+                <button class="work-subtab" data-work-subtab="notes" type="button">Notes</button>
+                <span class="work-sub-indicator" aria-hidden="true"></span>
+              </div>
+              <div class="work-subpanels" data-work-subpanels>
+                <section class="work-subpanel is-active" data-work-subpanel="process">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Process</div>
+                      <p class="work-subdesc">Replace this with your discovery, constraints, and early iteration notes.</p>
+                      <ul class="work-sublist">
+                        <li>Outline the brief, goals, and timeline.</li>
+                        <li>Call out tools, materials, and references.</li>
+                        <li>Summarize iterations and decisions.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Process" data-images="images/placeholders/work-1.svg|images/placeholders/work-2.svg|images/placeholders/work-3.svg" data-details="Replace with process visuals||Add sketches, CAD, or mockups||Document constraints and revisions">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/placeholders/work-1.svg')" aria-label="Open process gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/placeholders/work-2.svg')" aria-label="Open process gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/placeholders/work-3.svg')" aria-label="Open process gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+                <section class="work-subpanel" data-work-subpanel="build">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Build</div>
+                      <p class="work-subdesc">Swap in fabrication, assembly, or implementation details here.</p>
+                      <ul class="work-sublist">
+                        <li>Document manufacturing steps and tooling.</li>
+                        <li>Note challenges and fixes during assembly.</li>
+                        <li>Highlight key milestones.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Build" data-images="images/placeholders/work-2.svg|images/placeholders/work-3.svg|images/placeholders/work-1.svg" data-details="Add build photos and in-progress shots||Include fabrication notes||Show before and after">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/placeholders/work-2.svg')" aria-label="Open build gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/placeholders/work-3.svg')" aria-label="Open build gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/placeholders/work-1.svg')" aria-label="Open build gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+                <section class="work-subpanel" data-work-subpanel="results">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Results</div>
+                      <p class="work-subdesc">Call out measurable outcomes, performance, or client impact.</p>
+                      <ul class="work-sublist">
+                        <li>Include performance metrics or wins.</li>
+                        <li>Summarize testing or validation.</li>
+                        <li>State what changed because of the work.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Results" data-images="images/placeholders/work-3.svg|images/placeholders/work-1.svg|images/placeholders/work-2.svg" data-details="Add finished shots and outcomes||Include metrics and KPIs||Show final deliverables">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/placeholders/work-3.svg')" aria-label="Open results gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/placeholders/work-1.svg')" aria-label="Open results gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/placeholders/work-2.svg')" aria-label="Open results gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+                <section class="work-subpanel" data-work-subpanel="notes">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Notes</div>
+                      <p class="work-subdesc">Use this space for specs, lessons learned, or next steps.</p>
+                      <ul class="work-sublist">
+                        <li>Share key specs, tools, or suppliers.</li>
+                        <li>Capture lessons learned and improvements.</li>
+                        <li>List next phase ideas or upgrades.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Notes" data-images="images/placeholders/work-1.svg|images/placeholders/work-2.svg|images/placeholders/work-3.svg" data-details="Add documentation and specs||Include diagrams or schematics||Share notes for the next phase">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/placeholders/work-1.svg')" aria-label="Open notes gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/placeholders/work-2.svg')" aria-label="Open notes gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/placeholders/work-3.svg')" aria-label="Open notes gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </div>
+          <div class="work-meta">
+            <div class="work-meta-block">
+              <span class="work-meta-label">Role</span>
+              <span class="work-meta-value">Aero + composites engineer</span>
+            </div>
+            <div class="work-meta-block">
+              <span class="work-meta-label">Team</span>
+              <span class="work-meta-value">Binghamton Motorsports SAE</span>
+            </div>
+            <div class="work-meta-block">
+              <span class="work-meta-label">Status</span>
+              <span class="work-meta-value">V2 complete</span>
+            </div>
+            <div class="work-meta-block">
+              <span class="work-meta-label">Location</span>
+              <span class="work-meta-value">Binghamton, NY</span>
+            </div>
           </div>
         </div>
       </div>
-      <div class="proj-arrow">-></div>
-    </div>
-    <div class="proj-row rv" data-fx="lift">
-      <div class="proj-num">03</div>
-      <div class="proj-main">
-        <div class="proj-title">Arduino Immersive Driving Simulator</div>
-        <p class="proj-detail">Directional g-force fans via Arduino + SIMHUB CAN-BUS, real automotive tachometer reading in-game RPM via Arduino Nano, custom 3D-printed mounts, VR-ready dual monitor setup.</p>
-        <div class="proj-tags-wrap"><span class="proj-tag">Arduino</span><span class="proj-tag">CAN-BUS</span><span class="proj-tag">SIMHUB</span><span class="proj-tag">3D Printing</span></div>
-        <div class="proj-carousel" data-proj-carousel data-speed="0.32" aria-label="Driving simulator collage">
-          <div class="proj-track">
-            <div class="proj-card size-lg" style="--img:url('images/projects/sim-1.jpg')"></div>
-            <div class="proj-card size-sm" style="--img:url('images/projects/sim-2.jpg')"></div>
-            <div class="proj-card size-md" style="--img:url('images/projects/sim-3.jpg')"></div>
+    </article>
+
+    <article class="work-item rv" data-work-item>
+      <div class="work-head">
+        <button class="work-toggle" data-work-toggle aria-expanded="false">
+          <span class="work-index">03</span>
+          <span class="work-title">EV Go-Kart Chassis</span>
+          <span class="work-sub">Frame and fabrication</span>
+          <span class="work-indicator" aria-hidden="true"></span>
+        </button>
+        <div class="work-preview" data-preview-count="8" data-preview-cycle="true" data-preview-tabs="process|build|results|notes" data-work-gallery data-title="EV Go-Kart Chassis" data-images="images/projects/gokart-1.jpg|images/projects/gokart-2.jpg|images/projects/gokart-3.jpg" data-details="Full chassis CAD in Fusion 360||MIG welded with 3D printed pre-fit mockups||First full chassis iteration assembled">
+          <button class="work-thumb size-md" data-work-open data-index="0" style="--img:url('images/projects/gokart-1.jpg')" aria-label="Open EV Go-Kart gallery image 1"><span aria-hidden="true">View</span></button>
+          <button class="work-thumb size-sm" data-work-open data-index="1" style="--img:url('images/projects/gokart-2.jpg')" aria-label="Open EV Go-Kart gallery image 2"><span aria-hidden="true">View</span></button>
+          <button class="work-thumb size-lg" data-work-open data-index="2" style="--img:url('images/projects/gokart-3.jpg')" aria-label="Open EV Go-Kart gallery image 3"><span aria-hidden="true">View</span></button>
+        </div>
+      </div>
+      <div class="work-panel" data-work-panel>
+        <div class="work-panel-inner">
+          <div class="work-copy">
+            <p class="work-desc">Modeled, fabricated, and assembled the EV go-kart chassis for a full-system integration build.</p>
+            <ul class="work-list">
+              <li>Designed frame, chain guard, and caliper bracket in Fusion 360.</li>
+              <li>Validated fitment with 3D printed mockups before welding.</li>
+              <li>Completed first full chassis assembly and alignment.</li>
+            </ul>
+            <div class="work-tags">
+              <span class="work-tag">Fusion 360</span>
+              <span class="work-tag">MIG Welding</span>
+              <span class="work-tag">EV</span>
+              <span class="work-tag">Fabrication</span>
+            </div>
+            <div class="work-subsections" data-work-subsections>
+              <div class="work-subnav" data-work-subnav>
+                <button class="work-subtab is-active" data-work-subtab="process" type="button">Process</button>
+                <button class="work-subtab" data-work-subtab="build" type="button">Build</button>
+                <button class="work-subtab" data-work-subtab="results" type="button">Results</button>
+                <button class="work-subtab" data-work-subtab="notes" type="button">Notes</button>
+                <span class="work-sub-indicator" aria-hidden="true"></span>
+              </div>
+              <div class="work-subpanels" data-work-subpanels>
+                <section class="work-subpanel is-active" data-work-subpanel="process">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Process</div>
+                      <p class="work-subdesc">Replace this with your discovery, constraints, and early iteration notes.</p>
+                      <ul class="work-sublist">
+                        <li>Outline the brief, goals, and timeline.</li>
+                        <li>Call out tools, materials, and references.</li>
+                        <li>Summarize iterations and decisions.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Process" data-images="images/placeholders/work-1.svg|images/placeholders/work-2.svg|images/placeholders/work-3.svg" data-details="Replace with process visuals||Add sketches, CAD, or mockups||Document constraints and revisions">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/placeholders/work-1.svg')" aria-label="Open process gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/placeholders/work-2.svg')" aria-label="Open process gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/placeholders/work-3.svg')" aria-label="Open process gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+                <section class="work-subpanel" data-work-subpanel="build">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Build</div>
+                      <p class="work-subdesc">Swap in fabrication, assembly, or implementation details here.</p>
+                      <ul class="work-sublist">
+                        <li>Document manufacturing steps and tooling.</li>
+                        <li>Note challenges and fixes during assembly.</li>
+                        <li>Highlight key milestones.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Build" data-images="images/placeholders/work-2.svg|images/placeholders/work-3.svg|images/placeholders/work-1.svg" data-details="Add build photos and in-progress shots||Include fabrication notes||Show before and after">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/placeholders/work-2.svg')" aria-label="Open build gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/placeholders/work-3.svg')" aria-label="Open build gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/placeholders/work-1.svg')" aria-label="Open build gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+                <section class="work-subpanel" data-work-subpanel="results">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Results</div>
+                      <p class="work-subdesc">Call out measurable outcomes, performance, or client impact.</p>
+                      <ul class="work-sublist">
+                        <li>Include performance metrics or wins.</li>
+                        <li>Summarize testing or validation.</li>
+                        <li>State what changed because of the work.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Results" data-images="images/placeholders/work-3.svg|images/placeholders/work-1.svg|images/placeholders/work-2.svg" data-details="Add finished shots and outcomes||Include metrics and KPIs||Show final deliverables">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/placeholders/work-3.svg')" aria-label="Open results gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/placeholders/work-1.svg')" aria-label="Open results gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/placeholders/work-2.svg')" aria-label="Open results gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+                <section class="work-subpanel" data-work-subpanel="notes">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Notes</div>
+                      <p class="work-subdesc">Use this space for specs, lessons learned, or next steps.</p>
+                      <ul class="work-sublist">
+                        <li>Share key specs, tools, or suppliers.</li>
+                        <li>Capture lessons learned and improvements.</li>
+                        <li>List next phase ideas or upgrades.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Notes" data-images="images/placeholders/work-1.svg|images/placeholders/work-2.svg|images/placeholders/work-3.svg" data-details="Add documentation and specs||Include diagrams or schematics||Share notes for the next phase">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/placeholders/work-1.svg')" aria-label="Open notes gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/placeholders/work-2.svg')" aria-label="Open notes gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/placeholders/work-3.svg')" aria-label="Open notes gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </div>
+          <div class="work-meta">
+            <div class="work-meta-block">
+              <span class="work-meta-label">Role</span>
+              <span class="work-meta-value">Frame engineer</span>
+            </div>
+            <div class="work-meta-block">
+              <span class="work-meta-label">Focus</span>
+              <span class="work-meta-value">Chassis system design</span>
+            </div>
+            <div class="work-meta-block">
+              <span class="work-meta-label">Status</span>
+              <span class="work-meta-value">Iteration 1 complete</span>
+            </div>
+            <div class="work-meta-block">
+              <span class="work-meta-label">Team</span>
+              <span class="work-meta-value">Binghamton Motorsports SAE</span>
+            </div>
           </div>
         </div>
       </div>
-      <div class="proj-arrow">-></div>
-    </div>
-    <div class="proj-row rv" data-fx="lift">
-      <div class="proj-num">04</div>
-      <div class="proj-main">
-        <div class="proj-title">Antweight Combat Robot</div>
-        <p class="proj-detail">Full CAD-to-fabrication: Fusion 360, 3D printing, machining, complete electronics integration with weapon motors and radio system. Competed and iterated through multiple design cycles.</p>
-        <div class="proj-tags-wrap"><span class="proj-tag">Fusion 360</span><span class="proj-tag">Soldering</span><span class="proj-tag">Machining</span><span class="proj-tag">Electronics</span></div>
-        <div class="proj-carousel" data-proj-carousel data-speed="0.33" aria-label="Antweight robot collage">
-          <div class="proj-track">
-            <div class="proj-card size-md" style="--img:url('images/projects/ant-1.jpg')"></div>
-            <div class="proj-card size-sm" style="--img:url('images/projects/ant-2.jpg')"></div>
-            <div class="proj-card size-lg" style="--img:url('images/projects/ant-3.jpg')"></div>
+    </article>
+
+    <article class="work-item rv" data-work-item>
+      <div class="work-head">
+        <button class="work-toggle" data-work-toggle aria-expanded="false">
+          <span class="work-index">04</span>
+          <span class="work-title">Arduino Immersive Driving Simulator</span>
+          <span class="work-sub">Embedded systems</span>
+          <span class="work-indicator" aria-hidden="true"></span>
+        </button>
+        <div class="work-preview" data-preview-count="8" data-preview-cycle="true" data-preview-tabs="process|build|results|notes" data-work-gallery data-title="Arduino Immersive Driving Simulator" data-images="images/projects/sim-1.jpg|images/projects/sim-2.jpg|images/projects/sim-3.jpg" data-details="Directional g-force fan array with SIMHUB CAN-BUS||Automotive tachometer reads live in-game RPM||Custom mounts and VR-ready dual monitor setup">
+          <button class="work-thumb size-lg" data-work-open data-index="0" style="--img:url('images/projects/sim-1.jpg')" aria-label="Open driving simulator gallery image 1"><span aria-hidden="true">View</span></button>
+          <button class="work-thumb size-sm" data-work-open data-index="1" style="--img:url('images/projects/sim-2.jpg')" aria-label="Open driving simulator gallery image 2"><span aria-hidden="true">View</span></button>
+          <button class="work-thumb size-md" data-work-open data-index="2" style="--img:url('images/projects/sim-3.jpg')" aria-label="Open driving simulator gallery image 3"><span aria-hidden="true">View</span></button>
+        </div>
+      </div>
+      <div class="work-panel" data-work-panel>
+        <div class="work-panel-inner">
+          <div class="work-copy">
+            <p class="work-desc">Built an immersive driving rig with real-time telemetry, embedded controls, and custom hardware mounts.</p>
+            <ul class="work-list">
+              <li>Arduino + SIMHUB integration for directional g-force fans.</li>
+              <li>Live RPM reading on a physical automotive tachometer.</li>
+              <li>Custom 3D printed mounts and VR-ready display setup.</li>
+            </ul>
+            <div class="work-tags">
+              <span class="work-tag">Arduino</span>
+              <span class="work-tag">CAN-BUS</span>
+              <span class="work-tag">SIMHUB</span>
+              <span class="work-tag">3D Printing</span>
+              <span class="work-tag">Electronics</span>
+            </div>
+            <div class="work-subsections" data-work-subsections>
+              <div class="work-subnav" data-work-subnav>
+                <button class="work-subtab is-active" data-work-subtab="process" type="button">Process</button>
+                <button class="work-subtab" data-work-subtab="build" type="button">Build</button>
+                <button class="work-subtab" data-work-subtab="results" type="button">Results</button>
+                <button class="work-subtab" data-work-subtab="notes" type="button">Notes</button>
+                <span class="work-sub-indicator" aria-hidden="true"></span>
+              </div>
+              <div class="work-subpanels" data-work-subpanels>
+                <section class="work-subpanel is-active" data-work-subpanel="process">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Process</div>
+                      <p class="work-subdesc">Replace this with your discovery, constraints, and early iteration notes.</p>
+                      <ul class="work-sublist">
+                        <li>Outline the brief, goals, and timeline.</li>
+                        <li>Call out tools, materials, and references.</li>
+                        <li>Summarize iterations and decisions.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Process" data-images="images/placeholders/work-1.svg|images/placeholders/work-2.svg|images/placeholders/work-3.svg" data-details="Replace with process visuals||Add sketches, CAD, or mockups||Document constraints and revisions">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/placeholders/work-1.svg')" aria-label="Open process gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/placeholders/work-2.svg')" aria-label="Open process gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/placeholders/work-3.svg')" aria-label="Open process gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+                <section class="work-subpanel" data-work-subpanel="build">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Build</div>
+                      <p class="work-subdesc">Swap in fabrication, assembly, or implementation details here.</p>
+                      <ul class="work-sublist">
+                        <li>Document manufacturing steps and tooling.</li>
+                        <li>Note challenges and fixes during assembly.</li>
+                        <li>Highlight key milestones.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Build" data-images="images/placeholders/work-2.svg|images/placeholders/work-3.svg|images/placeholders/work-1.svg" data-details="Add build photos and in-progress shots||Include fabrication notes||Show before and after">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/placeholders/work-2.svg')" aria-label="Open build gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/placeholders/work-3.svg')" aria-label="Open build gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/placeholders/work-1.svg')" aria-label="Open build gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+                <section class="work-subpanel" data-work-subpanel="results">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Results</div>
+                      <p class="work-subdesc">Call out measurable outcomes, performance, or client impact.</p>
+                      <ul class="work-sublist">
+                        <li>Include performance metrics or wins.</li>
+                        <li>Summarize testing or validation.</li>
+                        <li>State what changed because of the work.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Results" data-images="images/placeholders/work-3.svg|images/placeholders/work-1.svg|images/placeholders/work-2.svg" data-details="Add finished shots and outcomes||Include metrics and KPIs||Show final deliverables">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/placeholders/work-3.svg')" aria-label="Open results gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/placeholders/work-1.svg')" aria-label="Open results gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/placeholders/work-2.svg')" aria-label="Open results gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+                <section class="work-subpanel" data-work-subpanel="notes">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Notes</div>
+                      <p class="work-subdesc">Use this space for specs, lessons learned, or next steps.</p>
+                      <ul class="work-sublist">
+                        <li>Share key specs, tools, or suppliers.</li>
+                        <li>Capture lessons learned and improvements.</li>
+                        <li>List next phase ideas or upgrades.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Notes" data-images="images/placeholders/work-1.svg|images/placeholders/work-2.svg|images/placeholders/work-3.svg" data-details="Add documentation and specs||Include diagrams or schematics||Share notes for the next phase">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/placeholders/work-1.svg')" aria-label="Open notes gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/placeholders/work-2.svg')" aria-label="Open notes gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/placeholders/work-3.svg')" aria-label="Open notes gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </div>
+          <div class="work-meta">
+            <div class="work-meta-block">
+              <span class="work-meta-label">Role</span>
+              <span class="work-meta-value">System design and integration</span>
+            </div>
+            <div class="work-meta-block">
+              <span class="work-meta-label">Focus</span>
+              <span class="work-meta-value">Embedded + hardware UX</span>
+            </div>
+            <div class="work-meta-block">
+              <span class="work-meta-label">Status</span>
+              <span class="work-meta-value">Live and iterating</span>
+            </div>
+            <div class="work-meta-block">
+              <span class="work-meta-label">Location</span>
+              <span class="work-meta-value">East Meadow, NY</span>
+            </div>
           </div>
         </div>
       </div>
-      <div class="proj-arrow">-></div>
-    </div>
-    <div class="proj-row rv" data-fx="lift">
-      <div class="proj-num">05</div>
-      <div class="proj-main">
-        <div class="proj-title">Automotive Rebuilds & Custom Modifications</div>
-        <p class="proj-detail">Multiple salvage vehicle rebuilds, custom two-tone vinyl wrap, window tinting, alcantara door panels, custom leather steering wheel, full seat reupholstery, valved exhaust wiring, and aftermarket audio installs.</p>
-        <div class="proj-tags-wrap"><span class="proj-tag">Autobody</span><span class="proj-tag">Vinyl Wrap</span><span class="proj-tag">Upholstery</span><span class="proj-tag">Electrical</span></div>
-        <div class="proj-carousel" data-proj-carousel data-speed="0.35" aria-label="Automotive rebuilds collage">
-          <div class="proj-track">
-            <div class="proj-card size-lg" style="--img:url('images/projects/auto-1.jpg')"></div>
-            <div class="proj-card size-sm" style="--img:url('images/projects/auto-2.jpg')"></div>
-            <div class="proj-card size-md" style="--img:url('images/projects/auto-3.jpg')"></div>
+    </article>
+
+    <article class="work-item rv" data-work-item>
+      <div class="work-head">
+        <button class="work-toggle" data-work-toggle aria-expanded="false">
+          <span class="work-index">05</span>
+          <span class="work-title">Antweight Combat Robot</span>
+          <span class="work-sub">CAD to fabrication</span>
+          <span class="work-indicator" aria-hidden="true"></span>
+        </button>
+        <div class="work-preview" data-preview-count="8" data-preview-cycle="true" data-preview-tabs="process|build|results|notes" data-work-gallery data-title="Antweight Combat Robot" data-images="images/projects/ant-1.jpg|images/projects/ant-2.jpg|images/projects/ant-3.jpg" data-details="Full CAD to fabrication workflow||3D printed and machined components||Drive and weapon electronics integration">
+          <button class="work-thumb size-md" data-work-open data-index="0" style="--img:url('images/projects/ant-1.jpg')" aria-label="Open antweight gallery image 1"><span aria-hidden="true">View</span></button>
+          <button class="work-thumb size-sm" data-work-open data-index="1" style="--img:url('images/projects/ant-2.jpg')" aria-label="Open antweight gallery image 2"><span aria-hidden="true">View</span></button>
+          <button class="work-thumb size-lg" data-work-open data-index="2" style="--img:url('images/projects/ant-3.jpg')" aria-label="Open antweight gallery image 3"><span aria-hidden="true">View</span></button>
+        </div>
+      </div>
+      <div class="work-panel" data-work-panel>
+        <div class="work-panel-inner">
+          <div class="work-copy">
+            <p class="work-desc">Designed and competed with a 1 lb combat robot through multiple iterations and stress testing.</p>
+            <ul class="work-list">
+              <li>Fusion 360 CAD and rapid design iteration cycles.</li>
+              <li>Machined and 3D printed parts for quick swaps.</li>
+              <li>Complete electronics integration and tuning.</li>
+            </ul>
+            <div class="work-tags">
+              <span class="work-tag">Fusion 360</span>
+              <span class="work-tag">Soldering</span>
+              <span class="work-tag">Machining</span>
+              <span class="work-tag">Electronics</span>
+            </div>
+            <div class="work-subsections" data-work-subsections>
+              <div class="work-subnav" data-work-subnav>
+                <button class="work-subtab is-active" data-work-subtab="process" type="button">Process</button>
+                <button class="work-subtab" data-work-subtab="build" type="button">Build</button>
+                <button class="work-subtab" data-work-subtab="results" type="button">Results</button>
+                <button class="work-subtab" data-work-subtab="notes" type="button">Notes</button>
+                <span class="work-sub-indicator" aria-hidden="true"></span>
+              </div>
+              <div class="work-subpanels" data-work-subpanels>
+                <section class="work-subpanel is-active" data-work-subpanel="process">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Process</div>
+                      <p class="work-subdesc">Replace this with your discovery, constraints, and early iteration notes.</p>
+                      <ul class="work-sublist">
+                        <li>Outline the brief, goals, and timeline.</li>
+                        <li>Call out tools, materials, and references.</li>
+                        <li>Summarize iterations and decisions.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Process" data-images="images/placeholders/work-1.svg|images/placeholders/work-2.svg|images/placeholders/work-3.svg" data-details="Replace with process visuals||Add sketches, CAD, or mockups||Document constraints and revisions">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/placeholders/work-1.svg')" aria-label="Open process gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/placeholders/work-2.svg')" aria-label="Open process gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/placeholders/work-3.svg')" aria-label="Open process gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+                <section class="work-subpanel" data-work-subpanel="build">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Build</div>
+                      <p class="work-subdesc">Swap in fabrication, assembly, or implementation details here.</p>
+                      <ul class="work-sublist">
+                        <li>Document manufacturing steps and tooling.</li>
+                        <li>Note challenges and fixes during assembly.</li>
+                        <li>Highlight key milestones.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Build" data-images="images/placeholders/work-2.svg|images/placeholders/work-3.svg|images/placeholders/work-1.svg" data-details="Add build photos and in-progress shots||Include fabrication notes||Show before and after">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/placeholders/work-2.svg')" aria-label="Open build gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/placeholders/work-3.svg')" aria-label="Open build gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/placeholders/work-1.svg')" aria-label="Open build gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+                <section class="work-subpanel" data-work-subpanel="results">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Results</div>
+                      <p class="work-subdesc">Call out measurable outcomes, performance, or client impact.</p>
+                      <ul class="work-sublist">
+                        <li>Include performance metrics or wins.</li>
+                        <li>Summarize testing or validation.</li>
+                        <li>State what changed because of the work.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Results" data-images="images/placeholders/work-3.svg|images/placeholders/work-1.svg|images/placeholders/work-2.svg" data-details="Add finished shots and outcomes||Include metrics and KPIs||Show final deliverables">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/placeholders/work-3.svg')" aria-label="Open results gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/placeholders/work-1.svg')" aria-label="Open results gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/placeholders/work-2.svg')" aria-label="Open results gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+                <section class="work-subpanel" data-work-subpanel="notes">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Notes</div>
+                      <p class="work-subdesc">Use this space for specs, lessons learned, or next steps.</p>
+                      <ul class="work-sublist">
+                        <li>Share key specs, tools, or suppliers.</li>
+                        <li>Capture lessons learned and improvements.</li>
+                        <li>List next phase ideas or upgrades.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Notes" data-images="images/placeholders/work-1.svg|images/placeholders/work-2.svg|images/placeholders/work-3.svg" data-details="Add documentation and specs||Include diagrams or schematics||Share notes for the next phase">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/placeholders/work-1.svg')" aria-label="Open notes gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/placeholders/work-2.svg')" aria-label="Open notes gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/placeholders/work-3.svg')" aria-label="Open notes gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </div>
+          <div class="work-meta">
+            <div class="work-meta-block">
+              <span class="work-meta-label">Role</span>
+              <span class="work-meta-value">Combat robotics engineer</span>
+            </div>
+            <div class="work-meta-block">
+              <span class="work-meta-label">Team</span>
+              <span class="work-meta-value">Watson Combat Robotics League</span>
+            </div>
+            <div class="work-meta-block">
+              <span class="work-meta-label">Weight Class</span>
+              <span class="work-meta-value">1 lb antweight</span>
+            </div>
+            <div class="work-meta-block">
+              <span class="work-meta-label">Status</span>
+              <span class="work-meta-value">Active build</span>
+            </div>
           </div>
         </div>
       </div>
-      <div class="proj-arrow">-></div>
-    </div>
-    <div class="proj-row rv" data-fx="lift">
-      <div class="proj-num">06</div>
-      <div class="proj-main">
-        <div class="proj-title">AI in School Counseling - Research Paper</div>
-        <p class="proj-detail">IRB-style protocols, semi-structured interviews, En-vivo and Apriori coding. Presented findings to an academic panel. Published research paper on AI's future role in school counseling.</p>
-        <div class="proj-tags-wrap"><span class="proj-tag">Qualitative Research</span><span class="proj-tag">AI</span><span class="proj-tag">Academic Writing</span></div>
-        <div class="proj-carousel" data-proj-carousel data-speed="0.31" aria-label="AI research collage">
-          <div class="proj-track">
-            <div class="proj-card size-md" style="--img:url('images/projects/research-1.jpg')"></div>
-            <div class="proj-card size-sm" style="--img:url('images/projects/research-2.jpg')"></div>
-            <div class="proj-card size-lg" style="--img:url('images/projects/research-3.jpg')"></div>
+    </article>
+
+    
+
+    <article class="work-item rv" data-work-item>
+      <div class="work-head">
+        <button class="work-toggle" data-work-toggle aria-expanded="false">
+          <span class="work-index">06</span>
+          <span class="work-title">AI in School Counseling - Research Paper</span>
+          <span class="work-sub">Qualitative research</span>
+          <span class="work-indicator" aria-hidden="true"></span>
+        </button>
+        <div class="work-preview" data-preview-count="8" data-preview-cycle="true" data-preview-tabs="process|build|results|notes" data-work-gallery data-title="AI in School Counseling - Research Paper" data-images="images/projects/research-1.jpg|images/projects/research-2.jpg|images/projects/research-3.jpg" data-details="IRB-style protocols and interviews||En-vivo and Apriori coding workflow||Presented to an academic panel and published findings">
+          <button class="work-thumb size-md" data-work-open data-index="0" style="--img:url('images/projects/research-1.jpg')" aria-label="Open research gallery image 1"><span aria-hidden="true">View</span></button>
+          <button class="work-thumb size-sm" data-work-open data-index="1" style="--img:url('images/projects/research-2.jpg')" aria-label="Open research gallery image 2"><span aria-hidden="true">View</span></button>
+          <button class="work-thumb size-lg" data-work-open data-index="2" style="--img:url('images/projects/research-3.jpg')" aria-label="Open research gallery image 3"><span aria-hidden="true">View</span></button>
+        </div>
+      </div>
+      <div class="work-panel" data-work-panel>
+        <div class="work-panel-inner">
+          <div class="work-copy">
+            <p class="work-desc">Executed IRB-style research with interviews and qualitative coding to map AI's future role in school counseling.</p>
+            <ul class="work-list">
+              <li>Semi-structured interviews and transcription pipeline.</li>
+              <li>En-vivo and Apriori coding with a structured codebook.</li>
+              <li>Findings presented to an academic panel.</li>
+            </ul>
+            <div class="work-tags">
+              <span class="work-tag">Qualitative Research</span>
+              <span class="work-tag">AI</span>
+              <span class="work-tag">Academic Writing</span>
+            </div>
+            <div class="work-subsections" data-work-subsections>
+              <div class="work-subnav" data-work-subnav>
+                <button class="work-subtab is-active" data-work-subtab="process" type="button">Process</button>
+                <button class="work-subtab" data-work-subtab="build" type="button">Build</button>
+                <button class="work-subtab" data-work-subtab="results" type="button">Results</button>
+                <button class="work-subtab" data-work-subtab="notes" type="button">Notes</button>
+                <span class="work-sub-indicator" aria-hidden="true"></span>
+              </div>
+              <div class="work-subpanels" data-work-subpanels>
+                <section class="work-subpanel is-active" data-work-subpanel="process">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Process</div>
+                      <p class="work-subdesc">Replace this with your discovery, constraints, and early iteration notes.</p>
+                      <ul class="work-sublist">
+                        <li>Outline the brief, goals, and timeline.</li>
+                        <li>Call out tools, materials, and references.</li>
+                        <li>Summarize iterations and decisions.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Process" data-images="images/placeholders/work-1.svg|images/placeholders/work-2.svg|images/placeholders/work-3.svg" data-details="Replace with process visuals||Add sketches, CAD, or mockups||Document constraints and revisions">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/placeholders/work-1.svg')" aria-label="Open process gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/placeholders/work-2.svg')" aria-label="Open process gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/placeholders/work-3.svg')" aria-label="Open process gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+                <section class="work-subpanel" data-work-subpanel="build">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Build</div>
+                      <p class="work-subdesc">Swap in fabrication, assembly, or implementation details here.</p>
+                      <ul class="work-sublist">
+                        <li>Document manufacturing steps and tooling.</li>
+                        <li>Note challenges and fixes during assembly.</li>
+                        <li>Highlight key milestones.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Build" data-images="images/placeholders/work-2.svg|images/placeholders/work-3.svg|images/placeholders/work-1.svg" data-details="Add build photos and in-progress shots||Include fabrication notes||Show before and after">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/placeholders/work-2.svg')" aria-label="Open build gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/placeholders/work-3.svg')" aria-label="Open build gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/placeholders/work-1.svg')" aria-label="Open build gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+                <section class="work-subpanel" data-work-subpanel="results">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Results</div>
+                      <p class="work-subdesc">Call out measurable outcomes, performance, or client impact.</p>
+                      <ul class="work-sublist">
+                        <li>Include performance metrics or wins.</li>
+                        <li>Summarize testing or validation.</li>
+                        <li>State what changed because of the work.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Results" data-images="images/placeholders/work-3.svg|images/placeholders/work-1.svg|images/placeholders/work-2.svg" data-details="Add finished shots and outcomes||Include metrics and KPIs||Show final deliverables">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/placeholders/work-3.svg')" aria-label="Open results gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/placeholders/work-1.svg')" aria-label="Open results gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/placeholders/work-2.svg')" aria-label="Open results gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+                <section class="work-subpanel" data-work-subpanel="notes">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Notes</div>
+                      <p class="work-subdesc">Use this space for specs, lessons learned, or next steps.</p>
+                      <ul class="work-sublist">
+                        <li>Share key specs, tools, or suppliers.</li>
+                        <li>Capture lessons learned and improvements.</li>
+                        <li>List next phase ideas or upgrades.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Notes" data-images="images/placeholders/work-1.svg|images/placeholders/work-2.svg|images/placeholders/work-3.svg" data-details="Add documentation and specs||Include diagrams or schematics||Share notes for the next phase">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/placeholders/work-1.svg')" aria-label="Open notes gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/placeholders/work-2.svg')" aria-label="Open notes gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/placeholders/work-3.svg')" aria-label="Open notes gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </div>
+          <div class="work-meta">
+            <div class="work-meta-block">
+              <span class="work-meta-label">Role</span>
+              <span class="work-meta-value">Student researcher</span>
+            </div>
+            <div class="work-meta-block">
+              <span class="work-meta-label">Methods</span>
+              <span class="work-meta-value">Interviews + coding</span>
+            </div>
+            <div class="work-meta-block">
+              <span class="work-meta-label">Status</span>
+              <span class="work-meta-value">Published</span>
+            </div>
+            <div class="work-meta-block">
+              <span class="work-meta-label">Focus</span>
+              <span class="work-meta-value">Counseling + AI</span>
+            </div>
           </div>
         </div>
       </div>
-      <div class="proj-arrow">-></div>
-    </div>
+    </article>
+
+    <article class="work-item rv is-placeholder" data-work-item>
+      <div class="work-head">
+        <button class="work-toggle" data-work-toggle aria-expanded="false">
+          <span class="work-index">07</span>
+          <span class="work-title">Experimental Build (Placeholder)</span>
+          <span class="work-sub">Replace later</span>
+          <span class="work-indicator" aria-hidden="true"></span>
+        </button>
+        <div class="work-preview" data-preview-count="8" data-preview-cycle="true" data-preview-tabs="process|build|results|notes" data-work-gallery data-title="Experimental Build (Placeholder)" data-images="images/placeholders/work-1.svg|images/placeholders/work-2.svg|images/placeholders/work-3.svg" data-details="Placeholder section - swap images and text later||Add your own process notes and outcomes||Use this slot for a future build">
+          <button class="work-thumb size-lg" data-work-open data-index="0" style="--img:url('images/placeholders/work-1.svg')" aria-label="Open placeholder gallery image 1"><span aria-hidden="true">View</span></button>
+          <button class="work-thumb size-sm" data-work-open data-index="1" style="--img:url('images/placeholders/work-2.svg')" aria-label="Open placeholder gallery image 2"><span aria-hidden="true">View</span></button>
+          <button class="work-thumb size-md" data-work-open data-index="2" style="--img:url('images/placeholders/work-3.svg')" aria-label="Open placeholder gallery image 3"><span aria-hidden="true">View</span></button>
+        </div>
+      </div>
+      <div class="work-panel" data-work-panel>
+        <div class="work-panel-inner">
+          <div class="work-copy">
+            <p class="work-desc">Placeholder copy. Replace this section with a future build, concept, or research project.</p>
+            <ul class="work-list">
+              <li>Update the description with goals and outcomes.</li>
+              <li>Swap the placeholder images with your own shots.</li>
+              <li>Add tags, tools, and timeline details.</li>
+            </ul>
+            <div class="work-tags">
+              <span class="work-tag">Placeholder</span>
+              <span class="work-tag">Future Work</span>
+            </div>
+            <div class="work-subsections" data-work-subsections>
+              <div class="work-subnav" data-work-subnav>
+                <button class="work-subtab is-active" data-work-subtab="process" type="button">Process</button>
+                <button class="work-subtab" data-work-subtab="build" type="button">Build</button>
+                <button class="work-subtab" data-work-subtab="results" type="button">Results</button>
+                <button class="work-subtab" data-work-subtab="notes" type="button">Notes</button>
+                <span class="work-sub-indicator" aria-hidden="true"></span>
+              </div>
+              <div class="work-subpanels" data-work-subpanels>
+                <section class="work-subpanel is-active" data-work-subpanel="process">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Process</div>
+                      <p class="work-subdesc">Replace this with your discovery, constraints, and early iteration notes.</p>
+                      <ul class="work-sublist">
+                        <li>Outline the brief, goals, and timeline.</li>
+                        <li>Call out tools, materials, and references.</li>
+                        <li>Summarize iterations and decisions.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Process" data-images="images/placeholders/work-1.svg|images/placeholders/work-2.svg|images/placeholders/work-3.svg" data-details="Replace with process visuals||Add sketches, CAD, or mockups||Document constraints and revisions">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/placeholders/work-1.svg')" aria-label="Open process gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/placeholders/work-2.svg')" aria-label="Open process gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/placeholders/work-3.svg')" aria-label="Open process gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+                <section class="work-subpanel" data-work-subpanel="build">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Build</div>
+                      <p class="work-subdesc">Swap in fabrication, assembly, or implementation details here.</p>
+                      <ul class="work-sublist">
+                        <li>Document manufacturing steps and tooling.</li>
+                        <li>Note challenges and fixes during assembly.</li>
+                        <li>Highlight key milestones.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Build" data-images="images/placeholders/work-2.svg|images/placeholders/work-3.svg|images/placeholders/work-1.svg" data-details="Add build photos and in-progress shots||Include fabrication notes||Show before and after">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/placeholders/work-2.svg')" aria-label="Open build gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/placeholders/work-3.svg')" aria-label="Open build gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/placeholders/work-1.svg')" aria-label="Open build gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+                <section class="work-subpanel" data-work-subpanel="results">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Results</div>
+                      <p class="work-subdesc">Call out measurable outcomes, performance, or client impact.</p>
+                      <ul class="work-sublist">
+                        <li>Include performance metrics or wins.</li>
+                        <li>Summarize testing or validation.</li>
+                        <li>State what changed because of the work.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Results" data-images="images/placeholders/work-3.svg|images/placeholders/work-1.svg|images/placeholders/work-2.svg" data-details="Add finished shots and outcomes||Include metrics and KPIs||Show final deliverables">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/placeholders/work-3.svg')" aria-label="Open results gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/placeholders/work-1.svg')" aria-label="Open results gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/placeholders/work-2.svg')" aria-label="Open results gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+                <section class="work-subpanel" data-work-subpanel="notes">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Notes</div>
+                      <p class="work-subdesc">Use this space for specs, lessons learned, or next steps.</p>
+                      <ul class="work-sublist">
+                        <li>Share key specs, tools, or suppliers.</li>
+                        <li>Capture lessons learned and improvements.</li>
+                        <li>List next phase ideas or upgrades.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Notes" data-images="images/placeholders/work-1.svg|images/placeholders/work-2.svg|images/placeholders/work-3.svg" data-details="Add documentation and specs||Include diagrams or schematics||Share notes for the next phase">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/placeholders/work-1.svg')" aria-label="Open notes gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/placeholders/work-2.svg')" aria-label="Open notes gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/placeholders/work-3.svg')" aria-label="Open notes gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </div>
+          <div class="work-meta">
+            <div class="work-meta-block">
+              <span class="work-meta-label">Role</span>
+              <span class="work-meta-value">TBD</span>
+            </div>
+            <div class="work-meta-block">
+              <span class="work-meta-label">Status</span>
+              <span class="work-meta-value">Open slot</span>
+            </div>
+            <div class="work-meta-block">
+              <span class="work-meta-label">Focus</span>
+              <span class="work-meta-value">Add later</span>
+            </div>
+            <div class="work-meta-block">
+              <span class="work-meta-label">Timeline</span>
+              <span class="work-meta-value">TBD</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="work-item rv is-placeholder" data-work-item>
+      <div class="work-head">
+        <button class="work-toggle" data-work-toggle aria-expanded="false">
+          <span class="work-index">08</span>
+          <span class="work-title">Studio Concept (Placeholder)</span>
+          <span class="work-sub">Replace later</span>
+          <span class="work-indicator" aria-hidden="true"></span>
+        </button>
+        <div class="work-preview" data-preview-count="8" data-preview-cycle="true" data-preview-tabs="process|build|results|notes" data-work-gallery data-title="Studio Concept (Placeholder)" data-images="images/placeholders/work-2.svg|images/placeholders/work-3.svg|images/placeholders/work-1.svg" data-details="Placeholder section - replace with a concept case study||Add process breakdown and results||Swap in your own visuals">
+          <button class="work-thumb size-md" data-work-open data-index="0" style="--img:url('images/placeholders/work-2.svg')" aria-label="Open placeholder gallery image 1"><span aria-hidden="true">View</span></button>
+          <button class="work-thumb size-sm" data-work-open data-index="1" style="--img:url('images/placeholders/work-3.svg')" aria-label="Open placeholder gallery image 2"><span aria-hidden="true">View</span></button>
+          <button class="work-thumb size-lg" data-work-open data-index="2" style="--img:url('images/placeholders/work-1.svg')" aria-label="Open placeholder gallery image 3"><span aria-hidden="true">View</span></button>
+        </div>
+      </div>
+      <div class="work-panel" data-work-panel>
+        <div class="work-panel-inner">
+          <div class="work-copy">
+            <p class="work-desc">Placeholder copy for a future case study. Replace with your own narrative and visuals.</p>
+            <ul class="work-list">
+              <li>Add a short overview, role, and key outcomes.</li>
+              <li>Swap the imagery with real project screenshots.</li>
+              <li>Include tools, timeline, and impact metrics.</li>
+            </ul>
+            <div class="work-tags">
+              <span class="work-tag">Placeholder</span>
+              <span class="work-tag">Concept</span>
+            </div>
+            <div class="work-subsections" data-work-subsections>
+              <div class="work-subnav" data-work-subnav>
+                <button class="work-subtab is-active" data-work-subtab="process" type="button">Process</button>
+                <button class="work-subtab" data-work-subtab="build" type="button">Build</button>
+                <button class="work-subtab" data-work-subtab="results" type="button">Results</button>
+                <button class="work-subtab" data-work-subtab="notes" type="button">Notes</button>
+                <span class="work-sub-indicator" aria-hidden="true"></span>
+              </div>
+              <div class="work-subpanels" data-work-subpanels>
+                <section class="work-subpanel is-active" data-work-subpanel="process">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Process</div>
+                      <p class="work-subdesc">Replace this with your discovery, constraints, and early iteration notes.</p>
+                      <ul class="work-sublist">
+                        <li>Outline the brief, goals, and timeline.</li>
+                        <li>Call out tools, materials, and references.</li>
+                        <li>Summarize iterations and decisions.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Process" data-images="images/placeholders/work-1.svg|images/placeholders/work-2.svg|images/placeholders/work-3.svg" data-details="Replace with process visuals||Add sketches, CAD, or mockups||Document constraints and revisions">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/placeholders/work-1.svg')" aria-label="Open process gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/placeholders/work-2.svg')" aria-label="Open process gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/placeholders/work-3.svg')" aria-label="Open process gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+                <section class="work-subpanel" data-work-subpanel="build">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Build</div>
+                      <p class="work-subdesc">Swap in fabrication, assembly, or implementation details here.</p>
+                      <ul class="work-sublist">
+                        <li>Document manufacturing steps and tooling.</li>
+                        <li>Note challenges and fixes during assembly.</li>
+                        <li>Highlight key milestones.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Build" data-images="images/placeholders/work-2.svg|images/placeholders/work-3.svg|images/placeholders/work-1.svg" data-details="Add build photos and in-progress shots||Include fabrication notes||Show before and after">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/placeholders/work-2.svg')" aria-label="Open build gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/placeholders/work-3.svg')" aria-label="Open build gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/placeholders/work-1.svg')" aria-label="Open build gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+                <section class="work-subpanel" data-work-subpanel="results">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Results</div>
+                      <p class="work-subdesc">Call out measurable outcomes, performance, or client impact.</p>
+                      <ul class="work-sublist">
+                        <li>Include performance metrics or wins.</li>
+                        <li>Summarize testing or validation.</li>
+                        <li>State what changed because of the work.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Results" data-images="images/placeholders/work-3.svg|images/placeholders/work-1.svg|images/placeholders/work-2.svg" data-details="Add finished shots and outcomes||Include metrics and KPIs||Show final deliverables">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/placeholders/work-3.svg')" aria-label="Open results gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/placeholders/work-1.svg')" aria-label="Open results gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/placeholders/work-2.svg')" aria-label="Open results gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+                <section class="work-subpanel" data-work-subpanel="notes">
+                  <div class="work-subgrid">
+                    <div class="work-subcopy">
+                      <div class="work-subtitle">Notes</div>
+                      <p class="work-subdesc">Use this space for specs, lessons learned, or next steps.</p>
+                      <ul class="work-sublist">
+                        <li>Share key specs, tools, or suppliers.</li>
+                        <li>Capture lessons learned and improvements.</li>
+                        <li>List next phase ideas or upgrades.</li>
+                      </ul>
+                    </div>
+                    <div class="work-submedia" data-work-gallery data-title="Notes" data-images="images/placeholders/work-1.svg|images/placeholders/work-2.svg|images/placeholders/work-3.svg" data-details="Add documentation and specs||Include diagrams or schematics||Share notes for the next phase">
+                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/placeholders/work-1.svg')" aria-label="Open notes gallery image 1"></button>
+                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/placeholders/work-2.svg')" aria-label="Open notes gallery image 2"></button>
+                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/placeholders/work-3.svg')" aria-label="Open notes gallery image 3"></button>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </div>
+          <div class="work-meta">
+            <div class="work-meta-block">
+              <span class="work-meta-label">Role</span>
+              <span class="work-meta-value">TBD</span>
+            </div>
+            <div class="work-meta-block">
+              <span class="work-meta-label">Status</span>
+              <span class="work-meta-value">Open slot</span>
+            </div>
+            <div class="work-meta-block">
+              <span class="work-meta-label">Focus</span>
+              <span class="work-meta-value">Add later</span>
+            </div>
+            <div class="work-meta-block">
+              <span class="work-meta-label">Timeline</span>
+              <span class="work-meta-value">TBD</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
   </div>
 </section>
-
-<!-- AUTOMOTIVE -->
-<section class="panel" id="automotive">
-  <div class="sec-header rv">
-    <span class="sec-label">04 — Automotive</span>
-    <div class="sec-title">Automotive experience.</div>
-  </div>
-  <p class="auto-intro rv d1">Hands-on builds across restoration, fabrication, and electrical work. Preview highlights below, then expand to see the full scope.</p>
-  <div class="auto-preview rv d2">
-    <div class="auto-carousel" data-auto-carousel aria-label="Automotive preview carousel">
-      <div class="auto-track">
-        <div class="auto-card size-lg" style="--img:url('images/automotive/auto-1.jpg')"></div>
-        <div class="auto-card size-sm" style="--img:url('images/automotive/auto-2.jpg')"></div>
-        <div class="auto-card size-md" style="--img:url('images/automotive/auto-3.jpg')"></div>
-        <div class="auto-card size-sm" style="--img:url('images/automotive/auto-4.jpg')"></div>
-        <div class="auto-card size-md" style="--img:url('images/automotive/auto-5.jpg')"></div>
-        <div class="auto-card size-lg" style="--img:url('images/automotive/auto-6.jpg')"></div>
-      </div>
-    </div>
-  </div>
-  <button class="auto-toggle rv d3" data-auto-toggle aria-expanded="false">View all automotive work</button>
-  <div class="auto-details" data-auto-details>
-    <div class="auto-details-inner">
-      <div class="auto-grid">
-        <article class="auto-item rv d1" data-auto-gallery data-title="Cars I Have Sold" data-images="images/automotive/cars-sold-1.jpg|images/automotive/cars-sold-2.jpg|images/automotive/cars-sold-3.jpg|images/automotive/cars-sold-4.jpg|images/automotive/cars-sold-5.jpg|images/automotive/cars-sold-6.jpg|images/automotive/cars-sold-7.jpg|images/automotive/cars-sold-8.jpg">
-          <div class="auto-item-head">
-            <div class="auto-title">Cars I Have Sold</div>
-            <button class="auto-action" data-auto-open>Open gallery</button>
-          </div>
-          <p class="auto-desc">Placeholder details. Add makes, models, condition, and outcomes for each sale.</p>
-          <div class="auto-thumbs">
-            <button class="auto-thumb" data-auto-open data-index="0" style="--img:url('images/automotive/cars-sold-1.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="1" style="--img:url('images/automotive/cars-sold-2.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="2" style="--img:url('images/automotive/cars-sold-3.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="3" style="--img:url('images/automotive/cars-sold-4.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="4" style="--img:url('images/automotive/cars-sold-5.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="5" style="--img:url('images/automotive/cars-sold-6.jpg')"></button>
-          </div>
-        </article>
-
-        <article class="auto-item rv d2" data-auto-gallery data-title="Autobody/Restoration" data-images="images/automotive/autobody-1.jpg|images/automotive/autobody-2.jpg|images/automotive/autobody-3.jpg|images/automotive/autobody-4.jpg|images/automotive/autobody-5.jpg|images/automotive/autobody-6.jpg|images/automotive/autobody-7.jpg|images/automotive/autobody-8.jpg">
-          <div class="auto-item-head">
-            <div class="auto-title">Autobody/Restoration</div>
-            <button class="auto-action" data-auto-open>Open gallery</button>
-          </div>
-          <p class="auto-desc">Placeholder details. Paint prep, bodywork, panel alignment, and finish work.</p>
-          <div class="auto-thumbs">
-            <button class="auto-thumb" data-auto-open data-index="0" style="--img:url('images/automotive/autobody-1.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="1" style="--img:url('images/automotive/autobody-2.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="2" style="--img:url('images/automotive/autobody-3.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="3" style="--img:url('images/automotive/autobody-4.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="4" style="--img:url('images/automotive/autobody-5.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="5" style="--img:url('images/automotive/autobody-6.jpg')"></button>
-          </div>
-        </article>
-
-        <article class="auto-item rv d3" data-auto-gallery data-title="Tinting and Wrapping" data-images="images/automotive/tint-wrap-1.jpg|images/automotive/tint-wrap-2.jpg|images/automotive/tint-wrap-3.jpg|images/automotive/tint-wrap-4.jpg|images/automotive/tint-wrap-5.jpg|images/automotive/tint-wrap-6.jpg|images/automotive/tint-wrap-7.jpg|images/automotive/tint-wrap-8.jpg">
-          <div class="auto-item-head">
-            <div class="auto-title">Tinting and Wrapping</div>
-            <button class="auto-action" data-auto-open>Open gallery</button>
-          </div>
-          <p class="auto-desc">Placeholder details. Window tinting and vinyl wrap workflows.</p>
-          <div class="auto-thumbs">
-            <button class="auto-thumb" data-auto-open data-index="0" style="--img:url('images/automotive/tint-wrap-1.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="1" style="--img:url('images/automotive/tint-wrap-2.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="2" style="--img:url('images/automotive/tint-wrap-3.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="3" style="--img:url('images/automotive/tint-wrap-4.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="4" style="--img:url('images/automotive/tint-wrap-5.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="5" style="--img:url('images/automotive/tint-wrap-6.jpg')"></button>
-          </div>
-        </article>
-
-        <article class="auto-item rv d4" data-auto-gallery data-title="Upholstery and Interior Work" data-images="images/automotive/interior-1.jpg|images/automotive/interior-2.jpg|images/automotive/interior-3.jpg|images/automotive/interior-4.jpg|images/automotive/interior-5.jpg|images/automotive/interior-6.jpg|images/automotive/interior-7.jpg|images/automotive/interior-8.jpg">
-          <div class="auto-item-head">
-            <div class="auto-title">Upholstery and Interior Work</div>
-            <button class="auto-action" data-auto-open>Open gallery</button>
-          </div>
-          <p class="auto-desc">Placeholder details. Alcantara, seat reupholstery, trim, and detailing.</p>
-          <div class="auto-thumbs">
-            <button class="auto-thumb" data-auto-open data-index="0" style="--img:url('images/automotive/interior-1.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="1" style="--img:url('images/automotive/interior-2.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="2" style="--img:url('images/automotive/interior-3.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="3" style="--img:url('images/automotive/interior-4.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="4" style="--img:url('images/automotive/interior-5.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="5" style="--img:url('images/automotive/interior-6.jpg')"></button>
-          </div>
-        </article>
-
-        <article class="auto-item rv d1" data-auto-gallery data-title="Welding" data-images="images/automotive/welding-1.jpg|images/automotive/welding-2.jpg|images/automotive/welding-3.jpg|images/automotive/welding-4.jpg|images/automotive/welding-5.jpg|images/automotive/welding-6.jpg|images/automotive/welding-7.jpg|images/automotive/welding-8.jpg">
-          <div class="auto-item-head">
-            <div class="auto-title">Welding</div>
-            <button class="auto-action" data-auto-open>Open gallery</button>
-          </div>
-          <p class="auto-desc">Placeholder details. MIG welding, repairs, and fabrication fixes.</p>
-          <div class="auto-thumbs">
-            <button class="auto-thumb" data-auto-open data-index="0" style="--img:url('images/automotive/welding-1.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="1" style="--img:url('images/automotive/welding-2.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="2" style="--img:url('images/automotive/welding-3.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="3" style="--img:url('images/automotive/welding-4.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="4" style="--img:url('images/automotive/welding-5.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="5" style="--img:url('images/automotive/welding-6.jpg')"></button>
-          </div>
-        </article>
-
-        <article class="auto-item rv d2" data-auto-gallery data-title="Wrapping" data-images="images/automotive/wrap-1.jpg|images/automotive/wrap-2.jpg|images/automotive/wrap-3.jpg|images/automotive/wrap-4.jpg|images/automotive/wrap-5.jpg|images/automotive/wrap-6.jpg|images/automotive/wrap-7.jpg|images/automotive/wrap-8.jpg">
-          <div class="auto-item-head">
-            <div class="auto-title">Wrapping</div>
-            <button class="auto-action" data-auto-open>Open gallery</button>
-          </div>
-          <p class="auto-desc">Placeholder details. Custom color changes and two-tone work.</p>
-          <div class="auto-thumbs">
-            <button class="auto-thumb" data-auto-open data-index="0" style="--img:url('images/automotive/wrap-1.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="1" style="--img:url('images/automotive/wrap-2.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="2" style="--img:url('images/automotive/wrap-3.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="3" style="--img:url('images/automotive/wrap-4.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="4" style="--img:url('images/automotive/wrap-5.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="5" style="--img:url('images/automotive/wrap-6.jpg')"></button>
-          </div>
-        </article>
-
-        <article class="auto-item rv d3" data-auto-gallery data-title="Electrical Work" data-images="images/automotive/electrical-1.jpg|images/automotive/electrical-2.jpg|images/automotive/electrical-3.jpg|images/automotive/electrical-4.jpg|images/automotive/electrical-5.jpg|images/automotive/electrical-6.jpg|images/automotive/electrical-7.jpg|images/automotive/electrical-8.jpg">
-          <div class="auto-item-head">
-            <div class="auto-title">Electrical Work</div>
-            <button class="auto-action" data-auto-open>Open gallery</button>
-          </div>
-          <p class="auto-desc">Placeholder details. Harnesses, lighting, audio, and diagnostics.</p>
-          <div class="auto-thumbs">
-            <button class="auto-thumb" data-auto-open data-index="0" style="--img:url('images/automotive/electrical-1.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="1" style="--img:url('images/automotive/electrical-2.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="2" style="--img:url('images/automotive/electrical-3.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="3" style="--img:url('images/automotive/electrical-4.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="4" style="--img:url('images/automotive/electrical-5.jpg')"></button>
-            <button class="auto-thumb" data-auto-open data-index="5" style="--img:url('images/automotive/electrical-6.jpg')"></button>
-          </div>
-        </article>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- EXPERIENCE -->
 <section class="panel" id="experience">
   <div class="sec-header rv">
-    <span class="sec-label">05 — Experience</span>
+    <span class="sec-label">04 - Experience</span>
     <div class="sec-title">Where I've worked.</div>
   </div>
 
@@ -1408,7 +2672,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 <!-- SKILLS -->
 <section class="panel" id="skills">
   <div class="sec-header rv">
-    <span class="sec-label">06 — Skills</span>
+    <span class="sec-label">05 - Skills</span>
     <div class="sec-title">Technical toolkit.</div>
   </div>
   <div class="skills-layout">
@@ -1459,23 +2723,29 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   </div>
 </div>
 
-<div class="auto-modal" data-auto-modal>
-  <button class="auto-modal-close" data-auto-close>Close</button>
-  <div class="auto-modal-card">
-    <div class="auto-modal-media">
-      <img src="" alt="" data-auto-image>
+<div class="work-modal" data-work-modal>
+  <button class="work-modal-close" data-work-close>Close</button>
+  <div class="work-modal-card">
+    <div class="work-modal-media">
+      <img src="" alt="" data-work-image>
     </div>
-    <div class="auto-modal-body">
-      <div class="auto-modal-title" data-auto-title></div>
-      <div class="auto-modal-count" data-auto-count></div>
-      <div class="auto-modal-actions">
-        <button class="auto-modal-btn" data-auto-prev>Prev</button>
-        <button class="auto-modal-btn" data-auto-next>Next</button>
+    <div class="work-modal-body">
+        <div>
+          <div class="work-modal-label">Selected Work</div>
+          <div class="work-modal-title" data-work-title></div>
+          <p class="work-modal-caption" data-work-caption></p>
+          <ul class="work-modal-list" data-work-details></ul>
+        </div>
+      <div class="work-modal-side">
+        <div class="work-modal-count" data-work-count></div>
+        <div class="work-modal-actions">
+          <button class="work-modal-btn" data-work-prev>Prev</button>
+          <button class="work-modal-btn" data-work-next>Next</button>
+        </div>
       </div>
     </div>
   </div>
 </div>
-
 <script>
 /* Intro */
 setTimeout(()=>document.getElementById('intro').style.display='none',2000);
@@ -1519,167 +2789,296 @@ if(aboutCarousel){
   startAuto();
 }
 
-/* Project collage carousels */
-const prefersReduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-document.querySelectorAll('[data-proj-carousel]').forEach(carousel=>{
-  const track=carousel.querySelector('.proj-track');
-  if(!track)return;
-  const items=[...track.children];
-  items.forEach(node=>track.appendChild(node.cloneNode(true)));
-  let lastTime=0;
-  let resumeTimer=null;
-  let autoScrolling=false;
-  const speed=parseFloat(carousel.getAttribute('data-speed'))||0.32;
-  const pause=()=>carousel.classList.add('is-paused');
-  const resume=()=>carousel.classList.remove('is-paused');
-  const step=time=>{
-    if(!lastTime)lastTime=time;
-    const delta=time-lastTime;
-    lastTime=time;
-    if(!carousel.classList.contains('is-paused')){
-      autoScrolling=true;
-      carousel.scrollLeft+=speed*(delta/16.7);
-      if(carousel.scrollLeft>=track.scrollWidth/2){carousel.scrollLeft=0}
-      autoScrolling=false;
+/* Work accordion */
+const workItems=[...document.querySelectorAll('[data-work-item]')];
+const syncWorkPanelHeight=item=>{
+  const panel=item.querySelector('[data-work-panel]');
+  if(!panel||!item.classList.contains('is-open'))return;
+  panel.style.maxHeight=`${panel.scrollHeight}px`;
+};
+const updateWorkPanel=(item,expanded)=>{
+  const panel=item.querySelector('[data-work-panel]');
+  const toggle=item.querySelector('[data-work-toggle]');
+  if(!panel||!toggle)return;
+  item.classList.toggle('is-open',expanded);
+  toggle.setAttribute('aria-expanded',String(expanded));
+  panel.style.maxHeight=expanded?`${panel.scrollHeight}px`:'0px';
+};
+workItems.forEach(item=>{
+  const toggle=item.querySelector('[data-work-toggle]');
+  if(!toggle)return;
+  updateWorkPanel(item,false);
+  toggle.addEventListener('click',e=>{
+    e.stopPropagation();
+    const expanded=toggle.getAttribute('aria-expanded')==='true';
+    updateWorkPanel(item,!expanded);
+  });
+  item.addEventListener('click',e=>{
+    if(e.target.closest('[data-work-open]'))return;
+    if(e.target.closest('[data-work-subtab]'))return;
+    if(e.target.closest('a'))return;
+    if(e.target.closest('[data-work-toggle]'))return;
+    const expanded=toggle.getAttribute('aria-expanded')==='true';
+    if(!expanded){
+      updateWorkPanel(item,true);
+      return;
     }
-    requestAnimationFrame(step);
+    if(e.target.closest('.work-head')){
+      updateWorkPanel(item,false);
+    }
+  });
+});
+const workSubsections=[...document.querySelectorAll('[data-work-subsections]')];
+const workSubSyncs=[];
+const workSubSetters=new WeakMap();
+workSubsections.forEach(section=>{
+  const item=section.closest('[data-work-item]');
+  const nav=section.querySelector('[data-work-subnav]');
+  const tabs=[...section.querySelectorAll('[data-work-subtab]')];
+  const panels=[...section.querySelectorAll('[data-work-subpanel]')];
+  const panelWrap=section.querySelector('[data-work-subpanels]');
+  const indicator=section.querySelector('.work-sub-indicator');
+  if(!nav||!tabs.length||!panels.length||!panelWrap)return;
+
+  const getActive=()=>{
+    const activeTab=tabs.find(tab=>tab.classList.contains('is-active'))||tabs[0];
+    const activePanel=panels.find(panel=>panel.classList.contains('is-active'))||panels[0];
+    return {activeTab,activePanel};
   };
-  if(!prefersReduced)requestAnimationFrame(step);
-  carousel.addEventListener('mouseenter',pause);
-  carousel.addEventListener('mouseleave',resume);
-  carousel.addEventListener('touchstart',pause,{passive:true});
-  carousel.addEventListener('touchend',()=>{clearTimeout(resumeTimer);resumeTimer=setTimeout(resume,1200)},{passive:true});
-  carousel.addEventListener('scroll',()=>{
-    if(autoScrolling)return;
-    pause();
-    clearTimeout(resumeTimer);
-    resumeTimer=setTimeout(resume,1200);
-  },{passive:true});
+  const setIndicator=activeTab=>{
+    if(!indicator||!activeTab)return;
+    const navRect=nav.getBoundingClientRect();
+    const tabRect=activeTab.getBoundingClientRect();
+    const offset=tabRect.left-navRect.left+nav.scrollLeft;
+    indicator.style.width=`${tabRect.width}px`;
+    indicator.style.transform=`translateX(${offset}px)`;
+  };
+  const sync=()=>{
+    const {activeTab,activePanel}=getActive();
+    if(activePanel){
+      panelWrap.style.height=`${activePanel.scrollHeight}px`;
+    }
+    setIndicator(activeTab);
+    if(item)syncWorkPanelHeight(item);
+  };
+  const setActive=id=>{
+    tabs.forEach(tab=>tab.classList.toggle('is-active',tab.getAttribute('data-work-subtab')===id));
+    panels.forEach(panel=>panel.classList.toggle('is-active',panel.getAttribute('data-work-subpanel')===id));
+    requestAnimationFrame(sync);
+  };
+
+  tabs.forEach(tab=>{
+    tab.addEventListener('click',()=>{
+      if(tab.classList.contains('is-active'))return;
+      setActive(tab.getAttribute('data-work-subtab'));
+      tab.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+    });
+  });
+
+  const initialTab=tabs.find(tab=>tab.classList.contains('is-active'))||tabs[0];
+  if(initialTab)setActive(initialTab.getAttribute('data-work-subtab'));
+  if(item)workSubSetters.set(item,setActive);
+  workSubSyncs.push(sync);
 });
 
-/* Automotive preview carousel */
-document.querySelectorAll('[data-auto-carousel]').forEach(carousel=>{
-  const track=carousel.querySelector('.auto-track');
-  if(!track)return;
-  const items=[...track.children];
-  items.forEach(node=>track.appendChild(node.cloneNode(true)));
-  let lastTime=0;
-  let resumeTimer=null;
-  let autoScrolling=false;
-  const speed=0.28;
-  const pause=()=>carousel.classList.add('is-paused');
-  const resume=()=>carousel.classList.remove('is-paused');
-  const step=time=>{
-    if(!lastTime)lastTime=time;
-    const delta=time-lastTime;
-    lastTime=time;
-    if(!carousel.classList.contains('is-paused')){
-      autoScrolling=true;
-      carousel.scrollLeft+=speed*(delta/16.7);
-      if(carousel.scrollLeft>=track.scrollWidth/2){carousel.scrollLeft=0}
-      autoScrolling=false;
-    }
-    requestAnimationFrame(step);
-  };
-  if(!prefersReduced)requestAnimationFrame(step);
-  carousel.addEventListener('mouseenter',pause);
-  carousel.addEventListener('mouseleave',resume);
-  carousel.addEventListener('touchstart',pause,{passive:true});
-  carousel.addEventListener('touchend',()=>{clearTimeout(resumeTimer);resumeTimer=setTimeout(resume,1200)},{passive:true});
-  carousel.addEventListener('scroll',()=>{
-    if(autoScrolling)return;
-    pause();
-    clearTimeout(resumeTimer);
-    resumeTimer=setTimeout(resume,1200);
-  },{passive:true});
+window.addEventListener('resize',()=>{
+  workSubSyncs.forEach(sync=>sync());
+  workItems.forEach(item=>syncWorkPanelHeight(item));
 });
 
+const buildWorkSubThumbs=()=>{
+  document.querySelectorAll('.work-submedia[data-work-gallery]').forEach(gallery=>{
+    const images=(gallery.getAttribute('data-images')||'').split('|').map(s=>s.trim()).filter(Boolean);
+    if(!images.length)return;
+    const label=gallery.getAttribute('data-title')||'Gallery image';
+    gallery.innerHTML='';
+    images.forEach((src,i)=>{
+      const btn=document.createElement('button');
+      btn.className='work-subthumb';
+      btn.setAttribute('data-work-open','');
+      btn.setAttribute('data-index',String(i));
+      btn.setAttribute('aria-label',`Open ${label} image ${i+1}`);
+      btn.style.setProperty('--img',`url('${src}')`);
+      gallery.appendChild(btn);
+    });
+  });
+};
+buildWorkSubThumbs();
+
+const buildWorkPreviewThumbs=()=>{
+  document.querySelectorAll('.work-preview[data-preview-count]').forEach(preview=>{
+    const count=parseInt(preview.getAttribute('data-preview-count')||'0',10);
+    const images=(preview.getAttribute('data-images')||'').split('|').map(s=>s.trim()).filter(Boolean);
+    const tabs=(preview.getAttribute('data-preview-tabs')||'').split('|').map(s=>s.trim()).filter(Boolean);
+    if(!count||!images.length)return;
+    const label=preview.getAttribute('data-title')||'Preview';
+    const sizes=['size-lg','size-sm','size-md','size-sm','size-md','size-sm','size-md','size-sm'];
+    preview.innerHTML='';
+    for(let i=0;i<count;i+=1){
+      const idx=i%images.length;
+      const btn=document.createElement('button');
+      btn.className=`work-thumb ${sizes[i%sizes.length]}`;
+      btn.setAttribute('data-index',String(idx));
+      btn.setAttribute('data-preview-thumb','');
+      btn.setAttribute('data-preview-tab',tabs[idx]||tabs[0]||'process');
+      btn.setAttribute('aria-label',`Open ${label} image ${idx+1}`);
+      btn.style.setProperty('--img',`url('${images[idx]}')`);
+      const span=document.createElement('span');
+      span.textContent='View';
+      btn.appendChild(span);
+      preview.appendChild(btn);
+    }
+  });
+};
+const startWorkPreviewCycle=()=>{
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  document.querySelectorAll('.work-preview[data-preview-cycle=\"true\"]').forEach(preview=>{
+    const images=(preview.getAttribute('data-images')||'').split('|').map(s=>s.trim()).filter(Boolean);
+    const thumbs=[...preview.querySelectorAll('.work-thumb')];
+    if(images.length<=thumbs.length)return;
+    let offset=0;
+    const update=()=>{
+      thumbs.forEach((thumb,i)=>{
+        const idx=(i+offset)%images.length;
+        thumb.classList.add('is-swapping');
+        window.setTimeout(()=>{
+          thumb.style.setProperty('--img',`url('${images[idx]}')`);
+          thumb.setAttribute('data-index',String(idx));
+          if(thumb.hasAttribute('data-preview-thumb')){
+            const tabs=(preview.getAttribute('data-preview-tabs')||'').split('|').map(s=>s.trim()).filter(Boolean);
+            thumb.setAttribute('data-preview-tab',tabs[idx]||tabs[0]||'process');
+          }
+          thumb.classList.remove('is-swapping');
+        },260);
+      });
+      offset=(offset+1)%images.length;
+    };
+    update();
+    let timer=setInterval(update,3200);
+    preview.addEventListener('mouseenter',()=>{if(timer){clearInterval(timer);timer=null}});
+    preview.addEventListener('mouseleave',()=>{if(!timer){timer=setInterval(update,2400)}});
+  });
+};
+buildWorkPreviewThumbs();
+startWorkPreviewCycle();
+
+document.querySelectorAll('[data-preview-thumb]').forEach(thumb=>{
+  thumb.addEventListener('click',e=>{
+    e.preventDefault();
+    e.stopPropagation();
+    const item=thumb.closest('[data-work-item]');
+    if(!item)return;
+    const toggle=item.querySelector('[data-work-toggle]');
+    if(toggle){
+      const expanded=toggle.getAttribute('aria-expanded')==='true';
+      if(!expanded)updateWorkPanel(item,true);
+    }
+    const tabId=thumb.getAttribute('data-preview-tab');
+    const setTab=workSubSetters.get(item);
+    if(tabId&&setTab){
+      setTab(tabId);
+      const panel=item.querySelector(`[data-work-subpanel=\"${tabId}\"]`);
+      panel?.scrollIntoView({behavior:'smooth',block:'nearest'});
+    }
+  });
+});
+
+/* Work gallery modal */
+const workGalleries=[...document.querySelectorAll('[data-work-gallery]')];
+const workModal=document.querySelector('[data-work-modal]');
+if(workGalleries.length&&workModal){
+  const workImage=workModal.querySelector('[data-work-image]');
+  const workTitle=workModal.querySelector('[data-work-title]');
+  const workCaption=workModal.querySelector('[data-work-caption]');
+  const workCount=workModal.querySelector('[data-work-count]');
+  const workDetails=workModal.querySelector('[data-work-details]');
+  const workPrev=workModal.querySelector('[data-work-prev]');
+  const workNext=workModal.querySelector('[data-work-next]');
+  const workClose=workModal.querySelector('[data-work-close]');
+  let workImages=[];
+  let workIndex=0;
+  let workLabel='';
+  let workDetailList=[];
+  let workCaptions=[];
+
+  const formatWorkLabel=gallery=>{
+    const galleryTitle=(gallery.getAttribute('data-title')||'').trim();
+    const context=gallery.closest('[data-work-item]')?.querySelector('.work-title')?.textContent?.trim()||'';
+    if(!galleryTitle&&context)return context;
+    if(galleryTitle&&context&&!galleryTitle.toLowerCase().includes(context.toLowerCase())){
+      return `${context} - ${galleryTitle}`;
+    }
+    return galleryTitle||'Selected work';
+  };
+  const setWorkContent=index=>{
+    if(!workImages.length)return;
+    workIndex=(index+workImages.length)%workImages.length;
+    const src=workImages[workIndex];
+    workImage.src=src;
+    workImage.alt=workLabel;
+    workTitle.textContent=workLabel;
+    workCount.textContent=`${workIndex+1} / ${workImages.length}`;
+    if(workCaption){
+      const cap=workCaptions[workIndex]||'';
+      workCaption.textContent=cap;
+      workCaption.style.display=cap?'block':'none';
+    }
+    workDetails.innerHTML='';
+    if(workDetailList.length){
+      workDetails.style.display='grid';
+      workDetailList.forEach(text=>{
+        if(!text)return;
+        const li=document.createElement('li');
+        li.textContent=text;
+        workDetails.appendChild(li);
+      });
+    }else{
+      workDetails.style.display='none';
+    }
+  };
+  const openWork=(gallery,startIndex=0)=>{
+    const list=(gallery.getAttribute('data-images')||'').split('|').map(s=>s.trim()).filter(Boolean);
+    workImages=list;
+    workLabel=formatWorkLabel(gallery);
+    workDetailList=(gallery.getAttribute('data-details')||'').split('||').map(s=>s.trim()).filter(Boolean);
+    workCaptions=(gallery.getAttribute('data-captions')||'').split('||').map(s=>s.trim());
+    setWorkContent(startIndex);
+    workModal.classList.add('is-open');
+    document.body.style.overflow='hidden';
+  };
+  const closeWork=()=>{
+    workModal.classList.remove('is-open');
+    document.body.style.overflow='';
+  };
+  const prevWork=()=>setWorkContent(workIndex-1);
+  const nextWork=()=>setWorkContent(workIndex+1);
+
+  workGalleries.forEach(gallery=>{
+    gallery.querySelectorAll('[data-work-open]').forEach(btn=>{
+      btn.addEventListener('click',e=>{
+        e.preventDefault();
+        const idx=parseInt(btn.getAttribute('data-index')||'0',10);
+        openWork(gallery,Number.isNaN(idx)?0:idx);
+      });
+    });
+  });
+  workPrev.addEventListener('click',prevWork);
+  workNext.addEventListener('click',nextWork);
+  workClose.addEventListener('click',closeWork);
+  workModal.addEventListener('click',e=>{if(e.target===workModal)closeWork()});
+  window.addEventListener('keydown',e=>{
+    if(!workModal.classList.contains('is-open'))return;
+    if(e.key==='Escape')closeWork();
+    if(e.key==='ArrowLeft')prevWork();
+    if(e.key==='ArrowRight')nextWork();
+  });
+}
 /* Nav */
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('stuck',window.scrollY>60),{passive:true});
 
 /* Reveal */
 const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('in')}),{threshold:.06,rootMargin:'0px 0px -20px 0px'});
 document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
-
-/* Automotive expand/collapse */
-const autoToggle=document.querySelector('[data-auto-toggle]');
-const autoDetails=document.querySelector('[data-auto-details]');
-if(autoToggle&&autoDetails){
-  const setExpanded=expanded=>{
-    autoToggle.setAttribute('aria-expanded',String(expanded));
-    autoToggle.textContent=expanded?'Hide automotive work':'View all automotive work';
-    autoDetails.classList.toggle('is-open',expanded);
-    autoDetails.style.maxHeight=expanded?`${autoDetails.scrollHeight}px`:'0px';
-  };
-  autoToggle.addEventListener('click',()=>{
-    const expanded=autoToggle.getAttribute('aria-expanded')==='true';
-    setExpanded(!expanded);
-  });
-  window.addEventListener('resize',()=>{
-    if(autoDetails.classList.contains('is-open')){
-      autoDetails.style.maxHeight=`${autoDetails.scrollHeight}px`;
-    }
-  });
-}
-
-/* Automotive gallery modal */
-const autoGalleries=[...document.querySelectorAll('[data-auto-gallery]')];
-const autoModal=document.querySelector('[data-auto-modal]');
-if(autoGalleries.length&&autoModal){
-  const autoImage=autoModal.querySelector('[data-auto-image]');
-  const autoTitle=autoModal.querySelector('[data-auto-title]');
-  const autoCount=autoModal.querySelector('[data-auto-count]');
-  const autoPrev=autoModal.querySelector('[data-auto-prev]');
-  const autoNext=autoModal.querySelector('[data-auto-next]');
-  const autoClose=autoModal.querySelector('[data-auto-close]');
-  let autoImages=[];
-  let autoIndex=0;
-  let autoLabel='';
-
-  const setAutoImage=index=>{
-    if(!autoImages.length)return;
-    autoIndex=(index+autoImages.length)%autoImages.length;
-    const src=autoImages[autoIndex];
-    autoImage.src=src;
-    autoImage.alt=autoLabel;
-    autoTitle.textContent=autoLabel;
-    autoCount.textContent=`${autoIndex+1} / ${autoImages.length}`;
-  };
-  const openAuto=(gallery,startIndex=0)=>{
-    const list=(gallery.getAttribute('data-images')||'').split('|').map(s=>s.trim()).filter(Boolean);
-    autoImages=list;
-    autoLabel=gallery.getAttribute('data-title')||'Automotive';
-    setAutoImage(startIndex);
-    autoModal.classList.add('is-open');
-    document.body.style.overflow='hidden';
-  };
-  const closeAuto=()=>{
-    autoModal.classList.remove('is-open');
-    document.body.style.overflow='';
-  };
-  const prevAuto=()=>setAutoImage(autoIndex-1);
-  const nextAuto=()=>setAutoImage(autoIndex+1);
-
-  autoGalleries.forEach(gallery=>{
-    gallery.querySelectorAll('[data-auto-open]').forEach(btn=>{
-      btn.addEventListener('click',e=>{
-        e.preventDefault();
-        const idx=parseInt(btn.getAttribute('data-index')||'0',10);
-        openAuto(gallery,Number.isNaN(idx)?0:idx);
-      });
-    });
-  });
-  autoPrev.addEventListener('click',prevAuto);
-  autoNext.addEventListener('click',nextAuto);
-  autoClose.addEventListener('click',closeAuto);
-  autoModal.addEventListener('click',e=>{if(e.target===autoModal)closeAuto()});
-  window.addEventListener('keydown',e=>{
-    if(!autoModal.classList.contains('is-open'))return;
-    if(e.key==='Escape')closeAuto();
-    if(e.key==='ArrowLeft')prevAuto();
-    if(e.key==='ArrowRight')nextAuto();
-  });
-}
 
 /* Smooth scroll */
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
@@ -1744,5 +3143,22 @@ if(expThumbs.length&&expModal){
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
