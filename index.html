@@ -653,6 +653,7 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
   animation:previewMarquee var(--preview-loop-duration) linear infinite;
   will-change:transform;
 }
+.work-preview-track.is-reverse{animation-name:previewMarqueeReverse}
 .work-preview:hover .work-preview-track{animation-play-state:paused}
 .work-item:hover .work-preview{
   opacity:1;
@@ -977,6 +978,8 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
   gap:.6rem;
   padding-left:.85rem;
   border-left:1px solid var(--line);
+  align-self:start;
+  align-content:start;
 }
 .work-subgroup-title{
   font-family:var(--mono);
@@ -999,6 +1002,18 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
   column-count:3;
   column-gap:.7rem;
   gap:.7rem;
+}
+.work-subgrid > .work-submedia{
+  padding-left:.85rem;
+  border-left:1px solid var(--line);
+  align-self:start;
+  align-content:start;
+}
+.work-submedia[data-layout="featured-last"]{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:.7rem;
+  column-count:auto;
 }
 .work-subthumb{
   display:flex;
@@ -1032,6 +1047,14 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
   transform:translateY(-3px);
   border-color:rgba(243,246,250,.4);
   box-shadow:0 16px 30px rgba(0,0,0,.35);
+}
+.work-submedia[data-layout="featured-last"] .work-subthumb{
+  margin:0;
+}
+.work-submedia[data-layout="featured-last"] .work-subthumb.is-featured{
+  grid-column:2;
+  grid-row:1 / span 2;
+  align-self:stretch;
 }
 .work-meta{
   display:flex;
@@ -1294,6 +1317,10 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 @keyframes previewMarquee{
   0%{transform:translate3d(0,0,0)}
   100%{transform:translate3d(calc(-1 * var(--preview-loop-distance)),0,0)}
+}
+@keyframes previewMarqueeReverse{
+  0%{transform:translate3d(calc(-1 * var(--preview-loop-distance)),0,0)}
+  100%{transform:translate3d(0,0,0)}
 }
 .rv{opacity:0;transform:translateY(22px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
 .rv.in{opacity:1;transform:none}
@@ -1597,27 +1624,29 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
                       <ul class="work-sublist">
                         <li>2010 Dodge Ram 1500: rust/rot and side scuffing; wet-sanded, reinforced with metal backing, shaped with filler, sanded flush, repainted, and clear coated.</li>
                         <li>2011 Lexus ES 350: frontal-collision repair involving frame correction, panel removal, fender repair, repainting, and reassembly.</li>
-                        <li>Both sections below follow the same image order workflow as Buying &amp; Selling, so you can drop photos in later without changing the layout.</li>
+                        <li>Each repair pushed me further into structural correction, cleaner prep, and higher-quality finishing work.</li>
                       </ul>
                     </div>
                     <div class="work-submedia-stack">
                       <div class="work-subgroup">
-                      <div class="work-subgroup-title">2010 Dodge Ram 1500</div>
-                      <p class="work-subgroup-desc">This was the first autobody project that demanded more than routine prep work. The truck had significant rust and rot, plus long sections of scuffing down the side from the previous owner. I wet-sanded the full panel with a rotary sander, built out missing structure with metal backing, shaped body filler around it, sanded everything flush, then finished the repair with repaint and clear coat. It taught me the fundamentals of surface prep, filler shaping, panel straightness, and finishing work that I carried into later repairs.</p>
-                      <div class="work-submedia" data-work-gallery data-title="Autobody - 2010 Dodge Ram 1500" data-images="images/automotive/autobody/img1.png|images/automotive/autobody/img6.png|images/automotive/autobody/img7.png|images/automotive/autobody/img4.png|images/automotive/autobody/img5.png|images/automotive/autobody/img2.png|images/automotive/autobody/img3.png" data-captions="Rust and rot before repair||Initial sanding and surface prep||Mesh backing installed behind rotted sections||First body filler pass||Filler shaped and refined||Completed repaired panel||Finished result from another angle" data-details="Sequence: before damage shot first||Prep stage uses img6 and img7, then filler with img4 and img5||Completed results are img2 and img3">
-                        <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/automotive/autobody/img1.png')" aria-label="Open Dodge Ram gallery image 1"></button>
-                        <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/automotive/autobody/img6.png')" aria-label="Open Dodge Ram gallery image 2"></button>
-                        <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/automotive/autobody/img7.png')" aria-label="Open Dodge Ram gallery image 3"></button>
-                      </div>
+                        <div class="work-subgroup-title">2010 Dodge Ram 1500</div>
+                        <p class="work-subgroup-desc">First real autobody repair: rust/rot + heavy side scuffing, rebuilt and refinished end-to-end.</p>
+                        <ul class="work-sublist">
+                          <li>Wet-sanded the panel, reinforced rotted areas, then shaped and blocked filler.</li>
+                          <li>Repaint + clear coat to bring the body line back clean.</li>
+                          <li>Big learning moment for prep, straightness, and finishing.</li>
+                        </ul>
+                        <div class="work-submedia" data-work-gallery data-title="Autobody - 2010 Dodge Ram 1500" data-images="images/automotive/autobody/img1.png|images/automotive/autobody/img6.png|images/automotive/autobody/img7.png|images/automotive/autobody/img4.png|images/automotive/autobody/img5.png|images/automotive/autobody/img2.png|images/automotive/autobody/img3.png" data-captions="Rust and rot before repair||Initial sanding and surface prep||Mesh backing installed behind rotted sections||First body filler pass||Filler shaped and refined||Completed repaired panel||Finished result from another angle" data-details="Sequence: before damage shot first||Prep stage uses img6 and img7, then filler with img4 and img5||Completed results are img2 and img3"></div>
                       </div>
                       <div class="work-subgroup">
-                      <div class="work-subgroup-title">2011 Lexus ES 350</div>
-                      <p class="work-subgroup-desc">This Lexus was involved in a frontal collision that was still repairable, but it required more technical correction than the Dodge project. The job involved frame work, panel alignment, and using leverage-based tools to bring damaged areas back into position before refinishing. The fender was removed, repaired off the car, suspended for repainting, and restored so it could be reinstalled in original-condition fitment. This project pushed me further into panel fit, body line consistency, and the patience needed for cleaner, more precise autobody work.</p>
-                      <div class="work-submedia" data-work-gallery data-title="Autobody - 2011 Lexus ES 350" data-images="images/automotive/autobody/lexus-es350/01.jpg|images/automotive/autobody/lexus-es350/02.jpg|images/automotive/autobody/lexus-es350/03.jpg|images/automotive/autobody/lexus-es350/04.jpg|images/automotive/autobody/lexus-es350/05.jpg|images/automotive/autobody/lexus-es350/06.jpg" data-captions="Collision damage overview||Frame correction setup||Fender removed from vehicle||Fender repair progress||Fender suspended for repaint||Finished restored panel" data-details="Suggested folder: images/automotive/autobody/lexus-es350/||Add photos in the same chronological order as the repair||Keep filenames 01.jpg, 02.jpg, 03.jpg and so on">
-                        <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/automotive/autobody/lexus-es350/01.jpg')" aria-label="Open Lexus ES 350 gallery image 1"></button>
-                        <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/automotive/autobody/lexus-es350/02.jpg')" aria-label="Open Lexus ES 350 gallery image 2"></button>
-                        <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/automotive/autobody/lexus-es350/03.jpg')" aria-label="Open Lexus ES 350 gallery image 3"></button>
-                      </div>
+                        <div class="work-subgroup-title">2011 Lexus ES 350</div>
+                        <p class="work-subgroup-desc">Front-end collision repair that blended structural correction with electrical troubleshooting.</p>
+                        <ul class="work-sublist">
+                          <li>Frame pulled back into spec before reassembly.</li>
+                          <li>Repaired wiring harness issues so everything ran smoothly again.</li>
+                          <li>Finished with clean fitment and a straight front end.</li>
+                        </ul>
+                        <div class="work-submedia" data-work-gallery data-title="Autobody - 2011 Lexus ES 350" data-images="images/automotive/autobody/img9.png|images/automotive/autobody/img10.png|images/automotive/autobody/img8.jpg|images/automotive/autobody/img11.png" data-captions="Condition after the previous owner's crash||Front-end damage at the time of purchase||Closer look at how severe the impact was||Finished rebuild after frame correction and wiring repair" data-details="The project started with a heavily damaged front end and a car that needed serious correction before it could go back on the road||The repair involved structural pulling, panel fitment work, and sorting damaged electrical harnesses so everything operated properly again||The final result came together straight, clean, and fully driveable"></div>
                       </div>
                     </div>
                   </div>
@@ -1626,17 +1655,39 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
                   <div class="work-subgrid">
                     <div class="work-subcopy">
                       <div class="work-subtitle">Tinting &amp; Service</div>
-                      <p class="work-subdesc">Turned the skills into a local service after testing everything on my own 2013 Mazda 3.</p>
+                      <p class="work-subdesc">Built a local tinting/wrap service after proofing every mod on my 2013 Mazda 3: taillights, 5% window tint, sunstrips, and meticulous masking.</p>
                       <ul class="work-sublist">
-                        <li>Taillight tinting: practiced on my cars, then masked and smoked just the red section for my first client (my uncle).</li>
-                        <li>5% window tint + windshield sunstrip on most of my cars and for family/friends/neighbors.</li>
-                        <li>Image: Mazda 3 before/after + client taillight tint.</li>
+                        <li>Learned tinting, wrapping, and upholstery on my own Mazda 3 before offering paid work.</li>
+                        <li>Scaled into local service work for family, friends, and neighbors with 5% tint and clean sunstrips.</li>
+                        <li>Taillight requests ranged from full smoke to masked red-only tints for OEM-style finishes.</li>
                       </ul>
                     </div>
-                    <div class="work-submedia" data-work-gallery data-title="Tinting &amp; Service" data-images="images/automotive/tinting-service/01.jpg|images/automotive/tinting-service/02.jpg|images/automotive/tinting-service/03.jpg|images/automotive/tinting-service/04.jpg|images/automotive/tinting-service/05.jpg" data-details="Mazda 3 testbed before/after||Taillight tint closeup||Window tint + sunstrip shot">
-                      <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/automotive/tinting-service/01.jpg')" aria-label="Open tinting gallery image 1"></button>
-                      <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/automotive/tinting-service/02.jpg')" aria-label="Open tinting gallery image 2"></button>
-                      <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/automotive/tinting-service/03.jpg')" aria-label="Open tinting gallery image 3"></button>
+                    <div class="work-submedia-stack">
+                      <div class="work-subgroup">
+                        <div class="work-subgroup-title">2013 Mazda 3 — Practice Car</div>
+                        <p class="work-subgroup-desc">Every service started on my own car: full prep, spray tint, and final finish before offering it to clients.</p>
+                        <div class="work-submedia" data-work-gallery data-title="Tinting - Mazda 3 Practice" data-images="images/automotive/tinting-service/img1.jpg|images/automotive/tinting-service/img6.png|images/automotive/tinting-service/img3.png|images/automotive/tinting-service/img2.jpg" data-captions="Masking and prep for taillight spray tint||Prep detail before spraying||Mid-process progress shot||Finished Mazda 3 taillight tint" data-details="Prepped and masked the Mazda 3 taillights||Used the car as a testbed before client work||Final smoke finish shown in daylight"></div>
+                      </div>
+                      <div class="work-subgroup">
+                        <div class="work-subgroup-title">2013 Lexus ES300h — Red-Only Smoke</div>
+                        <p class="work-subgroup-desc">Client request to smoke only the red portion of the taillight for a factory-plus look.</p>
+                        <div class="work-submedia" data-work-gallery data-title="Tinting - Lexus ES300h" data-images="images/automotive/tinting-service/img4.jpg|images/automotive/tinting-service/img5.jpg" data-captions="Before: stock ES300h taillights||After: masked red-only smoke finish" data-details="Extra masking to isolate the red sections||Even gloss and color across the lens"></div>
+                      </div>
+                      <div class="work-subgroup">
+                        <div class="work-subgroup-title">2011 Lexus ES 350 — Full 5% Tint</div>
+                        <p class="work-subgroup-desc">Repeat client from the bodywork project: added 5% film and a subtle sunstrip.</p>
+                        <div class="work-submedia" data-work-gallery data-title="Tinting - Lexus ES 350" data-images="images/automotive/tinting-service/img9.png" data-captions="Completed 5% window tint on ES 350" data-details="Matches prior restoration work with a dark, uniform finish"></div>
+                      </div>
+                      <div class="work-subgroup">
+                        <div class="work-subgroup-title">Jaguar — Interior Tint Showcase</div>
+                        <p class="work-subgroup-desc">Sold Jaguar with interior shot highlighting the 5% ceramic tint I installed.</p>
+                        <div class="work-submedia" data-work-gallery data-title="Tinting - Jaguar Interior" data-images="images/automotive/tinting-service/img7.png" data-captions="Interior shot showing 5% tint and low glare" data-details="Demonstrates even film application and clean edges"></div>
+                      </div>
+                      <div class="work-subgroup">
+                        <div class="work-subgroup-title">2018 Lexus RX 450hL — Taillight Tint</div>
+                        <p class="work-subgroup-desc">Clean smoke finish on the RX 450hL to match the darker trim package.</p>
+                        <div class="work-submedia" data-work-gallery data-title="Tinting - RX 450hL" data-images="images/automotive/tinting-service/img8.png" data-captions="Finished RX 450hL taillight tint" data-details="Even coverage and matched to the SUV's darker accents"></div>
+                      </div>
                     </div>
                   </div>
                 </section>
@@ -2979,6 +3030,7 @@ window.addEventListener('resize',()=>{
 
 const syncWorkThumbRatio=(thumb,img)=>{
   if(!thumb||!img)return;
+  if(thumb.classList.contains('work-subthumb'))return;
   const applyRatio=()=>{
     const width=img.naturalWidth||0;
     const height=img.naturalHeight||0;
@@ -3002,6 +3054,9 @@ const buildWorkSubThumbs=()=>{
     images.forEach((src,i)=>{
       const btn=document.createElement('button');
       btn.className='work-subthumb';
+      if(gallery.getAttribute('data-layout')==='featured-last'&&i===images.length-1){
+        btn.classList.add('is-featured');
+      }
       btn.setAttribute('data-work-open','');
       btn.setAttribute('data-index',String(i));
       btn.setAttribute('aria-label',`Open ${label} image ${i+1}`);
@@ -3019,7 +3074,7 @@ const buildWorkSubThumbs=()=>{
 buildWorkSubThumbs();
 
 const buildWorkPreviewThumbs=()=>{
-  document.querySelectorAll('.work-preview[data-preview-count]').forEach(preview=>{
+  document.querySelectorAll('.work-preview[data-preview-count]').forEach((preview,previewIndex)=>{
     const count=parseInt(preview.getAttribute('data-preview-count')||'0',10);
     const tabs=(preview.getAttribute('data-preview-tabs')||'').split('|').map(s=>s.trim()).filter(Boolean);
     const item=preview.closest('[data-work-item]');
@@ -3062,6 +3117,7 @@ const buildWorkPreviewThumbs=()=>{
     preview.innerHTML='';
     const track=document.createElement('div');
     track.className='work-preview-track';
+    if(previewIndex%2===0)track.classList.add('is-reverse');
     preview.appendChild(track);
     const baseEntries=[...previewEntries];
     while(baseEntries.length<count){
