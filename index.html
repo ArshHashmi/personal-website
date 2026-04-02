@@ -176,85 +176,310 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
 .sec-title{font-family:var(--sans);font-size:clamp(2.4rem,4.4vw,3.8rem);font-weight:600;letter-spacing:-.02em;line-height:1}
 
 /* ABOUT */
-.about-layout{display:grid;grid-template-columns:minmax(260px,360px) minmax(360px,1fr);gap:6vw;align-items:start}
-.about-sticky{position:sticky;top:120px}
+.about-layout{display:grid;grid-template-columns:minmax(460px,1.2fr) minmax(360px,1fr);gap:4vw;align-items:start}
 .about-carousel{
-  width:min(100%,340px);aspect-ratio:3/4;
+  width:100%;
+  aspect-ratio:16/11;
   border:1px solid var(--line);
+  border-radius:22px;
   background:var(--surface);
   position:relative;overflow:hidden;
+  box-shadow:0 24px 60px rgba(0,0,0,.45);
 }
-.about-collage{
-  width:min(100%,360px);
-  display:grid;
-  grid-template-columns:repeat(6,1fr);
-  grid-auto-rows:70px;
-  gap:10px;
-}
-.about-tile{
-  border:1px solid var(--line);
-  background-image:
-    linear-gradient(135deg,rgba(122,231,255,.16),rgba(182,255,217,.08)),
-    var(--img);
-  background-size:cover;background-position:center;
-  border-radius:12px;overflow:hidden;position:relative;
-}
-.about-tile::after{
-  content:'';position:absolute;inset:0;
-  background:repeating-linear-gradient(-45deg,transparent,transparent 14px,rgba(255,255,255,.04) 14px,rgba(255,255,255,.04) 15px);
-}
-.about-tile.tile-lg{grid-column:span 4;grid-row:span 3}
-.about-tile.tile-md{grid-column:span 3;grid-row:span 2}
-.about-tile.tile-sm{grid-column:span 2;grid-row:span 2}
 .about-slides{position:absolute;inset:0}
 .about-slide{
   position:absolute;inset:0;
-  opacity:0;transform:scale(1.03);
-  transition:opacity .45s ease,transform .65s cubic-bezier(.16,1,.3,1);
-  background-image:linear-gradient(to top,rgba(5,7,10,.75),rgba(5,7,10,.2)),var(--slide-image);
-  background-size:cover;background-position:center;
+  opacity:0;
+  transform:translateY(12px) scale(.985);
+  transition:opacity .5s ease,transform .75s cubic-bezier(.16,1,.3,1);
+  pointer-events:none;
+  padding:1rem 1rem 9.5rem;
+  display:flex;
+  flex-direction:column;
+  gap:.7rem;
 }
 .about-slide::before{
-  content:'';position:absolute;inset:0;
-  background:repeating-linear-gradient(-45deg,transparent,transparent 14px,rgba(255,255,255,.03) 14px,rgba(255,255,255,.03) 15px);
+  content:'';
+  position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 18% 0%,rgba(122,231,255,.1),transparent 40%),
+    radial-gradient(circle at 92% 90%,rgba(182,255,217,.08),transparent 42%),
+    repeating-linear-gradient(-45deg,transparent,transparent 16px,rgba(255,255,255,.025) 16px,rgba(255,255,255,.025) 17px);
+  pointer-events:none;
 }
-.about-slide.is-active{opacity:1;transform:scale(1)}
+.about-slide.is-active{
+  opacity:1;
+  transform:none;
+  pointer-events:auto;
+}
 .about-slide-meta{
-  position:absolute;left:1rem;right:1rem;top:1rem;z-index:2;
-  display:flex;align-items:flex-end;justify-content:space-between;gap:.75rem;
+  position:relative;
+  z-index:2;
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:.75rem;
 }
 .about-slide-name,.about-slide-index{
-  font-family:var(--mono);font-size:.56rem;font-weight:500;
-  letter-spacing:.16em;text-transform:uppercase;color:var(--ink);
+  font-family:var(--mono);
+  font-size:.56rem;
+  font-weight:500;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--ink);
 }
 .about-slide-index{color:var(--fog)}
+.about-collage-grid{
+  position:relative;
+  z-index:2;
+  flex:1;
+  min-height:0;
+  display:grid;
+  grid-template-columns:repeat(12,minmax(0,1fr));
+  grid-template-rows:repeat(7,minmax(0,1fr));
+  gap:.62rem;
+}
+.about-shot{
+  position:relative;
+  overflow:hidden;
+  border-radius:14px;
+  border:1px solid rgba(243,246,250,.18);
+  background:rgba(11,15,20,.92);
+  box-shadow:0 14px 32px rgba(0,0,0,.28);
+  transform:translateY(0) scale(1);
+  transition:transform .35s,border-color .35s,box-shadow .35s;
+}
+.about-shot img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transform:scale(1.01);
+  transition:transform .85s cubic-bezier(.16,1,.3,1),filter .45s;
+}
+.about-shot::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,rgba(5,7,10,.04),rgba(5,7,10,.56));
+  pointer-events:none;
+}
+.about-shot-caption{
+  position:absolute;
+  left:.46rem;
+  right:.46rem;
+  bottom:.46rem;
+  z-index:2;
+  border:1px solid rgba(243,246,250,.2);
+  border-radius:10px;
+  background:rgba(5,7,10,.78);
+  padding:.35rem .48rem;
+  font-family:var(--mono);
+  font-size:.48rem;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+  line-height:1.45;
+  color:var(--ink);
+  opacity:0;
+  transform:translateY(8px);
+  transition:opacity .3s,transform .3s;
+}
+.about-shot:hover,
+.about-shot:focus-within{
+  transform:translateY(-3px);
+  border-color:rgba(122,231,255,.5);
+  box-shadow:0 24px 36px rgba(0,0,0,.36);
+}
+.about-shot:hover img,
+.about-shot:focus-within img{transform:scale(1.04);filter:saturate(1.06)}
+.about-shot:hover .about-shot-caption,
+.about-shot:focus-within .about-shot-caption{
+  opacity:1;
+  transform:none;
+}
+.about-slide.is-active .about-shot{
+  animation:aboutTileIn .55s cubic-bezier(.16,1,.3,1) both;
+}
+.about-slide.is-active .about-shot:nth-child(2){animation-delay:.06s}
+.about-slide.is-active .about-shot:nth-child(3){animation-delay:.12s}
+.about-slide.is-active .about-shot:nth-child(4){animation-delay:.18s}
+.about-slide.is-active .about-shot:nth-child(5){animation-delay:.24s}
+.shot-main{grid-column:1 / span 8;grid-row:1 / span 7}
+.shot-win{grid-column:9 / span 4;grid-row:1 / span 4}
+.shot-sponsors{grid-column:9 / span 4;grid-row:5 / span 2}
+.shot-logo{grid-column:9 / span 2;grid-row:7 / span 2}
+.shot-code{grid-column:11 / span 2;grid-row:7 / span 2}
+.shot-main img{
+  object-fit:cover;
+  background:#0b0f14;
+}
+.shot-sponsors img,
+.shot-logo img,
+.shot-code img{
+  object-fit:contain;
+  background:#0b0f14;
+}
+.shot-logo img{
+  object-fit:contain;
+  background:linear-gradient(135deg,#f8fbff,#e4edf9);
+  padding:.9rem;
+}
+.shot-logo::before{
+  content:'External Link';
+  position:absolute;
+  top:.45rem;
+  right:.45rem;
+  z-index:2;
+  font-family:var(--mono);
+  font-size:.42rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:rgba(243,246,250,.8);
+  border:1px solid rgba(243,246,250,.35);
+  border-radius:999px;
+  padding:.16rem .34rem;
+  background:rgba(5,7,10,.58);
+}
 .about-controls{
-  position:absolute;left:1rem;right:1rem;bottom:1rem;z-index:3;
-  display:flex;align-items:center;justify-content:space-between;gap:.65rem;
+  position:absolute;
+  top:1rem;
+  right:1rem;
+  z-index:4;
+  display:flex;
+  align-items:center;
+  gap:.55rem;
   pointer-events:none;
 }
 .about-btn,.about-dot{pointer-events:auto}
 .about-btn{
-  border:1px solid var(--line);background:rgba(5,7,10,.6);color:var(--ink);
-  font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;
-  padding:.45rem .7rem;line-height:1;cursor:pointer;transition:.25s;
+  border:1px solid var(--line);
+  background:rgba(5,7,10,.55);
+  color:var(--ink);
+  font-family:var(--mono);
+  font-size:.52rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  padding:.42rem .66rem;
+  line-height:1;
+  cursor:pointer;
+  transition:.25s;
 }
 .about-btn:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-.about-dots{display:flex;align-items:center;gap:.42rem}
+.about-dots{display:flex;align-items:center;gap:.36rem}
 .about-dot{
-  width:9px;height:9px;border-radius:50%;
+  width:8px;height:8px;border-radius:50%;
   border:1px solid var(--ink);background:transparent;cursor:pointer;
   opacity:.45;transition:opacity .2s,background .2s,transform .2s;
 }
 .about-dot.is-active{opacity:1;background:var(--ink);transform:scale(1.03)}
-.about-pic-cap{margin-top:.85rem;font-family:var(--mono);font-size:.58rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--fog)}
+.about-pic-cap{
+  margin-top:.65rem;
+  font-family:var(--mono);
+  font-size:.58rem;
+  font-weight:500;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--fog);
+}
+.about-spotlight{
+  position:absolute;
+  left:1.1rem;
+  right:1.1rem;
+  bottom:3.9rem;
+  z-index:2;
+  padding:1rem 1rem .95rem;
+  border:1px solid rgba(243,246,250,.22);
+  border-radius:14px;
+  background:linear-gradient(135deg,rgba(9,13,18,.78),rgba(9,13,18,.54));
+  backdrop-filter:blur(10px);
+  box-shadow:0 16px 34px rgba(0,0,0,.28);
+}
+.about-spot-kicker{
+  font-family:var(--mono);
+  font-size:.52rem;
+  font-weight:600;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--fog);
+}
+.about-spot-title{
+  font-family:var(--sans);
+  font-size:1.05rem;
+  font-weight:600;
+  letter-spacing:-.01em;
+  line-height:1.2;
+  margin:.4rem 0 .35rem;
+}
+.about-spot-meta{
+  font-size:.78rem;
+  color:var(--mist);
+  line-height:1.6;
+}
+.about-spot-actions{
+  margin-top:.75rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:.65rem;
+}
+.about-spot-tags{
+  display:flex;
+  gap:.38rem;
+  flex-wrap:wrap;
+}
+.about-spot-tag{
+  border:1px solid rgba(243,246,250,.2);
+  border-radius:999px;
+  padding:.2rem .45rem;
+  font-family:var(--mono);
+  font-size:.48rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--fog);
+}
+.about-open{
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.04);
+  color:var(--ink);
+  font-family:var(--mono);
+  font-size:.52rem;
+  font-weight:500;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  padding:.44rem .66rem;
+  cursor:pointer;
+  transition:.25s;
+}
+.about-open:hover{
+  background:var(--ink);
+  color:var(--paper);
+  border-color:var(--ink);
+}
+.about-open:disabled{
+  opacity:.45;
+  pointer-events:none;
+}
+.about-carousel.is-single .about-spotlight{bottom:1.1rem}
 
 .about-text{justify-self:end;max-width:720px}
-.about-text .lede{font-family:var(--sans);font-size:clamp(1.3rem,2.1vw,1.75rem);font-weight:500;line-height:1.5;letter-spacing:-.01em;margin-bottom:2.5rem}
-.about-text p{font-size:.9rem;font-weight:300;line-height:1.95;color:var(--mist);margin-bottom:1.1rem}
-.about-facts{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:3rem;padding-top:3rem;border-top:1px solid var(--line)}
-.af-n{font-family:var(--sans);font-size:2.6rem;font-weight:600;line-height:1;display:block}
-.af-l{font-family:var(--mono);font-size:.58rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--fog);margin-top:.25rem;display:block}
+.about-text .lede{font-family:var(--sans);font-size:clamp(1.35rem,2.3vw,1.85rem);font-weight:500;line-height:1.5;letter-spacing:-.01em;margin-bottom:1.4rem}
+.about-text p{font-size:.9rem;font-weight:300;line-height:1.9;color:var(--mist);margin-bottom:1rem}
+.about-facts{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:1.2rem;margin-top:2.4rem;padding-top:2.4rem;border-top:1px solid var(--line)
+}
+.af-n{font-family:var(--sans);font-size:2.3rem;font-weight:600;line-height:1;display:block}
+.af-l{font-family:var(--mono);font-size:.55rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--fog);margin-top:.3rem;display:block}
+.about-edu-wrap{margin-top:3.5rem}
+.about-edu-label{
+  font-family:var(--mono);font-size:.58rem;font-weight:600;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--fog);display:block;margin-bottom:1.4rem;
+}
+.about-edu-wrap .edu-card{padding:2.3rem 2.5rem}
+.about-edu-wrap .ec-school{font-size:1.65rem}
+.about-edu-wrap .ec-deg{margin-bottom:1.6rem}
+.about-edu-wrap .edu-meta{gap:.5rem}
+.about-edu-wrap .edu-pill{font-size:.58rem;padding:.28rem .55rem}
 
 /* EXPERIENCE */
 .exp-entry{display:grid;grid-template-columns:200px 1fr;gap:4vw;padding:3rem 0;border-bottom:1px solid var(--line);position:relative}
@@ -434,6 +659,178 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
   transition:.25s;
 }
 .exp-modal-close:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+/* ABOUT MODAL */
+.about-modal{
+  position:fixed;inset:0;z-index:6550;
+  background:rgba(5,7,10,.82);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity .35s ease;
+}
+.about-modal.is-open{opacity:1;pointer-events:auto}
+.about-modal-card{
+  width:min(94vw,1100px);
+  max-height:92vh;
+  overflow:auto;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:20px;
+  display:grid;
+  grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);
+  transform:translateY(14px) scale(.99);
+  transition:transform .45s cubic-bezier(.16,1,.3,1);
+}
+.about-modal.is-open .about-modal-card{transform:none}
+.about-modal-media{
+  border-right:1px solid var(--line);
+  background:radial-gradient(circle at 20% 10%,rgba(122,231,255,.1),transparent 40%),var(--paper);
+  display:grid;
+  align-content:start;
+  justify-items:stretch;
+  gap:.75rem;
+  padding:1.25rem;
+}
+.about-modal-media img{
+  max-width:100%;
+  max-height:65vh;
+  object-fit:contain;
+  border:1px solid var(--line);
+  background:#0b0f14;
+}
+.about-modal-caption{
+  font-family:var(--mono);
+  font-size:.52rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--fog);
+}
+.about-modal-thumbs{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:.45rem;
+}
+.about-modal-thumb{
+  border:1px solid var(--line);
+  border-radius:10px;
+  overflow:hidden;
+  background:#0b0f14;
+  cursor:pointer;
+  aspect-ratio:1/1;
+  padding:0;
+  transition:transform .25s,border-color .25s,box-shadow .25s;
+}
+.about-modal-thumb img{
+  width:100%;
+  height:100%;
+  border:none;
+  max-height:none;
+  object-fit:cover;
+  transition:transform .45s cubic-bezier(.16,1,.3,1);
+}
+.about-modal-thumb:hover{
+  transform:translateY(-2px);
+  border-color:rgba(122,231,255,.5);
+  box-shadow:0 12px 20px rgba(0,0,0,.22);
+}
+.about-modal-thumb:hover img{transform:scale(1.06)}
+.about-modal-thumb.is-active{
+  border-color:rgba(122,231,255,.85);
+  box-shadow:0 0 0 1px rgba(122,231,255,.35),0 14px 24px rgba(0,0,0,.25);
+}
+.about-modal-body{
+  padding:1.55rem 1.7rem 1.8rem;
+  display:grid;
+  gap:.95rem;
+}
+.about-modal-label{
+  font-family:var(--mono);
+  font-size:.56rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--fog);
+}
+.about-modal-title{
+  font-family:var(--sans);
+  font-size:1.45rem;
+  font-weight:600;
+  letter-spacing:-.01em;
+  line-height:1.2;
+}
+.about-modal-meta{
+  font-family:var(--mono);
+  font-size:.58rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--fog);
+}
+.about-modal-desc{
+  font-size:.88rem;
+  line-height:1.75;
+  color:var(--mist);
+}
+.about-modal-sub{
+  margin-top:.15rem;
+  font-family:var(--mono);
+  font-size:.54rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--fog);
+}
+.about-modal-list{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:grid;
+  gap:.46rem;
+}
+.about-modal-list li{
+  position:relative;
+  padding-left:.95rem;
+  font-size:.84rem;
+  line-height:1.7;
+  color:var(--mist);
+}
+.about-modal-list li::before{
+  content:'-';
+  position:absolute;
+  left:0;
+  top:.05rem;
+  color:var(--fog);
+}
+.about-modal-tags{
+  margin-top:.2rem;
+  display:flex;
+  flex-wrap:wrap;
+  gap:.42rem;
+}
+.about-modal-tag{
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:.2rem .55rem;
+  font-family:var(--mono);
+  font-size:.52rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--mist);
+  background:rgba(255,255,255,.02);
+}
+.about-modal-close{
+  position:absolute;
+  top:1.2rem;
+  right:1.2rem;
+  border:1px solid var(--line);
+  background:rgba(5,7,10,.7);
+  color:var(--ink);
+  font-family:var(--mono);
+  font-size:.55rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  padding:.45rem .7rem;
+  cursor:pointer;
+  transition:.25s;
+}
+.about-modal-close:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 
 /* SELECTED WORK */
 .work-intro{
@@ -1238,15 +1635,56 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
 .sk-item:hover{border-color:var(--ink);color:var(--ink)}
 
 /* EDUCATION */
-.edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line)}
-.edu-card{padding:4rem;border-right:1px solid var(--line);transition:background .3s}
-.edu-card:last-child{border-right:none}
-.edu-card:hover{background:rgba(255,255,255,.02)}
-.ec-yr{font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--fog);margin-bottom:2.5rem}
-.ec-school{font-family:var(--sans);font-size:2rem;font-weight:600;letter-spacing:-.02em;line-height:1.1;margin-bottom:.5rem}
-.ec-deg{font-family:var(--mono);font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--fog);margin-bottom:2.25rem;line-height:1.7}
-.ec-body{font-size:.85rem;font-weight:300;line-height:1.9;color:var(--mist)}
-.ec-body strong{color:var(--ink);font-weight:500}
+.edu-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.6rem}
+.edu-card{
+  padding:2.35rem 2.6rem;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:linear-gradient(135deg,rgba(255,255,255,.045),rgba(255,255,255,.015));
+  position:relative;overflow:hidden;
+  transition:transform .35s,box-shadow .35s,border-color .35s;
+}
+.edu-card::before{
+  content:'';
+  position:absolute;left:1.5rem;right:1.5rem;top:0;height:2px;
+  background:linear-gradient(90deg,rgba(122,231,255,.8),rgba(182,255,217,.55),transparent);
+  opacity:.75;pointer-events:none;
+}
+.edu-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 22px 50px rgba(0,0,0,.4);
+  border-color:rgba(243,246,250,.28);
+}
+.edu-top{display:flex;justify-content:space-between;gap:1.5rem;align-items:flex-start;margin-bottom:1.4rem}
+.ec-yr{
+  font-family:var(--mono);font-size:.58rem;font-weight:500;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--fog);white-space:nowrap;margin:0;
+}
+.ec-school{font-family:var(--sans);font-size:1.65rem;font-weight:600;letter-spacing:-.02em;line-height:1.1}
+.ec-deg{
+  font-family:var(--mono);font-size:.62rem;font-weight:500;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--fog);line-height:1.6;margin-top:.45rem;
+}
+.edu-meta{display:grid;gap:.65rem;margin-top:1rem}
+.edu-label{
+  font-family:var(--mono);font-size:.52rem;font-weight:600;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--fog);
+}
+.edu-pills{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+.edu-scroll{overflow:visible;padding-bottom:0}
+.edu-scroll::-webkit-scrollbar{display:none}
+.edu-pill{
+  font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--mist);
+  border:1px solid var(--line);border-radius:999px;
+  padding:.32rem .6rem;background:rgba(255,255,255,.03);
+  white-space:nowrap;transition:.25s;
+}
+.edu-pill:hover{
+  color:var(--ink);
+  border-color:rgba(122,231,255,.55);
+  background:rgba(122,231,255,.08);
+}
 
 /* CONTACT */
 #contact{
@@ -1322,6 +1760,10 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   0%{transform:translate3d(calc(-1 * var(--preview-loop-distance)),0,0)}
   100%{transform:translate3d(0,0,0)}
 }
+@keyframes aboutTileIn{
+  from{opacity:0;transform:translateY(12px) scale(.985)}
+  to{opacity:1;transform:none}
+}
 .rv{opacity:0;transform:translateY(22px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
 .rv.in{opacity:1;transform:none}
 .rv[data-fx="lift"]{
@@ -1342,9 +1784,16 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .hero-name-wrap{flex-direction:column;align-items:flex-start;gap:2rem}
   .hero-bottom{grid-template-columns:1fr;gap:1.3rem}
   .hb-actions{justify-content:flex-start}
-  .about-layout{grid-template-columns:1fr;gap:2rem}
-  .about-sticky{position:relative;top:auto}
-  .about-collage{width:100%;grid-auto-rows:80px}
+  .about-layout{grid-template-columns:1fr;gap:2.5rem}
+  .about-carousel{max-width:840px}
+  .about-collage-grid{grid-template-rows:repeat(8,minmax(0,1fr))}
+  .shot-main{grid-column:1 / span 12;grid-row:1 / span 5}
+  .shot-win{grid-column:1 / span 12;grid-row:6 / span 2}
+  .shot-sponsors{grid-column:1 / span 6;grid-row:8 / span 1}
+  .shot-logo{grid-column:7 / span 3;grid-row:8 / span 1}
+  .shot-code{grid-column:10 / span 3;grid-row:8 / span 1}
+  .about-modal-card{grid-template-columns:1fr}
+  .about-modal-media{border-right:none;border-bottom:1px solid var(--line)}
   .work-preview{width:100%;column-count:3;column-gap:5px;min-width:0;max-width:none;height:clamp(247px,35vw,364px);padding:9px 9px 4px}
   .work-preview .work-thumb{width:calc(100% - 8px);margin:0 auto 6px}
   .work-subgrid{grid-template-columns:1fr}
@@ -1358,8 +1807,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .sk-col:nth-child(4){border-top:none}
   .sk-col:nth-child(n+3){border-top:1px solid var(--line)}
   .edu-grid{grid-template-columns:1fr}
-  .edu-card{border-right:none;border-bottom:1px solid var(--line)}
-  .edu-card:last-child{border-bottom:none}
+  .edu-card{padding:2rem 2.1rem}
 }
 @media (max-width:760px){
   nav{padding:1.25rem 5vw;align-items:flex-start;flex-wrap:wrap;gap:.9rem}
@@ -1390,18 +1838,49 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .work-submedia{column-count:2}
   .work-modal-body{grid-template-columns:1fr}
   .work-modal-side{flex-direction:row;justify-content:space-between;width:100%;align-items:center}
-  .about-controls{left:.75rem;right:.75rem;bottom:.75rem}
-  .about-btn{padding:.48rem .62rem}
+  .about-facts{grid-template-columns:1fr 1fr}
+  .about-carousel{aspect-ratio:1/1.1}
+  .about-slide{padding:.75rem .75rem 10rem}
+  .about-collage-grid{gap:.45rem;grid-template-rows:repeat(9,minmax(0,1fr))}
+  .shot-main{grid-column:1 / span 12;grid-row:1 / span 5}
+  .shot-win{grid-column:1 / span 12;grid-row:6 / span 2}
+  .shot-sponsors{grid-column:1 / span 12;grid-row:8 / span 1}
+  .shot-logo{grid-column:1 / span 6;grid-row:9 / span 1}
+  .shot-code{grid-column:7 / span 6;grid-row:9 / span 1}
+  .about-controls{top:.75rem;right:.75rem;left:auto;bottom:auto}
+  .about-btn{padding:.42rem .6rem}
+  .about-spotlight{left:.75rem;right:.75rem;bottom:.75rem;padding:.82rem .85rem .8rem}
+  .about-carousel.is-single .about-spotlight{bottom:.75rem}
+  .about-spot-title{font-size:.92rem}
+  .about-spot-meta{font-size:.73rem;line-height:1.5}
+  .about-spot-actions{flex-direction:column;align-items:flex-start}
+  .about-modal-thumbs{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .about-modal-body{padding:1.25rem 1.25rem 1.45rem}
+  .about-modal-title{font-size:1.2rem}
   .hb-desc{font-size:1rem;line-height:1.85}
   .hb-meta{font-size:.62rem}
   .exp-gallery{grid-template-columns:1fr}
   .exp-modal-card{grid-template-columns:1fr}
   .exp-modal-body{padding:1.5rem}
+  .edu-top{flex-direction:column;gap:.6rem}
+  .ec-school{font-size:1.45rem}
+  .edu-scroll{flex-wrap:wrap;overflow-x:visible;padding-bottom:0}
   .ct-row{gap:1.35rem}
   footer{flex-direction:column;align-items:flex-start;gap:.6rem}
 }
 
 @media (prefers-reduced-motion: reduce){
+  .about-slide.is-active .about-shot{animation:none}
+  .about-slide,
+  .about-shot,
+  .about-shot img,
+  .about-shot-caption,
+  .about-dot,
+  .about-open,
+  .about-modal-thumb,
+  .about-modal-thumb img,
+  .about-modal,
+  .about-modal-card,
   .work-item,
   .work-head::after,
   .work-thumb,
@@ -1428,7 +1907,6 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   <a href="#hero" class="nav-logo">Arsh Hashmi</a>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
-    <li><a href="#education">Education</a></li>
     <li><a href="#projects">Projects</a></li>
     <li><a href="#experience">Experience</a></li>
     <li><a href="#skills">Skills</a></li>
@@ -1462,14 +1940,6 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   </div>
 </section>
 
-<!-- STATS -->
-<div class="stats-bar">
-  <div class="sb-item rv"><span class="sb-n">3+</span><span class="sb-l">Years Founding<br>Cosmic PCs</span></div>
-  <div class="sb-item rv d1"><span class="sb-n">4</span><span class="sb-l">Active Engineering<br>Teams</span></div>
-  <div class="sb-item rv d2"><span class="sb-n">99.5</span><span class="sb-l">High School<br>GPA / 100</span></div>
-  <div class="sb-item rv d3"><span class="sb-n">10+</span><span class="sb-l">AP Courses<br>Completed</span></div>
-</div>
-
 <!-- ABOUT -->
 <section class="panel" id="about">
   <div class="sec-header rv">
@@ -1477,21 +1947,67 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
     <div class="sec-title">Who I am.</div>
   </div>
   <div class="about-layout">
-    <div class="about-sticky rv">
-      <div class="about-collage" aria-label="About image collage">
-        <div class="about-tile tile-lg" style="--img:url('images/about-1.jpg')"></div>
-        <div class="about-tile tile-sm" style="--img:url('images/about-2.jpg')"></div>
-        <div class="about-tile tile-md" style="--img:url('images/about-3.jpg')"></div>
-        <div class="about-tile tile-sm" style="--img:url('images/about-4.jpg')"></div>
-        <div class="about-tile tile-md" style="--img:url('images/about-5.jpg')"></div>
+    <div class="rv">
+      <div class="about-carousel" data-about-carousel aria-label="Event and conference photos">
+        <div class="about-slides">
+          <!-- Duplicate this .about-slide block for each new event/conference -->
+          <div class="about-slide is-active" data-kicker="Competition Highlight" data-title="2nd Place Nationally at MIG Quant Conference" data-meta="University of Michigan · Sponsored and flown out · Team performance across market-making and derivatives simulations." data-tags="2nd National|Algo 7th|Delta Dash 3rd" data-open-label="Click to view more" data-modal="true">
+            <div class="about-slide-meta">
+              <span class="about-slide-name">Michigan Quant Conference</span>
+              <span class="about-slide-index">01</span>
+            </div>
+            <div class="about-collage-grid">
+              <figure class="about-shot shot-main">
+                <img src="images/about/michigan-quant/img1.jpg" alt="Arsh and team at the Michigan quant conference">
+                <figcaption class="about-shot-caption">Team photo after our 2nd place national finish.</figcaption>
+              </figure>
+              <figure class="about-shot shot-win">
+                <img src="images/about/michigan-quant/img5.jpg" alt="Team celebrating at Michigan quant conference">
+                <figcaption class="about-shot-caption">Celebrating the win after final scoring.</figcaption>
+              </figure>
+              <a class="about-shot shot-logo" href="https://www.michiganinvestmentgroup.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit Michigan Investment Group website">
+                <img src="images/about/michigan-quant/img2.jpg" alt="Michigan Investment Group logo">
+                <span class="about-shot-caption">Michigan Investment Group, the host and sponsor.</span>
+              </a>
+              <figure class="about-shot shot-sponsors">
+                <img src="images/about/michigan-quant/img3.jpg" alt="Event sponsors at Michigan quant conference">
+                <figcaption class="about-shot-caption">Top firms supporting the conference.</figcaption>
+              </figure>
+              <figure class="about-shot shot-code">
+                <img src="images/about/michigan-quant/img4.jpg" alt="Team working on quant challenge code">
+                <figcaption class="about-shot-caption">Live coding and strategy iteration during timed rounds.</figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+        <div class="about-spotlight">
+          <div class="about-spot-kicker" data-about-kicker>Competition Highlight</div>
+          <div class="about-spot-title" data-about-title>2nd Place Nationally at MIG Quant Conference</div>
+          <p class="about-spot-meta" data-about-meta>University of Michigan · Sponsored and flown out · Team performance across market-making and derivatives simulations.</p>
+          <div class="about-spot-actions">
+            <div class="about-spot-tags" data-about-tags>
+              <span class="about-spot-tag">2nd National</span>
+              <span class="about-spot-tag">Algo 7th</span>
+              <span class="about-spot-tag">Delta Dash 3rd</span>
+            </div>
+            <button class="about-open" data-about-open type="button">Click to view more</button>
+          </div>
+        </div>
+        <div class="about-controls">
+          <button class="about-btn" data-about-prev type="button">Prev</button>
+          <div class="about-dots">
+            <button class="about-dot is-active" data-about-dot="0" aria-label="Show photo 1"></button>
+          </div>
+          <button class="about-btn" data-about-next type="button">Next</button>
+        </div>
       </div>
-      <p class="about-pic-cap">Collage template ready. Replace images/about-1.jpg to images/about-5.jpg with your own files.</p>
+      <p class="about-pic-cap">Michigan quant collage live. Duplicate this slide block for each future event and swap the img1..img5 paths.</p>
     </div>
     <div class="about-text">
-      <p class="lede rv d1">Building at the intersection of engineering precision, hands-on fabrication, and applied design.</p>
-      <p class="rv d2">I'm a first-year Mechanical Engineering student at Binghamton University's Watson College, where my work spans ANSYS CFD simulation, carbon fiber composite manufacturing, CAD design, and combat robotics — all through active student engineering teams.</p>
-      <p class="rv d3">Outside of school I've spent years on automotive projects: rebuilding salvage vehicles, custom vinyl wrapping, interior upholstery, and electrical modifications. I'm drawn to systems-level problem solving and hands-on work that produces something real and tangible.</p>
-      <p class="rv d3">In 2022 I founded Cosmic PCs — a custom computer building business averaging 3–5 orders a week — which gave me early experience in team management, customer relations, and e-commerce operations that I still draw from today.</p>
+      <p class="lede rv d1">Hi, I'm Arsh — a first-year Mechanical Engineering student at Binghamton University's Watson College (5+1 B.S./M.S. track) who loves building things that move and work in the real world.</p>
+      <p class="rv d2">My experience is hands-on and applied: motorsports and combat robotics, CAD and CFD in Fusion 360 + ANSYS, and plenty of fabrication, assembly, and testing. I like owning the full loop from design to build to iteration.</p>
+      <p class="rv d3">Outside of school, I'm usually in the garage doing automotive diagnostics, electronics integration, and rebuilds. I also founded Cosmic PCs, where I build custom systems end-to-end and manage hardware selection, troubleshooting, and delivery.</p>
+      <p class="rv d4">I'm currently looking for internships and technical opportunities where I can keep learning by shipping real hardware. Always happy to connect with engineers, builders, and recruiters.</p>
       <div class="about-facts rv d4">
         <div><span class="af-n">3+</span><span class="af-l">Years Entrepreneurship</span></div>
         <div><span class="af-n">4</span><span class="af-l">Engineering Teams</span></div>
@@ -1500,26 +2016,71 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
       </div>
     </div>
   </div>
-</section>
-
-<!-- EDUCATION -->
-<section class="panel" id="education">
-  <div class="sec-header rv">
-    <span class="sec-label">02 — Education</span>
-    <div class="sec-title">Academic background.</div>
-  </div>
-  <div class="edu-grid">
-    <div class="edu-card rv">
-      <div class="ec-yr">Aug 2025 — May 2029</div>
-      <div class="ec-school">Binghamton University</div>
-      <div class="ec-deg">B.S. / M.S. Mechanical Engineering<br>Watson College of Engineering & Applied Science</div>
-      <div class="ec-body"><strong>Teams & Orgs:</strong> Binghamton Motorsports SAE (Aero Apprentice + EV Go-Kart Engineer), Watson Combat Robotics League (Antweight Full Engineer), ASME General Body Member, Computer Robotics & Engineering Community (CoRE).</div>
-    </div>
-    <div class="edu-card rv d1">
-      <div class="ec-yr">Graduated June 2025</div>
-      <div class="ec-school">East Meadow High School</div>
-      <div class="ec-deg">Advanced Regents Diploma · GPA 99.5/100 · SAT 1300/1600</div>
-      <div class="ec-body"><strong>Honors:</strong> National Honor Society, Science Honor Society, AP Scholar Award, AP Research & Seminar Certificate, BOF Award for Academic Excellence.<br><br><strong>AP Courses:</strong> Calculus AB & BC, Chemistry, Physics 1, Physics C Mechanics, Physics C E&M, Language & Composition, Literature, Seminar, Research. Also: Architectural Design, Graphics Design.<br><br><strong>Athletics:</strong> JV & Varsity Soccer, Cross Country, Track & Field.</div>
+  <div class="about-edu-wrap rv d4">
+    <span class="about-edu-label">Academic Background</span>
+    <div class="edu-grid">
+      <div class="edu-card" data-fx="lift">
+        <div class="edu-top">
+          <div>
+            <div class="ec-school">East Meadow High School</div>
+            <div class="ec-deg">Advanced Regents Diploma · GPA 99.5/100 · SAT 1300/1600</div>
+          </div>
+          <div class="ec-yr">Graduated June 2025</div>
+        </div>
+        <div class="edu-meta">
+          <div class="edu-label">Honors</div>
+          <div class="edu-pills edu-scroll">
+            <span class="edu-pill">National Honor Society</span>
+            <span class="edu-pill">Science Honor Society</span>
+            <span class="edu-pill">AP Scholar Award</span>
+            <span class="edu-pill">AP Research &amp; Seminar Certificate</span>
+            <span class="edu-pill">BOF Award for Academic Excellence</span>
+          </div>
+        </div>
+        <div class="edu-meta">
+          <div class="edu-label">AP Courses</div>
+          <div class="edu-pills edu-scroll">
+            <span class="edu-pill">Calc AB/BC</span>
+            <span class="edu-pill">Chemistry</span>
+            <span class="edu-pill">Physics 1</span>
+            <span class="edu-pill">Physics C: Mechanics</span>
+            <span class="edu-pill">Physics C: E&amp;M</span>
+            <span class="edu-pill">Language &amp; Composition</span>
+            <span class="edu-pill">Literature</span>
+            <span class="edu-pill">Seminar</span>
+            <span class="edu-pill">Research</span>
+            <span class="edu-pill">Architectural Design</span>
+            <span class="edu-pill">Graphic Design</span>
+          </div>
+        </div>
+        <div class="edu-meta">
+          <div class="edu-label">Athletics</div>
+          <div class="edu-pills edu-scroll">
+            <span class="edu-pill">Soccer (JV/Varsity)</span>
+            <span class="edu-pill">Cross Country</span>
+            <span class="edu-pill">Track &amp; Field</span>
+          </div>
+        </div>
+      </div>
+      <div class="edu-card d1" data-fx="lift">
+        <div class="edu-top">
+          <div>
+            <div class="ec-school">Binghamton University</div>
+            <div class="ec-deg">B.S./M.S. Mechanical Engineering · Watson College of Engineering & Applied Science</div>
+          </div>
+          <div class="ec-yr">Aug 2025 — May 2029</div>
+        </div>
+        <div class="edu-meta">
+          <div class="edu-label">Teams & Orgs</div>
+          <div class="edu-pills edu-scroll">
+            <span class="edu-pill">Motorsports SAE — Aero Apprentice</span>
+            <span class="edu-pill">Motorsports SAE — EV Go-Kart Engineer</span>
+            <span class="edu-pill">Watson Combat Robotics League — Antweight Full Engineer</span>
+            <span class="edu-pill">ASME General Body Member</span>
+            <span class="edu-pill">Computer Robotics &amp; Engineering Community (CoRE)</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1527,7 +2088,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 <!-- PROJECTS -->
 <section class="panel dark" id="projects">
   <div class="sec-header rv">
-    <span class="sec-label">03 - Selected Work</span>
+    <span class="sec-label">02 - Selected Work</span>
     <div class="sec-title">Selected work.</div>
   </div>
   <p class="work-intro rv d1">A focused set of builds and research with clear outcomes, visuals, and technical scope.</p>
@@ -2970,7 +3531,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 <!-- EXPERIENCE -->
 <section class="panel" id="experience">
   <div class="sec-header rv">
-    <span class="sec-label">04 - Experience</span>
+    <span class="sec-label">03 - Experience</span>
     <div class="sec-title">Where I've worked.</div>
   </div>
 
@@ -3066,7 +3627,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 <!-- SKILLS -->
 <section class="panel" id="skills">
   <div class="sec-header rv">
-    <span class="sec-label">05 - Skills</span>
+    <span class="sec-label">04 - Skills</span>
     <div class="sec-title">Technical toolkit.</div>
   </div>
   <div class="skills-layout">
@@ -3098,6 +3659,43 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   <p>© 2026 Arsh Hashmi</p>
   <p>Mechanical Engineering · Binghamton University · Class of 2029</p>
 </footer>
+
+<div class="about-modal" data-about-modal>
+  <button class="about-modal-close" data-about-close>Close</button>
+  <div class="about-modal-card">
+    <div class="about-modal-media">
+      <img src="images/about/michigan-quant/img1.jpg" alt="Arsh Hashmi at Michigan Investment Group Quant Conference" data-about-modal-image>
+      <div class="about-modal-caption" data-about-modal-caption>Team photo after our 2nd place national finish.</div>
+      <div class="about-modal-thumbs">
+        <button class="about-modal-thumb is-active" data-about-thumb data-src="images/about/michigan-quant/img1.jpg" data-alt="Arsh and team at the Michigan quant conference" data-caption="Team photo after our 2nd place national finish." type="button"><img src="images/about/michigan-quant/img1.jpg" alt="Michigan quant team photo thumbnail"></button>
+        <button class="about-modal-thumb" data-about-thumb data-src="images/about/michigan-quant/img5.jpg" data-alt="Team celebrating at Michigan quant conference" data-caption="Celebrating the win after final scoring." type="button"><img src="images/about/michigan-quant/img5.jpg" alt="Michigan quant celebration thumbnail"></button>
+        <button class="about-modal-thumb" data-about-thumb data-src="images/about/michigan-quant/img3.jpg" data-alt="Event sponsors at Michigan quant conference" data-caption="Top firms supporting the conference." type="button"><img src="images/about/michigan-quant/img3.jpg" alt="Michigan quant sponsors thumbnail"></button>
+        <button class="about-modal-thumb" data-about-thumb data-src="images/about/michigan-quant/img4.jpg" data-alt="Team working on quant challenge code" data-caption="Live coding and strategy iteration during timed rounds." type="button"><img src="images/about/michigan-quant/img4.jpg" alt="Michigan quant coding thumbnail"></button>
+        <button class="about-modal-thumb" data-about-thumb data-src="images/about/michigan-quant/img2.jpg" data-alt="Michigan Investment Group logo" data-caption="Michigan Investment Group, the host and sponsor." type="button"><img src="images/about/michigan-quant/img2.jpg" alt="Michigan Investment Group logo thumbnail"></button>
+      </div>
+    </div>
+    <div class="about-modal-body">
+      <div class="about-modal-label">Conference Highlight</div>
+      <div class="about-modal-title">2nd Place Nationally - Michigan Investment Group Quant Conference</div>
+      <div class="about-modal-meta">University of Michigan · March 2026</div>
+      <p class="about-modal-desc">Competed against top trading universities including MIT, Stanford, and UCB. Our team delivered consistent performance across timed market-making, derivatives, and estimation modules.</p>
+      <div class="about-modal-sub">Key Outcomes</div>
+      <ul class="about-modal-list">
+        <li>2nd place national team finish at one of the largest student quantitative conferences.</li>
+        <li>Delta Dash: 3rd place, optimized dynamic bid-ask placement in a live stochastic limit-order-book simulation.</li>
+        <li>Contract Trading Game: 2nd place, focused on price discovery and liquidity under asymmetric information.</li>
+        <li>Algorithmic Trading Challenge: built and backtested a Python strategy in a 30-stock universe, finished 7th overall.</li>
+        <li>Sponsored and flown out by Michigan Investment Group; connected with professionals from major trading firms.</li>
+      </ul>
+      <div class="about-modal-tags">
+        <span class="about-modal-tag">Market Making</span>
+        <span class="about-modal-tag">Algorithmic Trading</span>
+        <span class="about-modal-tag">Derivatives</span>
+        <span class="about-modal-tag">Fermi Estimation</span>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="exp-modal" data-exp-modal>
   <button class="exp-modal-close" data-exp-close>Close</button>
@@ -3146,38 +3744,129 @@ setTimeout(()=>document.getElementById('intro').style.display='none',2000);
 
 /* About carousel */
 const aboutCarousel=document.querySelector('[data-about-carousel]');
-if(aboutCarousel){
-  const slides=[...aboutCarousel.querySelectorAll('.about-slide')];
-  const dots=[...aboutCarousel.querySelectorAll('[data-about-dot]')];
-  const prev=aboutCarousel.querySelector('[data-about-prev]');
-  const next=aboutCarousel.querySelector('[data-about-next]');
+const aboutModal=document.querySelector('[data-about-modal]');
+const aboutOpenBtns=[...document.querySelectorAll('[data-about-open]')];
+const aboutCloseBtn=aboutModal?.querySelector('[data-about-close]');
+const aboutKicker=document.querySelector('[data-about-kicker]');
+const aboutTitle=document.querySelector('[data-about-title]');
+const aboutMeta=document.querySelector('[data-about-meta]');
+const aboutTags=document.querySelector('[data-about-tags]');
+const aboutModalImage=aboutModal?.querySelector('[data-about-modal-image]');
+const aboutModalCaption=aboutModal?.querySelector('[data-about-modal-caption]');
+const aboutThumbs=aboutModal?[...aboutModal.querySelectorAll('[data-about-thumb]')]:[];
+
+if(aboutCarousel||aboutModal){
+  const slides=aboutCarousel?[...aboutCarousel.querySelectorAll('.about-slide')]:[];
+  const dots=aboutCarousel?[...aboutCarousel.querySelectorAll('[data-about-dot]')]:[];
+  const prev=aboutCarousel?.querySelector('[data-about-prev]');
+  const next=aboutCarousel?.querySelector('[data-about-next]');
+  const controls=aboutCarousel?.querySelector('.about-controls');
   let current=0,timer=null,startX=0,startY=0;
+  let canOpenModal=true;
+
+  const setModalShot=thumb=>{
+    if(!thumb||!aboutModalImage)return;
+    const src=thumb.getAttribute('data-src')||'';
+    const alt=thumb.getAttribute('data-alt')||'Conference image';
+    const caption=thumb.getAttribute('data-caption')||'';
+    if(src)aboutModalImage.src=src;
+    aboutModalImage.alt=alt;
+    if(aboutModalCaption)aboutModalCaption.textContent=caption;
+    aboutThumbs.forEach(btn=>btn.classList.toggle('is-active',btn===thumb));
+  };
+
+  const setSpotTags=value=>{
+    if(!aboutTags)return;
+    aboutTags.innerHTML='';
+    value.split('|').map(x=>x.trim()).filter(Boolean).forEach(tag=>{
+      const span=document.createElement('span');
+      span.className='about-spot-tag';
+      span.textContent=tag;
+      aboutTags.appendChild(span);
+    });
+  };
+
+  const syncSpotlight=slide=>{
+    if(!slide)return;
+    if(aboutKicker)aboutKicker.textContent=slide.getAttribute('data-kicker')||'Event Highlight';
+    if(aboutTitle)aboutTitle.textContent=slide.getAttribute('data-title')||'Event Spotlight';
+    if(aboutMeta)aboutMeta.textContent=slide.getAttribute('data-meta')||'';
+    setSpotTags(slide.getAttribute('data-tags')||'');
+    const label=slide.getAttribute('data-open-label')||'Click to view more';
+    canOpenModal=slide.getAttribute('data-modal')!=='false';
+    aboutOpenBtns.forEach(btn=>{
+      btn.textContent=label;
+      btn.disabled=!canOpenModal;
+      btn.style.opacity=canOpenModal?'1':'.45';
+      btn.style.pointerEvents=canOpenModal?'auto':'none';
+    });
+  };
 
   const setSlide=index=>{
+    if(!slides.length)return;
     current=(index+slides.length)%slides.length;
     slides.forEach((slide,i)=>slide.classList.toggle('is-active',i===current));
     dots.forEach((dot,i)=>dot.classList.toggle('is-active',i===current));
+    syncSpotlight(slides[current]);
   };
   const step=dir=>setSlide(current+dir);
   const stopAuto=()=>{if(timer){clearInterval(timer);timer=null}};
-  const startAuto=()=>{stopAuto();timer=setInterval(()=>step(1),5000)};
+  const startAuto=()=>{
+    if(slides.length<=1)return;
+    stopAuto();
+    timer=setInterval(()=>step(1),5000);
+  };
 
-  prev?.addEventListener('click',()=>{step(-1);startAuto()});
-  next?.addEventListener('click',()=>{step(1);startAuto()});
-  dots.forEach((dot,i)=>dot.addEventListener('click',()=>{setSlide(i);startAuto()}));
+  const openAbout=()=>{
+    if(!aboutModal)return;
+    if(!canOpenModal)return;
+    aboutModal.classList.add('is-open');
+    document.body.style.overflow='hidden';
+    stopAuto();
+  };
+  const closeAbout=()=>{
+    if(!aboutModal)return;
+    aboutModal.classList.remove('is-open');
+    document.body.style.overflow='';
+    startAuto();
+  };
 
-  aboutCarousel.addEventListener('touchstart',e=>{
-    const touch=e.touches[0];
-    startX=touch.clientX;startY=touch.clientY;
-  },{passive:true});
-  aboutCarousel.addEventListener('touchend',e=>{
-    const touch=e.changedTouches[0];
-    if(!touch)return;
-    const dx=touch.clientX-startX,dy=touch.clientY-startY;
-    if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)){step(dx<0?1:-1);startAuto()}
-  },{passive:true});
-  aboutCarousel.addEventListener('mouseenter',stopAuto);
-  aboutCarousel.addEventListener('mouseleave',startAuto);
+  if(aboutCarousel){
+    if(slides.length<=1){
+      aboutCarousel.classList.add('is-single');
+      controls?.setAttribute('hidden','');
+    }else{
+      prev?.addEventListener('click',()=>{step(-1);startAuto()});
+      next?.addEventListener('click',()=>{step(1);startAuto()});
+      dots.forEach((dot,i)=>dot.addEventListener('click',()=>{setSlide(i);startAuto()}));
+      aboutCarousel.addEventListener('touchstart',e=>{
+        const touch=e.touches[0];
+        startX=touch.clientX;startY=touch.clientY;
+      },{passive:true});
+      aboutCarousel.addEventListener('touchend',e=>{
+        const touch=e.changedTouches[0];
+        if(!touch)return;
+        const dx=touch.clientX-startX,dy=touch.clientY-startY;
+        if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)){step(dx<0?1:-1);startAuto()}
+      },{passive:true});
+      aboutCarousel.addEventListener('mouseenter',stopAuto);
+      aboutCarousel.addEventListener('mouseleave',startAuto);
+    }
+  }
+
+  if(aboutThumbs.length){
+    aboutThumbs.forEach(thumb=>thumb.addEventListener('click',()=>setModalShot(thumb)));
+    const activeThumb=aboutThumbs.find(thumb=>thumb.classList.contains('is-active'))||aboutThumbs[0];
+    setModalShot(activeThumb);
+  }
+
+  aboutOpenBtns.forEach(btn=>btn.addEventListener('click',openAbout));
+  aboutCloseBtn?.addEventListener('click',closeAbout);
+  aboutModal?.addEventListener('click',e=>{if(e.target===aboutModal)closeAbout()});
+  window.addEventListener('keydown',e=>{
+    if(!aboutModal?.classList.contains('is-open'))return;
+    if(e.key==='Escape')closeAbout();
+  });
 
   setSlide(0);
   startAuto();
