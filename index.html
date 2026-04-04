@@ -4,6 +4,9 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Arsh Hashmi</title>
+<link rel="preload" as="image" href="images/about/headshot.png" fetchpriority="high">
+<link rel="preload" as="image" href="images/about/michigan-quant/img1.jpg">
+<link rel="preload" as="image" href="images/about/michigan-quant/img5.jpg">
 <meta name="description" content="Arsh Hashmi — Mechanical Engineering student building real hardware: aerodynamics, combat robotics, automotive, and custom PCs. Based in New York and open to internships."/>
 <meta name="keywords" content="Arsh Hashmi, mechanical engineering, Binghamton University, student engineer, automotive fabrication, combat robotics, custom PCs, aerodynamics, CFD, CAD"/>
 <link rel="canonical" href="https://arshhashmi.com/">
@@ -1963,7 +1966,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
     <h1 class="hero-name">Arsh<br><em>Hashmi.</em></h1>
     <div class="hero-aside">
       <div class="hero-photo">
-        <img src="images/about/headshot.png" alt="Headshot of Arsh Hashmi">
+        <img src="images/about/headshot.png" alt="Headshot of Arsh Hashmi" fetchpriority="high" decoding="async" loading="eager">
       </div>
     </div>
   </div>
@@ -1999,23 +2002,23 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
             </div>
             <div class="about-collage-grid">
               <figure class="about-shot shot-main">
-                <img src="images/about/michigan-quant/img1.jpg" alt="Arsh and team at the Michigan quant conference">
+                <img src="images/about/michigan-quant/img1.jpg" alt="Arsh and team at the Michigan quant conference" loading="eager" decoding="async">
                 <figcaption class="about-shot-caption">Team photo after our 2nd place national finish.</figcaption>
               </figure>
               <figure class="about-shot shot-win">
-                <img src="images/about/michigan-quant/img5.jpg" alt="Team celebrating at Michigan quant conference">
+                <img src="images/about/michigan-quant/img5.jpg" alt="Team celebrating at Michigan quant conference" loading="eager" decoding="async">
                 <figcaption class="about-shot-caption">Celebrating the win after final scoring.</figcaption>
               </figure>
               <a class="about-shot shot-logo" href="https://www.michiganinvestmentgroup.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit Michigan Investment Group website">
-                <img src="images/about/michigan-quant/img2.jpg" alt="Michigan Investment Group logo">
+                <img src="images/about/michigan-quant/img2.jpg" alt="Michigan Investment Group logo" loading="eager" decoding="async">
                 <span class="about-shot-caption">Michigan Investment Group, the host and sponsor.</span>
               </a>
               <figure class="about-shot shot-sponsors">
-                <img src="images/about/michigan-quant/img3.jpg" alt="Event sponsors at Michigan quant conference">
+                <img src="images/about/michigan-quant/img3.jpg" alt="Event sponsors at Michigan quant conference" loading="eager" decoding="async">
                 <figcaption class="about-shot-caption">Top firms supporting the conference.</figcaption>
               </figure>
               <figure class="about-shot shot-code">
-                <img src="images/about/michigan-quant/img4.jpg" alt="Team working on quant challenge code">
+                <img src="images/about/michigan-quant/img4.jpg" alt="Team working on quant challenge code" loading="eager" decoding="async">
                 <figcaption class="about-shot-caption">Live coding and strategy iteration during timed rounds.</figcaption>
               </figure>
             </div>
@@ -4351,6 +4354,43 @@ if(expThumbs.length&&expModal){
     if(e.key==='ArrowRight')nextExp();
   });
 }
+
+/* Preload key imagery to avoid carousel lag */
+(() => {
+  const preloadList=[
+    'images/about/headshot.png',
+    'images/about/michigan-quant/img1.jpg',
+    'images/about/michigan-quant/img2.jpg',
+    'images/about/michigan-quant/img3.jpg',
+    'images/about/michigan-quant/img4.jpg',
+    'images/about/michigan-quant/img5.jpg'
+  ];
+  preloadList.forEach(src=>{
+    const img=new Image();
+    img.decoding='async';
+    img.loading='eager';
+    img.src=src;
+  });
+})();
+
+/* Preload all experience/work gallery images so modals feel instant */
+(() => {
+  const urls=new Set();
+  document.querySelectorAll('[data-work-gallery]').forEach(el=>{
+    const list=el.getAttribute('data-images');
+    if(!list)return;
+    list.split('|').forEach(src=>{
+      const clean=src.trim();
+      if(clean)urls.add(clean);
+    });
+  });
+  urls.forEach(src=>{
+    const img=new Image();
+    img.decoding='async';
+    img.loading='eager';
+    img.src=src;
+  });
+})();
 </script>
 </body>
 </html>
