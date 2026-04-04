@@ -4,6 +4,43 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Arsh Hashmi</title>
+<meta name="description" content="Arsh Hashmi — Mechanical Engineering student building real hardware: aerodynamics, combat robotics, automotive, and custom PCs. Based in New York and open to internships."/>
+<meta name="keywords" content="Arsh Hashmi, mechanical engineering, Binghamton University, student engineer, automotive fabrication, combat robotics, custom PCs, aerodynamics, CFD, CAD"/>
+<link rel="canonical" href="https://arshhashmi.com/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Arsh Hashmi — Mechanical Engineering Student">
+<meta property="og:description" content="Hands-on builder focused on aerodynamics, combat robotics, automotive work, and custom PCs. Open to internships and technical roles.">
+<meta property="og:url" content="https://arshhashmi.com/">
+<meta property="og:image" content="https://arshhashmi.com/images/about/headshot.png">
+<meta property="og:image:alt" content="Headshot of Arsh Hashmi">
+<meta property="og:image" content="https://arshhashmi.com/images/about/michigan-quant/img1.jpg">
+<meta property="og:image:alt" content="Arsh Hashmi and team at the Michigan Quant Conference">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Arsh Hashmi — Mechanical Engineering Student">
+<meta name="twitter:description" content="Hands-on builder focused on aerodynamics, combat robotics, automotive work, and custom PCs. Open to internships and technical roles.">
+<meta name="twitter:image" content="https://arshhashmi.com/images/about/headshot.png">
+<meta name="twitter:image:alt" content="Headshot of Arsh Hashmi">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Arsh Hashmi",
+  "url": "https://arshhashmi.com/",
+  "image": [
+    "https://arshhashmi.com/images/about/headshot.png",
+    "https://arshhashmi.com/images/about/michigan-quant/img1.jpg"
+  ],
+  "jobTitle": "Mechanical Engineering Student",
+  "affiliation": {
+    "@type": "CollegeOrUniversity",
+    "name": "Binghamton University"
+  },
+  "email": "mailto:ahashmi@binghamton.edu",
+  "knowsAbout": ["Mechanical Engineering", "Aerodynamics", "Combat Robotics", "Automotive", "Custom PCs", "Quantitative Finance Competitions"],
+  "award": "2nd Place Nationally at Michigan Investment Group Quant Conference",
+  "description": "Mechanical Engineering student building aerodynamic components, combat robots, automotive projects, and custom PCs; available for internships and technical roles."
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@300;400;500;600;700&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -119,8 +156,13 @@ nav.stuck{
 .hero-photo{
   width:100%;aspect-ratio:3/4;background:var(--surface);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7rem;
-  position:relative;overflow:hidden;border:1px solid var(--line);
+  position:relative;overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:18px;
+  box-shadow:0 20px 40px rgba(0,0,0,.35);
 }
+.hero-photo img{width:100%;height:100%;object-fit:cover;display:block;position:relative;z-index:1}
+.hero-photo img{border:1px solid rgba(255,255,255,.08);border-radius:12px}
 .hero-photo::before{
   content:'';position:absolute;inset:0;
   background:repeating-linear-gradient(
@@ -1921,8 +1963,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
     <h1 class="hero-name">Arsh<br><em>Hashmi.</em></h1>
     <div class="hero-aside">
       <div class="hero-photo">
-        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width=".75"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        <p>[ Headshot ]</p>
+        <img src="images/about/headshot.png" alt="Headshot of Arsh Hashmi">
       </div>
     </div>
   </div>
