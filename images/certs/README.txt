@@ -3,7 +3,9 @@
 Currently used by the site:
 - DUKE-1.png
 - UPENN-1.png
+- UPENN-2.png
 - GOOGLE-1.png
+- BLOOMBERG-1.png
 
 Optional PDFs (not used anymore):
 - DUKE.pdf
