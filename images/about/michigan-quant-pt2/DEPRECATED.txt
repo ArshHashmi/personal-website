@@ -1,0 +1,3 @@
+This folder name is currently being used for the Emergent Tech Startup Conference images.
+
+If you want cleaner organization later, move/copy these `img1..img5` files into `images/about/emergent-2026/` and I can update the paths in `index.html` to match.

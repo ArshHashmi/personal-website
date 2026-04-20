@@ -1,0 +1,7 @@
+Drop your Emergent Tech Startup Conference images in this folder using this naming pattern (used by `index.html`):
+
+- img1.jpg  (cover: you + Ishmael in front of Emergent signage)
+- img2.jpg  (sponsors list)
+- img3.jpg  (merch)
+- img4.jpg  (Brown University / Nelson Center cinematic shot)
+- img5.jpg  (panel speakers)

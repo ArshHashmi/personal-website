@@ -1,0 +1,9 @@
+Drop your conference images in this folder using this naming pattern (used by `index.html`):
+
+- img1.jpg  (main photo)
+- img2.jpg  (logo / graphic)
+- img3.jpg  (sponsors / graphic)
+- img4.jpg  (work / deliverable)
+- img5.jpg  (secondary photo)
+
+Tip: Keep the same file extensions used in `index.html` (currently `.jpg`).
