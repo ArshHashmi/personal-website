@@ -1760,20 +1760,6 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
   top:.05rem;
   color:var(--fog);
 }
-.work-tags{
-  display:flex;
-  flex-wrap:wrap;
-  gap:.4rem;
-}
-.work-tag{
-  font-family:var(--mono);
-  font-size:.52rem;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  padding:.2rem .6rem;
-  border:1px solid var(--line);
-  color:var(--fog);
-}
 .work-subsections{
   margin-top:1.1rem;
   padding-top:1.1rem;
@@ -2197,272 +2183,219 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
   color:var(--fog);
 }
 
-.cad-panel{
+.proj-panel{
   background:
-    radial-gradient(circle at 8% 10%,rgba(122,231,255,.14),transparent 34%),
-    radial-gradient(circle at 90% 82%,rgba(182,255,217,.09),transparent 38%),
-    linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.015));
+    radial-gradient(circle at 12% 10%,rgba(122,231,255,.12),transparent 36%),
+    radial-gradient(circle at 92% 88%,rgba(182,255,217,.08),transparent 40%),
+    linear-gradient(180deg,rgba(255,255,255,.038),rgba(255,255,255,.014));
 }
-.cad-layout{
+.proj-grid{
+  max-width:1120px;
+  margin-inline:auto;
   display:grid;
-  grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);
-  gap:1.1rem;
-  align-items:start;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:1rem;
 }
-.cad-stage-sticky{
-  position:sticky;
-  top:1.4rem;
-  display:grid;
-  gap:.85rem;
-}
-.cad-viewer{
+.proj-panel .future-headline{grid-template-columns:1fr}
+.proj-card.is-wide{grid-column:1 / -1}
+.proj-card{
   position:relative;
-  border:1px solid rgba(243,246,250,.14);
+  border:1px solid rgba(243,246,250,.12);
   border-radius:24px;
-  padding:.82rem;
-  background:
-    linear-gradient(180deg,rgba(7,11,16,.94),rgba(10,14,19,.88)),
-    var(--surface);
   overflow:hidden;
+  background:
+    linear-gradient(180deg,rgba(6,9,14,.9),rgba(10,14,20,.86)),
+    var(--surface);
+  box-shadow:0 20px 50px rgba(0,0,0,.3);
+  transition:transform .45s cubic-bezier(.16,1,.3,1),border-color .35s ease,box-shadow .45s ease;
+  isolation:isolate;
 }
-.cad-viewer::before{
+.proj-card::before{
   content:'';
   position:absolute;
   inset:0;
   background:
-    radial-gradient(circle at 14% 10%,rgba(122,231,255,.14),transparent 28%),
-    linear-gradient(90deg,rgba(255,255,255,.02),transparent 20%,transparent 80%,rgba(255,255,255,.02));
+    radial-gradient(circle at 14% 8%,rgba(122,231,255,.12),transparent 44%),
+    radial-gradient(circle at 88% 92%,rgba(182,255,217,.08),transparent 48%),
+    repeating-linear-gradient(90deg,transparent,transparent 22px,rgba(255,255,255,.018) 22px,rgba(255,255,255,.018) 23px);
+  opacity:.78;
   pointer-events:none;
+  z-index:0;
 }
-.cad-stage-badges{
+.proj-card::after{
+  content:'';
   position:absolute;
-  top:1.15rem;
-  left:1.15rem;
-  right:1.15rem;
+  inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.05),transparent 30%);
+  opacity:.55;
+  pointer-events:none;
+  z-index:0;
+}
+.proj-card:hover{
+  transform:translateY(-3px);
+  border-color:rgba(122,231,255,.3);
+  box-shadow:0 28px 66px rgba(0,0,0,.38);
+}
+.proj-card-head{
+  position:relative;
   z-index:2;
   display:flex;
-  justify-content:space-between;
-  gap:.55rem;
-  pointer-events:none;
-}
-.cad-stage-badge{
-  border:1px solid rgba(243,246,250,.18);
-  border-radius:999px;
-  padding:.28rem .52rem;
-  background:rgba(5,7,10,.62);
-  font-family:var(--mono);
-  font-size:.48rem;
-  letter-spacing:.15em;
-  text-transform:uppercase;
-  color:var(--mist);
-  backdrop-filter:blur(10px);
-}
-.cad-hero{
-  position:relative;
-  width:100%;
-  aspect-ratio:16/10;
-  border:0;
-  border:1px solid rgba(243,246,250,.14);
-  border-radius:18px;
-  overflow:hidden;
-  background:#0b1016;
-  cursor:pointer;
-  padding:0;
-  appearance:none;
-  text-align:left;
-}
-.cad-hero img,
-.cad-thumb img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-  transition:transform .8s cubic-bezier(.16,1,.3,1),filter .45s ease;
-}
-.cad-hero::after,
-.cad-thumb::after{
-  content:'';
-  position:absolute;
-  inset:0;
-  background:linear-gradient(180deg,rgba(5,7,10,.02),rgba(5,7,10,.55));
-  pointer-events:none;
-}
-.cad-hero-copy{
-  position:absolute;
-  left:1rem;
-  right:1rem;
-  bottom:1rem;
-  z-index:1;
-  display:flex;
+  align-items:flex-start;
   justify-content:space-between;
   gap:1rem;
-  align-items:flex-end;
+  padding:1rem 1rem .75rem;
+  border-bottom:1px solid rgba(243,246,250,.1);
+  background:linear-gradient(180deg,rgba(5,7,10,.55),rgba(5,7,10,.12));
 }
-.cad-hero-title{
-  max-width:22ch;
-  font-size:1rem;
-  font-weight:600;
-  line-height:1.2;
+.proj-kicker{
+  display:inline-flex;
+  border:1px solid rgba(243,246,250,.14);
+  border-radius:999px;
+  padding:.32rem .58rem;
+  background:rgba(5,7,10,.55);
+  backdrop-filter:blur(10px);
+  font-family:var(--mono);
+  font-size:.5rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--mist);
+  flex-shrink:0;
+  order:2;
 }
-.cad-hero-meta{
+.proj-title{
+  font-family:var(--sans);
+  font-size:1.08rem;
+  font-weight:650;
+  letter-spacing:-.01em;
+  line-height:1.15;
+  max-width:32ch;
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:1;
+  overflow:hidden;
+}
+.proj-meta{
+  margin-top:.3rem;
+  font-size:.78rem;
+  line-height:1.55;
+  color:var(--mist);
+  max-width:46ch;
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+  overflow:hidden;
+}
+.proj-text{min-width:0}
+.proj-text{order:1}
+.proj-body{
+  position:relative;
+  z-index:1;
+  padding:.95rem 1rem 1.05rem;
+  aspect-ratio:16/11;
+  display:grid;
+  grid-template-rows:1fr auto;
+  gap:.7rem;
+}
+.proj-card.is-wide .proj-body{aspect-ratio:32/11}
+.proj-body .about-collage-grid{
+  min-height:0;
+  gap:.55rem;
+}
+.proj-footer{
+  display:flex;
+  justify-content:flex-start;
+}
+.proj-footer span{
+  display:inline-flex;
+  align-items:center;
+  border:1px solid rgba(243,246,250,.14);
+  border-radius:999px;
+  padding:.32rem .6rem;
+  background:rgba(5,7,10,.55);
+  backdrop-filter:blur(10px);
   font-family:var(--mono);
   font-size:.5rem;
   letter-spacing:.16em;
   text-transform:uppercase;
   color:var(--mist);
 }
-.cad-thumb-grid{
-  margin-top:.72rem;
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:.65rem;
-}
-.cad-thumb{
-  position:relative;
-  aspect-ratio:1/.78;
-  border:0;
-  border:1px solid rgba(243,246,250,.12);
-  border-radius:14px;
-  overflow:hidden;
+.proj-body .about-shot{
+  border-color:rgba(243,246,250,.14);
   background:#0b1016;
+  box-shadow:0 14px 30px rgba(0,0,0,.28);
+}
+.proj-body .about-shot-caption{
+  border-color:rgba(243,246,250,.18);
+  background:rgba(5,7,10,.72);
+}
+.proj-body .shot-logo::before{display:none}
+.proj-body .shot-logo img{padding:0;background:#0b0f14;object-fit:cover}
+
+@media (max-width:760px){
+  .proj-grid{grid-template-columns:1fr}
+  .proj-body{aspect-ratio:1/1.05}
+}
+
+.cad-drop{
+  max-height:0;
+  overflow:hidden;
+  opacity:0;
+  transform:translateY(-6px);
+  transition:max-height .95s cubic-bezier(.16,1,.3,1),opacity .55s ease,transform .55s ease;
+  will-change:max-height,opacity,transform;
+}
+.cad-drop.is-open{
+  opacity:1;
+  transform:none;
+}
+.cad-drop-inner{
+  margin-top:1rem;
+  padding-top:1rem;
+  border-top:1px solid rgba(243,246,250,.1);
+}
+.cad-drop-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:1rem;
+}
+.cad-drop-toggle-row{
+  display:flex;
+  justify-content:center;
+  margin-top:.85rem;
+}
+.cad-drop-toggle{
+  width:100%;
+  height:46px;
+  border:0;
+  border-top:1px solid rgba(243,246,250,.1);
+  border-radius:16px;
+  background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);
+  color:var(--ink);
+  display:flex;
+  align-items:center;
+  justify-content:center;
   cursor:pointer;
   padding:0;
-  appearance:none;
-  text-align:left;
+  transition:background .25s,border-color .25s;
 }
-.cad-thumb-label{
-  position:absolute;
-  left:.55rem;
-  right:.55rem;
-  bottom:.5rem;
-  z-index:1;
-  font-family:var(--mono);
-  font-size:.45rem;
-  letter-spacing:.13em;
-  text-transform:uppercase;
-  color:var(--ink);
+.cad-drop-toggle:hover{
+  border-color:rgba(122,231,255,.28);
+  background:linear-gradient(180deg,rgba(122,231,255,.06),transparent);
 }
-.cad-viewer:hover .cad-hero img,
-.cad-thumb:hover img{
-  transform:scale(1.04);
-  filter:saturate(1.06);
-}
-.cad-spec-bar{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:.65rem;
-}
-.cad-spec{
-  border:1px solid rgba(243,246,250,.12);
-  border-radius:18px;
-  padding:.85rem .9rem;
-  background:rgba(255,255,255,.03);
-}
-.cad-spec-label{
+.cad-drop-toggle span{
   display:block;
-  margin-bottom:.38rem;
-  font-family:var(--mono);
-  font-size:.48rem;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  color:var(--fog);
+  font-size:1.15rem;
+  line-height:1;
+  transform:translateY(-1px);
+  transition:transform .35s cubic-bezier(.16,1,.3,1);
+  opacity:.85;
 }
-.cad-spec-value{
-  display:block;
-  font-size:.88rem;
-  line-height:1.45;
-  color:var(--mist);
+.cad-drop-toggle[aria-expanded="true"] span{
+  transform:translateY(-1px) rotate(180deg);
 }
-.cad-rail{
-  display:grid;
-  gap:.9rem;
+@media (max-width:760px){
+  .cad-drop-grid{grid-template-columns:1fr}
 }
-.cad-case{
-  position:relative;
-  border:1px solid rgba(243,246,250,.12);
-  border-radius:22px;
-  padding:1.05rem 1.05rem 1.1rem;
-  background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.018));
-  transition:transform .4s cubic-bezier(.16,1,.3,1),border-color .35s ease,box-shadow .35s ease;
-}
-.cad-case:hover{
-  transform:translateY(-3px) translateX(3px);
-  border-color:rgba(122,231,255,.3);
-  box-shadow:0 18px 34px rgba(0,0,0,.25);
-}
-.cad-case-type{
-  display:inline-flex;
-  margin-bottom:.65rem;
-  font-family:var(--mono);
-  font-size:.5rem;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  color:var(--accent);
-}
-.cad-case h4,
-.finance-card h4,
-.trading-card h4{
-  font-size:1.02rem;
-  font-weight:600;
-  line-height:1.24;
-  letter-spacing:-.01em;
-}
-.cad-case p,
-.finance-card p,
-.trading-card p{
-  margin:.55rem 0 .8rem;
-  font-size:.85rem;
-  line-height:1.72;
-  color:var(--mist);
-}
-.cad-case-meta{
-  margin-top:.8rem;
-  display:flex;
-  flex-wrap:wrap;
-  gap:.42rem;
-}
-.cad-case-meta span{
-  border:1px solid rgba(243,246,250,.12);
-  border-radius:999px;
-  padding:.25rem .5rem;
-  font-family:var(--mono);
-  font-size:.46rem;
-  letter-spacing:.13em;
-  text-transform:uppercase;
-  color:var(--fog);
-}
-.cad-case-wire{
-  overflow:hidden;
-}
-.cad-wireframe{
-  position:relative;
-  margin-top:.9rem;
-  height:132px;
-  border:1px solid rgba(243,246,250,.1);
-  border-radius:16px;
-  background:
-    radial-gradient(circle at 20% 10%,rgba(122,231,255,.12),transparent 30%),
-    linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));
-  overflow:hidden;
-}
-.cad-wireframe span{
-  position:absolute;
-  border:1px solid rgba(122,231,255,.28);
-  border-radius:14px;
-  box-shadow:0 0 18px rgba(122,231,255,.08);
-}
-.cad-wire-a{top:20px;left:20px;width:112px;height:54px;transform:rotate(-6deg)}
-.cad-wire-b{top:44px;left:128px;width:126px;height:38px;transform:rotate(5deg)}
-.cad-wire-c{top:18px;right:36px;width:72px;height:72px;border-radius:50%}
-.cad-wire-d{bottom:18px;left:58px;width:170px;height:36px}
-.cad-wire-e{bottom:16px;right:26px;width:92px;height:28px;transform:rotate(-8deg)}
-.future-panel.is-live .cad-wireframe span{
-  animation:futurePulse 3.4s ease-in-out infinite;
-}
-.future-panel.is-live .cad-wire-b{animation-delay:.25s}
-.future-panel.is-live .cad-wire-c{animation-delay:.5s}
-.future-panel.is-live .cad-wire-d{animation-delay:.75s}
-.future-panel.is-live .cad-wire-e{animation-delay:1s}
 
 .finance-panel{
   background:
@@ -3134,12 +3067,9 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .work-preview{width:100%;column-count:3;column-gap:5px;min-width:0;max-width:none;height:clamp(247px,35vw,364px);padding:9px 9px 4px}
   .work-preview .work-thumb{width:calc(100% - 8px);margin:0 auto 6px}
   .future-headline,
-  .cad-layout,
   .finance-layout,
   .trading-layout{grid-template-columns:1fr}
   .future-pills{justify-content:flex-start}
-  .cad-stage-sticky{position:static}
-  .cad-spec-bar{grid-template-columns:repeat(3,minmax(0,1fr))}
   .work-subgrid{grid-template-columns:1fr}
   .work-submedia-stack{grid-template-columns:1fr}
   .work-submedia{column-count:2}
@@ -3174,9 +3104,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .future-shell{padding:1.1rem}
   .future-title{font-size:clamp(1.45rem,8vw,2rem);max-width:none}
   .future-copy{font-size:.88rem}
-  .cad-thumb-grid,
   .finance-grid{grid-template-columns:1fr 1fr}
-  .cad-spec-bar,
   .trading-depth{grid-template-columns:1fr}
   .trading-candles{height:200px;gap:.3rem;padding:.75rem .5rem .6rem}
   .work-preview{width:100%;column-count:2;column-gap:5px;min-width:0;max-width:none;height:clamp(195px,46vw,280px);padding:8px 8px 4px}
@@ -3196,11 +3124,9 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .work-submedia{column-count:2}
   .work-modal-body{grid-template-columns:1fr}
   .work-modal-side{flex-direction:row;justify-content:space-between;width:100%;align-items:center}
-  .cad-thumb-grid,
   .finance-grid{grid-template-columns:1fr}
   .future-state,
   .future-track{font-size:.48rem}
-  .cad-spec-bar{grid-template-columns:1fr}
   .trading-tape{align-items:flex-start}
   .trading-metric strong{font-size:.9rem}
   .candle::after{width:10px}
@@ -3261,10 +3187,6 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .work-subtab,
   .future-panel,
   .future-shell,
-  .cad-hero img,
-  .cad-thumb img,
-  .cad-wireframe span,
-  .cad-case,
   .finance-card,
   .trading-card,
   .candle,
@@ -3665,13 +3587,6 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
               <li>Local tinting and wrap work with repeat clients.</li>
               <li>Custom interior and wiring upgrades across multiple vehicles.</li>
             </ul>
-            <div class="work-tags">
-              <span class="work-tag">Autobody</span>
-              <span class="work-tag">Vinyl Wrap</span>
-              <span class="work-tag">Upholstery</span>
-              <span class="work-tag">Electrical</span>
-              <span class="work-tag">Audio</span>
-            </div>
             <div class="work-subsections" data-work-subsections>
               <div class="work-subnav" data-work-subnav>
                 <button class="work-subtab is-active" data-work-subtab="buy" type="button">Buying &amp; Selling</button>
@@ -3953,14 +3868,6 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
               <li>Built and maintained a fully equipped build station + test bench for diagnosis, upgrades, and content capture.</li>
               <li>Managed custom builds, upgrades, and IG outreach (Cosmic_PCs) with GoPro + Adobe edits.</li>
             </ul>
-            <div class="work-tags">
-              <span class="work-tag">PC Builds</span>
-              <span class="work-tag">Logistics</span>
-              <span class="work-tag">Customer Support</span>
-              <span class="work-tag">Branding</span>
-              <span class="work-tag">E-commerce</span>
-              <span class="work-tag">Content</span>
-            </div>
             <div class="work-subsections" data-work-subsections>
               <div class="work-subnav" data-work-subnav>
                 <button class="work-subtab is-active" data-work-subtab="web" type="button">Website</button>
@@ -4132,116 +4039,268 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
     </article>
 
     <div class="future-work">
-      <article class="future-panel cad-panel rv" data-future-panel data-fx="lift">
+      <article class="future-panel proj-panel rv" data-future-panel data-fx="lift">
         <div class="future-shell">
           <div class="future-kicker-row">
-            <div class="future-track"><span>Track 01</span> CAD Systems</div>
-            <div class="future-state">Recruiter-ready visuals</div>
+            <div class="future-track"><span>Track 01</span> CAD Projects</div>
           </div>
           <div class="future-headline">
             <div>
-              <div class="future-title">CAD work that turns directly into parts, tooling, and testable hardware.</div>
-              <p class="future-copy">This lane is built for mechanical engineering internships: FSAE aero surfaces, manufacturing handoff, and WCRL packaging decisions shown with clearer visual hierarchy and a more professional project narrative.</p>
-            </div>
-            <div class="future-pills">
-              <span class="future-pill">Fusion 360</span>
-              <span class="future-pill">ANSYS Fluent</span>
-              <span class="future-pill">Composite Tooling</span>
-              <span class="future-pill">WCRL</span>
-              <span class="future-pill">FSAE EV</span>
+              <div class="future-title">CAD projects.</div>
             </div>
           </div>
-          <div class="cad-layout">
-            <div class="cad-stage">
-              <div class="cad-stage-sticky">
-                <div class="cad-viewer" data-work-gallery data-title="CAD Systems Portfolio" data-images="images/experience/sae-front-wing-v2.jpg|images/experience/sae-nosecone-cad.jpg|images/experience/sae-wing-mold.jpg|images/experience/sae-nosecone-template.jpg" data-captions="Front wing V2 CAD and aero development||Nosecone CAD render for aero integration||3D printed female mold for carbon layup||Waterjet-cut nosecone template and finish prep" data-details="Formula SAE aero work spanning concept, CFD, manufacturing, and composites||Built to show end-to-end CAD workflow instead of isolated screenshots||WCRL robot packaging and serviceability work lives in the project rail and will get image additions next">
-                  <div class="cad-stage-badges">
-                    <span class="cad-stage-badge">FSAE EV</span>
-                    <span class="cad-stage-badge">Open gallery</span>
-                  </div>
-                  <button class="cad-hero" data-work-open data-index="0" aria-label="Open CAD systems hero image">
-                    <img src="images/experience/sae-front-wing-v2.jpg" alt="Front wing V2 CAD render" loading="lazy" decoding="async">
-                    <span class="cad-hero-copy">
-                      <span class="cad-hero-title">Front wing V2, nosecone surfacing, and composite tooling for Binghamton Motorsports SAE.</span>
-                      <span class="cad-hero-meta">CAD to CFD to manufacture</span>
-                    </span>
-                  </button>
-                  <div class="cad-thumb-grid">
-                    <button class="cad-thumb" data-work-open data-index="1" aria-label="Open nosecone CAD render">
-                      <img src="images/experience/sae-nosecone-cad.jpg" alt="Nosecone CAD render" loading="lazy" decoding="async">
-                      <span class="cad-thumb-label">Nosecone CAD</span>
-                    </button>
-                    <button class="cad-thumb" data-work-open data-index="2" aria-label="Open female mold image">
-                      <img src="images/experience/sae-wing-mold.jpg" alt="Female mold for front wing element" loading="lazy" decoding="async">
-                      <span class="cad-thumb-label">Tooling + mold</span>
-                    </button>
-                    <button class="cad-thumb" data-work-open data-index="3" aria-label="Open nosecone template image">
-                      <img src="images/experience/sae-nosecone-template.jpg" alt="Nosecone template after manufacturing" loading="lazy" decoding="async">
-                      <span class="cad-thumb-label">Manufacturing handoff</span>
-                    </button>
-                  </div>
-                </div>
-                <div class="cad-spec-bar">
-                  <div class="cad-spec">
-                    <span class="cad-spec-label">Scope</span>
-                    <span class="cad-spec-value">Aero surfaces, packaging, templates, and mold design.</span>
-                  </div>
-                  <div class="cad-spec">
-                    <span class="cad-spec-label">Workflow</span>
-                    <span class="cad-spec-value">Model, simulate, export, fabricate, iterate.</span>
-                  </div>
-                  <div class="cad-spec">
-                    <span class="cad-spec-label">Why it matters</span>
-                    <span class="cad-spec-value">Shows internship teams I can turn geometry into hardware.</span>
-                  </div>
+
+          <div class="proj-grid" aria-label="Robotics and Formula projects">
+            <article class="proj-card is-wide">
+              <div class="proj-card-head">
+                <span class="proj-kicker">WCRL</span>
+                <div class="proj-text">
+                  <div class="proj-title">Humpty Dumpty</div>
+                  <div class="proj-meta">Antweight robot packaging + iteration.</div>
                 </div>
               </div>
-            </div>
-            <div class="cad-rail">
-              <article class="cad-case">
-                <span class="cad-case-type">Binghamton Motorsports SAE</span>
-                <h4>Nosecone, front wing V2, and composite tooling built around aero performance and manufacturability.</h4>
-                <p>Fusion 360 and ANSYS Fluent were used as one pipeline instead of separate tasks: geometry, CFD iteration, DXF release, mold prep, and composite fabrication all sat inside the same engineering loop.</p>
-                <ul class="future-list">
-                  <li>Refined meshes with inflation layers to resolve boundary-layer behavior and evaluate pressure and velocity distributions.</li>
-                  <li>Exported manufacturing-ready profiles for waterjet cutting and supported the carbon fiber layup process afterward.</li>
-                  <li>Used project visuals that show more than renders: CAD, tooling, and real fabrication handoff.</li>
-                </ul>
-                <div class="cad-case-meta">
-                  <span>Fusion 360</span>
-                  <span>ANSYS</span>
-                  <span>DXF</span>
-                  <span>Carbon Fiber</span>
+              <div class="proj-body">
+                <div class="about-collage-grid">
+                  <figure class="about-shot shot-main">
+                    <img src="images/placeholders/work-1.svg" alt="Humpty Dumpty project placeholder hero" loading="lazy" decoding="async">
+                    <figcaption class="about-shot-caption">Main build / CAD</figcaption>
+                  </figure>
+                  <figure class="about-shot shot-win">
+                    <img src="images/placeholders/work-2.svg" alt="Humpty Dumpty placeholder detail" loading="lazy" decoding="async">
+                    <figcaption class="about-shot-caption">Drive + packaging</figcaption>
+                  </figure>
+                  <figure class="about-shot shot-logo">
+                    <img src="images/placeholders/work-3.svg" alt="Humpty Dumpty placeholder detail" loading="lazy" decoding="async">
+                    <span class="about-shot-caption">Weapon + structure</span>
+                  </figure>
+                  <figure class="about-shot shot-sponsors">
+                    <img src="images/placeholders/work-2.svg" alt="Humpty Dumpty placeholder detail" loading="lazy" decoding="async">
+                    <figcaption class="about-shot-caption">Electronics</figcaption>
+                  </figure>
+                  <figure class="about-shot shot-code">
+                    <img src="images/placeholders/work-1.svg" alt="Humpty Dumpty placeholder detail" loading="lazy" decoding="async">
+                    <figcaption class="about-shot-caption">Iteration</figcaption>
+                  </figure>
                 </div>
-              </article>
-              <article class="cad-case cad-case-wire">
-                <span class="cad-case-type">Watson Combat Robotics League</span>
-                <h4>Compact packaging, serviceability, and impact-survival tradeoffs for a 1 lb antweight robot.</h4>
-                <p>This is where the CAD story broadens beyond aero. The robot work highlights constrained-volume design, weapon clearance, drivetrain packaging, battery placement, and assemblies that can be repaired fast between hits.</p>
-                <ul class="future-list">
-                  <li>Modeled around real packaging constraints instead of open geometry: radio, drive, weapon, structure, and access all had to coexist.</li>
-                  <li>Prioritized quick swaps and survivability so the design could actually hold up in a competition cycle.</li>
-                  <li>Sets up a strong contrast with FSAE by showing precision surfacing on one side and compact systems packaging on the other.</li>
-                </ul>
-                <div class="cad-wireframe" aria-hidden="true">
-                  <span class="cad-wire-a"></span>
-                  <span class="cad-wire-b"></span>
-                  <span class="cad-wire-c"></span>
-                  <span class="cad-wire-d"></span>
-                  <span class="cad-wire-e"></span>
+                <div class="proj-footer"><span>WCRL · Antweight (1 lb) Bot</span></div>
+              </div>
+            </article>
+
+            <article class="proj-card">
+              <div class="proj-card-head">
+                <span class="proj-kicker">FSAE EV</span>
+                <div class="proj-text">
+                  <div class="proj-title">Front Wing V2</div>
+                  <div class="proj-meta">CAD + CFD + manufacturing handoff.</div>
                 </div>
-              </article>
-              <article class="cad-case">
-                <span class="cad-case-type">Portfolio Framing</span>
-                <h4>A dedicated CAD area gives the mechanical side of the site its own voice instead of hiding inside generic project cards.</h4>
-                <p>The goal here is simple: when a recruiter lands on this section, they immediately understand that the work is real, technical, and already tied to fabrication, testing, and iteration.</p>
-                <ul class="future-list">
-                  <li>Visual hierarchy now favors hero imagery, technical scope, and role clarity over filler.</li>
-                  <li>FSAE and WCRL are grouped as a systems-design track rather than scattered across unrelated cards.</li>
-                  <li>Easy to extend later with more robot renders, stress plots, or exploded assemblies.</li>
-                </ul>
-              </article>
+              </div>
+              <div class="proj-body">
+                <div class="about-collage-grid">
+                  <figure class="about-shot shot-main">
+                    <img src="images/experience/sae-front-wing-v2.jpg" alt="Front wing V2 CAD render" loading="lazy" decoding="async">
+                    <figcaption class="about-shot-caption">Front wing V2</figcaption>
+                  </figure>
+                  <figure class="about-shot shot-win">
+                    <img src="images/experience/sae-nosecone-cad.jpg" alt="Nosecone CAD render" loading="lazy" decoding="async">
+                    <figcaption class="about-shot-caption">Assembly context</figcaption>
+                  </figure>
+                  <figure class="about-shot shot-logo">
+                    <img src="images/experience/sae-wing-mold.jpg" alt="Female mold for front wing element" loading="lazy" decoding="async">
+                    <span class="about-shot-caption">Tooling</span>
+                  </figure>
+                  <figure class="about-shot shot-sponsors">
+                    <img src="images/experience/sae-nosecone-template.jpg" alt="Nosecone template after manufacturing" loading="lazy" decoding="async">
+                    <figcaption class="about-shot-caption">Handoff</figcaption>
+                  </figure>
+                  <figure class="about-shot shot-code">
+                    <img src="images/experience/sae-wing-mold.jpg" alt="Composite tooling image" loading="lazy" decoding="async">
+                    <figcaption class="about-shot-caption">Composite work</figcaption>
+                  </figure>
+                </div>
+              </div>
+            </article>
+
+            <article class="proj-card">
+              <div class="proj-card-head">
+                <span class="proj-kicker">FSAE EV</span>
+                <div class="proj-text">
+                  <div class="proj-title">Nosecone</div>
+                  <div class="proj-meta">Fusion 360 geometry + DXF template.</div>
+                </div>
+              </div>
+              <div class="proj-body">
+                <div class="about-collage-grid">
+                  <figure class="about-shot shot-main">
+                    <img src="images/experience/sae-nosecone-cad.jpg" alt="Nosecone CAD render" loading="lazy" decoding="async">
+                    <figcaption class="about-shot-caption">Nosecone CAD</figcaption>
+                  </figure>
+                  <figure class="about-shot shot-win">
+                    <img src="images/experience/sae-nosecone-template.jpg" alt="Sanded nosecone template" loading="lazy" decoding="async">
+                    <figcaption class="about-shot-caption">DXF template</figcaption>
+                  </figure>
+                  <figure class="about-shot shot-logo">
+                    <img src="images/experience/sae-front-wing-v2.jpg" alt="Assembly render context" loading="lazy" decoding="async">
+                    <span class="about-shot-caption">Assembly</span>
+                  </figure>
+                  <figure class="about-shot shot-sponsors">
+                    <img src="images/experience/sae-wing-mold.jpg" alt="Tooling image" loading="lazy" decoding="async">
+                    <figcaption class="about-shot-caption">Tooling</figcaption>
+                  </figure>
+                  <figure class="about-shot shot-code">
+                    <img src="images/experience/sae-front-wing-v2.jpg" alt="Additional CAD render" loading="lazy" decoding="async">
+                    <figcaption class="about-shot-caption">Iteration</figcaption>
+                  </figure>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div class="cad-drop" data-cad-drop aria-hidden="true">
+            <div class="cad-drop-inner">
+              <div class="cad-drop-grid" aria-label="More CAD projects">
+                <article class="proj-card">
+                  <div class="proj-card-head">
+                    <span class="proj-kicker">FSAE EV</span>
+                    <div class="proj-text">
+                      <div class="proj-title">EV Go‑Kart Frame</div>
+                      <div class="proj-meta">Chassis assembly + fabrication workflow.</div>
+                    </div>
+                  </div>
+                  <div class="proj-body">
+                    <div class="about-collage-grid">
+                      <figure class="about-shot shot-main">
+                        <img src="images/placeholders/work-2.svg" alt="EV go-kart frame placeholder hero" loading="lazy" decoding="async">
+                        <figcaption class="about-shot-caption">Frame assembly</figcaption>
+                      </figure>
+                      <figure class="about-shot shot-win">
+                        <img src="images/placeholders/work-1.svg" alt="Go-kart frame placeholder detail" loading="lazy" decoding="async">
+                        <figcaption class="about-shot-caption">Bracket design</figcaption>
+                      </figure>
+                      <figure class="about-shot shot-logo">
+                        <img src="images/placeholders/work-3.svg" alt="Go-kart frame placeholder detail" loading="lazy" decoding="async">
+                        <span class="about-shot-caption">Mockups</span>
+                      </figure>
+                      <figure class="about-shot shot-sponsors">
+                        <img src="images/placeholders/work-1.svg" alt="Go-kart frame placeholder detail" loading="lazy" decoding="async">
+                        <figcaption class="about-shot-caption">Fitment</figcaption>
+                      </figure>
+                      <figure class="about-shot shot-code">
+                        <img src="images/placeholders/work-2.svg" alt="Go-kart frame placeholder detail" loading="lazy" decoding="async">
+                        <figcaption class="about-shot-caption">Weld prep</figcaption>
+                      </figure>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="proj-card">
+                  <div class="proj-card-head">
+                    <span class="proj-kicker">WCRL</span>
+                    <div class="proj-text">
+                      <div class="proj-title">Humpty Dumpty (Gallery)</div>
+                      <div class="proj-meta">Swap these placeholders with real fight/bot photos.</div>
+                    </div>
+                  </div>
+                  <div class="proj-body">
+                    <div class="about-collage-grid">
+                      <figure class="about-shot shot-main">
+                        <img src="images/placeholders/work-1.svg" alt="Humpty Dumpty placeholder" loading="lazy" decoding="async">
+                        <figcaption class="about-shot-caption">Full assembly</figcaption>
+                      </figure>
+                      <figure class="about-shot shot-win">
+                        <img src="images/placeholders/work-2.svg" alt="Humpty Dumpty placeholder detail" loading="lazy" decoding="async">
+                        <figcaption class="about-shot-caption">Weapon</figcaption>
+                      </figure>
+                      <figure class="about-shot shot-logo">
+                        <img src="images/placeholders/work-3.svg" alt="Humpty Dumpty placeholder detail" loading="lazy" decoding="async">
+                        <span class="about-shot-caption">Drive</span>
+                      </figure>
+                      <figure class="about-shot shot-sponsors">
+                        <img src="images/placeholders/work-2.svg" alt="Humpty Dumpty placeholder detail" loading="lazy" decoding="async">
+                        <figcaption class="about-shot-caption">Electronics</figcaption>
+                      </figure>
+                      <figure class="about-shot shot-code">
+                        <img src="images/placeholders/work-1.svg" alt="Humpty Dumpty placeholder detail" loading="lazy" decoding="async">
+                        <figcaption class="about-shot-caption">Iteration</figcaption>
+                      </figure>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="proj-card">
+                  <div class="proj-card-head">
+                    <span class="proj-kicker">CAD</span>
+                    <div class="proj-text">
+                      <div class="proj-title">New project</div>
+                      <div class="proj-meta">Drop in a new collage when ready.</div>
+                    </div>
+                  </div>
+                  <div class="proj-body">
+                    <div class="about-collage-grid">
+                      <figure class="about-shot shot-main">
+                        <img src="images/placeholders/work-3.svg" alt="New CAD project placeholder" loading="lazy" decoding="async">
+                        <figcaption class="about-shot-caption">Hero</figcaption>
+                      </figure>
+                      <figure class="about-shot shot-win">
+                        <img src="images/placeholders/work-1.svg" alt="New CAD project placeholder detail" loading="lazy" decoding="async">
+                        <figcaption class="about-shot-caption">Detail</figcaption>
+                      </figure>
+                      <figure class="about-shot shot-logo">
+                        <img src="images/placeholders/work-2.svg" alt="New CAD project placeholder detail" loading="lazy" decoding="async">
+                        <span class="about-shot-caption">Detail</span>
+                      </figure>
+                      <figure class="about-shot shot-sponsors">
+                        <img src="images/placeholders/work-1.svg" alt="New CAD project placeholder detail" loading="lazy" decoding="async">
+                        <figcaption class="about-shot-caption">Detail</figcaption>
+                      </figure>
+                      <figure class="about-shot shot-code">
+                        <img src="images/placeholders/work-2.svg" alt="New CAD project placeholder detail" loading="lazy" decoding="async">
+                        <figcaption class="about-shot-caption">Detail</figcaption>
+                      </figure>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="proj-card">
+                  <div class="proj-card-head">
+                    <span class="proj-kicker">CAD</span>
+                    <div class="proj-text">
+                      <div class="proj-title">New project</div>
+                      <div class="proj-meta">Drop in a new collage when ready.</div>
+                    </div>
+                  </div>
+                  <div class="proj-body">
+                    <div class="about-collage-grid">
+                      <figure class="about-shot shot-main">
+                        <img src="images/placeholders/work-1.svg" alt="New CAD project placeholder" loading="lazy" decoding="async">
+                        <figcaption class="about-shot-caption">Hero</figcaption>
+                      </figure>
+                      <figure class="about-shot shot-win">
+                        <img src="images/placeholders/work-2.svg" alt="New CAD project placeholder detail" loading="lazy" decoding="async">
+                        <figcaption class="about-shot-caption">Detail</figcaption>
+                      </figure>
+                      <figure class="about-shot shot-logo">
+                        <img src="images/placeholders/work-3.svg" alt="New CAD project placeholder detail" loading="lazy" decoding="async">
+                        <span class="about-shot-caption">Detail</span>
+                      </figure>
+                      <figure class="about-shot shot-sponsors">
+                        <img src="images/placeholders/work-2.svg" alt="New CAD project placeholder detail" loading="lazy" decoding="async">
+                        <figcaption class="about-shot-caption">Detail</figcaption>
+                      </figure>
+                      <figure class="about-shot shot-code">
+                        <img src="images/placeholders/work-3.svg" alt="New CAD project placeholder detail" loading="lazy" decoding="async">
+                        <figcaption class="about-shot-caption">Detail</figcaption>
+                      </figure>
+                    </div>
+                  </div>
+                </article>
+              </div>
             </div>
+          </div>
+
+          <div class="cad-drop-toggle-row">
+            <button class="cad-drop-toggle" data-cad-drop-toggle type="button" aria-expanded="false" aria-label="View more CAD projects">
+              <span aria-hidden="true">↓</span>
+            </button>
           </div>
         </div>
       </article>
@@ -4661,6 +4720,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
     </div>
   </div>
 </div>
+
 <script>
 /* Intro */
 setTimeout(()=>document.getElementById('intro').style.display='none',2000);
@@ -5080,6 +5140,57 @@ const scrollIntoViewportBand=(el,{topOffset=0,bottomOffset=24,behavior='smooth'}
   if(Math.abs(window.scrollY-target)<2)return;
   window.scrollTo({top:Math.max(0,target),behavior:reduced?'auto':behavior});
 };
+
+/* CAD dropdown (Selected Work - Track 01) */
+(() => {
+  const panel=document.querySelector('.future-panel.proj-panel');
+  const drop=panel?.querySelector('[data-cad-drop]');
+  const toggle=panel?.querySelector('[data-cad-drop-toggle]');
+  const dropInner=drop?.querySelector('.cad-drop-inner');
+  if(!panel||!drop||!toggle||!dropInner)return;
+
+  const isOpen=()=>toggle.getAttribute('aria-expanded')==='true';
+  const syncHeight=()=>{
+    if(!isOpen())return;
+    drop.style.maxHeight=`${dropInner.scrollHeight}px`;
+  };
+  const setOpen=open=>{
+    if(open){
+      toggle.setAttribute('aria-expanded','true');
+      drop.classList.add('is-open');
+      drop.setAttribute('aria-hidden','false');
+      drop.style.maxHeight=`${dropInner.scrollHeight}px`;
+      drop.querySelectorAll('img').forEach(img=>{
+        if(img.complete&&img.naturalWidth)return;
+        img.addEventListener('load',syncHeight,{once:true});
+      });
+    }else{
+      toggle.setAttribute('aria-expanded','false');
+      drop.classList.remove('is-open');
+      drop.setAttribute('aria-hidden','true');
+      drop.style.maxHeight='0px';
+    }
+  };
+
+  toggle.addEventListener('click',()=>setOpen(!isOpen()));
+  window.addEventListener('resize',syncHeight);
+  window.addEventListener('keydown',e=>{
+    if(e.key!=='Escape')return;
+    if(!isOpen())return;
+    setOpen(false);
+  });
+
+  if('IntersectionObserver' in window){
+    const obs=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting)return;
+        if(isOpen())setOpen(false);
+      });
+    },{threshold:.12});
+    obs.observe(panel);
+  }
+})();
+
 const closeOtherWorkItems=current=>{
   workItems.forEach(other=>{
     if(other===current)return;
