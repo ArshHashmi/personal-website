@@ -614,12 +614,18 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
   gap:.85rem;
   overflow:auto;
   padding-bottom:.35rem;
-  scroll-snap-type:x mandatory;
+  scroll-snap-type:none;
   -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
 }
 .certs-carousel::-webkit-scrollbar{height:0}
+.certs-track{
+  display:flex;
+  align-items:stretch;
+  gap:.85rem;
+}
 .cert-card{
-  scroll-snap-align:start;
+  scroll-snap-align:none;
   flex:0 0 auto;
   width:fit-content;
   max-width:calc(100% - .2rem);
@@ -642,8 +648,9 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
 .cert-card:hover{
   transform:translateY(-3px);
   border-color:rgba(122,231,255,.45);
-  box-shadow:0 28px 44px rgba(0,0,0,.42);
+  box-shadow:0 28px 44px rgba(0,0,0,.42),0 0 0 1px rgba(122,231,255,.28),0 0 24px rgba(122,231,255,.28);
 }
+.cert-card{cursor:pointer}
 .cert-card-inner{
   position:relative;
   display:grid;
@@ -795,6 +802,7 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
   gap:.45rem;
 }
 .cert-link:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.certs-carousel[data-cert-paused="true"]{cursor:default}
 .cert-hint{
   position:relative;
   z-index:1;
@@ -3350,8 +3358,6 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
       <span class="certs-label">Licenses &amp; Certifications</span>
       <div class="certs-actions">
         <div class="certs-dots" data-cert-dots aria-label="Certification carousel dots"></div>
-        <button class="certs-btn" data-cert-prev type="button">Prev</button>
-        <button class="certs-btn" data-cert-next type="button">Next</button>
       </div>
     </div>
     <div class="certs-carousel" data-cert-carousel tabindex="0" aria-label="Certification cards carousel">
@@ -3476,7 +3482,6 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
       </article>
     </div>
     <div class="cert-hint">
-      <span>Scroll to browse</span>
       <span>PDF preview is embedded</span>
     </div>
   </div>
@@ -4985,28 +4990,47 @@ if(aboutCarousel||aboutModal){
 
 /* Certifications */
 const certCarousel=document.querySelector('[data-cert-carousel]');
-const certPrev=document.querySelector('[data-cert-prev]');
-const certNext=document.querySelector('[data-cert-next]');
 const certDotsWrap=document.querySelector('[data-cert-dots]');
 const certCards=certCarousel?[...certCarousel.querySelectorAll('[data-cert-card]')]:[];
+let certTrack=null;
+let certPaused=false;
+let certRafId=0;
+let certLastTs=0;
+let certResumeTimer=0;
+let certInteractionTimer=0;
+let certHovering=false;
+let certFocused=false;
+let certInteracting=false;
+const certSpeedPxPerSec=26;
+const certResumeDelayMs=220;
+let certCurrentSpeed=0;
 
 const getClosestCardIndex=()=>{
-  if(!certCarousel||!certCards.length)return 0;
-  const left=certCarousel.scrollLeft;
+  if(!certCarousel||!certTrack)return 0;
+  const cards=[...certTrack.querySelectorAll('[data-cert-card]')];
+  if(!cards.length)return 0;
+  const viewportCenter=certCarousel.scrollLeft+(certCarousel.clientWidth/2);
   let bestIndex=0;
   let bestDist=Infinity;
-  certCards.forEach((card,i)=>{
-    const dist=Math.abs(card.offsetLeft-left);
-    if(dist<bestDist){bestDist=dist;bestIndex=i}
+  cards.forEach(card=>{
+    const center=card.offsetLeft+(card.offsetWidth/2);
+    const dist=Math.abs(center-viewportCenter);
+    if(dist<bestDist){
+      bestDist=dist;
+      bestIndex=parseInt(card.getAttribute('data-cert-origin')||'0',10)||0;
+    }
   });
   return bestIndex;
 };
 
 const scrollToCard=index=>{
-  if(!certCarousel||!certCards.length)return;
+  if(!certCarousel||!certTrack||!certCards.length)return;
   const clamped=Math.max(0,Math.min(certCards.length-1,index));
-  certCards[clamped].scrollIntoView({behavior:'smooth',inline:'start',block:'nearest'});
+  const target=certTrack.querySelector(`[data-cert-origin="${clamped}"]`);
+  if(!target)return;
+  certCarousel.scrollTo({left:target.offsetLeft,behavior:'smooth'});
 };
+let manualCertNavigate=index=>scrollToCard(index);
 
 const syncCertDots=activeIndex=>{
   if(!certDotsWrap)return;
@@ -5024,24 +5048,149 @@ const buildCertDots=()=>{
     btn.className='certs-dot'+(i===0?' is-active':'');
     btn.setAttribute('aria-label',`Go to certification ${i+1}`);
     btn.setAttribute('data-cert-dot','');
-    btn.addEventListener('click',()=>scrollToCard(i));
+    btn.addEventListener('click',()=>manualCertNavigate(i));
     certDotsWrap.appendChild(btn);
   });
 };
 
 if(certCarousel&&certCards.length){
+  certTrack=document.createElement('div');
+  certTrack.className='certs-track';
+  certTrack.setAttribute('data-cert-track','');
+  const seedCards=[...certCards];
+  const appendCertCloneSet=()=>{
+    seedCards.forEach((card,i)=>{
+      const node=card.cloneNode(true);
+      node.setAttribute('data-cert-origin',String(i));
+      certTrack.appendChild(node);
+    });
+  };
+  appendCertCloneSet();
+  appendCertCloneSet();
+  appendCertCloneSet();
+  certCarousel.innerHTML='';
+  certCarousel.appendChild(certTrack);
+  let certSegmentWidth=0;
+  const syncCertLoopBounds=()=>{
+    const firstSet=[...certTrack.querySelectorAll('[data-cert-origin]')].slice(0,seedCards.length);
+    if(!firstSet.length)return;
+    const first=firstSet[0];
+    const last=firstSet[firstSet.length-1];
+    certSegmentWidth=(last.offsetLeft+last.offsetWidth)-first.offsetLeft;
+    if(!certSegmentWidth)return;
+    certCarousel.scrollLeft=certSegmentWidth;
+  };
+  const normalizeCertLoop=()=>{
+    if(!certSegmentWidth)return;
+    const min=certSegmentWidth*.5;
+    const max=certSegmentWidth*1.5;
+    if(certCarousel.scrollLeft>=max){
+      certCarousel.scrollLeft-=certSegmentWidth;
+    }else if(certCarousel.scrollLeft<=min){
+      certCarousel.scrollLeft+=certSegmentWidth;
+    }
+  };
+  const pauseCertCycle=()=>{
+    certPaused=true;
+    certCarousel.setAttribute('data-cert-paused','true');
+  };
+  const resumeCertCycle=()=>{
+    if(certHovering||certFocused||certInteracting)return;
+    certPaused=false;
+    certCarousel.setAttribute('data-cert-paused','false');
+    certLastTs=0;
+  };
+  const clearCertResumeTimer=()=>{
+    if(!certResumeTimer)return;
+    window.clearTimeout(certResumeTimer);
+    certResumeTimer=0;
+  };
+  const clearCertInteractionTimer=()=>{
+    if(!certInteractionTimer)return;
+    window.clearTimeout(certInteractionTimer);
+    certInteractionTimer=0;
+  };
+  const holdCertPause=()=>{
+    pauseCertCycle();
+    clearCertResumeTimer();
+    certResumeTimer=window.setTimeout(()=>{
+      certResumeTimer=0;
+      resumeCertCycle();
+    },certResumeDelayMs);
+  };
+  const scheduleCertResume=()=>{
+    clearCertResumeTimer();
+    certResumeTimer=window.setTimeout(()=>{
+      certResumeTimer=0;
+      resumeCertCycle();
+    },certResumeDelayMs);
+  };
+  const holdCertPauseAfterInteraction=()=>{
+    certInteracting=true;
+    pauseCertCycle();
+    clearCertInteractionTimer();
+    certInteractionTimer=window.setTimeout(()=>{
+      certInteractionTimer=0;
+      certInteracting=false;
+      scheduleCertResume();
+    },certResumeDelayMs);
+  };
+  manualCertNavigate=index=>{
+    holdCertPause();
+    scrollToCard(index);
+  };
+  const certTick=ts=>{
+    if(!certCarousel)return;
+    certRafId=requestAnimationFrame(certTick);
+    if(!certLastTs){certLastTs=ts;return;}
+    const delta=Math.min(64,ts-certLastTs);
+    certLastTs=ts;
+    const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const targetSpeed=(certPaused||reduceMotion)?0:certSpeedPxPerSec;
+    certCurrentSpeed+=(targetSpeed-certCurrentSpeed)*0.1;
+    if(Math.abs(certCurrentSpeed)<0.02)return;
+    certCarousel.scrollLeft+=certCurrentSpeed*(delta/1000);
+    normalizeCertLoop();
+  };
+
   buildCertDots();
   let raf=null;
   const onScroll=()=>{
+    normalizeCertLoop();
     if(raf)return;
     raf=requestAnimationFrame(()=>{
       raf=null;
       syncCertDots(getClosestCardIndex());
     });
   };
+  syncCertLoopBounds();
+  certCarousel.setAttribute('data-cert-paused','false');
   certCarousel.addEventListener('scroll',onScroll,{passive:true});
-  certPrev?.addEventListener('click',()=>scrollToCard(getClosestCardIndex()-1));
-  certNext?.addEventListener('click',()=>scrollToCard(getClosestCardIndex()+1));
+  certCarousel.addEventListener('wheel',holdCertPauseAfterInteraction,{passive:true});
+  certCarousel.addEventListener('touchstart',holdCertPauseAfterInteraction,{passive:true});
+  certCarousel.addEventListener('pointerdown',holdCertPauseAfterInteraction);
+  certCarousel.addEventListener('mouseenter',()=>{
+    certHovering=true;
+    pauseCertCycle();
+  });
+  certCarousel.addEventListener('mouseleave',()=>{
+    certHovering=false;
+    scheduleCertResume();
+  });
+  certCarousel.addEventListener('focusin',()=>{
+    certFocused=true;
+    pauseCertCycle();
+  });
+  certCarousel.addEventListener('focusout',e=>{
+    if(certCarousel.contains(e.relatedTarget))return;
+    certFocused=false;
+    scheduleCertResume();
+  });
+  window.addEventListener('resize',()=>{
+    syncCertLoopBounds();
+    syncCertDots(getClosestCardIndex());
+  });
+  certRafId=requestAnimationFrame(certTick);
 }
 
 const certViewer=document.querySelector('[data-cert-viewer]');
@@ -5104,6 +5253,14 @@ document.querySelectorAll('.cert-media').forEach(media=>{
   media.addEventListener('click',e=>{
     e.preventDefault();
     const card=media.closest('[data-cert-card]');
+    openCertViewer(card);
+  });
+});
+document.querySelectorAll('[data-cert-card]').forEach(card=>{
+  card.addEventListener('click',e=>{
+    if(e.target.closest('.cert-link'))return;
+    const media=e.target.closest('.cert-media');
+    if(media)return;
     openCertViewer(card);
   });
 });
