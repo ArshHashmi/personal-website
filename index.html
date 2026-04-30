@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -603,7 +603,7 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
   z-index:1;
   display:flex;
   gap:.85rem;
-  overflow:auto;
+  overflow:hidden;
   padding-bottom:.35rem;
   scroll-snap-type:none;
   -webkit-overflow-scrolling:touch;
@@ -614,6 +614,9 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
   display:flex;
   align-items:stretch;
   gap:.85rem;
+  --cert-loop-distance:0px;
+  --cert-loop-duration:28s;
+  will-change:transform;
 }
 .cert-card{
   scroll-snap-align:none;
@@ -919,69 +922,187 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
 }
 
 /* EXPERIENCE */
-.exp-entry{display:grid;grid-template-columns:200px 1fr;gap:4vw;padding:3rem 0;border-bottom:1px solid var(--line);position:relative}
-.exp-entry::after{content:'';position:absolute;bottom:-1px;left:0;width:0;height:1px;background:var(--ink);transition:width .7s cubic-bezier(.16,1,.3,1)}
-.exp-entry:hover::after{width:100%}
-.ee-left{padding-top:.2rem}
-.ee-date{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--fog);line-height:1.9;margin-bottom:.6rem}
-.ee-badge{display:inline-block;font-family:var(--mono);font-size:.52rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.2rem .6rem;border:1px solid var(--line);color:var(--fog)}
-.ee-right{}
-.ee-role{font-family:var(--sans);font-size:1.45rem;font-weight:600;letter-spacing:-.01em;margin-bottom:.2rem;line-height:1.15}
-.ee-co{font-family:var(--mono);font-size:.65rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--fog);margin-bottom:1.25rem}
-.ee-desc{font-size:.87rem;font-weight:300;line-height:1.9;color:var(--mist);margin-bottom:1.2rem}
-.tags{display:flex;flex-wrap:wrap;gap:.4rem}
-.tag{font-family:var(--mono);font-size:.52rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:.22rem .62rem;border:1px solid var(--line);color:var(--fog);transition:.25s}
-.tag:hover{border-color:var(--ink);color:var(--ink)}
-
-.exp-gallery{
-  margin-top:1.4rem;
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:.8rem;
-}
-.exp-thumb{
+.exp-rail{
   position:relative;
-  border:1px solid var(--line);
-  background:var(--surface);
-  border-radius:14px;
-  overflow:hidden;
-  aspect-ratio:4/3;
-  cursor:pointer;
-  transition:transform .35s,border-color .35s,box-shadow .35s;
-  display:flex;
-  align-items:flex-end;
-  padding:.8rem;
-  color:var(--ink);
+  display:grid;
+  gap:1.2rem;
 }
-.exp-thumb-img{
+.exp-rail::before{
+  content:'';
   position:absolute;
-  inset:0;
+  left:1.05rem;
+  top:0;
+  bottom:0;
+  width:1px;
+  background:linear-gradient(180deg,rgba(122,231,255,.35),rgba(243,246,250,.08));
+}
+.exp-card{
+  position:relative;
+  margin-left:2.6rem;
+  display:grid;
+  grid-template-columns:88px minmax(0,1fr) 220px;
+  gap:1rem;
+  padding:1rem;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:
+    radial-gradient(circle at 0% 0%,rgba(122,231,255,.07),transparent 45%),
+    linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015)),
+    rgba(9,12,17,.9);
+  box-shadow:0 18px 36px rgba(0,0,0,.22);
+  transition:transform .32s,border-color .32s,box-shadow .32s;
+}
+.exp-card::before{
+  content:'';
+  position:absolute;
+  left:-1.98rem;
+  top:1.2rem;
+  width:.68rem;
+  height:.68rem;
+  border-radius:50%;
+  border:1px solid rgba(122,231,255,.55);
+  background:rgba(8,12,17,.96);
+  box-shadow:0 0 0 5px rgba(122,231,255,.08);
+}
+.exp-card:hover{
+  transform:translateY(-3px);
+  border-color:rgba(122,231,255,.32);
+  box-shadow:0 24px 44px rgba(0,0,0,.3);
+}
+.exp-media{
+  position:relative;
+  border:1px solid rgba(243,246,250,.14);
+  border-radius:12px;
+  overflow:hidden;
+  aspect-ratio:1/1;
+  cursor:pointer;
+  background:#0b0f14;
+  align-self:start;
+}
+.exp-media img{
   width:100%;
   height:100%;
   object-fit:contain;
-  background:#0b0f14;
-  transition:transform .9s cubic-bezier(.16,1,.3,1);
+  display:block;
+  padding:.45rem;
+  background:rgba(255,255,255,.98);
+  transition:transform .8s cubic-bezier(.16,1,.3,1),filter .35s;
 }
-.exp-thumb span{
-  position:relative;
+.exp-media:hover img{transform:scale(1.04);filter:saturate(1.06)}
+.exp-content{display:grid;gap:.65rem;min-width:0}
+.exp-side{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:.5rem;
+  align-content:start;
+}
+.exp-mini{
+  border:1px solid var(--line);
+  border-radius:10px;
+  overflow:hidden;
+  background:#0b0f14;
+  cursor:pointer;
+  aspect-ratio:4/3;
+  padding:0;
+}
+.exp-mini img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:transform .55s cubic-bezier(.16,1,.3,1);
+}
+.exp-mini:hover img{transform:scale(1.05)}
+.exp-topline{display:flex;flex-wrap:wrap;align-items:center;gap:.45rem .55rem}
+.exp-pill{
   font-family:var(--mono);
-  font-size:.56rem;
+  font-size:.5rem;
   letter-spacing:.14em;
   text-transform:uppercase;
-  color:var(--ink);
-  background:rgba(5,7,10,.85);
+  color:var(--fog);
   border:1px solid var(--line);
-  padding:.35rem .55rem;
   border-radius:999px;
-  max-width:100%;
-  z-index:1;
+  padding:.22rem .52rem;
 }
-.exp-thumb:hover{
-  border-color:rgba(122,231,255,.35);
-  box-shadow:0 18px 35px rgba(0,0,0,.25);
-  transform:translateY(-3px);
+.exp-time{
+  font-family:var(--mono);
+  font-size:.54rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--mist);
 }
-.exp-thumb:hover .exp-thumb-img{transform:scale(1.03)}
+.exp-role{
+  font-family:var(--sans);
+  font-size:1.15rem;
+  font-weight:620;
+  letter-spacing:-.01em;
+  line-height:1.2;
+}
+.exp-company{
+  font-family:var(--mono);
+  font-size:.58rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--fog);
+}
+.exp-location{font-size:.78rem;color:var(--mist)}
+.exp-summary{
+  font-size:.86rem;
+  font-weight:300;
+  line-height:1.7;
+  color:var(--mist);
+}
+.exp-bullets{
+  margin:0;
+  padding-left:1rem;
+  display:grid;
+  gap:.35rem;
+}
+.exp-bullets li{
+  font-size:.82rem;
+  color:var(--mist);
+  line-height:1.6;
+}
+.exp-tags{display:flex;flex-wrap:wrap;gap:.4rem}
+.exp-tag{
+  font-family:var(--mono);
+  font-size:.5rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--fog);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:.18rem .5rem;
+}
+.exp-group{
+  display:grid;
+  gap:.7rem;
+}
+.exp-subrole{
+  border:1px solid rgba(243,246,250,.1);
+  border-radius:12px;
+  padding:.65rem .7rem;
+  background:rgba(255,255,255,.015);
+}
+.exp-subrole-top{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:.35rem .5rem;
+  margin-bottom:.35rem;
+}
+.exp-subrole-title{
+  font-family:var(--sans);
+  font-size:.93rem;
+  font-weight:600;
+}
+.exp-subrole-meta{
+  font-family:var(--mono);
+  font-size:.5rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--fog);
+}
 
 .exp-modal{
   position:fixed;inset:0;z-index:6500;
@@ -3027,6 +3148,10 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   0%{transform:translate3d(calc(-1 * var(--preview-loop-distance)),0,0)}
   100%{transform:translate3d(0,0,0)}
 }
+@keyframes certMarqueeInfinite{
+  0%{transform:translate3d(calc(-1 * var(--cert-loop-distance)),0,0)}
+  100%{transform:translate3d(calc(-2 * var(--cert-loop-distance)),0,0)}
+}
 @keyframes aboutTileIn{
   from{opacity:0;transform:translateY(12px) scale(.985)}
   to{opacity:1;transform:none}
@@ -3073,8 +3198,8 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .work-submedia-stack{grid-template-columns:1fr}
   .work-submedia{column-count:2}
   .work-meta{grid-template-columns:1fr 1fr}
-  .exp-entry{grid-template-columns:1fr}
-  .exp-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .exp-card{grid-template-columns:80px minmax(0,1fr);margin-left:2.25rem}
+  .exp-side{grid-column:1 / -1;grid-template-columns:repeat(3,minmax(0,1fr))}
   .skills-layout{grid-template-columns:1fr 1fr}
   .sk-col:nth-child(3),.sk-col:nth-child(5){border-right:none}
   .sk-col:nth-child(4){border-top:none}
@@ -3142,6 +3267,12 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .about-btn{width:2.05rem;height:2.05rem;font-size:1rem}
   .about-spotlight{left:.75rem;right:.75rem;bottom:.75rem;padding:.82rem .85rem .8rem}
   .about-carousel.is-single .about-spotlight{bottom:.75rem}
+  .exp-rail::before{left:.7rem}
+  .exp-card{margin-left:1.75rem;grid-template-columns:1fr;padding:.85rem}
+  .exp-card::before{left:-1.34rem;top:1rem}
+  .exp-media{width:72px}
+  .exp-side{grid-template-columns:1fr 1fr}
+  .exp-role{font-size:1rem}
   .about-spot-title{font-size:.92rem;-webkit-line-clamp:2}
   .about-spot-meta{font-size:.73rem;line-height:1.5;-webkit-line-clamp:2}
   .about-spot-actions{flex-direction:column;align-items:flex-start}
@@ -3556,7 +3687,6 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
     <span class="sec-label">02 - Selected Work</span>
     <div class="sec-title">Selected work.</div>
   </div>
-  <p class="work-intro rv d1">Automotive and Cosmic stay as the anchor builds; below them is the next layer of CAD, finance, and trading work I want internship teams to remember.</p>
   <div class="work-stack">
     <article class="work-item rv" data-work-item>
       <div class="work-head">
@@ -4506,95 +4636,148 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 <section class="panel" id="experience">
   <div class="sec-header rv">
     <span class="sec-label">03 - Experience</span>
-    <div class="sec-title">Where I've worked.</div>
+    <div class="sec-title">Career timeline.</div>
   </div>
-
-  <div class="exp-entry rv">
-    <div class="ee-left"><div class="ee-date">Feb 2026 — Present<br>Binghamton, NY</div><div class="ee-badge">Full-time</div></div>
-    <div class="ee-right">
-      <div class="ee-role">Additive Manufacturing Technician</div>
-      <div class="ee-co">MakerLab · Binghamton University</div>
-      <p class="ee-desc">Operate and manage multiple FDM systems fabricating student-submitted parts. Monitor, calibrate, and troubleshoot 3D printers. Use laser scanning tools for reverse engineering. Manage print workflows via MakerLab database and assist students in preparing CAD models for additive manufacturing.</p>
-      <div class="tags"><span class="tag">FDM 3D Printing</span><span class="tag">Laser Scanning</span><span class="tag">Prototyping</span><span class="tag">CAD Prep</span><span class="tag">Database Mgmt</span></div>
-    </div>
-  </div>
-
-  <div class="exp-entry rv">
-    <div class="ee-left"><div class="ee-date">Sep 2025 — Present<br>Binghamton, NY</div><div class="ee-badge">Apprenticeship</div></div>
-    <div class="ee-right">
-      <div class="ee-role">Formula SAE Aerodynamics Apprentice (EV)</div>
-      <div class="ee-co">Binghamton Motorsports SAE</div>
-      <p class="ee-desc">Design and test airfoils in ANSYS Fluent and Fusion 360. Generate refined meshes with inflation layers, calculate lift/drag coefficients, visualize pressure and velocity distributions. Manufacture components via 3K and 12K carbon fiber layups — mold prep, vacuum bagging, curing, and finishing. Key projects: Nosecone, Front Wing V2, 3D-printed female molds.</p>
-      <div class="tags"><span class="tag">ANSYS Fluent</span><span class="tag">CFD</span><span class="tag">Fusion 360</span><span class="tag">Carbon Fiber</span><span class="tag">Vacuum Bagging</span><span class="tag">DXF / Waterjet</span></div>
-      <div class="exp-gallery rv d1">
-        <button class="exp-thumb" data-exp-thumb data-title="Nosecone" data-desc="Designed nosecone in Fusion 360 to optimize airflow and integrate with vehicle assembly.||Performed CFD simulations in ANSYS Fluent to evaluate drag and pressure distribution.||Generated refined computational meshes and analyzed velocity and pressure contours.||Created DXF files for waterjet manufacturing and assisted in carbon fiber composite layup and finishing." data-src="images/experience/sae-nosecone-cad.jpg" aria-label="Open nosecone detail">
-          <img class="exp-thumb-img" src="images/experience/sae-nosecone-cad.jpg" alt="Nosecone CAD render">
-          <span>Nosecone</span>
+  <div class="exp-rail">
+    <article class="exp-card rv">
+      <button class="exp-media" data-exp-thumb data-title="Additive Manufacturing Technician" data-desc="Operate and manage multiple FDM systems for student-submitted parts.||Calibrate and troubleshoot printers for reliability and throughput.||Support reverse engineering workflows with laser scanning and CAD prep." data-src="images/experience/sae-front-wing-v2.jpg" aria-label="Open MakerLab role details">
+        <img src="images/experience/sae-front-wing-v2.jpg" alt="Additive manufacturing workflow preview" loading="lazy" decoding="async">
+      </button>
+      <div class="exp-content">
+        <div class="exp-topline"><span class="exp-pill">Full-time · On-site</span><span class="exp-time">Feb 2026 - Present · 3 mos</span></div>
+        <div class="exp-role">Additive Manufacturing Technician</div>
+        <div class="exp-company">MakerLab · Binghamton University</div>
+        <div class="exp-location">Binghamton University, New York, United States</div>
+        <p class="exp-summary">Operate and manage multiple FDM manufacturing systems to fabricate student-submitted parts, ensuring print quality, dimensional accuracy, and proper material usage.</p>
+        <ul class="exp-bullets"><li>Monitor, maintain, and troubleshoot 3D printers through routine calibration, cleaning, and preventative maintenance.</li><li>Utilize laser scanning and digital fabrication tools for reverse engineering, prototyping, and custom part development.</li><li>Manage and organize print requests in the MakerLab database, track project status, and prioritize workflow for efficient turnaround.</li><li>Assist students in preparing CAD models for additive manufacturing, verifying printability and recommending changes for stronger prints.</li></ul>
+        <div class="exp-tags"><span class="exp-tag">Additive Manufacturing</span><span class="exp-tag">FDM 3D Printing</span><span class="exp-tag">Rapid Prototyping</span><span class="exp-tag">Reverse Engineering</span><span class="exp-tag">Laser Scanning</span><span class="exp-tag">Quality Control</span></div>
+      </div>
+      <div class="exp-side">
+        <button class="exp-mini" data-exp-thumb data-title="MakerLab Workflow" data-desc="Printer farm queue management and part turnaround." data-src="images/experience/sae-front-wing-v2.jpg" aria-label="Open MakerLab workflow image">
+          <img src="images/experience/sae-front-wing-v2.jpg" alt="MakerLab workflow" loading="lazy" decoding="async">
         </button>
-        <button class="exp-thumb" data-exp-thumb data-title="Front Wing V2" data-desc="Designed second front wing assembly in Fusion 360 and performed CFD analysis in ANSYS Fluent to evaluate aerodynamic performance.||Generated computational meshes with inflation layers to resolve boundary layer flow and calculated lift/drag coefficients and analyzed pressure and velocity distributions.||Tested various geometry angles to improve downforce and aerodynamic efficiency." data-src="images/experience/sae-front-wing-v2.jpg" aria-label="Open front wing V2 detail">
-          <img class="exp-thumb-img" src="images/experience/sae-front-wing-v2.jpg" alt="Front wing V2 CAD render">
-          <span>Front Wing V2</span>
-        </button>
-        <button class="exp-thumb" data-exp-thumb data-title="3D Printed Female Molds for Front Wing Element" data-desc="Designed and manufactured 3D-printed female molds in Fusion 360 for carbon fiber front wing element fabrication.||Continued with multiple layers of carbon layups and epoxy to create the element itself." data-src="images/experience/sae-wing-mold.jpg" aria-label="Open front wing mold detail">
-          <img class="exp-thumb-img" src="images/experience/sae-wing-mold.jpg" alt="Carbon fiber mold photo">
-          <span>3D Printed Female Molds for Front Wing Element</span>
-        </button>
-        <button class="exp-thumb" data-exp-thumb data-title="Sanded DXF - Nosecone" data-desc="Designed the nosecone geometry in Autodesk Fusion 360 and exported DXF profiles for waterjet cutting.||The manufactured template was used to guide carbon fiber layup and ensure accurate aerodynamic shape and fitment on the vehicle." data-src="images/experience/sae-nosecone-template.jpg" aria-label="Open sanded DXF nosecone detail">
-          <img class="exp-thumb-img" src="images/experience/sae-nosecone-template.jpg" alt="Sanded nosecone template photo">
-          <span>Sanded DXF - Nosecone</span>
+        <button class="exp-mini" data-exp-thumb data-title="CAD + Fabrication Support" data-desc="Student support from model prep to final print handoff." data-src="images/experience/sae-nosecone-template.jpg" aria-label="Open CAD support image">
+          <img src="images/experience/sae-nosecone-template.jpg" alt="CAD support preview" loading="lazy" decoding="async">
         </button>
       </div>
-    </div>
-  </div>
+    </article>
 
-  <div class="exp-entry rv">
-    <div class="ee-left"><div class="ee-date">Sep 2025 — Present<br>Binghamton, NY</div><div class="ee-badge">Full-time</div></div>
-    <div class="ee-right">
-      <div class="ee-role">EV Go-Kart Frame Engineer & Designer</div>
-      <div class="ee-co">Binghamton Motorsports SAE</div>
-      <p class="ee-desc">Designed frame, chain guard, and brake caliper bracket in Fusion 360 as part of master chassis assembly. Developed fabrication skills including MIG welding, notching, and surface prep. Created 3D-printed pre-fab mockups to validate fitment. First full chassis now complete.</p>
-      <div class="tags"><span class="tag">Fusion 360</span><span class="tag">MIG Welding</span><span class="tag">Assembly Design</span><span class="tag">3D Printing</span></div>
-    </div>
-  </div>
+    <article class="exp-card rv d1">
+      <button class="exp-media" data-exp-thumb data-title="Binghamton Motorsports (SAE)" data-desc="Two concurrent on-site roles: Aerodynamics Apprentice and EV Go-Kart Frame Engineer/Designer.||Combines CFD/CAD development with physical fabrication and fit-up testing." data-src="images/experience/sae-nosecone-cad.jpg" aria-label="Open Binghamton Motorsports role details">
+        <img src="images/experience/sae-nosecone-cad.jpg" alt="Formula SAE aerodynamics preview" loading="lazy" decoding="async">
+      </button>
+      <div class="exp-content">
+        <div class="exp-topline"><span class="exp-pill">On-site</span><span class="exp-time">8 mos · Sep 2025 - Present</span></div>
+        <div class="exp-role">Binghamton Motorsports (SAE)</div>
+        <div class="exp-company">Binghamton University</div>
+        <div class="exp-location">Binghamton University, New York, United States</div>
+        <div class="exp-group">
+          <div class="exp-subrole">
+            <div class="exp-subrole-top"><span class="exp-subrole-title">Formula Student Aerodynamics Team Apprentice (EV)</span><span class="exp-subrole-meta">Apprenticeship</span></div>
+            <ul class="exp-bullets"><li>Collaborate on custom airfoils using Fusion 360 and Ansys Fluent CFD.</li><li>Create meshes and calculate drag/lift coefficients across conditions, then iterate based on airflow results.</li><li>Create 3D-printable female molds and manufacture components with 3K/12K carbon layups, vacuum bagging, curing, and post-processing.</li></ul>
+            <div class="exp-tags"><span class="exp-tag">Autodesk Fusion 360</span><span class="exp-tag">Ansys Fluent</span><span class="exp-tag">CFD</span><span class="exp-tag">Aerodynamic Analysis</span><span class="exp-tag">Carbon Fiber Layups</span><span class="exp-tag">Vacuum Bagging</span></div>
+          </div>
+          <div class="exp-subrole">
+            <div class="exp-subrole-top"><span class="exp-subrole-title">EV Go-Kart Frame Team Engineer/Designer</span><span class="exp-subrole-meta">Full-time</span></div>
+            <ul class="exp-bullets"><li>Contribute weekly to team design/fabrication for an electric go-kart platform.</li><li>Use Fusion 360 to merge individual parts into a master assembly and validate fit.</li><li>Build fabrication capability through MIG welding, notching, surface prep, and 3D-printed fit-check mockups.</li></ul>
+            <div class="exp-tags"><span class="exp-tag">CAD</span><span class="exp-tag">MIG Welding</span><span class="exp-tag">FDM 3D Printing</span><span class="exp-tag">Rapid Prototyping</span><span class="exp-tag">Tolerance Analysis</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="exp-side">
+        <button class="exp-mini" data-exp-thumb data-title="Nosecone" data-desc="Aerodynamics role: CAD + CFD development for nosecone refinement." data-src="images/experience/sae-nosecone-cad.jpg" aria-label="Open Nosecone image">
+          <img src="images/experience/sae-nosecone-cad.jpg" alt="Nosecone preview" loading="lazy" decoding="async">
+        </button>
+        <button class="exp-mini" data-exp-thumb data-title="Front Wing V2" data-desc="Aerodynamics role: front-wing iteration for downforce/drag balance." data-src="images/experience/sae-front-wing-v2.jpg" aria-label="Open Front Wing image">
+          <img src="images/experience/sae-front-wing-v2.jpg" alt="Front wing preview" loading="lazy" decoding="async">
+        </button>
+        <button class="exp-mini" data-exp-thumb data-title="3D Printed Female Molds for Front Wing Element" data-desc="Composite prep pipeline: female molds before layups." data-src="images/experience/sae-wing-mold.jpg" aria-label="Open wing mold image">
+          <img src="images/experience/sae-wing-mold.jpg" alt="Wing mold preview" loading="lazy" decoding="async">
+        </button>
+        <button class="exp-mini" data-exp-thumb data-title="Sanded DXF - Nosecone" data-desc="DXF-to-manufacturing workflow for carbon layup fit." data-src="images/experience/sae-nosecone-template.jpg" aria-label="Open Nosecone template image">
+          <img src="images/experience/sae-nosecone-template.jpg" alt="Nosecone template preview" loading="lazy" decoding="async">
+        </button>
+        <button class="exp-mini" data-exp-thumb data-title="Frame + Chain Guard + Caliper Bracket" data-desc="Go-kart frame team: integrated part design and assembly fit." data-src="images/experience/sae-front-wing-v2.jpg" aria-label="Open frame and bracket image">
+          <img src="images/experience/sae-front-wing-v2.jpg" alt="Frame team preview" loading="lazy" decoding="async">
+        </button>
+        <button class="exp-mini" data-exp-thumb data-title="EV Go-Kart" data-desc="Go-kart team progress and fabrication workflow." data-src="images/experience/sae-wing-mold.jpg" aria-label="Open EV go-kart image">
+          <img src="images/experience/sae-wing-mold.jpg" alt="EV go-kart preview" loading="lazy" decoding="async">
+        </button>
+      </div>
+    </article>
 
-  <div class="exp-entry rv">
-    <div class="ee-left"><div class="ee-date">Sep 2025 — Present<br>Binghamton, NY</div><div class="ee-badge">Full-time</div></div>
-    <div class="ee-right">
-      <div class="ee-role">Full Combat Robotics Engineer — Antweight</div>
-      <div class="ee-co">Watson Combat Robotics League</div>
-      <p class="ee-desc">Design, build, and compete with a 1lb antweight combat robot in a team of 3. Iterate CAD in Fusion 360, 3D print and machine components, and solder/integrate drive motors, radio systems, LiPo batteries, and weapon motors. Test and refine based on stress data.</p>
-      <div class="tags"><span class="tag">Fusion 360</span><span class="tag">Soldering</span><span class="tag">Electronics</span><span class="tag">Arduino</span><span class="tag">Stress Testing</span></div>
-    </div>
-  </div>
+    <article class="exp-card rv d2">
+      <button class="exp-media" data-exp-thumb data-title="Watson Combat Robotics League" data-desc="Two on-site roles across the antweight combat robotics pipeline: Member and Full Combat Robotics Engineer.||Covers CAD, rapid iteration, electronics integration, and competition validation." data-src="images/about/headshot.png" aria-label="Open Watson Combat Robotics details">
+        <img src="images/about/headshot.png" alt="Watson Combat Robotics preview" loading="lazy" decoding="async">
+      </button>
+      <div class="exp-content">
+        <div class="exp-topline"><span class="exp-pill">Full-time · On-site</span><span class="exp-time">9 mos · Aug 2025 - Present</span></div>
+        <div class="exp-role">Watson Combat Robotics League</div>
+        <div class="exp-company">Binghamton University</div>
+        <div class="exp-location">Binghamton University, New York, United States</div>
+        <div class="exp-group">
+          <div class="exp-subrole">
+            <div class="exp-subrole-top"><span class="exp-subrole-title">Full Combat Robotics Engineer (Antweight Class)</span><span class="exp-subrole-meta">Sep 2025 - Present · 8 mos</span></div>
+            <ul class="exp-bullets"><li>Collaborate in a 3-person team to design, build, and compete in antweight-class tournaments.</li><li>Use Fusion 360 to design regulation-compliant parts and improve structural integrity.</li><li>3D print, machine, and assemble multiple iterations, validating tolerances and function each cycle.</li><li>Solder and integrate drive motors, radio systems, batteries, and weapon motors to combat standards.</li><li>Refine designs using stress/performance test data while maintaining competition guideline compliance.</li></ul>
+            <div class="exp-tags"><span class="exp-tag">Autodesk Fusion 360</span><span class="exp-tag">FDM 3D Printing</span><span class="exp-tag">Soldering</span><span class="exp-tag">Tolerance Analysis</span><span class="exp-tag">Arduino IDE</span><span class="exp-tag">Embedded Systems</span></div>
+          </div>
+          <div class="exp-subrole">
+            <div class="exp-subrole-top"><span class="exp-subrole-title">Member</span><span class="exp-subrole-meta">Aug 2025 - Sep 2025 · 2 mos</span></div>
+            <ul class="exp-bullets"><li>Competed under 1 lb antweight rules, emphasizing durability, maneuverability, and legal design.</li><li>Designed/fabricated parts with FDM 3D printing and CAD-first prototyping workflows.</li><li>Built core electrical/mechanical skills through soldering, PCB/Arduino integration, and team strategy sessions.</li></ul>
+            <div class="exp-tags"><span class="exp-tag">CAD</span><span class="exp-tag">Soldering</span><span class="exp-tag">Arduino IDE</span><span class="exp-tag">3D Printing</span><span class="exp-tag">Mechanical Engineering</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="exp-side">
+        <button class="exp-mini" data-exp-thumb data-title="Humpty Dumpty" data-desc="Antweight bot build: final design direction and component placement." data-src="images/about/headshot.png" aria-label="Open Humpty Dumpty thumbnail">
+          <img src="images/about/headshot.png" alt="Humpty Dumpty preview" loading="lazy" decoding="async">
+        </button>
+        <button class="exp-mini" data-exp-thumb data-title="Humpty Dumpty - Final CAD Iteration" data-desc="Final CAD iteration balancing weapon packaging and survivability." data-src="images/experience/sae-nosecone-cad.jpg" aria-label="Open final CAD iteration image">
+          <img src="images/experience/sae-nosecone-cad.jpg" alt="Final CAD iteration preview" loading="lazy" decoding="async">
+        </button>
+        <button class="exp-mini" data-exp-thumb data-title="Watson Combat Robotics League - Binghamton University" data-desc="Team environment and build/competition workflow." data-src="images/experience/sae-front-wing-v2.jpg" aria-label="Open Watson league image">
+          <img src="images/experience/sae-front-wing-v2.jpg" alt="Watson league preview" loading="lazy" decoding="async">
+        </button>
+      </div>
+    </article>
 
-  <div class="exp-entry rv">
-    <div class="ee-left"><div class="ee-date">Jun 2022 — Present<br>New York, NY</div><div class="ee-badge">Self-Employed</div></div>
-    <div class="ee-right">
-      <div class="ee-role">Founder & Project Manager</div>
-      <div class="ee-co">Cosmic PCs</div>
-      <p class="ee-desc">Built and maintained cosmicpcs.us, averaging 3–5 custom PC orders/week through Instagram and Facebook. Supervised a team of 3 using Gantt Charts. Created per-client hardware parts-lists with cost/performance analysis. Tracked sales and inventory in Excel and produced social media build content.</p>
-      <div class="tags"><span class="tag">PC Hardware</span><span class="tag">E-Commerce</span><span class="tag">Team Leadership</span><span class="tag">Social Media</span><span class="tag">Inventory Mgmt</span></div>
-    </div>
-  </div>
+    <article class="exp-card rv d3">
+      <button class="exp-media" data-exp-thumb data-title="Founder & Project Manager" data-desc="Built and maintained a direct-to-client custom PC workflow.||Managed client builds, parts strategy, and team coordination.||Used social and operations tracking to sustain recurring demand." data-src="images/projects/cosmicpcs/instagramstore.jpg" aria-label="Open Cosmic PCs role details">
+        <img src="images/projects/cosmicpcs/instagramstore.jpg" alt="Cosmic PCs storefront preview" loading="lazy" decoding="async">
+      </button>
+      <div class="exp-content">
+        <div class="exp-topline"><span class="exp-pill">Self-Employed</span><span class="exp-time">Jun 2022 � Present</span></div>
+        <div class="exp-role">Founder & Project Manager</div>
+        <div class="exp-company">Cosmic PCs</div>
+        <div class="exp-location">New York, NY</div>
+        <p class="exp-summary">Operates an end-to-end custom hardware brand covering demand generation, build operations, and customer delivery.</p>
+        <ul class="exp-bullets"><li>Leads build scoping, component planning, and quality control.</li><li>Coordinates timelines and deliverables across a small team.</li><li>Tracks sales, inventory, and margins using structured spreadsheets.</li></ul>
+        <div class="exp-tags"><span class="exp-tag">E-Commerce</span><span class="exp-tag">Hardware</span><span class="exp-tag">Ops</span><span class="exp-tag">Leadership</span></div>
+      </div>
+      <div class="exp-side">
+        <button class="exp-mini" data-exp-thumb data-title="Cosmic PCs Storefront" data-desc="Direct response storefront and social funnel." data-src="images/projects/cosmicpcs/instagramstore.jpg" aria-label="Open Cosmic PCs storefront">
+          <img src="images/projects/cosmicpcs/instagramstore.jpg" alt="Cosmic storefront preview" loading="lazy" decoding="async">
+        </button>
+        <button class="exp-mini" data-exp-thumb data-title="Custom Build Preview" data-desc="Client-specific PC build and configuration planning." data-src="images/projects/cosmicpcs/buildingpc.jpg" aria-label="Open custom PC build image">
+          <img src="images/projects/cosmicpcs/buildingpc.jpg" alt="Custom build preview" loading="lazy" decoding="async">
+        </button>
+      </div>
+    </article>
 
-  <div class="exp-entry rv">
-    <div class="ee-left"><div class="ee-date">Oct 2024 — Present<br>Hicksville, NY</div><div class="ee-badge">Part-time</div></div>
-    <div class="ee-right">
-      <div class="ee-role">Computer & Electronics Sales Associate</div>
-      <div class="ee-co">Target</div>
-      <p class="ee-desc">Provide personalized electronics recommendations. Support device setup, troubleshooting, and configuration to reduce return rates. Monitor inventory, maintain displays, and use POS systems for transactions and price auditing.</p>
-      <div class="tags"><span class="tag">Technical Support</span><span class="tag">Customer Service</span><span class="tag">POS Systems</span></div>
-    </div>
-  </div>
-
-  <div class="exp-entry rv">
-    <div class="ee-left"><div class="ee-date">Sep 2023 — May 2024<br>New York, NY</div><div class="ee-badge">Research</div></div>
-    <div class="ee-right">
-      <div class="ee-role">Student Researcher</div>
-      <div class="ee-co">School District (NY) · Under Dr. Mary Waring</div>
-      <p class="ee-desc">Developed IRB-style research documents and semi-structured interview protocols. Transcribed interviews via Otter.ai, built a codebook using En-vivo and Apriori coding, and presented findings on AI in School Counseling to an academic panel.</p>
-      <div class="tags"><span class="tag">Qualitative Coding</span><span class="tag">Academic Research</span><span class="tag">Interviews</span><span class="tag">AI</span></div>
-    </div>
+    <article class="exp-card rv d4">
+      <button class="exp-media" data-exp-thumb data-title="LinkedIn Entry Template" data-desc="Use this card format for each additional role from LinkedIn.||Add: photo path, job title, company, dates, location, bullets, and tags.||Keep chronology newest to oldest for consistent scan flow." data-src="images/about/headshot.png" aria-label="Open experience template details">
+        <img src="images/about/headshot.png" alt="Experience entry template preview" loading="lazy" decoding="async">
+      </button>
+      <div class="exp-content">
+        <div class="exp-topline"><span class="exp-pill">Template</span><span class="exp-time">Add More Roles</span></div>
+        <div class="exp-role">Duplicate This Card For Every LinkedIn Position</div>
+        <div class="exp-company">Data fields: title � company � dates � location</div>
+        <div class="exp-location">Recommended order: newest ? oldest</div>
+        <p class="exp-summary">This layout is built to scale. Duplicate one <code>exp-card</code> block per role and swap in your LinkedIn details and photos.</p>
+        <ul class="exp-bullets"><li>Photo: update <code>img src</code> and <code>data-src</code>.</li><li>Role text: update title/company/date/location.</li><li>Impact: keep 2�3 clear bullets + 3�5 skill tags.</li></ul>
+        <div class="exp-tags"><span class="exp-tag">LinkedIn Ready</span><span class="exp-tag">Chronological</span><span class="exp-tag">Visual Resume</span></div>
+      </div>
+    </article>
   </div>
 </section>
 
@@ -4982,102 +5165,56 @@ if(aboutCarousel||aboutModal){
 const certCarousel=document.querySelector('[data-cert-carousel]');
 const certCards=certCarousel?[...certCarousel.querySelectorAll('[data-cert-card]')]:[];
 let certTrack=null;
-let certPaused=false;
-let certRafId=0;
-let certLastTs=0;
 let certResumeTimer=0;
 let certInteractionTimer=0;
 let certHovering=false;
 let certFocused=false;
 let certInteracting=false;
 const certSpeedPxPerSec=26;
-const certResumeDelayMs=220;
-let certCurrentSpeed=certSpeedPxPerSec;
+const certResumeDelayMs=320;
+let certLoopDistance=0;
+let certOffset=0;
+let certRafId=0;
+let certLastTs=0;
+const certReducedMotionQuery=window.matchMedia('(prefers-reduced-motion: reduce)');
+let certTouchX=0;
 
-const getClosestCardIndex=()=>{
-  if(!certCarousel||!certTrack)return 0;
-  const cards=[...certTrack.querySelectorAll('[data-cert-card]')];
-  if(!cards.length)return 0;
-  const viewportCenter=certCarousel.scrollLeft+(certCarousel.clientWidth/2);
-  let bestIndex=0;
-  let bestDist=Infinity;
-  cards.forEach(card=>{
-    const center=card.offsetLeft+(card.offsetWidth/2);
-    const dist=Math.abs(center-viewportCenter);
-    if(dist<bestDist){
-      bestDist=dist;
-      bestIndex=parseInt(card.getAttribute('data-cert-origin')||'0',10)||0;
-    }
-  });
-  return bestIndex;
+const setCertPaused=paused=>{
+  if(!certCarousel)return;
+  certCarousel.setAttribute('data-cert-paused',paused?'true':'false');
 };
-
-const scrollToCard=index=>{
-  if(!certCarousel||!certTrack||!certCards.length)return;
-  const clamped=Math.max(0,Math.min(certCards.length-1,index));
-  const target=certTrack.querySelector(`[data-cert-origin="${clamped}"]`);
-  if(!target)return;
-  certCarousel.scrollTo({left:target.offsetLeft,behavior:'smooth'});
-};
-let manualCertNavigate=index=>scrollToCard(index);
 
 if(certCarousel&&certCards.length){
   certTrack=document.createElement('div');
   certTrack.className='certs-track';
   certTrack.setAttribute('data-cert-track','');
   const seedCards=[...certCards];
-  const appendCertCloneSet=()=>{
-    seedCards.forEach((card,i)=>{
-      const node=card.cloneNode(true);
-      node.setAttribute('data-cert-origin',String(i));
-      certTrack.appendChild(node);
-    });
-  };
-  appendCertCloneSet();
-  appendCertCloneSet();
-  appendCertCloneSet();
   certCarousel.innerHTML='';
   certCarousel.appendChild(certTrack);
-  let certSegmentWidth=0;
-  let certLoopInitialized=false;
-  const certReducedMotionQuery=window.matchMedia('(prefers-reduced-motion: reduce)');
-  const syncCertLoopBounds=(forceCenter=false)=>{
-    const firstSet=[...certTrack.querySelectorAll('[data-cert-origin]')].slice(0,seedCards.length);
+  for(let loop=0;loop<3;loop+=1){
+    seedCards.forEach(card=>certTrack.appendChild(card.cloneNode(true)));
+  }
+
+  const syncCertMarquee=()=>{
+    const firstSet=[...certTrack.children].slice(0,seedCards.length);
     if(!firstSet.length)return;
     const first=firstSet[0];
     const last=firstSet[firstSet.length-1];
-    const nextWidth=(last.offsetLeft+last.offsetWidth)-first.offsetLeft;
-    if(!nextWidth)return;
-    const prevWidth=certSegmentWidth||nextWidth;
-    certSegmentWidth=nextWidth;
-    if(forceCenter||!certLoopInitialized){
-      certCarousel.scrollLeft=certSegmentWidth;
-      certLoopInitialized=true;
-      return;
-    }
-    const localOffset=((certCarousel.scrollLeft%prevWidth)+prevWidth)%prevWidth;
-    certCarousel.scrollLeft=certSegmentWidth+localOffset;
+    const gap=parseFloat(window.getComputedStyle(certTrack).columnGap||window.getComputedStyle(certTrack).gap||'0')||0;
+    const distance=(last.offsetLeft+last.offsetWidth)-first.offsetLeft+gap;
+    if(!distance)return;
+    certLoopDistance=distance;
+    certOffset=((certOffset%distance)+distance)%distance;
+    certTrack.style.transform=`translate3d(${-distance-certOffset}px,0,0)`;
   };
-  const normalizeCertLoop=()=>{
-    if(!certSegmentWidth)return;
-    const min=certSegmentWidth*.5;
-    const max=certSegmentWidth*1.5;
-    if(certCarousel.scrollLeft>=max){
-      certCarousel.scrollLeft-=certSegmentWidth;
-    }else if(certCarousel.scrollLeft<=min){
-      certCarousel.scrollLeft+=certSegmentWidth;
-    }
-  };
+  const isCertPaused=()=>certCarousel.getAttribute('data-cert-paused')==='true';
   const pauseCertCycle=()=>{
-    certPaused=true;
-    certCarousel.setAttribute('data-cert-paused','true');
+    setCertPaused(true);
   };
   const resumeCertCycle=()=>{
     if(certHovering||certFocused||certInteracting)return;
-    certPaused=false;
-    certCarousel.setAttribute('data-cert-paused','false');
+    setCertPaused(false);
     certLastTs=0;
-    certCurrentSpeed=Math.max(certCurrentSpeed,certSpeedPxPerSec*.65);
   };
   const clearCertResumeTimer=()=>{
     if(!certResumeTimer)return;
@@ -5114,31 +5251,42 @@ if(certCarousel&&certCards.length){
       scheduleCertResume();
     },certResumeDelayMs);
   };
-  manualCertNavigate=index=>{
-    holdCertPause();
-    scrollToCard(index);
+  const nudgeCertOffset=delta=>{
+    if(!certLoopDistance)return;
+    certOffset=(certOffset+delta)%certLoopDistance;
+    if(certOffset<0)certOffset+=certLoopDistance;
+    certTrack.style.transform=`translate3d(${-certLoopDistance-certOffset}px,0,0)`;
   };
   const certTick=ts=>{
-    if(!certCarousel)return;
     certRafId=requestAnimationFrame(certTick);
+    if(!certLoopDistance){certLastTs=ts;return;}
     if(!certLastTs){certLastTs=ts;return;}
-    const delta=Math.min(64,ts-certLastTs);
+    const delta=Math.min(48,ts-certLastTs);
     certLastTs=ts;
-    const targetSpeed=(certPaused||certReducedMotionQuery.matches)?0:certSpeedPxPerSec;
-    certCurrentSpeed+=(targetSpeed-certCurrentSpeed)*0.22;
-    if(Math.abs(certCurrentSpeed)<0.02)return;
-    certCarousel.scrollLeft+=certCurrentSpeed*(delta/1000);
-    normalizeCertLoop();
+    if(isCertPaused()||certReducedMotionQuery.matches)return;
+    certOffset=(certOffset+(certSpeedPxPerSec*(delta/1000)))%certLoopDistance;
+    certTrack.style.transform=`translate3d(${-certLoopDistance-certOffset}px,0,0)`;
   };
-
-  const onScroll=()=>{
-    normalizeCertLoop();
-  };
-  syncCertLoopBounds(true);
-  certCarousel.setAttribute('data-cert-paused','false');
-  certCarousel.addEventListener('scroll',onScroll,{passive:true});
-  certCarousel.addEventListener('wheel',holdCertPauseAfterInteraction,{passive:true});
+  syncCertMarquee();
+  setCertPaused(false);
+  certCarousel.addEventListener('wheel',e=>{
+    holdCertPauseAfterInteraction();
+    nudgeCertOffset(e.deltaY+e.deltaX);
+  },{passive:true});
   certCarousel.addEventListener('touchstart',holdCertPauseAfterInteraction,{passive:true});
+  certCarousel.addEventListener('touchstart',e=>{
+    const touch=e.touches?.[0];
+    if(!touch)return;
+    certTouchX=touch.clientX;
+  },{passive:true});
+  certCarousel.addEventListener('touchmove',e=>{
+    const touch=e.touches?.[0];
+    if(!touch)return;
+    holdCertPauseAfterInteraction();
+    const dx=certTouchX-touch.clientX;
+    certTouchX=touch.clientX;
+    nudgeCertOffset(dx);
+  },{passive:true});
   certCarousel.addEventListener('pointerdown',holdCertPauseAfterInteraction);
   certCarousel.addEventListener('mouseenter',()=>{
     certHovering=true;
@@ -5157,15 +5305,15 @@ if(certCarousel&&certCards.length){
     certFocused=false;
     scheduleCertResume();
   });
-  const refreshCertLoopBounds=()=>{
-    requestAnimationFrame(()=>syncCertLoopBounds(false));
+  const refreshCertMarquee=()=>{
+    requestAnimationFrame(syncCertMarquee);
   };
   certTrack.querySelectorAll('img').forEach(img=>{
     if(!img.complete){
-      img.addEventListener('load',refreshCertLoopBounds,{once:true});
+      img.addEventListener('load',refreshCertMarquee,{once:true});
     }
   });
-  window.addEventListener('resize',refreshCertLoopBounds);
+  window.addEventListener('resize',refreshCertMarquee);
   certRafId=requestAnimationFrame(certTick);
 }
 
@@ -6008,6 +6156,7 @@ if(expThumbs.length&&expModal){
 </script>
 </body>
 </html>
+
 
 
 
