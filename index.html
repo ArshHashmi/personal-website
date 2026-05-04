@@ -5270,8 +5270,14 @@ if(certCarousel&&certCards.length){
   syncCertMarquee();
   setCertPaused(false);
   certCarousel.addEventListener('wheel',e=>{
+    const absX=Math.abs(e.deltaX);
+    const absY=Math.abs(e.deltaY);
+    const hasHorizontalIntent=absX>absY;
+    const shiftWheelIntent=e.shiftKey&&absY>0;
+    if(!hasHorizontalIntent&&!shiftWheelIntent)return;
     holdCertPauseAfterInteraction();
-    nudgeCertOffset(e.deltaY+e.deltaX);
+    const delta=hasHorizontalIntent?e.deltaX:e.deltaY;
+    nudgeCertOffset(delta);
   },{passive:true});
   certCarousel.addEventListener('touchstart',holdCertPauseAfterInteraction,{passive:true});
   certCarousel.addEventListener('touchstart',e=>{
