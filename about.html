@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>About — ENGINEERINGWITHARSH</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--ink:#f0f0f0;--paper:#080808;--surface:#111;--accent:#e8ff57;--fog:rgba(240,240,240,.08);--mist:rgba(240,240,240,.45);--line:rgba(240,240,240,.1);--sans:'Sora',sans-serif;--mono:'IBM Plex Mono',monospace}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--paper);color:var(--ink);font-family:var(--sans);min-height:100vh;display:flex;flex-direction:column}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 2.5rem;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--paper);z-index:100}
+    .nav-logo{display:flex;align-items:center;text-decoration:none;flex-shrink:0}.nav-logo-wordmark{font-family:"Sora",sans-serif;font-size:.82rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:#f0f0f0;white-space:nowrap;line-height:1}
+    .nav-back{font-family:"Sora",sans-serif;font-size:.78rem;font-weight:400;letter-spacing:-.01em;color:rgba(255,255,255,.4);text-decoration:none;transition:color .18s}
+    .nav-back:hover{color:rgba(255,255,255,.9)}
+    main{flex:1;max-width:860px;margin:0 auto;padding:5rem 2rem;width:100%}
+    .hero-row{display:grid;grid-template-columns:1fr auto;gap:3rem;align-items:start;margin-bottom:4rem}
+    @media(max-width:600px){.hero-row{grid-template-columns:1fr}.headshot{display:none}}
+    .page-label{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mist);display:block;margin-bottom:1.25rem}
+    h1{font-size:clamp(2.5rem,6vw,4rem);font-weight:800;line-height:1.1;margin-bottom:1.25rem}
+    .bio{font-size:1.05rem;color:var(--mist);line-height:1.75;max-width:520px}
+    .bio p+p{margin-top:1em}
+    .headshot{width:200px;height:240px;object-fit:cover;object-position:top;border:1px solid var(--line);flex-shrink:0}
+    .links-row{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2rem}
+    .link-btn{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;padding:.6rem 1.3rem;border:1px solid var(--line);color:var(--ink);text-decoration:none;transition:background .2s,border-color .2s}
+    .link-btn:hover{background:rgba(255,255,255,.08);border-color:rgba(240,240,240,.3)}
+    .link-btn.accent{border-color:var(--accent);color:var(--accent)}
+    .link-btn.accent:hover{background:var(--accent);color:var(--paper)}
+    .divider{border:none;border-top:1px solid var(--line);margin:3rem 0}
+    .section-label{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mist);margin-bottom:1.5rem;display:block}
+    .skills-grid{display:flex;flex-wrap:wrap;gap:.5rem}
+    .skill-pill{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;padding:.35rem .85rem;border:1px solid var(--line);color:var(--mist)}
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-logo"><span class="nav-logo-wordmark">ENGINEERINGWITHARSH</span></a>
+    <a href="index.html" class="nav-back">← Back to main</a>
+  </nav>
+  <main>
+    <div class="hero-row">
+      <div>
+        <span class="page-label">About me</span>
+        <h1>Arsh<br>Hashmi.</h1>
+        <div class="bio">
+          <p>Mechanical Engineering & Computer Science student at Binghamton University. I build things that move — aerodynamic wings, autonomous vehicles, electric go-karts — and document every step so others can build them too.</p>
+          <p>Currently on the Binghamton Motorsports (SAE) aerodynamics team, running 3D printing at the MakerLab, and building out this site as a full open-source engineering resource.</p>
+          <p>Formerly: automotive flipping and custom builds, combat robotics (WCRL), quantitative trading competitions.</p>
+        </div>
+        <div class="links-row">
+          <a href="builds.html" class="link-btn accent">View Projects →</a>
+          <a href="guides.html" class="link-btn">Free Guides</a>
+          <a href="contact.html" class="link-btn">Contact</a>
+        </div>
+      </div>
+      <img src="images/about/headshot.jpg" alt="Arsh Hashmi" class="headshot">
+    </div>
+
+    <hr class="divider">
+
+    <span class="section-label">Skills + Tools</span>
+    <div class="skills-grid">
+      <span class="skill-pill">Fusion 360</span>
+      <span class="skill-pill">ANSYS Fluent</span>
+      <span class="skill-pill">Carbon Fiber</span>
+      <span class="skill-pill">MIG Welding</span>
+      <span class="skill-pill">FDM 3D Printing</span>
+      <span class="skill-pill">CFD Analysis</span>
+      <span class="skill-pill">Python</span>
+      <span class="skill-pill">Computer Vision</span>
+      <span class="skill-pill">ROS</span>
+      <span class="skill-pill">Rapid Prototyping</span>
+      <span class="skill-pill">Tolerance Analysis</span>
+      <span class="skill-pill">Vacuum Bagging</span>
+    </div>
+  </main>
+</body>
+</html>

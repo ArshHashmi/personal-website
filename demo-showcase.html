@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en" style="background:#080808">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Build Showcase — Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#f0f0f0;--paper:#080808;
+  --fog:rgba(255,255,255,.28);--mist:rgba(255,255,255,.5);
+  --line:rgba(255,255,255,.08);
+  --sans:'Sora',sans-serif;--mono:'IBM Plex Mono',monospace;
+  --amber:#f59e0b;--green:#22c55e;
+}
+html{scroll-behavior:auto;background:#080808}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow-x:hidden}
+
+/* ── DEMO NAV ── */
+.demo-nav{
+  position:fixed;top:0;left:0;right:0;z-index:300;
+  padding:1.1rem 5vw;
+  display:flex;justify-content:space-between;align-items:center;
+  background:rgba(8,8,8,.88);backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--line);
+}
+.demo-nav-label{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.demo-nav-note{font-family:var(--mono);font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.22)}
+
+/* ── SPACER (simulates page above) ── */
+.demo-spacer{height:100vh;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--line)}
+.demo-spacer-label{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.15)}
+
+/* ══════════════════════════════════════
+   BUILD SHOWCASE SECTION
+══════════════════════════════════════ */
+.bsc-section{position:relative}
+
+/* ── ENTRY TITLE (non-sticky, scrolls into view) ── */
+.bsc-entry{
+  padding:9rem 7vw 5rem;
+  overflow:hidden;
+}
+.bsc-entry-tag{
+  font-family:var(--mono);font-size:clamp(.58rem,.72vw,.68rem);
+  font-weight:600;letter-spacing:.28em;text-transform:uppercase;
+  color:rgba(255,255,255,.3);display:block;margin-bottom:1.4rem;
+}
+.bsc-entry-h{
+  font-family:var(--sans);font-size:clamp(4.5rem,11vw,12rem);
+  font-weight:800;letter-spacing:-.055em;line-height:.88;
+  color:#fff;overflow:hidden;
+}
+.bsc-entry-h span{
+  display:block;
+  transform:translateY(110%);
+  opacity:0;
+  transition:transform .9s cubic-bezier(.16,1,.3,1),opacity .7s ease;
+}
+.bsc-entry-h span.reveal{transform:none;opacity:1}
+.bsc-entry-h span:nth-child(2){transition-delay:.12s}
+
+/* ── PROJECT STICKY ZONE ── */
+/* Each project: outer = scroll distance, inner = sticky viewport */
+.bsc-proj{
+  position:relative;
+}
+.bsc-proj-sticky{
+  position:sticky;
+  top:0;
+  height:100vh;
+  overflow:hidden;
+  display:grid;
+  grid-template-columns:57fr 43fr;
+}
+
+/* ── LEFT: VISUAL PANEL ── */
+.bsc-visual{
+  position:relative;
+  overflow:hidden;
+  background:#050505;
+}
+/* Image layers that crossfade on scroll */
+.bsc-layer{
+  position:absolute;inset:0;
+  background-size:cover;background-position:center;
+  will-change:opacity;
+}
+/* 3D card wrapper for the model reveal */
+.bsc-3d-wrap{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  perspective:1000px;
+  perspective-origin:55% 50%;
+  opacity:0;
+  will-change:opacity;
+}
+.bsc-3d-card{
+  width:78%;
+  aspect-ratio:16/10;
+  position:relative;
+  transform-style:preserve-3d;
+  will-change:transform;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 40px 80px rgba(0,0,0,.65),0 0 0 1px rgba(255,255,255,.08);
+}
+.bsc-3d-card img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  filter:saturate(1.05) brightness(.92);
+}
+.bsc-3d-card::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.12) 0%,transparent 50%,rgba(0,0,0,.2) 100%);
+  pointer-events:none;
+}
+/* Spec label that floats over the visual */
+.bsc-spec-float{
+  position:absolute;bottom:2.2rem;left:2.2rem;right:2.2rem;
+  display:flex;gap:.75rem;flex-wrap:wrap;
+  pointer-events:none;
+  opacity:0;
+  will-change:opacity;
+}
+.bsc-spec-chip{
+  font-family:var(--mono);font-size:clamp(.52rem,.65vw,.62rem);
+  font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  padding:.4rem .9rem;border-radius:999px;
+  background:rgba(8,8,8,.82);backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.75);
+  white-space:nowrap;
+}
+/* Thin progress stripe on left edge */
+.bsc-progress-track{
+  position:absolute;left:0;top:0;bottom:0;width:2px;
+  background:rgba(255,255,255,.06);z-index:10;
+}
+.bsc-progress-fill{
+  position:absolute;top:0;left:0;width:100%;height:0%;
+  background:rgba(255,255,255,.55);
+  transition:height .04s linear;
+}
+
+/* ── RIGHT: INFO PANEL ── */
+.bsc-info{
+  position:relative;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:3.5rem 4.5vw 3.5rem 3.5vw;
+  border-left:1px solid var(--line);
+  overflow:hidden;
+}
+.bsc-proj-num{
+  font-family:var(--mono);font-size:clamp(.58rem,.72vw,.68rem);
+  font-weight:600;letter-spacing:.28em;text-transform:uppercase;
+  color:rgba(255,255,255,.2);margin-bottom:.8rem;
+  transform:translateY(16px);opacity:0;will-change:transform,opacity;
+}
+.bsc-proj-name{
+  font-family:var(--sans);font-size:clamp(1.8rem,3vw,3.2rem);
+  font-weight:760;letter-spacing:-.04em;line-height:1.0;
+  color:#fff;margin-bottom:1.1rem;
+  transform:translateY(28px);opacity:0;will-change:transform,opacity;
+}
+.bsc-proj-tags{
+  display:flex;gap:.38rem;flex-wrap:wrap;margin-bottom:2.4rem;
+  transform:translateY(20px);opacity:0;will-change:transform,opacity;
+}
+.bsc-proj-tag{
+  font-family:var(--mono);font-size:clamp(.46rem,.58vw,.56rem);
+  letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.1);
+  border-radius:999px;padding:.24rem .55rem;
+}
+/* Staggered spec lines */
+.bsc-lines{display:grid;gap:1.2rem;margin-bottom:2.6rem}
+.bsc-line{
+  transform:translateY(22px);opacity:0;will-change:transform,opacity;
+}
+.bsc-line-label{
+  font-family:var(--mono);font-size:clamp(.48rem,.6vw,.56rem);
+  letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(255,255,255,.28);margin-bottom:.3rem;display:block;
+}
+.bsc-line-value{
+  font-family:var(--sans);font-size:clamp(.95rem,1.3vw,1.15rem);
+  font-weight:560;letter-spacing:-.01em;color:rgba(255,255,255,.82);
+  line-height:1.3;
+}
+/* CTA */
+.bsc-cta-wrap{
+  display:flex;align-items:center;gap:.85rem;flex-wrap:wrap;
+  transform:translateY(20px);opacity:0;will-change:transform,opacity;
+}
+.bsc-cta{
+  display:inline-flex;align-items:center;gap:.55rem;
+  font-family:var(--mono);font-size:clamp(.6rem,.78vw,.7rem);
+  font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:#080808;background:#fff;border:none;
+  border-radius:12px;padding:.75rem 1.6rem;
+  text-decoration:none;cursor:pointer;
+  transition:opacity .2s,transform .2s;
+}
+.bsc-cta:hover{opacity:.88;transform:translateY(-1px)}
+.bsc-cta-sec{
+  font-family:var(--mono);font-size:clamp(.56rem,.7vw,.64rem);
+  font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,255,255,.35);text-decoration:none;
+}
+.bsc-cta-badge{
+  display:inline-flex;align-items:center;gap:.28rem;
+  font-family:var(--mono);font-size:clamp(.48rem,.6vw,.56rem);
+  font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--green);border:1px solid rgba(34,197,94,.28);
+  border-radius:999px;background:rgba(34,197,94,.08);padding:.22rem .55rem;
+  margin-left:.1rem;
+}
+/* Status indicator */
+.bsc-status{
+  position:absolute;top:2.2rem;right:2.5vw;
+  display:flex;align-items:center;gap:.38rem;
+  font-family:var(--mono);font-size:clamp(.5rem,.62vw,.58rem);
+  font-weight:600;letter-spacing:.13em;text-transform:uppercase;
+  color:rgba(255,255,255,.4);
+}
+.bsc-status-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--amber);box-shadow:0 0 7px rgba(245,158,11,.55);
+  animation:sDot 1.8s ease-in-out infinite;
+}
+@keyframes sDot{0%,100%{opacity:1}50%{opacity:.3}}
+/* Scroll cue (shown before user starts scrolling through section) */
+.bsc-scroll-cue{
+  position:absolute;bottom:2rem;right:2.5vw;
+  font-family:var(--mono);font-size:clamp(.5rem,.62vw,.58rem);
+  letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(255,255,255,.2);
+  display:flex;align-items:center;gap:.45rem;
+  opacity:1;transition:opacity .4s;
+  will-change:opacity;
+}
+.bsc-scroll-cue::after{content:'↓';animation:scCue 1.6s ease-in-out infinite}
+@keyframes scCue{0%,100%{transform:translateY(0)}50%{transform:translateY(3px)}}
+
+/* ── PROJECT-TO-PROJECT TRANSITION ── */
+.bsc-bridge{
+  height:0;/* no gap — visual continuity handled by sticky exit */
+}
+
+/* ── OUTRO ── */
+.bsc-outro{
+  padding:6rem 7vw 10rem;
+  border-top:1px solid var(--line);
+  display:flex;align-items:flex-start;justify-content:space-between;gap:3rem;flex-wrap:wrap;
+}
+.bsc-outro-left{}
+.bsc-outro-note{font-family:var(--mono);font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.22);display:block;margin-bottom:.9rem}
+.bsc-outro-h{font-family:var(--sans);font-size:clamp(1.8rem,3vw,2.8rem);font-weight:700;letter-spacing:-.03em;color:rgba(255,255,255,.7)}
+.bsc-outro-cta{
+  align-self:flex-end;
+  font-family:var(--mono);font-size:clamp(.6rem,.78vw,.7rem);
+  font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  border:1px solid rgba(255,255,255,.18);border-radius:12px;
+  padding:.75rem 1.6rem;color:var(--ink);text-decoration:none;
+  transition:.25s;
+}
+.bsc-outro-cta:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+/* ── SPACER BELOW ── */
+.demo-spacer-below{height:60vh;display:flex;align-items:center;justify-content:center}
+</style>
+</head>
+<body>
+
+<!-- DEMO NAV -->
+<div class="demo-nav">
+  <span class="demo-nav-label">Demo — Build Showcase Section</span>
+  <span class="demo-nav-note">Scroll to preview the experience</span>
+</div>
+
+<!-- SIMULATED PAGE ABOVE -->
+<div class="demo-spacer" style="margin-top:3.5rem">
+  <span class="demo-spacer-label">↑ Rest of page above (hero, nav, etc.)</span>
+</div>
+
+<!-- ═══════════════════════════════════
+     BUILD SHOWCASE
+═══════════════════════════════════ -->
+<div class="bsc-section" id="bscSection">
+
+  <!-- LARGE ENTRY HEADER -->
+  <div class="bsc-entry" id="bscEntry">
+    <span class="bsc-entry-tag">What I'm Building</span>
+    <div class="bsc-entry-h">
+      <span id="bscLine1">Engineering</span>
+      <span id="bscLine2">in motion.</span>
+    </div>
+  </div>
+
+  <!-- ════════════════════
+       PROJECT 01 — AERO WING
+  ════════════════════ -->
+  <div class="bsc-proj" id="proj1" style="height:300vh">
+    <div class="bsc-proj-sticky">
+
+      <!-- LEFT: VISUAL -->
+      <div class="bsc-visual">
+
+        <!-- Progress track -->
+        <div class="bsc-progress-track">
+          <div class="bsc-progress-fill" id="p1Progress"></div>
+        </div>
+
+        <!-- Layer 0: Base wing photo -->
+        <div class="bsc-layer" id="p1Layer0"
+          style="background-image:url('images/experience/sae-front-wing-v2.jpg');opacity:1;
+            filter:brightness(.75) saturate(.9)">
+        </div>
+
+        <!-- Layer 1: CAD screengrab (crossfades in on scroll) -->
+        <div class="bsc-layer" id="p1Layer1"
+          style="background-image:url('images/experience/sae-nosecone-cad.jpg');opacity:0;
+            filter:brightness(.65) saturate(.7)">
+        </div>
+
+        <!-- Layer 2: Mold / fabrication -->
+        <div class="bsc-layer" id="p1Layer2"
+          style="background-image:url('images/experience/sae-wing-mold.jpg');opacity:0;
+            filter:brightness(.6) saturate(.8)">
+        </div>
+
+        <!-- 3D card reveal (appears mid-scroll) -->
+        <div class="bsc-3d-wrap" id="p1Card3D">
+          <div class="bsc-3d-card" id="p1CardInner">
+            <img src="images/experience/sae-nosecone-cad.jpg" alt="Wing CAD model">
+          </div>
+        </div>
+
+        <!-- Floating spec chips (appear late) -->
+        <div class="bsc-spec-float" id="p1Chips">
+          <span class="bsc-spec-chip">NACA 4412 profile</span>
+          <span class="bsc-spec-chip">~600 mm span</span>
+          <span class="bsc-spec-chip">0° – 14° actuation</span>
+          <span class="bsc-spec-chip">ANSYS validated</span>
+        </div>
+      </div>
+
+      <!-- RIGHT: INFO -->
+      <div class="bsc-info">
+        <div class="bsc-status">
+          <div class="bsc-status-dot"></div>
+          In Progress
+        </div>
+
+        <div class="bsc-proj-num" id="p1Num">Project 01</div>
+        <div class="bsc-proj-name" id="p1Name">Active<br>Aerodynamics<br>Wing</div>
+        <div class="bsc-proj-tags" id="p1Tags">
+          <span class="bsc-proj-tag">Formula SAE</span>
+          <span class="bsc-proj-tag">CFD · ANSYS</span>
+          <span class="bsc-proj-tag">CAD · Fusion 360</span>
+          <span class="bsc-proj-tag">Servo Actuation</span>
+          <span class="bsc-proj-tag">GFRP Composite</span>
+        </div>
+
+        <div class="bsc-lines">
+          <div class="bsc-line" id="p1Line1">
+            <span class="bsc-line-label">What it does</span>
+            <div class="bsc-line-value">Servo-actuated wing — DRS for top speed,<br>high downforce for cornering.</div>
+          </div>
+          <div class="bsc-line" id="p1Line2">
+            <span class="bsc-line-label">Where it stands</span>
+            <div class="bsc-line-value">~60% complete. Molds printed, layup done,<br>electronics integration next.</div>
+          </div>
+          <div class="bsc-line" id="p1Line3">
+            <span class="bsc-line-label">The guide</span>
+            <div class="bsc-line-value">Full step-by-step — CAD files, CFD setup,<br>layup schedule, wiring, control code.</div>
+          </div>
+        </div>
+
+        <div class="bsc-cta-wrap" id="p1CTA">
+          <a href="projects/active-aero-wing.html" class="bsc-cta">
+            View Build Guide →
+          </a>
+          <span class="bsc-cta-badge">Free</span>
+        </div>
+
+        <div class="bsc-scroll-cue" id="p1Cue">Scroll</div>
+      </div>
+    </div>
+  </div><!-- /proj1 -->
+
+  <!-- ════════════════════
+       PROJECT 02 — AUTONOMOUS KART
+  ════════════════════ -->
+  <div class="bsc-proj" id="proj2" style="height:300vh">
+    <div class="bsc-proj-sticky">
+
+      <!-- LEFT: VISUAL (no real images yet — dark cinematic treatment) -->
+      <div class="bsc-visual" style="background:#040810">
+
+        <div class="bsc-progress-track">
+          <div class="bsc-progress-fill" id="p2Progress"></div>
+        </div>
+
+        <!-- Animated grid / sensor visualization -->
+        <div class="bsc-layer" id="p2Layer0" style="opacity:1">
+          <canvas id="sensorCanvas" style="width:100%;height:100%;display:block"></canvas>
+        </div>
+
+        <!-- Overlay gradient -->
+        <div class="bsc-layer" style="background:linear-gradient(135deg,rgba(8,14,30,.7) 0%,rgba(4,8,16,.3) 100%);opacity:1;pointer-events:none"></div>
+
+        <!-- "3D card" for kart — uses welding video as b-roll -->
+        <div class="bsc-3d-wrap" id="p2Card3D">
+          <div class="bsc-3d-card" id="p2CardInner" style="background:#0a1428;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.25)">ROS 2 · LIDAR · Camera · IMU</div>
+            <div style="font-size:4rem;opacity:.15">⚙</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.18)">Video coming soon</div>
+          </div>
+        </div>
+
+        <div class="bsc-spec-float" id="p2Chips">
+          <span class="bsc-spec-chip">ROS 2 Humble</span>
+          <span class="bsc-spec-chip">YOLOv8 vision</span>
+          <span class="bsc-spec-chip">Drive-by-wire</span>
+          <span class="bsc-spec-chip">LIDAR + IMU</span>
+        </div>
+      </div>
+
+      <!-- RIGHT: INFO -->
+      <div class="bsc-info">
+        <div class="bsc-status">
+          <div class="bsc-status-dot"></div>
+          In Progress
+        </div>
+
+        <div class="bsc-proj-num" id="p2Num">Project 02</div>
+        <div class="bsc-proj-name" id="p2Name">Autonomous<br>Go-Kart</div>
+        <div class="bsc-proj-tags" id="p2Tags">
+          <span class="bsc-proj-tag">ROS 2</span>
+          <span class="bsc-proj-tag">Computer Vision</span>
+          <span class="bsc-proj-tag">Drive-by-Wire</span>
+          <span class="bsc-proj-tag">LIDAR</span>
+          <span class="bsc-proj-tag">Fabrication</span>
+        </div>
+
+        <div class="bsc-lines">
+          <div class="bsc-line" id="p2Line1">
+            <span class="bsc-line-label">What it does</span>
+            <div class="bsc-line-value">Stock go-kart converted to a full<br>self-driving platform from scratch.</div>
+          </div>
+          <div class="bsc-line" id="p2Line2">
+            <span class="bsc-line-label">How it works</span>
+            <div class="bsc-line-value">YOLOv8 for object detection, LIDAR for<br>mapping, drive-by-wire for actuation.</div>
+          </div>
+          <div class="bsc-line" id="p2Line3">
+            <span class="bsc-line-label">Where it stands</span>
+            <div class="bsc-line-value">~35% complete. Chassis rigged,<br>sensor suite spec locked.</div>
+          </div>
+        </div>
+
+        <div class="bsc-cta-wrap" id="p2CTA">
+          <a href="builds.html" class="bsc-cta" style="background:rgba(255,255,255,.08);color:rgba(255,255,255,.65);border:1px solid rgba(255,255,255,.14)">
+            Coming Soon →
+          </a>
+          <a href="index.html#pitch" class="bsc-cta-sec">Follow progress</a>
+        </div>
+
+        <div class="bsc-scroll-cue" id="p2Cue">Scroll</div>
+      </div>
+    </div>
+  </div><!-- /proj2 -->
+
+  <!-- OUTRO STRIP -->
+  <div class="bsc-outro">
+    <div class="bsc-outro-left">
+      <span class="bsc-outro-note">More coming</span>
+      <div class="bsc-outro-h">Combat robot &<br>more on the way.</div>
+    </div>
+    <a href="builds.html" class="bsc-outro-cta">View All Builds →</a>
+  </div>
+
+</div><!-- /bsc-section -->
+
+<div class="demo-spacer-below">
+  <span class="demo-nav-note">↓ Rest of page below (about, projects, contact)</span>
+</div>
+
+<script>
+/* ─────────────────────────────────────────────────
+   Scroll-driven Build Showcase
+───────────────────────────────────────────────── */
+
+// Clamp helper: maps p into [i0..i1] → [0..1]
+const cl = (p, i0, i1) => Math.max(0, Math.min(1, (p - i0) / (i1 - i0)));
+
+// Apply spring-feel via CSS; faster than JS WAAPI for this
+const set = (el, styles) => el && Object.assign(el.style, styles);
+const lerp = (a, b, t) => a + (b - a) * t;
+
+// ── ENTRY TITLE REVEAL ──────────────────────────
+const entryObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      document.getElementById('bscLine1').classList.add('reveal');
+      document.getElementById('bscLine2').classList.add('reveal');
+      entryObserver.disconnect();
+    }
+  });
+}, { threshold: 0.3 });
+entryObserver.observe(document.getElementById('bscEntry'));
+
+// ── SENSOR CANVAS (kart visual) ─────────────────
+function initSensorCanvas() {
+  const canvas = document.getElementById('sensorCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let dots = [], w, h, raf;
+
+  function resize() {
+    w = canvas.offsetWidth; h = canvas.offsetHeight;
+    canvas.width = w * devicePixelRatio; canvas.height = h * devicePixelRatio;
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+    dots = Array.from({ length: 90 }, () => ({
+      x: Math.random() * w, y: Math.random() * h,
+      vx: (Math.random() - .5) * .28, vy: (Math.random() - .5) * .28,
+      r: Math.random() * 1.4 + .4,
+      a: Math.random() * .45 + .08,
+    }));
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    // Grid lines
+    ctx.strokeStyle = 'rgba(100,160,255,.035)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < w; x += 48) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke(); }
+    for (let y = 0; y < h; y += 48) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
+    // Sensor dots + connectors
+    dots.forEach((d, i) => {
+      d.x += d.vx; d.y += d.vy;
+      if (d.x < 0) d.x = w; if (d.x > w) d.x = 0;
+      if (d.y < 0) d.y = h; if (d.y > h) d.y = 0;
+      // Connect nearby
+      for (let j = i + 1; j < dots.length; j++) {
+        const o = dots[j], dx = d.x - o.x, dy = d.y - o.y, dist = Math.hypot(dx, dy);
+        if (dist < 110) {
+          ctx.strokeStyle = `rgba(120,180,255,${(.12) * (1 - dist/110)})`;
+          ctx.lineWidth = .6;
+          ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(o.x, o.y); ctx.stroke();
+        }
+      }
+      ctx.beginPath();
+      ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(160,210,255,${d.a})`;
+      ctx.fill();
+    });
+    // Scan ring from center
+    const now = performance.now() * .001;
+    const cx = w * .45, cy = h * .5;
+    const maxR = Math.max(w, h) * .55;
+    const scanR = (now % 3.5) / 3.5 * maxR;
+    const fadeOut = 1 - (now % 3.5) / 3.5;
+    ctx.beginPath();
+    ctx.arc(cx, cy, scanR, 0, Math.PI * 2);
+    ctx.strokeStyle = `rgba(100,180,255,${fadeOut * .18})`;
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+    raf = requestAnimationFrame(draw);
+  }
+
+  resize();
+  new ResizeObserver(resize).observe(canvas);
+  draw();
+}
+initSensorCanvas();
+
+// ── SCROLL DRIVER ───────────────────────────────
+// Drive both project sections via scroll progress
+function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+function animIn(el, p, i0, i1, yFrom = 26) {
+  const t = easeOut(cl(p, i0, i1));
+  set(el, {
+    opacity: t,
+    transform: `translateY(${(1 - t) * yFrom}px)`,
+  });
+}
+
+let rafId;
+function onScroll() {
+  cancelAnimationFrame(rafId);
+  rafId = requestAnimationFrame(tick);
+}
+
+function projectTick(id, prog, cueId) {
+  const num   = document.getElementById(`${id}Num`);
+  const name  = document.getElementById(`${id}Name`);
+  const tags  = document.getElementById(`${id}Tags`);
+  const l1    = document.getElementById(`${id}Line1`);
+  const l2    = document.getElementById(`${id}Line2`);
+  const l3    = document.getElementById(`${id}Line3`);
+  const cta   = document.getElementById(`${id}CTA`);
+  const cue   = document.getElementById(cueId);
+  const bar   = document.getElementById(`${id}Progress`);
+  const chips = document.getElementById(`${id}Chips`);
+  const card  = document.getElementById(`${id}Card3D`);
+  const inner = document.getElementById(`${id}CardInner`);
+  const p     = prog; // 0..1
+
+  // Progress bar
+  if (bar) bar.style.height = (p * 100).toFixed(1) + '%';
+
+  // Right panel text reveals
+  animIn(num,  p, 0.00, 0.12);
+  animIn(name, p, 0.04, 0.20, 32);
+  animIn(tags, p, 0.12, 0.25, 18);
+  animIn(l1,   p, 0.22, 0.38);
+  animIn(l2,   p, 0.34, 0.50);
+  animIn(l3,   p, 0.46, 0.62);
+  animIn(cta,  p, 0.64, 0.80, 18);
+
+  // Scroll cue fades out as content reveals
+  if (cue) cue.style.opacity = Math.max(0, 1 - p * 10).toFixed(2);
+
+  // Floating spec chips
+  if (chips) chips.style.opacity = easeOut(cl(p, 0.55, 0.72)).toFixed(2);
+
+  // 3D card reveal + rotation (p 0.45 → 0.75)
+  const cardP = cl(p, 0.42, 0.68);
+  if (card) card.style.opacity = easeOut(cardP).toFixed(2);
+  if (inner) {
+    const ry = lerp(-35, 0, easeOut(cardP));
+    const rx = lerp(8, -2, easeOut(cardP));
+    inner.style.transform = `rotateY(${ry.toFixed(1)}deg) rotateX(${rx.toFixed(1)}deg) scale(${lerp(.92, 1, easeOut(cardP)).toFixed(3)})`;
+  }
+}
+
+function tick() {
+  const sy = window.scrollY;
+
+  // ── PROJECT 1 ──
+  const p1 = document.getElementById('proj1');
+  if (p1) {
+    const top = p1.offsetTop;
+    const max = p1.offsetHeight - window.innerHeight;
+    const prog = Math.max(0, Math.min(1, (sy - top) / max));
+    projectTick('p1', prog, 'p1Cue');
+
+    // Image layer crossfades
+    const l0 = document.getElementById('p1Layer0');
+    const l1 = document.getElementById('p1Layer1');
+    const l2 = document.getElementById('p1Layer2');
+    // Photo → CAD at p 0.30–0.45
+    const cadIn = easeOut(cl(prog, 0.30, 0.45));
+    if (l0) l0.style.opacity = (1 - cadIn * .85).toFixed(2);
+    if (l1) l1.style.opacity = cadIn.toFixed(2);
+    // CAD → Mold at p 0.60–0.75
+    const moldIn = easeOut(cl(prog, 0.58, 0.72));
+    if (l1) l1.style.opacity = (cadIn * (1 - moldIn * .7)).toFixed(2);
+    if (l2) l2.style.opacity = moldIn.toFixed(2);
+  }
+
+  // ── PROJECT 2 ──
+  const p2 = document.getElementById('proj2');
+  if (p2) {
+    const top = p2.offsetTop;
+    const max = p2.offsetHeight - window.innerHeight;
+    const prog = Math.max(0, Math.min(1, (sy - top) / max));
+    projectTick('p2', prog, 'p2Cue');
+  }
+}
+
+window.addEventListener('scroll', onScroll, { passive: true });
+window.addEventListener('resize', () => requestAnimationFrame(tick), { passive: true });
+tick();
+</script>
+</body>
+</html>

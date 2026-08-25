@@ -1,8 +1,9 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="background:#080808">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="#080808"/>
 <title>Arsh Hashmi</title>
 <link rel="preload" as="video" href="videos/welding.mp4" fetchpriority="high">
 <link rel="preload" as="image" href="images/about/michigan-quant/img1.jpg">
@@ -14,14 +15,14 @@
 <meta property="og:title" content="Arsh Hashmi — Mechanical Engineering &amp; Computer Science">
 <meta property="og:description" content="Mechanical engineering student targeting motorsport. Designing aerodynamic systems, building autonomous vehicles, and fabricating at full scale. Open to internships.">
 <meta property="og:url" content="https://arshhashmi.com/">
-<meta property="og:image" content="https://arshhashmi.com/images/about/headshot.png">
+<meta property="og:image" content="https://arshhashmi.com/images/about/headshot.jpg">
 <meta property="og:image:alt" content="Headshot of Arsh Hashmi">
 <meta property="og:image" content="https://arshhashmi.com/images/about/michigan-quant/img1.jpg">
 <meta property="og:image:alt" content="Arsh Hashmi and team at the Michigan Quant Conference">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Arsh Hashmi — Mechanical Engineering &amp; Computer Science">
 <meta name="twitter:description" content="Mechanical engineering student targeting motorsport. Designing aerodynamic systems, building autonomous vehicles, and fabricating at full scale. Open to internships.">
-<meta name="twitter:image" content="https://arshhashmi.com/images/about/headshot.png">
+<meta name="twitter:image" content="https://arshhashmi.com/images/about/headshot.jpg">
 <meta name="twitter:image:alt" content="Headshot of Arsh Hashmi">
 <script type="application/ld+json">
 {
@@ -30,7 +31,7 @@
   "name": "Arsh Hashmi",
   "url": "https://arshhashmi.com/",
   "image": [
-    "https://arshhashmi.com/images/about/headshot.png",
+    "https://arshhashmi.com/images/about/headshot.jpg",
     "https://arshhashmi.com/images/about/michigan-quant/img1.jpg"
   ],
   "jobTitle": "Mechanical Engineering & Computer Science Student",
@@ -63,7 +64,7 @@
   --sans:'Sora',sans-serif;
   --mono:'IBM Plex Mono',monospace;
 }
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;background:#080808}
 body{
   background:var(--paper);
   color:var(--ink);
@@ -85,103 +86,79 @@ body::before{
 }
 
 /* INTRO OVERLAY */
-#intro{
-  position:fixed;inset:0;background:var(--ink);z-index:8000;
-  display:flex;align-items:center;justify-content:center;
-  pointer-events:none;
-  animation:introOut .9s cubic-bezier(.76,0,.24,1) forwards .9s;
-}
-#intro span{
-  font-family:var(--sans);font-weight:500;
-  font-size:clamp(1.7rem,4.8vw,3.6rem);color:var(--paper);
-  letter-spacing:.03em;text-transform:uppercase;
-  text-shadow:none;
-  animation:introFade .5s ease forwards .1s;
-  opacity:0;
-}
-@keyframes introFade{to{opacity:1}}
-@keyframes introOut{to{transform:translateY(-100%)}}
 
 /* NAV */
 nav{
   position:fixed;top:0;left:0;right:0;z-index:500;
-  padding:2.25rem 5vw;
-  display:flex;justify-content:space-between;align-items:center;
-  transition:padding .5s,background .5s,box-shadow .5s;
+  padding:1.6rem 5vw;
+  display:flex;align-items:center;
+  opacity:0;pointer-events:none;
+  transition:padding .4s cubic-bezier(.16,1,.3,1),background .4s,border-color .4s,opacity .55s ease;
+  border-bottom:1px solid transparent;
+}
+nav.nav-revealed{
+  opacity:1;pointer-events:auto;
+  background:rgba(8,8,8,.88);
+  backdrop-filter:blur(32px) saturate(160%);
+  -webkit-backdrop-filter:blur(32px) saturate(160%);
+  border-bottom-color:rgba(255,255,255,.08);
 }
 nav.stuck{
-  padding:1.3rem 5vw;
-  background:rgba(8,8,8,.9);
-  backdrop-filter:blur(18px);
-  box-shadow:0 1px 0 var(--line);
+  padding:1.15rem 5vw;
 }
-.nav-logo{font-family:var(--sans);font-size:1.15rem;font-weight:600;letter-spacing:.03em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
-.nav-links{display:flex;gap:2.5rem;list-style:none}
-.nav-links a{font-family:var(--mono);font-size:.65rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--mist);text-decoration:none;transition:color .25s}
-.nav-links a:hover{color:var(--ink)}
-.nav-cta{font-family:var(--mono);font-size:.65rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:.55rem 1.4rem;border:1px solid var(--line);background:rgba(255,255,255,.02);color:var(--ink);text-decoration:none;transition:background .25s,color .25s,border-color .25s}
-.nav-cta:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+/* ─── Logo ─── */
+.nav-logo{
+  display:flex;align-items:center;
+  text-decoration:none;flex-shrink:0;
+}
+.nav-logo-wordmark{
+  font-family:var(--sans);font-size:.82rem;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink);white-space:nowrap;line-height:1;
+}
+
+/* ─── Links — centred in the bar ─── */
+.nav-links{
+  display:flex;list-style:none;align-items:center;gap:.4rem;
+  position:absolute;left:50%;transform:translateX(-50%);
+}
+.nav-links a{
+  font-family:'Manrope',sans-serif;font-size:.82rem;font-weight:600;
+  letter-spacing:-.01em;
+  color:rgba(255,255,255,.72);
+  text-decoration:none;
+  padding:.46rem 1.05rem;
+  border-radius:7px;
+  white-space:nowrap;
+  background:rgba(255,255,255,.08);
+  transition:color .14s,background .14s;
+}
+.nav-links a:hover{
+  color:#fff;
+  background:rgba(255,255,255,.16);
+}
+
+/* ─── Right side wrapper ─── */
+.nav-right{
+  margin-left:auto;display:flex;align-items:center;
+}
+
+/* ─── Contact — quiet text link ─── */
+.nav-cta{
+  font-family:var(--sans);font-size:.82rem;font-weight:400;
+  letter-spacing:-.01em;
+  color:rgba(255,255,255,.28);
+  text-decoration:none;white-space:nowrap;
+  transition:color .15s;
+}
+.nav-cta:hover{color:rgba(255,255,255,.55)}
+
+/* keep old nav-sep hidden */
+.nav-sep{display:none}
 
 /* HERO */
-#hero{
-  min-height:100vh;padding:0 5vw;
-  display:flex;flex-direction:column;justify-content:flex-end;
-  border-bottom:1px solid var(--line);
-  position:relative;overflow:hidden;
-}
-.hero-rule{
-  position:absolute;top:50%;left:0;right:0;height:1px;
-  background:var(--line);transform:scaleX(0);transform-origin:left;
-  animation:ruleIn 1.2s cubic-bezier(.76,0,.24,1) forwards 1.4s;
-}
-@keyframes ruleIn{to{transform:scaleX(1)}}
-
-.hero-name-wrap{
-  padding-top:11rem;
-  display:flex;align-items:flex-end;justify-content:space-between;gap:4vw;
-}
-.hero-name{
-  font-family:'Sora',var(--sans);
-  font-size:clamp(5.5rem,13vw,13rem);
-  font-weight:700;line-height:.86;letter-spacing:-.04em;
-  opacity:0;animation:nameIn 1.1s cubic-bezier(.16,1,.3,1) forwards 1.4s;
-}
-.hero-name em{font-style:normal;color:var(--fog);font-weight:700}
-@keyframes nameIn{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
-
-.hero-aside{
-  flex-shrink:0;width:clamp(200px,22vw,320px);
-  padding-bottom:.5rem;
-  opacity:0;animation:fadeUp .9s cubic-bezier(.16,1,.3,1) forwards 1.7s;
-}
-.hero-photo{
-  width:100%;aspect-ratio:3/4;background:var(--surface);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7rem;
-  position:relative;overflow:hidden;
-  border:1px solid var(--line);
-  border-radius:18px;
-  box-shadow:0 20px 40px rgba(0,0,0,.35);
-}
-.hero-photo img{width:100%;height:100%;object-fit:cover;display:block;position:relative;z-index:1}
-.hero-photo img{border:1px solid rgba(255,255,255,.08);border-radius:12px}
-.hero-photo::before{
-  content:'';position:absolute;inset:0;
-  background:repeating-linear-gradient(
-    -45deg,transparent,transparent 14px,
-    rgba(255,255,255,.025) 14px,rgba(255,255,255,.025) 15px);
-}
-.hero-photo svg{opacity:.2;z-index:1;position:relative}
-.hero-photo p{font-family:var(--mono);font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--fog);z-index:1;position:relative}
-
-.hero-bottom{
-  display:grid;grid-template-columns:1fr 1fr auto;
-  align-items:end;gap:3vw;
-  padding:2rem 0 3rem;
-  opacity:0;animation:fadeUp .9s cubic-bezier(.16,1,.3,1) forwards 1.9s;
-}
-.hb-desc{font-size:.92rem;font-weight:300;line-height:1.8;color:var(--mist);max-width:380px}
- .hb-meta{font-family:var(--sans);font-size:.65rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--fog);line-height:2}
-.hb-actions{display:flex;gap:1rem;justify-content:flex-end;align-items:center}
+/* ── old #hero section removed; replaced by #hero-reel ── */
 .btn-ink{font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:.85rem 2rem;border:1px solid var(--line);color:var(--ink);text-decoration:none;transition:.25s}
 .btn-ink:hover{background:var(--ink);border-color:var(--ink);color:var(--paper)}
 .btn-txt{font-family:var(--mono);font-size:.62rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--mist);text-decoration:none;transition:color .25s}
@@ -3206,12 +3183,17 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .edu-card{padding:2rem 2.1rem}
 }
 @media (max-width:760px){
-  nav{padding:1.25rem 5vw;align-items:flex-start;flex-wrap:wrap;gap:.9rem}
-  nav.stuck{padding:1rem 5vw}
-  .nav-links{order:3;width:100%;gap:.75rem;overflow-x:auto;padding-bottom:.35rem}
+  nav{padding:1.1rem 5vw;align-items:center;flex-wrap:wrap;gap:.6rem}
+  nav.stuck{padding:.85rem 5vw}
+  .nav-links{
+    position:static;transform:none;
+    order:3;width:100%;gap:.28rem;
+    overflow-x:auto;padding-bottom:.2rem;
+    scrollbar-width:none;flex-wrap:nowrap;
+  }
   .nav-links::-webkit-scrollbar{display:none}
-  .nav-links a{font-size:.62rem;white-space:nowrap}
-  .nav-cta{display:none}
+  .nav-links a{font-size:.82rem;padding:.42rem .9rem}
+  .nav-right{display:none}
   .hero-name{font-size:clamp(3.3rem,18vw,5rem)}
   .hero-name-wrap{padding-top:8.5rem}
   .hero-aside{width:min(100%,300px)}
@@ -3700,7 +3682,10 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   height:100%;
   object-fit:cover;
   display:block;
+  opacity:0;
+  animation:videoReveal .7s ease forwards 1.4s;
 }
+@keyframes videoReveal{to{opacity:1}}
 .hero-reel-scrim{
   position:absolute;
   inset:0;
@@ -3737,7 +3722,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   justify-content:space-between;
   align-items:flex-start;
   opacity:0;
-  animation:reelFadeIn .6s ease forwards 2.0s;
+  animation:reelFadeIn .6s ease forwards 1.6s;
   z-index:10;
 }
 .hero-reel-mono{
@@ -3752,15 +3737,15 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 /* ── Scroll hint — centred, bouncing chevron ── */
 .hero-reel-hint{
   position:absolute;
-  bottom:2.6rem;
+  bottom:2.8rem;
   left:50%;
   transform:translateX(-50%);
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:.55rem;
+  gap:.7rem;
   opacity:0;
-  animation:reelFadeIn .6s ease forwards 2.4s;
+  animation:reelFadeIn .6s ease forwards 2.0s;
   transition:opacity .4s ease;
   z-index:10;
   white-space:nowrap;
@@ -3768,24 +3753,24 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 .hero-reel-hint.is-scrolling{opacity:0 !important;transition:opacity .25s ease}
 .hero-reel-hint-mono{
   font-family:var(--mono);
-  font-size:.48rem;
+  font-size:.62rem;
   font-weight:600;
   letter-spacing:.22em;
   text-transform:uppercase;
-  color:rgba(255,255,255,.32);
+  color:rgba(255,255,255,.78);
 }
 /* Bouncing chevron arrow */
 .hero-reel-hint-arrow{
-  width:14px;
-  height:14px;
-  border-right:1.5px solid rgba(255,255,255,.35);
-  border-bottom:1.5px solid rgba(255,255,255,.35);
+  width:20px;
+  height:20px;
+  border-right:2px solid rgba(255,255,255,.78);
+  border-bottom:2px solid rgba(255,255,255,.78);
   transform:rotate(45deg);
-  animation:hintBounce 1.5s ease-in-out infinite 3.0s;
+  animation:hintBounce 1.4s ease-in-out infinite 2.4s;
 }
 @keyframes hintBounce{
-  0%,100%{transform:rotate(45deg) translate(0,0);opacity:.32}
-  50%{transform:rotate(45deg) translate(4px,4px);opacity:.65}
+  0%,100%{transform:rotate(45deg) translate(0,0);opacity:.7}
+  50%{transform:rotate(45deg) translate(5px,5px);opacity:1}
 }
 
 /* ── Phase B: "Welcome to [WORD]" — centered, cross-fading ── */
@@ -3894,16 +3879,15 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 }
 .hrf-flash-text{
   display:block;
-  font-family:'Sora',sans-serif;
-  font-size:clamp(3rem,6.5vw,7.5rem);
+  font-family:'Manrope',sans-serif;
+  font-size:clamp(2.2rem,7vw,8.5rem);
   font-weight:800;
-  letter-spacing:-.04em;
+  letter-spacing:.06em;
   text-transform:uppercase;
   color:#ffffff;
   text-align:center;
-  line-height:.9;
-  max-width:70vw;
-  text-shadow:0 0 60px rgba(255,255,255,.15);
+  line-height:1;
+  text-shadow:0 0 80px rgba(255,255,255,.22),0 0 200px rgba(255,255,255,.08);
 }
 
 /* ── Phase C: Finale — OG layout (name left · photo right) ── */
@@ -3968,7 +3952,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   aspect-ratio:1/1;
   border-radius:14px;
   object-fit:cover;
-  object-position:center top;
+  object-position:center center;
   display:block;
   filter:grayscale(5%);
 }
@@ -3990,7 +3974,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   align-items:center;
   justify-content:center;
   pointer-events:none;
-  animation:heroBoot 2.8s cubic-bezier(.4,0,.2,1) forwards;
+  animation:heroBoot 1.6s cubic-bezier(.4,0,.2,1) forwards;
 }
 @keyframes heroBoot{
   0%,60%{opacity:1}
@@ -4021,33 +4005,41 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 }
 @keyframes bootScan{to{width:100%}}
 
-/* Bubble: appears when user tries to scroll up from the soft lock */
-.hreel-bubble{
-  position:fixed;
+/* Finale scroll-down hint — appears ~1s after name card locks in */
+.hrf-scroll-down{
+  position:absolute;
   bottom:2.4rem;
   left:50%;
-  transform:translateX(-50%) translateY(10px);
-  background:rgba(18,18,18,.8);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
-  border:1px solid rgba(255,255,255,.1);
-  color:rgba(255,255,255,.55);
-  font-family:var(--mono);
-  font-size:.49rem;
-  font-weight:600;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  padding:.62rem 1.25rem;
-  border-radius:999px;
+  transform:translateX(-50%);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:.65rem;
   opacity:0;
-  transition:opacity .3s ease,transform .3s ease;
   pointer-events:none;
-  z-index:9999;
+  transition:opacity .55s ease;
+  z-index:12;
   white-space:nowrap;
 }
-.hreel-bubble.is-visible{
-  opacity:1;
-  transform:translateX(-50%) translateY(0);
+.hrf-scroll-down.is-visible{opacity:1}
+.hrf-scroll-down-label{
+  font-family:var(--mono);
+  font-size:.62rem;
+  font-weight:600;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.72);
+}
+.hrf-scroll-down-arrow{
+  width:20px;height:20px;
+  border-right:2px solid rgba(255,255,255,.72);
+  border-bottom:2px solid rgba(255,255,255,.72);
+  transform:rotate(45deg);
+  animation:finaleArrowBounce 1.4s ease-in-out infinite;
+}
+@keyframes finaleArrowBounce{
+  0%,100%{transform:rotate(45deg) translate(0,0);opacity:.65}
+  50%{transform:rotate(45deg) translate(5px,5px);opacity:1}
 }
 
 @media(max-width:680px){
@@ -4081,23 +4073,439 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .hero-reel-finale{opacity:1;pointer-events:auto}
   .hero-boot{display:none}
 }
+
+/* ─────────────────────────────────── WHAT I AM BUILDING ── */
+#build-log{padding:5rem 0 6rem;border-bottom:1px solid var(--line);overflow:hidden}
+.wib-header{padding:0 5vw;margin-bottom:3.5rem}
+.wib-title{
+  font-family:var(--sans);font-size:clamp(2rem,4.5vw,3.8rem);font-weight:800;
+  letter-spacing:-.04em;line-height:1.0;color:var(--ink);
+  white-space:nowrap;
+}
+
+/* ── Horizontal track ── */
+.wib-wrap{
+  overflow-x:auto;overflow-y:hidden;position:relative;
+  padding:0 5vw 1.5rem;
+  cursor:grab;
+  -webkit-user-select:none;user-select:none;
+  scrollbar-width:none;
+}
+.wib-wrap::-webkit-scrollbar{display:none}
+.wib-wrap:active{cursor:grabbing}
+.wib-track{
+  display:flex;align-items:stretch;gap:1rem;
+  width:max-content;
+}
+
+/* ── Small (past) cards ── */
+.wib-card{display:flex;flex-direction:column;text-decoration:none;color:inherit;flex-shrink:0}
+.wib-sm{
+  width:clamp(120px,15vw,160px);
+  border:1px solid var(--line);border-radius:16px;
+  background:rgba(255,255,255,.025);
+  padding:1.2rem 1rem;
+  gap:.65rem;
+  transition:border-color .22s,background .22s,transform .22s;
+}
+.wib-sm:hover{border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.05);transform:translateY(-3px)}
+.wib-sm-icon{font-size:1.5rem;opacity:.55;line-height:1}
+.wib-sm-label{
+  font-family:var(--sans);font-size:clamp(.78rem,.95vw,.9rem);font-weight:700;
+  letter-spacing:-.02em;line-height:1.25;color:var(--ink);flex:1;
+}
+.wib-sm-status{
+  font-family:var(--mono);font-size:.54rem;letter-spacing:.18em;text-transform:uppercase;
+  padding:.22rem .6rem;border-radius:999px;border:1px solid;display:inline-block;width:fit-content;
+}
+.wib-sm-status.done{color:#22c55e;border-color:rgba(34,197,94,.4)}
+
+/* ── Divider ── */
+.wib-divider{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:.6rem;padding:0 .8rem;flex-shrink:0;
+}
+.wib-divider-line{
+  flex:1;width:1px;background:linear-gradient(180deg,transparent,rgba(255,255,255,.2) 40%,rgba(255,255,255,.2) 60%,transparent);
+  min-height:60px;
+}
+.wib-divider-label{
+  font-family:var(--mono);font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--mist);writing-mode:vertical-lr;transform:rotate(180deg);
+}
+
+/* ── Large (active) cards ── */
+.wib-lg{
+  width:clamp(260px,32vw,360px);
+  border:1px solid rgba(255,255,255,.14);border-radius:20px;overflow:hidden;
+  background:var(--surface);
+  transition:border-color .28s,box-shadow .32s,transform .32s cubic-bezier(.16,1,.3,1);
+}
+.wib-lg:hover{
+  border-color:rgba(255,255,255,.3);
+  box-shadow:0 28px 56px rgba(0,0,0,.45);
+  transform:translateY(-6px);
+}
+.wib-lg-media{position:relative;aspect-ratio:16/9;overflow:hidden;flex-shrink:0}
+.wib-lg-media img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.wib-lg:hover .wib-lg-media img{transform:scale(1.06)}
+.wib-lg-scrim{position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(8,8,8,.88))}
+.wib-lg-body{padding:1.1rem 1.25rem 1.25rem;display:flex;flex-direction:column;gap:.55rem;flex:1}
+.wib-active-dot{
+  display:inline-flex;align-items:center;gap:.4rem;
+  font-family:var(--mono);font-size:.54rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);
+}
+.wib-active-dot span{
+  width:7px;height:7px;border-radius:50%;background:#f59e0b;
+  box-shadow:0 0 8px rgba(245,158,11,.7);
+  animation:wibPulse 1.8s ease-in-out infinite;flex-shrink:0;
+}
+@keyframes wibPulse{0%,100%{opacity:1}50%{opacity:.35}}
+.wib-lg-name{
+  font-family:var(--sans);font-size:clamp(1.25rem,2.2vw,1.65rem);font-weight:800;
+  letter-spacing:-.04em;line-height:1.1;color:var(--ink);
+}
+.wib-lg-tags{display:flex;flex-wrap:wrap;gap:.3rem}
+.wib-lg-tags span{
+  font-family:var(--mono);font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;
+  border:1px solid var(--line);border-radius:999px;padding:.2rem .5rem;color:var(--fog);
+}
+.wib-lg-foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:.75rem;border-top:1px solid var(--line)}
+.wib-free-badge{
+  font-family:var(--mono);font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;
+  color:#78dc82;border:1px solid rgba(120,220,130,.4);padding:.22rem .6rem;border-radius:999px;
+}
+.wib-pct-badge{
+  font-family:var(--mono);font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--mist);border:1px solid var(--line);padding:.22rem .6rem;border-radius:999px;
+}
+.wib-lg-cta{
+  font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink);transition:opacity .2s;
+}
+.wib-lg:hover .wib-lg-cta{opacity:.75}
+
+/* kart placeholder visual */
+.wib-kart-vis{position:absolute;inset:0;overflow:hidden}
+.wib-kart-grid{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
+  background-size:28px 28px;
+}
+.wib-kart-dot{position:absolute;width:6px;height:6px;border-radius:50%;background:#3b82f6;box-shadow:0 0 12px #3b82f6}
+.wib-kart-dot.d1{top:38%;left:42%;animation:wibDot 3s ease-in-out infinite}
+.wib-kart-dot.d2{top:55%;left:62%;animation:wibDot 3s ease-in-out .7s infinite}
+@keyframes wibDot{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.6);opacity:.3}}
+.wib-kart-ring{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:90px;height:90px;border-radius:50%;
+  border:1px solid rgba(59,130,246,.3);
+  animation:wibRing 3s linear infinite;
+}
+@keyframes wibRing{from{transform:translate(-50%,-50%) scale(.6);opacity:.8}to{transform:translate(-50%,-50%) scale(1.4);opacity:0}}
+
+/* ── CTA row ── */
+.wib-cta-row{padding:3rem 5vw 0;display:flex;align-items:center}
+.wib-cta-btn{
+  display:inline-flex;align-items:center;gap:.65rem;
+  font-family:var(--sans);font-size:clamp(.82rem,1.1vw,.95rem);font-weight:600;
+  letter-spacing:-.01em;
+  color:var(--paper);background:var(--ink);
+  padding:.9rem 2rem;
+  border-radius:999px;
+  border:1.5px solid var(--ink);
+  text-decoration:none;
+  transition:background .22s,color .22s,transform .18s,box-shadow .22s;
+}
+.wib-cta-btn:hover{
+  background:transparent;color:var(--ink);
+  transform:translateY(-2px);
+  box-shadow:0 8px 28px rgba(240,240,240,.1);
+}
+.wib-cta-btn span{display:inline-block;transition:transform .2s}
+.wib-cta-btn:hover span{transform:translateX(4px)}
+
+/* ─────────────────────────────────── INSTAGRAM FEED ── */
+#ig-feed{
+  padding:5rem 5vw 6rem;
+  border-bottom:1px solid var(--line);
+}
+.ig-header{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  flex-wrap:wrap;gap:1.2rem;margin-bottom:2.5rem;
+}
+.ig-header-left{display:flex;flex-direction:column;gap:.5rem}
+.ig-kicker{
+  font-family:var(--mono);font-size:.54rem;font-weight:600;
+  letter-spacing:.22em;text-transform:uppercase;color:rgba(240,240,240,.35);
+}
+.ig-title{
+  font-family:var(--sans);font-size:clamp(1.6rem,3.5vw,2.8rem);
+  font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--ink);
+  display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;
+}
+.ig-followers{
+  font-family:'Manrope',sans-serif;font-size:clamp(.7rem,1.1vw,.85rem);
+  font-weight:500;letter-spacing:.01em;
+  color:rgba(240,240,240,.38);
+  vertical-align:middle;
+}
+.ig-follow-btn{
+  display:inline-flex;align-items:center;gap:.5rem;flex-shrink:0;
+  font-family:'Manrope',sans-serif;font-size:.8rem;font-weight:600;
+  letter-spacing:-.01em;
+  color:var(--paper);background:var(--ink);
+  padding:.55rem 1.35rem;border-radius:999px;
+  text-decoration:none;
+  transition:background .2s,color .2s,transform .18s;
+  border:1.5px solid var(--ink);
+}
+.ig-follow-btn:hover{background:transparent;color:var(--ink);transform:translateY(-1px)}
+.ig-follow-btn span{font-size:.9em}
+
+/* ── "Follow the latest reel" pointer ── */
+/* ── Pointer label above carousel ── */
+.ig-pan-pointer{
+  display:flex;align-items:center;gap:.8rem;
+  margin-bottom:.9rem;
+}
+.ig-pan-ptr-line{
+  flex:1;height:1px;
+  background:linear-gradient(to right,transparent,rgba(232,255,87,.16),transparent);
+}
+.ig-pan-ptr-text{
+  font-family:'Manrope',sans-serif;font-size:.88rem;font-weight:700;
+  letter-spacing:.01em;
+  color:rgba(255,255,255,.82);white-space:nowrap;
+}
+.ig-pan-ptr-arrow{
+  color:var(--accent);font-size:.88rem;line-height:1;
+  display:inline-block;
+  animation:igPtrBounce 1.9s ease-in-out infinite;
+}
+@keyframes igPtrBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+
+/* ── Panning carousel stage ── */
+.ig-pan-wrap{
+  position:relative;overflow:hidden;border-radius:10px;
+}
+.ig-pan-stage{
+  display:flex;flex-direction:column;gap:5px;padding:2px 0;
+}
+.ig-pan-row{
+  display:flex;gap:5px;width:max-content;
+}
+.ig-pan-row-0{animation:igPanL 140s linear infinite}
+.ig-pan-row-1{animation:igPanR 168s linear infinite}
+@keyframes igPanL{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes igPanR{0%{transform:translateX(-50%)}100%{transform:translateX(0)}}
+
+.ig-pan-thumb{
+  flex-shrink:0;
+  width:clamp(140px,15vw,200px);
+  height:clamp(140px,15vw,200px);
+  border-radius:8px;overflow:hidden;
+  background:#141414;display:block;
+  position:relative;
+}
+.ig-pan-thumb img{
+  width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;
+}
+/* "Click to Watch" hover overlay via pseudo-element */
+.ig-pan-thumb::after{
+  content:'Click to Watch';
+  position:absolute;inset:0;
+  background:rgba(0,0,0,.65);
+  color:rgba(255,255,255,.92);
+  font-family:'Manrope',sans-serif;
+  font-size:.58rem;font-weight:700;letter-spacing:.05em;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:8px;
+  opacity:0;
+  transition:opacity .16s;
+  pointer-events:none;
+}
+.ig-pan-thumb:hover::after{opacity:1}
+
+/* Edge fades only — no dimming */
+.ig-pan-scrim{
+  position:absolute;inset:0;
+  background:linear-gradient(to right,var(--paper) 0%,transparent 11%,transparent 89%,var(--paper) 100%);
+  pointer-events:none;z-index:1;
+}
+
+/* Featured card floats centered in carousel */
+.ig-pan-feat-shell{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:.55rem;
+  z-index:2;pointer-events:none;
+}
+.ig-pan-feat-label{
+  font-family:'Manrope',sans-serif;font-size:.68rem;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,255,255,.5);
+  text-align:center;white-space:nowrap;
+  pointer-events:none;
+}
+.ig-pan-feat{
+  pointer-events:auto;flex-shrink:0;
+  height:82%;aspect-ratio:4/5;
+  border-radius:14px;overflow:hidden;
+  display:block;text-decoration:none;
+  background:#141414;position:relative;
+  border:1px solid rgba(255,255,255,.28);
+  box-shadow:
+    0 0 90px 38px rgba(8,8,8,.92),
+    0 28px 80px rgba(0,0,0,.75);
+  transition:border-color .3s ease,box-shadow .3s ease,transform .3s cubic-bezier(.16,1,.3,1);
+}
+.ig-pan-feat:hover{
+  border-color:rgba(255,255,255,.7);
+  box-shadow:
+    0 0 90px 38px rgba(8,8,8,.92),
+    0 28px 80px rgba(0,0,0,.75),
+    0 0 32px rgba(255,255,255,.12);
+  transform:scale(1.02);
+}
+.ig-pan-feat img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
+}
+.ig-pan-feat-badge{
+  position:absolute;top:.7rem;left:.7rem;
+  font-family:'Manrope',sans-serif;font-size:.62rem;font-weight:800;
+  letter-spacing:.01em;text-transform:uppercase;
+  background:var(--accent);color:var(--paper);
+  padding:.28rem .78rem;border-radius:999px;
+  pointer-events:none;z-index:1;
+}
+.ig-pan-feat-over{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.08) 42%,transparent 100%);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:flex-end;
+  padding-bottom:1.4rem;gap:.5rem;
+  opacity:0;transition:opacity .18s;z-index:1;
+}
+.ig-pan-feat:hover .ig-pan-feat-over{opacity:1}
+.ig-pan-feat-play{
+  width:42px;height:42px;border-radius:50%;
+  background:rgba(255,255,255,.92);
+  display:flex;align-items:center;justify-content:center;
+}
+.ig-pan-feat-play::after{
+  content:'';
+  border-left:13px solid #080808;
+  border-top:8px solid transparent;
+  border-bottom:8px solid transparent;
+  margin-left:3px;
+}
+.ig-pan-feat-cta{
+  font-family:'Manrope',sans-serif;font-size:.62rem;font-weight:700;
+  color:rgba(255,255,255,.9);letter-spacing:.03em;
+}
+
+/* ── Instagram Reels-style right action bar ── */
+.ig-post-bar{
+  position:absolute;right:.65rem;bottom:1.1rem;
+  display:flex;flex-direction:column;align-items:center;
+  gap:1.1rem;
+  pointer-events:none;
+}
+.ig-post-action{
+  display:flex;align-items:center;justify-content:center;
+}
+.ig-post-action svg{
+  width:22px;height:22px;
+  fill:none;stroke:rgba(255,255,255,.92);
+  stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;
+  filter:drop-shadow(0 1px 4px rgba(0,0,0,.6));
+}
+
+@media(max-width:600px){
+  .ig-pan-thumb{width:110px;height:110px}
+  .ig-pan-feat{border-radius:10px}
+}
+
+/* ─────────────────────────────────── PITCH FORM ── */
+#pitch{padding:5.5rem 5vw 6rem;border-bottom:1px solid var(--line)}
+.pitch-inner{display:grid;grid-template-columns:1fr 1fr;gap:5vw;align-items:start}
+.pitch-lede{
+  font-family:var(--sans);font-size:clamp(1.2rem,2.2vw,1.55rem);
+  font-weight:500;line-height:1.55;letter-spacing:-.01em;
+  color:var(--mist);margin:1.4rem 0;
+}
+.pitch-note{
+  font-family:var(--mono);font-size:.54rem;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--fog);line-height:1.85;
+}
+.pitch-note strong{color:var(--mist);font-weight:600}
+.pitch-note+.pitch-note{margin-top:.7rem}
+.pitch-form-wrap{
+  background:
+    radial-gradient(circle at 20% 0%,rgba(255,255,255,.055),transparent 55%),
+    linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.01));
+  border:1px solid var(--line);border-radius:20px;padding:1.8rem 1.6rem 1.6rem;
+}
+.pitch-field{margin-bottom:1rem}
+.pitch-label{
+  display:block;font-family:var(--mono);font-size:.53rem;font-weight:600;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--fog);margin-bottom:.48rem;
+}
+.pitch-req{color:rgba(245,158,11,.8);margin-left:.18rem}
+.pitch-input,.pitch-textarea{
+  width:100%;background:rgba(255,255,255,.025);border:1px solid var(--line);
+  border-radius:10px;color:var(--ink);font-family:var(--sans);font-size:.86rem;
+  padding:.7rem .9rem;transition:border-color .25s,background .25s,box-shadow .25s;
+  outline:none;-webkit-appearance:none;
+}
+.pitch-input::placeholder,.pitch-textarea::placeholder{color:var(--fog)}
+.pitch-input:focus,.pitch-textarea:focus{
+  border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.04);
+  box-shadow:0 0 0 3px rgba(255,255,255,.04);
+}
+.pitch-textarea{min-height:112px;resize:vertical;line-height:1.6}
+.pitch-hp{display:none!important;position:absolute;left:-9999px;opacity:0;pointer-events:none}
+.pitch-row{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+.pitch-submit{
+  width:100%;padding:.85rem 1rem;
+  background:var(--ink);border:1.5px solid var(--ink);
+  color:var(--paper);font-family:var(--sans);font-size:.85rem;font-weight:600;
+  letter-spacing:-.01em;
+  cursor:pointer;border-radius:999px;
+  transition:background .22s,border-color .22s,color .22s,transform .18s;margin-top:.3rem;
+}
+.pitch-submit:hover:not(:disabled){background:transparent;color:var(--ink);transform:translateY(-1px)}
+.pitch-submit:disabled{opacity:.4;cursor:default}
+.pitch-msg{
+  margin-top:.85rem;font-family:var(--mono);font-size:.52rem;
+  letter-spacing:.12em;text-transform:uppercase;text-align:center;
+  min-height:1.2em;transition:color .25s;
+}
+.pitch-msg.ok{color:#22c55e}
+.pitch-msg.err{color:#f87171}
+@media(max-width:820px){
+  .pitch-inner{grid-template-columns:1fr}
+  .pitch-form-wrap{margin-top:2rem}
+}
+@media(max-width:520px){.pitch-row{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
-<!-- INTRO -->
-<div id="intro"><span>Arsh Hashmi</span></div>
-
 <!-- NAV -->
 <nav id="nav">
-  <a href="#hero-reel" class="nav-logo">Arsh Hashmi</a>
+  <a href="index.html" class="nav-logo">
+    <span class="nav-logo-wordmark">ENGINEERINGWITHARSH</span>
+  </a>
   <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#skills">Skills</a></li>
+    <li><a href="builds.html">What I Built</a></li>
+    <li><a href="guides.html">How-To Guides</a></li>
+    <li><a href="about.html">About Me</a></li>
   </ul>
-  <a href="#contact" class="nav-cta">Contact</a>
+  <div class="nav-right">
+    <a href="contact.html" class="nav-cta">Contact</a>
+  </div>
 </nav>
 
 <!-- VIDEO HERO REEL ─────────────────────────────────────────── -->
@@ -4120,11 +4528,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
     <div class="hero-reel-scrim-dark" id="heroReelScrimDark"></div>
     <div class="hero-reel-overlay">
 
-      <!-- ─ Always-on: top bar ─ -->
-      <div class="hero-reel-bar">
-        <span class="hero-reel-mono">Mechanical Engineering · Motorsport</span>
-        <span class="hero-reel-mono">Binghamton University · BU '29</span>
-      </div>
+      <!-- ─ Top bar ─ (content removed; element kept for spacing/animation) -->
 
       <!-- ─ Phase B: "Welcome to [WORD]" ─ -->
       <div class="hero-reel-sequence" id="heroReelSequence">
@@ -4142,37 +4546,161 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 
       <!-- ─ Phase B.5: Full-screen flash ─ -->
       <div class="hero-reel-flash" id="heroReelFlash">
-        <span class="hrf-flash-text">EngineeringWithArsh</span>
+        <span class="hrf-flash-text">ENGINEERINGWITHARSH</span>
       </div>
 
       <!-- ─ Phase C: Finale — OG hero layout ─ -->
       <div class="hero-reel-finale" id="heroReelFinale">
         <div class="hrf-left">
-          <div class="hrf-eyebrow">Mechanical Engineering · Motorsport</div>
           <h1 class="hrf-name">Arsh<br><em>Hashmi.</em></h1>
-          <div class="hrf-meta">Binghamton University · BU '29 · CAD · CFD · Fabrication</div>
-          <div class="hrf-actions">
-            <a href="#projects" class="btn-txt">View projects →</a>
-            <a href="#contact" class="btn-ink">Get in touch</a>
-          </div>
         </div>
         <div class="hrf-photo-wrap">
-          <img class="hrf-photo" src="images/about/headshot.png" alt="Arsh Hashmi">
+          <img class="hrf-photo" src="images/about/headshot.jpg" alt="Arsh Hashmi">
         </div>
       </div>
 
-      <!-- ─ Always-on: scroll cue ─ -->
+      <!-- ─ Initial scroll cue (video phase) ─ -->
       <div class="hero-reel-hint" id="heroReelHint">
         <span class="hero-reel-hint-mono">Scroll</span>
         <div class="hero-reel-hint-arrow"></div>
+      </div>
+
+      <!-- ─ Finale scroll-down cue (appears after name card) ─ -->
+      <div class="hrf-scroll-down" id="hrfScrollDown" aria-hidden="true">
+        <span class="hrf-scroll-down-label">Scroll</span>
+        <div class="hrf-scroll-down-arrow"></div>
       </div>
 
     </div>
   </div>
 </section>
 
-<!-- Scroll-up bubble — shown when user tries to break out of finale lock -->
-<div class="hreel-bubble" id="hreelBubble" aria-hidden="true">↑ Keep scrolling to rewatch</div>
+<!-- WHAT I AM BUILDING ──────────────────────────────────────── -->
+<section id="build-log">
+
+  <div class="wib-header rv">
+    <h2 class="wib-title">What I Am Building.</h2>
+  </div>
+
+  <!-- Horizontal timeline track -->
+  <div class="wib-wrap" id="wibWrap">
+    <div class="wib-track" id="wibTrack">
+
+      <!-- ── Past / completed small cards ── -->
+      <a class="wib-card wib-sm" href="builds.html" aria-label="Automotive shop builds">
+        <div class="wib-sm-icon">🔧</div>
+        <div class="wib-sm-label">Automotive<br>Shop</div>
+        <div class="wib-sm-status done">Done</div>
+      </a>
+
+      <a class="wib-card wib-sm" href="builds.html" aria-label="Combat robot builds">
+        <div class="wib-sm-icon">⚔</div>
+        <div class="wib-sm-label">Combat<br>Robot v1</div>
+        <div class="wib-sm-status done">Done</div>
+      </a>
+
+      <a class="wib-card wib-sm" href="builds.html" aria-label="Custom PC builds">
+        <div class="wib-sm-icon">🖥</div>
+        <div class="wib-sm-label">Cosmic<br>PCs</div>
+        <div class="wib-sm-status done">Done</div>
+      </a>
+
+      <a class="wib-card wib-sm" href="builds.html" aria-label="Combat robot v2">
+        <div class="wib-sm-icon">⚙</div>
+        <div class="wib-sm-label">Combat<br>Robot v2</div>
+        <div class="wib-sm-status done">Done</div>
+      </a>
+
+      <!-- Divider/arrow between past and active -->
+      <div class="wib-divider" aria-hidden="true">
+        <div class="wib-divider-line"></div>
+        <div class="wib-divider-label">Now →</div>
+      </div>
+
+      <!-- ── Active builds (big cards) ── -->
+      <a class="wib-card wib-lg" href="projects/active-aero-wing.html" aria-label="Active aerodynamics wing build">
+        <div class="wib-lg-media">
+          <img src="images/experience/sae-front-wing-v2.jpg" alt="Active aero wing" loading="lazy" decoding="async">
+          <div class="wib-lg-scrim"></div>
+        </div>
+        <div class="wib-lg-body">
+          <div class="wib-active-dot"><span></span>Active</div>
+          <div class="wib-lg-name">Active Aero Wing</div>
+          <div class="wib-lg-tags">
+            <span>CFD</span><span>Carbon Fiber</span><span>FSAE</span>
+          </div>
+          <div class="wib-lg-foot">
+            <span class="wib-free-badge">Free Guide</span>
+            <span class="wib-lg-cta">View Guide →</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="wib-card wib-lg" href="builds.html" aria-label="Autonomous go-kart build">
+        <div class="wib-lg-media" style="background:linear-gradient(160deg,#04090f 0%,#0a1929 60%,#0d2040 100%)">
+          <div class="wib-kart-vis" aria-hidden="true">
+            <div class="wib-kart-grid"></div>
+            <div class="wib-kart-dot d1"></div>
+            <div class="wib-kart-dot d2"></div>
+            <div class="wib-kart-ring"></div>
+          </div>
+          <div class="wib-lg-scrim"></div>
+        </div>
+        <div class="wib-lg-body">
+          <div class="wib-active-dot"><span></span>Active</div>
+          <div class="wib-lg-name">Autonomous Go-Kart</div>
+          <div class="wib-lg-tags">
+            <span>ROS 2</span><span>Computer Vision</span><span>Fabrication</span>
+          </div>
+          <div class="wib-lg-foot">
+            <span class="wib-pct-badge">~35%</span>
+            <span class="wib-lg-cta">Follow Build →</span>
+          </div>
+        </div>
+      </a>
+
+    </div><!-- /wib-track -->
+  </div><!-- /wib-wrap -->
+
+  <!-- Giant CTA -->
+  <div class="wib-cta-row rv">
+    <a href="builds.html" class="wib-cta-btn">View Everything I Have Built <span>→</span></a>
+  </div>
+
+</section>
+
+<!-- INSTAGRAM FEED ───────────────────────────────────────────── -->
+<section id="ig-feed">
+
+  <div class="ig-header rv">
+    <div class="ig-header-left">
+      <h2 class="ig-title">@engineeringwitharsh <span class="ig-followers">1.1k+ followers</span></h2>
+    </div>
+    <a href="https://instagram.com/engineeringwitharsh" target="_blank" rel="noopener" class="ig-follow-btn">
+      Follow on Instagram <span>↗</span>
+    </a>
+  </div>
+
+  <!-- "Follow the Latest Reel" pointer -->
+  <div class="ig-pan-pointer">
+    <div class="ig-pan-ptr-line"></div>
+    <span class="ig-pan-ptr-text">Follow the Latest Reel <span class="ig-pan-ptr-arrow">↓</span></span>
+    <div class="ig-pan-ptr-line"></div>
+  </div>
+
+  <!-- Panning carousel + floating featured card -->
+  <div class="ig-pan-wrap" id="igPanWrap">
+    <div class="ig-pan-stage" id="igPanStage">
+      <div class="ig-pan-row ig-pan-row-0" id="igRow0"></div>
+      <div class="ig-pan-row ig-pan-row-1" id="igRow1"></div>
+    </div>
+    <div class="ig-pan-scrim" aria-hidden="true"></div>
+    <div class="ig-pan-feat-shell">
+      <a class="ig-pan-feat" id="igFeatured" target="_blank" rel="noopener noreferrer"></a>
+    </div>
+  </div>
+
+</section>
 
 <!-- ABOUT -->
 <section class="panel" id="about">
@@ -5224,7 +5752,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
       </div>
     </article>
 
-    <div class="future-work">
+    <div class="future-work" style="display:none">
       <article class="future-panel proj-panel rv" data-future-panel data-fx="lift">
         <div class="future-shell">
           <div class="future-kicker-row">
@@ -5768,8 +6296,8 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
     </article>
 
     <article class="exp-card rv d2">
-      <button class="exp-media" data-exp-thumb data-title="Watson Combat Robotics League" data-desc="Two on-site roles across the antweight combat robotics pipeline: Member and Full Combat Robotics Engineer.||Covers CAD, rapid iteration, electronics integration, and competition validation." data-src="images/about/headshot.png" aria-label="Open Watson Combat Robotics details">
-        <img src="images/about/headshot.png" alt="Watson Combat Robotics preview" loading="lazy" decoding="async">
+      <button class="exp-media" data-exp-thumb data-title="Watson Combat Robotics League" data-desc="Two on-site roles across the antweight combat robotics pipeline: Member and Full Combat Robotics Engineer.||Covers CAD, rapid iteration, electronics integration, and competition validation." data-src="images/about/headshot.jpg" aria-label="Open Watson Combat Robotics details">
+        <img src="images/about/headshot.jpg" alt="Watson Combat Robotics preview" loading="lazy" decoding="async">
       </button>
       <div class="exp-content">
         <div class="exp-topline"><span class="exp-pill">Full-time · On-site</span><span class="exp-time">9 mos · Aug 2025 - Present</span></div>
@@ -5790,8 +6318,8 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
         </div>
       </div>
       <div class="exp-side">
-        <button class="exp-mini" data-exp-thumb data-title="Humpty Dumpty" data-desc="Antweight bot build: final design direction and component placement." data-src="images/about/headshot.png" aria-label="Open Humpty Dumpty thumbnail">
-          <img src="images/about/headshot.png" alt="Humpty Dumpty preview" loading="lazy" decoding="async">
+        <button class="exp-mini" data-exp-thumb data-title="Humpty Dumpty" data-desc="Antweight bot build: final design direction and component placement." data-src="images/about/headshot.jpg" aria-label="Open Humpty Dumpty thumbnail">
+          <img src="images/about/headshot.jpg" alt="Humpty Dumpty preview" loading="lazy" decoding="async">
         </button>
         <button class="exp-mini" data-exp-thumb data-title="Humpty Dumpty - Final CAD Iteration" data-desc="Final CAD iteration balancing weapon packaging and survivability." data-src="images/experience/sae-nosecone-cad.jpg" aria-label="Open final CAD iteration image">
           <img src="images/experience/sae-nosecone-cad.jpg" alt="Final CAD iteration preview" loading="lazy" decoding="async">
@@ -5826,8 +6354,8 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
     </article>
 
     <article class="exp-card rv d4">
-      <button class="exp-media" data-exp-thumb data-title="LinkedIn Entry Template" data-desc="Use this card format for each additional role from LinkedIn.||Add: photo path, job title, company, dates, location, bullets, and tags.||Keep chronology newest to oldest for consistent scan flow." data-src="images/about/headshot.png" aria-label="Open experience template details">
-        <img src="images/about/headshot.png" alt="Experience entry template preview" loading="lazy" decoding="async">
+      <button class="exp-media" data-exp-thumb data-title="LinkedIn Entry Template" data-desc="Use this card format for each additional role from LinkedIn.||Add: photo path, job title, company, dates, location, bullets, and tags.||Keep chronology newest to oldest for consistent scan flow." data-src="images/about/headshot.jpg" aria-label="Open experience template details">
+        <img src="images/about/headshot.jpg" alt="Experience entry template preview" loading="lazy" decoding="async">
       </button>
       <div class="exp-content">
         <div class="exp-topline"><span class="exp-pill">Template</span><span class="exp-time">Add More Roles</span></div>
@@ -5855,6 +6383,68 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
     <div class="sk-col rv"><div class="sk-head">Automotive & Fabrication</div><div class="sk-items"><span class="sk-item">Car Tinting</span><span class="sk-item">Vinyl Wrapping</span><span class="sk-item">Autobody</span><span class="sk-item">Interior Upholstery</span><span class="sk-item">Vehicle Diagnostics</span><span class="sk-item">Engine Maintenance</span><span class="sk-item">Aftermarket Audio</span><span class="sk-item">Car Flipping</span></div></div>
     <div class="sk-col rv d1"><div class="sk-head">Research & Analysis</div><div class="sk-items"><span class="sk-item">En-vivo Coding</span><span class="sk-item">Apriori Coding</span><span class="sk-item">Interview Protocols</span><span class="sk-item">Otter.ai</span><span class="sk-item">Academic Writing</span><span class="sk-item">Presentational Literacy</span></div></div>
     <div class="sk-col rv d2"><div class="sk-head">Languages</div><div class="sk-items"><span class="sk-item">English (Native)</span><span class="sk-item">Urdu (Native)</span><span class="sk-item">Hindi / Punjabi</span><span class="sk-item">Spanish (Learning)</span></div></div>
+  </div>
+</section>
+
+<!-- PITCH AN IDEA ──────────────────────────────────────────── -->
+<section id="pitch">
+  <div class="sec-header rv">
+    <div>
+      <span class="sec-label">Community</span>
+      <div class="sec-title">Pitch an idea.</div>
+    </div>
+  </div>
+  <div class="pitch-inner">
+
+    <div class="rv">
+      <p class="pitch-lede">Got a project you want to see built — with a full step-by-step guide? Submit it. If it's good, it becomes a build.</p>
+      <p class="pitch-note">
+        <strong>What happens:</strong><br>
+        Ideas go directly to my inbox. Promising ones get built out into complete guides — eventually available to the community. You'll be credited by name.
+      </p>
+      <p class="pitch-note">
+        <strong>No account needed.</strong> Just include a working email so I can reach you if your idea gets selected.
+      </p>
+      <p class="pitch-note" style="margin-top:1.2rem;color:rgba(255,255,255,.28)">
+        In the future, guides for all builds will be available through this site — so ideas submitted now are in early.
+      </p>
+    </div>
+
+    <div class="rv d1">
+      <div class="pitch-form-wrap">
+        <form id="pitchForm" novalidate>
+
+          <!-- Honeypot — bots fill this, humans don't see it -->
+          <div class="pitch-hp" aria-hidden="true">
+            <label>Do not fill <input type="text" name="_honey" tabindex="-1" autocomplete="off" value=""></label>
+          </div>
+
+          <div class="pitch-field">
+            <label class="pitch-label" for="pitchIdea">Your idea <span class="pitch-req">*</span></label>
+            <textarea class="pitch-textarea" id="pitchIdea" name="idea"
+              placeholder="Describe the project — what it builds, why it's cool, what someone would learn..."
+              required maxlength="2000"></textarea>
+          </div>
+
+          <div class="pitch-row">
+            <div class="pitch-field">
+              <label class="pitch-label" for="pitchName">Your name</label>
+              <input class="pitch-input" id="pitchName" name="name" type="text"
+                placeholder="Arsh Hashmi" autocomplete="name" maxlength="120">
+            </div>
+            <div class="pitch-field">
+              <label class="pitch-label" for="pitchEmail">Email <span class="pitch-req">*</span></label>
+              <input class="pitch-input" id="pitchEmail" name="email" type="email"
+                placeholder="you@example.com" required autocomplete="email" maxlength="200">
+            </div>
+          </div>
+
+          <button class="pitch-submit" id="pitchSubmit" type="submit">Send Idea →</button>
+          <div class="pitch-msg" id="pitchMsg" aria-live="polite"></div>
+        </form>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -7129,8 +7719,24 @@ if(workGalleries.length&&workModal){
     if(e.key==='ArrowRight')nextWork();
   });
 }
-/* Nav */
-window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('stuck',window.scrollY>60),{passive:true});
+/* Nav — hidden during hero, permanently revealed once scrolled past it */
+{
+  const navEl = document.getElementById('nav');
+  const heroEl = document.getElementById('hero-reel');
+  let navRevealed = false;
+  const onNavScroll = () => {
+    navEl.classList.toggle('stuck', window.scrollY > 60);
+    if (!navRevealed && heroEl) {
+      // Reveal when user reaches ≥90% of the hero's scroll range
+      const heroScrollMax = heroEl.offsetHeight - window.innerHeight;
+      if (window.scrollY >= heroScrollMax * 0.90) {
+        navRevealed = true;
+        navEl.classList.add('nav-revealed');
+      }
+    }
+  };
+  window.addEventListener('scroll', onNavScroll, {passive: true});
+}
 
 /* Reveal */
 const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('in')}),{threshold:.06,rootMargin:'0px 0px -20px 0px'});
@@ -7254,10 +7860,10 @@ if(expThumbs.length&&expModal){
   const hrsWords   = section
     ? [...section.querySelectorAll('.hrs-ww')]
     : [];
-  const flashEl    = document.getElementById('heroReelFlash');
-  const finaleEl   = document.getElementById('heroReelFinale');
-  const scrimDark  = document.getElementById('heroReelScrimDark');
-  const bubble     = document.getElementById('hreelBubble');
+  const flashEl      = document.getElementById('heroReelFlash');
+  const finaleEl     = document.getElementById('heroReelFinale');
+  const scrimDark    = document.getElementById('heroReelScrimDark');
+  const scrollDownEl = document.getElementById('hrfScrollDown');
   if (!section || !video) return;
 
   /* Reduced-motion: show finale immediately, autoplay video */
@@ -7275,17 +7881,16 @@ if(expThumbs.length&&expModal){
   const cl = (p, i0, i1) => Math.max(0, Math.min(1, (p - i0) / (i1 - i0)));
   const getScrollMax = () => section.offsetHeight - window.innerHeight;
 
-  /* ── Bubble: shows only during rewatch attempt ── */
-  let bubbleTimer = null;
-  const showBubble = () => {
-    if (!bubble) return;
-    clearTimeout(bubbleTimer);
-    bubble.classList.add('is-visible');
-    bubbleTimer = setTimeout(() => bubble.classList.remove('is-visible'), 1800);
+  /* ── Finale scroll-down hint ── */
+  let scrollDownTimer = null;
+  const showScrollDown = () => {
+    if (!scrollDownEl) return;
+    clearTimeout(scrollDownTimer);
+    scrollDownTimer = setTimeout(() => scrollDownEl.classList.add('is-visible'), 1000);
   };
-  const hideBubble = () => {
-    clearTimeout(bubbleTimer);
-    bubble?.classList.remove('is-visible');
+  const hideScrollDown = () => {
+    clearTimeout(scrollDownTimer);
+    scrollDownEl?.classList.remove('is-visible');
   };
 
   /* ── Soft-lock state ── */
@@ -7321,6 +7926,7 @@ if(expThumbs.length&&expModal){
       if (sy >= scrollMax - 4 && !finaleReached) {
         finaleReached = true;
         finaleState   = 'LOCKED';
+        showScrollDown();
       }
 
       /* ── ENFORCE LOCK in the scroll event (belt-and-suspenders) ──
@@ -7339,6 +7945,7 @@ if(expThumbs.length&&expModal){
       if (finaleReached && finaleState === 'RELEASED' && sy < scrollMax * 0.50) {
         finaleReached = false;
         finaleState   = 'LOCKED';
+        hideScrollDown();
       }
 
       /* ── Scrub video ── */
@@ -7351,7 +7958,7 @@ if(expThumbs.length&&expModal){
 
       /* ── Scrim darkens as words fade, holds through finale ── */
       if (scrimDark) {
-        scrimDark.style.opacity = (cl(p, 0.65, 0.92) * 0.74).toFixed(3);
+        scrimDark.style.opacity = (cl(p, 0.28, 0.72) * 0.97).toFixed(3);
       }
 
       if (sticky) {
@@ -7362,7 +7969,7 @@ if(expThumbs.length&&expModal){
       /* ── Phase B: sequence ── */
       if (sequence) {
         const seqIn  = cl(p, 0.08, 0.18);
-        const seqOut = cl(p, 0.68, 0.76);
+        const seqOut = cl(p, 0.66, 0.72);
         sequence.style.opacity = (seqIn * (1 - seqOut)).toFixed(3);
       }
       hrsWords.forEach((w, i) => {
@@ -7374,7 +7981,7 @@ if(expThumbs.length&&expModal){
 
       /* ── Phase B.5: flash ── */
       if (flashEl) {
-        flashEl.style.opacity = (cl(p, 0.70, 0.76) * (1 - cl(p, 0.87, 0.94))).toFixed(3);
+        flashEl.style.opacity = (cl(p, 0.73, 0.76) * (1 - cl(p, 0.86, 0.91))).toFixed(3);
       }
 
       /* ── Phase C: finale (name card) ── */
@@ -7402,7 +8009,7 @@ if(expThumbs.length&&expModal){
       if (finaleReached || finaleState !== 'LOCKED') {
         finaleReached = false;
         finaleState   = 'LOCKED';
-        hideBubble();
+        hideScrollDown();
         clearTimeout(pauseTimer);
       }
       return;
@@ -7418,7 +8025,6 @@ if(expThumbs.length&&expModal){
     if (e.deltaY < 0) {                    /* upward */
       if (finaleState === 'LOCKED') {
         e.preventDefault();
-        showBubble();
         /* 150ms after last upward event → PAUSED_READY */
         pauseTimer = setTimeout(() => {
           if (finaleState === 'LOCKED') finaleState = 'PAUSED_READY';
@@ -7426,20 +8032,20 @@ if(expThumbs.length&&expModal){
       } else if (finaleState === 'PAUSED_READY') {
         /* Second gesture — release, scroll flows */
         finaleState = 'RELEASED';
-        hideBubble();
+        hideScrollDown();
         sticky?.classList.remove('is-finale');
       }
     } else {                               /* downward at finale — reset */
       finaleReached = false;
       finaleState   = 'LOCKED';
-      hideBubble();
+      hideScrollDown();
       clearTimeout(pauseTimer);
     }
   }, { passive: false });
 
   /* Remove boot screen from DOM after animation completes (perf + a11y) */
   const bootEl = document.getElementById('heroBoot');
-  if (bootEl) setTimeout(() => bootEl.remove(), 3000);
+  if (bootEl) setTimeout(() => bootEl.remove(), 1800);
 
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll, { passive: true });
@@ -7494,6 +8100,242 @@ if(expThumbs.length&&expModal){
     }
   },{rootMargin:'400px'}); /* start 400px before the section reaches the viewport */
   sectionObserver.observe(projectsSection);
+})();
+
+/* ── What I Am Building — pan-in timeline animation ──────────── */
+(() => {
+  const wrap  = document.getElementById('wibWrap');
+  const track = document.getElementById('wibTrack');
+  if (!wrap || !track) return;
+
+  /* ── Drag-to-scroll ── */
+  let isDown = false, startX = 0, startScroll = 0;
+  wrap.addEventListener('mousedown', e => {
+    isDown = true; startX = e.pageX; startScroll = wrap.scrollLeft;
+    wrap.classList.add('is-dragging');
+  });
+  window.addEventListener('mouseup', () => { isDown = false; wrap.classList.remove('is-dragging'); });
+  window.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    e.preventDefault();
+    wrap.scrollLeft = startScroll - (e.pageX - startX);
+  });
+
+  /* ── Pan-in animation triggered by IntersectionObserver ── */
+  let animated = false;
+  const easeOut = t => 1 - Math.pow(1 - t, 3);
+
+  const runPan = () => {
+    if (animated) return;
+    animated = true;
+
+    /* scroll to show the big (active) cards — target = track right edge minus one card width buffer */
+    const targetScroll = Math.max(0, track.scrollWidth - wrap.clientWidth - 40);
+    const duration = 1400; /* ms */
+    const start = performance.now();
+    const from  = 0;
+
+    const step = now => {
+      const elapsed = now - start;
+      const p = Math.min(elapsed / duration, 1);
+      wrap.scrollLeft = from + (targetScroll - from) * easeOut(p);
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { runPan(); obs.disconnect(); } });
+  }, { threshold: 0.25 });
+  obs.observe(wrap);
+})();
+
+/* ── Pitch Form — spam-resistant idea submission ──────────────── */
+(() => {
+  const form    = document.getElementById('pitchForm');
+  const submit  = document.getElementById('pitchSubmit');
+  const msgEl   = document.getElementById('pitchMsg');
+  if (!form || !submit || !msgEl) return;
+
+  const startTime = Date.now();
+  const RATE_KEY  = 'pitch_ts';
+  const MAX_HOUR  = 3;
+
+  const setMsg = (text, ok) => {
+    msgEl.textContent = text;
+    msgEl.className   = 'pitch-msg ' + (ok ? 'ok' : 'err');
+  };
+
+  const checkRate = () => {
+    try {
+      const raw  = localStorage.getItem(RATE_KEY);
+      const list = raw ? JSON.parse(raw) : [];
+      const now  = Date.now();
+      const recent = list.filter(t => now - t < 3_600_000);
+      if (recent.length >= MAX_HOUR) return false;
+      recent.push(now);
+      localStorage.setItem(RATE_KEY, JSON.stringify(recent));
+      return true;
+    } catch { return true; }
+  };
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+
+    // 1. Honeypot — bots fill the hidden field
+    const hp = form.querySelector('input[name="_honey"]');
+    if (hp && hp.value.trim() !== '') return;
+
+    // 2. Timing — too fast means bot (< 2.5 s)
+    if (Date.now() - startTime < 2500) {
+      setMsg('Take your time filling this out.', false);
+      return;
+    }
+
+    const idea  = form.querySelector('#pitchIdea').value.trim();
+    const name  = form.querySelector('#pitchName').value.trim();
+    const email = form.querySelector('#pitchEmail').value.trim();
+
+    if (!idea)  { setMsg('Please describe your project idea.', false); return; }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setMsg('A valid email address is required.', false); return;
+    }
+
+    // 3. Rate limit — max 3 per hour via localStorage
+    if (!checkRate()) {
+      setMsg('Too many submissions — please try again later.', false);
+      return;
+    }
+
+    // Build the mailto link and fire it
+    const sub  = encodeURIComponent('[Build Idea] ' + (name || email));
+    const body = encodeURIComponent(
+      'From: ' + (name || 'Anonymous') + '\n' +
+      'Email: ' + email + '\n\n' +
+      'Project Idea:\n' + idea
+    );
+    window.location.href = `mailto:arshhashmi.nyc@gmail.com?subject=${sub}&body=${body}`;
+
+    submit.disabled = true;
+    setMsg('Opening your email client — thanks for the idea!', true);
+    setTimeout(() => {
+      form.reset();
+      submit.disabled = false;
+      msgEl.textContent = '';
+      msgEl.className   = 'pitch-msg';
+    }, 6000);
+  });
+})();
+</script>
+
+<!-- Instagram panning carousel + featured card -->
+<script>
+(() => {
+  const REELS = [
+    { id:'DZrH_EbpVXG', n:1  },
+    { id:'DaG9m6Gpght', n:2  },
+    { id:'DaJGY95htu1', n:3  },
+    { id:'DaRi5oMMT_1', n:4  },
+    { id:'DaTmfc0hGqV', n:5  },
+    { id:'DaZfqTOMly_', n:6  },
+    { id:'DabwhtHsFVv', n:7  },
+    { id:'DaeSbrasSAB', n:8  },
+    { id:'DaqnsqbhR4H', n:9  },
+    { id:'DatM-mehLa1', n:10 },
+    { id:'DayKUOrpL9c', n:11 },
+    { id:'Da0J7tsxxS4', n:12 },
+    { id:'Da87NTMp0vW', n:13 },
+    { id:'Da_dvcHMZjd', n:14 },
+    { id:'DbEwIkqMWUk', n:15 },
+    { id:'DbHLNk3JM4Y', n:16 },
+    { id:'DbQ9SjjxBok', n:17 },
+    { id:'DbWaGUwBdnU', n:18 },
+    { id:'DbYY0tMxfCO', n:19 },
+    { id:'DbdJW7VxM4g', n:20 },
+    { id:'Db1nYoLKzqV', n:21 },
+    { id:'Db4Qtg4sOEq', n:22 },
+    { id:'Db9Ztd8sxnU', n:23 },
+    { id:'DcE0NUihJ_J', n:24 },
+    { id:'DcWKSX2REKc', n:25 },
+    { id:'DcZTctSq-AN', n:26 }, /* newest */
+  ];
+
+  const u = r => `https://www.instagram.com/reel/${r.id}/`;
+
+  /* ── Panning rows: use the 25 older reels, duplicated for seamless loop ── */
+  const older = REELS.slice(0, -1); /* reels 1–25 */
+
+  /* Row 0 pans left, row 1 pans right (reversed order for visual variety) */
+  const rowData = [
+    older,
+    [...older].reverse(),
+  ];
+
+  rowData.forEach((reels, i) => {
+    const row = document.getElementById(`igRow${i}`);
+    if (!row) return;
+    /* Duplicate for seamless loop (CSS translateX(-50%) trick) */
+    const doubled = [...reels, ...reels];
+    doubled.forEach(r => {
+      const cell = document.createElement('a');
+      cell.className = 'ig-pan-thumb';
+      cell.href = u(r);
+      cell.target = '_blank';
+      cell.rel = 'noopener noreferrer';
+      cell.setAttribute('aria-label', 'View reel on Instagram');
+
+      const img = document.createElement('img');
+      img.src = `images/reels/${r.n}.jpg`;
+      img.alt = '';
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      cell.appendChild(img);
+      row.appendChild(cell);
+    });
+  });
+
+  /* ── Featured card: newest reel (DcZTctSq-AN / 26.jpg) ── */
+  const featEl = document.getElementById('igFeatured');
+  const latest = REELS[REELS.length - 1];
+  if (!featEl) return;
+
+  featEl.href = u(latest);
+
+  const img = document.createElement('img');
+  img.src = `images/reels/${latest.n}.jpg`;
+  img.alt = 'Latest reel';
+  img.loading = 'eager';
+  img.decoding = 'async';
+  featEl.appendChild(img);
+
+  const badge = document.createElement('span');
+  badge.className = 'ig-pan-feat-badge';
+  badge.textContent = 'Latest Reel';
+  featEl.appendChild(badge);
+
+  /* Instagram-style action bar — always visible, hover overlay covers it */
+  const bar = document.createElement('div');
+  bar.className = 'ig-post-bar';
+  bar.setAttribute('aria-hidden', 'true');
+  bar.innerHTML = `
+    <div class="ig-post-action">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </div>
+    <div class="ig-post-action">
+      <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    </div>
+    <div class="ig-post-action">
+      <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </div>
+    <div class="ig-post-action">
+      <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+    </div>`;
+  featEl.appendChild(bar);
+
+  const over = document.createElement('div');
+  over.className = 'ig-pan-feat-over';
+  over.innerHTML = `<div class="ig-pan-feat-play"></div><span class="ig-pan-feat-cta">Watch on Instagram</span>`;
+  featEl.appendChild(over);
 })();
 </script>
 </body>

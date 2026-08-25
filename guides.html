@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>How-To Guides — ENGINEERINGWITHARSH</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--ink:#f0f0f0;--paper:#080808;--surface:#111;--accent:#e8ff57;--fog:rgba(240,240,240,.08);--mist:rgba(240,240,240,.45);--line:rgba(240,240,240,.1);--sans:'Sora',sans-serif;--mono:'IBM Plex Mono',monospace}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--paper);color:var(--ink);font-family:var(--sans);min-height:100vh;display:flex;flex-direction:column}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 2.5rem;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--paper);z-index:100}
+    .nav-logo{display:flex;align-items:center;text-decoration:none;flex-shrink:0}.nav-logo-wordmark{font-family:"Sora",sans-serif;font-size:.82rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:#f0f0f0;white-space:nowrap;line-height:1}
+    .nav-back{font-family:"Sora",sans-serif;font-size:.78rem;font-weight:400;letter-spacing:-.01em;color:rgba(255,255,255,.4);text-decoration:none;transition:color .18s}
+    .nav-back:hover{color:rgba(255,255,255,.9)}
+    main{flex:1;padding:5rem 2rem;max-width:900px;margin:0 auto;width:100%}
+    .page-label{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mist);display:block;margin-bottom:1.25rem}
+    h1{font-size:clamp(2.5rem,6vw,4.5rem);font-weight:800;line-height:1.1;margin-bottom:1rem}
+    .page-sub{font-size:1.05rem;color:var(--mist);max-width:520px;line-height:1.65;margin-bottom:3rem}
+    .guide-card{border:1px solid var(--line);padding:1.75rem 1.75rem;display:flex;justify-content:space-between;align-items:center;gap:1.5rem;text-decoration:none;transition:border-color .2s,background .2s;background:var(--surface);margin-bottom:.75rem}
+    .guide-card:hover{border-color:rgba(240,240,240,.3);background:rgba(255,255,255,.05)}
+    .guide-card-info{display:flex;flex-direction:column;gap:.4rem}
+    .guide-kicker{font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mist)}
+    .guide-title{font-size:1.15rem;font-weight:700;color:var(--ink)}
+    .guide-desc{font-size:.85rem;color:var(--mist);line-height:1.5}
+    .guide-badge{font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;padding:.3rem .8rem;border:1px solid;white-space:nowrap;flex-shrink:0}
+    .badge-free{border-color:rgba(120,220,130,.5);color:#78dc82}
+    .coming-soon{border:1px dashed var(--line);padding:3rem 2rem;text-align:center;margin-top:2rem}
+    .cs-label{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mist);margin-bottom:.75rem;display:block}
+    .cs-text{font-size:.9rem;color:var(--mist)}
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-logo"><span class="nav-logo-wordmark">ENGINEERINGWITHARSH</span></a>
+    <a href="index.html" class="nav-back">← Back to main</a>
+  </nav>
+  <main>
+    <span class="page-label">Build with me</span>
+    <h1>How-To Guides.</h1>
+    <p class="page-sub">Step-by-step documentation for every project I build — CAD files, build sequences, lessons learned. Free to start, more detail coming.</p>
+
+    <a href="projects/active-aero-wing.html" class="guide-card">
+      <div class="guide-card-info">
+        <span class="guide-kicker">Active Build · Aerodynamics</span>
+        <span class="guide-title">Active Aero Wing — DRS Rear Wing</span>
+        <span class="guide-desc">Full build guide: Fusion 360 parametric CAD → ANSYS CFD validation → carbon fiber layup over 3D-printed molds.</span>
+      </div>
+      <span class="guide-badge badge-free">Free Guide</span>
+    </a>
+
+    <div class="coming-soon">
+      <span class="cs-label">More guides dropping soon</span>
+      <p class="cs-text">EV Go-Kart frame, autonomous vehicle sensor stack, and more — all fully documented as they're built.</p>
+    </div>
+  </main>
+</body>
+</html>
