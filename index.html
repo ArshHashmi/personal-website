@@ -45,6 +45,21 @@
   "description": "Mechanical Engineering + Computer Science student at Binghamton University targeting motorsport engineering — CAD, CFD, fabrication, aerodynamics, and autonomous systems."
 }
 </script>
+<!-- Scroll-restoration: set scrollRestoration=manual and flag back/forward navigation BEFORE render -->
+<script>
+(function(){
+  try{history.scrollRestoration='manual'}catch(e){}
+  try{
+    var nav=performance.getEntriesByType('navigation')[0];
+    if(nav&&nav.type==='back_forward')document.documentElement.classList.add('skip-rv');
+  }catch(e){}
+  // Sub-page logo click → land at name card (finale) state
+  if(location.hash==='#hero-name'){
+    try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}
+    document.documentElement.classList.add('skip-rv','goto-hero-name');
+  }
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@300;400;500;600;700&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -214,11 +229,11 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
   transform:translateY(12px) scale(.985);
   transition:opacity .5s ease,transform .75s cubic-bezier(.16,1,.3,1);
   pointer-events:none;
-  /* Extra bottom room so the spotlight box never covers the collage tiles. */
-  padding:1rem 1rem 12.25rem;
+  /* No top padding — collage fills to edge; bottom clears the spotlight overlay. */
+  padding:0 0 7rem;
   display:flex;
   flex-direction:column;
-  gap:.7rem;
+  gap:0;
 }
 .about-slide::before{
   content:'';
@@ -326,12 +341,10 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
 .about-slide.is-active .about-shot:nth-child(3){animation-delay:.12s}
 .about-slide.is-active .about-shot:nth-child(4){animation-delay:.18s}
 .about-slide.is-active .about-shot:nth-child(5){animation-delay:.24s}
-.shot-main{grid-column:1 / span 8;grid-row:1 / span 8}
+/* Only the main cover image shows in the carousel — rest are modal-only */
+.shot-main{grid-column:1 / -1;grid-row:1 / -1}
 .shot-main{--main-pos-x:50%;--main-pos-y:35%}
-.shot-win{grid-column:9 / span 4;grid-row:1 / span 3}
-.shot-sponsors{grid-column:9 / span 4;grid-row:4 / span 3}
-.shot-logo{grid-column:9 / span 2;grid-row:7 / span 2}
-.shot-code{grid-column:11 / span 2;grid-row:7 / span 2}
+.shot-win,.shot-sponsors,.shot-logo,.shot-code{display:none}
 .shot-main img{
   object-fit:cover;
   object-position:var(--main-pos-x) var(--main-pos-y);
@@ -498,6 +511,10 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
   pointer-events:none;
 }
 .about-carousel.is-single .about-spotlight{bottom:1.1rem}
+/* Minimal carousel — remove chrome the user doesn't need */
+.about-carousel{cursor:pointer}
+.about-spot-kicker{display:none}
+.about-spot-actions{display:none}
 
 .about-text{justify-self:end;max-width:720px}
 .about-text .lede{font-family:var(--sans);font-size:clamp(1.35rem,2.3vw,1.85rem);font-weight:500;line-height:1.5;letter-spacing:-.01em;margin-bottom:1.4rem}
@@ -3133,6 +3150,11 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 }
 .rv{opacity:0;transform:translateY(22px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
 .rv.in{opacity:1;transform:none}
+/* ── Skip all reveal animations on back/forward navigation ── */
+.skip-rv .rv{opacity:1!important;transform:none!important;transition:none!important;animation:none!important}
+.skip-rv .hero-boot{display:none!important}
+.skip-rv .hero-reel-bar,.skip-rv .hero-reel-hint{animation:none!important;opacity:1!important}
+/* NOTE: .hero-reel-finale opacity is scroll-driven by JS — no skip-rv override needed */
 .rv[data-fx="lift"]{
   opacity:0;
   transform:translateY(28px) scale(.98);
@@ -3153,12 +3175,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .hb-actions{justify-content:flex-start}
   .about-layout{grid-template-columns:1fr;gap:2.5rem}
   .about-carousel{max-width:840px}
-  .about-collage-grid{grid-template-rows:repeat(8,minmax(0,1fr))}
-  .shot-main{grid-column:1 / span 12;grid-row:1 / span 5}
-  .shot-win{grid-column:1 / span 12;grid-row:6 / span 2}
-  .shot-sponsors{grid-column:1 / span 6;grid-row:8 / span 1}
-  .shot-logo{grid-column:7 / span 3;grid-row:8 / span 1}
-  .shot-code{grid-column:10 / span 3;grid-row:8 / span 1}
+  .shot-main{grid-column:1 / -1;grid-row:1 / -1}
   .about-spot-title{-webkit-line-clamp:2}
   .about-spot-meta{-webkit-line-clamp:2}
   .about-modal-card{grid-template-columns:1fr}
@@ -3236,13 +3253,9 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .candle::after{width:10px}
   .about-facts{grid-template-columns:1fr 1fr}
   .about-carousel{aspect-ratio:1/1.1}
-  .about-slide{padding:.75rem .75rem 12rem}
-  .about-collage-grid{gap:.45rem;grid-template-rows:repeat(9,minmax(0,1fr))}
-  .shot-main{grid-column:1 / span 12;grid-row:1 / span 5}
-  .shot-win{grid-column:1 / span 12;grid-row:6 / span 2}
-  .shot-sponsors{grid-column:1 / span 12;grid-row:8 / span 1}
-  .shot-logo{grid-column:1 / span 6;grid-row:9 / span 1}
-  .shot-code{grid-column:7 / span 6;grid-row:9 / span 1}
+  .about-slide{padding:0 0 7rem}
+  .about-collage-grid{gap:.45rem}
+  .shot-main{grid-column:1 / -1;grid-row:1 / -1}
   .about-controls{top:.75rem;right:.75rem;left:auto;bottom:auto}
   .about-btn{width:2.05rem;height:2.05rem;font-size:1rem}
   .about-spotlight{left:.75rem;right:.75rem;bottom:.75rem;padding:.82rem .85rem .8rem}
@@ -4044,27 +4057,48 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 
 @media(max-width:680px){
   .hero-reel-bar{top:1.6rem;left:6vw;right:6vw;flex-direction:column;gap:.4rem}
-  .hero-reel-sequence{padding:5rem 6vw 0}
-  .hero-reel-finale{
-    flex-direction:column-reverse;
-    justify-content:center;
-    align-items:flex-start;
-    gap:1.4rem;
-    padding:5rem 6vw 3rem;
-  }
-  .hrf-photo-wrap{width:clamp(100px,32vw,160px)}
-  .hrf-name{font-size:clamp(2.6rem,10vw,5rem)}
-  .hrf-flash-text{white-space:normal;font-size:min(8.5vw,6rem)}
+  .hrf-flash-text{white-space:nowrap;font-size:min(6.5vw,8.5rem);letter-spacing:.03em}
   .hero-boot-name{font-size:clamp(1.8rem,9vw,3rem)}
-  .hero-reel-sequence{padding:0 5vw;justify-content:flex-start}
-  .hrs-wt{flex-direction:column;align-items:flex-start;gap:1rem}
-  .hrs-wt-left{font-size:clamp(1.3rem,5vw,2.4rem)}
-  .hrs-wt-right{width:90vw;height:clamp(3.5rem,12vw,6rem)}
-  .hrs-ww[data-word="1"]{font-size:clamp(2rem,9vw,4.5rem)}
-  .hrs-ww[data-word="2"]{font-size:clamp(1.6rem,7vw,3.5rem)}
-  .hrs-ww[data-word="3"]{font-size:clamp(1.8rem,8.5vw,4rem)}
-  .hrs-ww[data-word="4"]{font-size:clamp(1.4rem,6.5vw,3rem)}
-  .hrs-ww[data-word="5"]{font-size:clamp(2.2rem,10vw,5rem)}
+
+  /* ── Finale: absolute layout — photo top-center, name bottom-left ── */
+  .hero-reel-finale{display:block} /* take children out of flex flow */
+  .hrf-photo-wrap{
+    position:absolute;
+    top:5rem;          /* clears nav bar */
+    left:50%;
+    transform:translateX(-50%);
+    width:min(56vw,230px);
+  }
+  .hrf-photo{
+    width:100%;
+    aspect-ratio:1/1;
+    border-radius:18px;
+    object-fit:cover;
+    object-position:center center;
+  }
+  .hrf-left{
+    position:absolute;
+    bottom:44vh;
+    left:50%;
+    transform:translateX(-50%);
+    text-align:center;
+    white-space:nowrap;
+    background:none;
+  }
+  .hrf-name{font-size:clamp(2.8rem,13vw,4.5rem);line-height:.88;text-align:center}
+
+  /* ── Sequence words: centered, scaled to fit ── */
+  .hero-reel-sequence{padding:0 5vw;justify-content:center;align-items:center}
+  .hrs-wt{flex-direction:column;align-items:center;gap:.8rem;text-align:center}
+  .hrs-wt-left{font-size:clamp(1rem,4.5vw,1.9rem);text-align:center}
+  .hrs-wt-right{width:88vw;height:clamp(3rem,11vw,5.5rem)}
+  /* Center each word within its slot */
+  .hrs-ww{left:50%;transform:translate(-50%,-50%);white-space:nowrap}
+  .hrs-ww[data-word="1"]{font-size:clamp(1.8rem,8.5vw,4rem)}
+  .hrs-ww[data-word="2"]{font-size:clamp(1.4rem,6.5vw,3.2rem)}
+  .hrs-ww[data-word="3"]{font-size:clamp(1.6rem,7.5vw,3.6rem)}
+  .hrs-ww[data-word="4"]{font-size:clamp(1.3rem,6vw,2.8rem)}
+  .hrs-ww[data-word="5"]{font-size:clamp(1.9rem,9vw,4.2rem)}
 }
 @media(prefers-reduced-motion:reduce){
   #hero-reel{height:100vh}
@@ -4076,154 +4110,157 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 
 /* ─────────────────────────────────── WHAT I AM BUILDING ── */
 #build-log{padding:5rem 0 6rem;border-bottom:1px solid var(--line);overflow:hidden}
-.wib-header{padding:0 5vw;margin-bottom:3.5rem}
+/* ── WHAT I AM BUILDING ── */
+.wib-header{padding:0 5vw;margin-bottom:2.8rem}
 .wib-title{
   font-family:var(--sans);font-size:clamp(2rem,4.5vw,3.8rem);font-weight:800;
   letter-spacing:-.04em;line-height:1.0;color:var(--ink);
   white-space:nowrap;
 }
-
-/* ── Horizontal track ── */
-.wib-wrap{
-  overflow-x:auto;overflow-y:hidden;position:relative;
-  padding:0 5vw 1.5rem;
-  cursor:grab;
-  -webkit-user-select:none;user-select:none;
-  scrollbar-width:none;
+.wib-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  margin:0 5vw;
+  border:1px solid var(--line);border-radius:20px;overflow:hidden;
 }
-.wib-wrap::-webkit-scrollbar{display:none}
-.wib-wrap:active{cursor:grabbing}
-.wib-track{
-  display:flex;align-items:stretch;gap:1rem;
-  width:max-content;
+.wib-proj{
+  display:flex;flex-direction:column;
+  text-decoration:none;color:inherit;
+  background:rgba(255,255,255,.015);
+  transition:background .22s;
+  position:relative;
 }
-
-/* ── Small (past) cards ── */
-.wib-card{display:flex;flex-direction:column;text-decoration:none;color:inherit;flex-shrink:0}
-.wib-sm{
-  width:clamp(120px,15vw,160px);
-  border:1px solid var(--line);border-radius:16px;
-  background:rgba(255,255,255,.025);
-  padding:1.2rem 1rem;
-  gap:.65rem;
-  transition:border-color .22s,background .22s,transform .22s;
+.wib-proj+.wib-proj{border-left:1px solid var(--line)}
+.wib-proj:hover{background:rgba(255,255,255,.038)}
+.wib-proj-media{
+  position:relative;aspect-ratio:3/2;overflow:hidden;
+  flex-shrink:0;background:#0c0c0c;
 }
-.wib-sm:hover{border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.05);transform:translateY(-3px)}
-.wib-sm-icon{font-size:1.5rem;opacity:.55;line-height:1}
-.wib-sm-label{
-  font-family:var(--sans);font-size:clamp(.78rem,.95vw,.9rem);font-weight:700;
-  letter-spacing:-.02em;line-height:1.25;color:var(--ink);flex:1;
+.wib-proj-media img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .7s cubic-bezier(.16,1,.3,1);
 }
-.wib-sm-status{
-  font-family:var(--mono);font-size:.54rem;letter-spacing:.18em;text-transform:uppercase;
-  padding:.22rem .6rem;border-radius:999px;border:1px solid;display:inline-block;width:fit-content;
+.wib-proj:hover .wib-proj-media img{transform:scale(1.04)}
+.wib-proj-body{
+  padding:1.5rem 1.6rem 1.6rem;
+  display:flex;flex-direction:column;gap:.85rem;
+  border-top:1px solid var(--line);flex:1;
 }
-.wib-sm-status.done{color:#22c55e;border-color:rgba(34,197,94,.4)}
-
-/* ── Divider ── */
-.wib-divider{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:.6rem;padding:0 .8rem;flex-shrink:0;
+.wib-proj-top{
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
 }
-.wib-divider-line{
-  flex:1;width:1px;background:linear-gradient(180deg,transparent,rgba(255,255,255,.2) 40%,rgba(255,255,255,.2) 60%,transparent);
-  min-height:60px;
+.wib-proj-num{
+  font-family:var(--mono);font-size:.56rem;font-weight:600;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--fog);
 }
-.wib-divider-label{
-  font-family:var(--mono);font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--mist);writing-mode:vertical-lr;transform:rotate(180deg);
+.wib-chip{
+  display:inline-flex;align-items:center;gap:.38rem;
+  font-family:var(--mono);font-size:.52rem;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;
+  border-radius:999px;border:1px solid;padding:.25rem .65rem;
 }
-
-/* ── Large (active) cards ── */
-.wib-lg{
-  width:clamp(260px,32vw,360px);
-  border:1px solid rgba(255,255,255,.14);border-radius:20px;overflow:hidden;
-  background:var(--surface);
-  transition:border-color .28s,box-shadow .32s,transform .32s cubic-bezier(.16,1,.3,1);
+.wib-chip-done{color:#22c55e;border-color:rgba(34,197,94,.28);background:rgba(34,197,94,.06)}
+.wib-chip-active{color:#f59e0b;border-color:rgba(245,158,11,.28);background:rgba(245,158,11,.06)}
+.wib-chip-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.wib-chip-done .wib-chip-dot{background:#22c55e}
+.wib-chip-active .wib-chip-dot{background:#f59e0b;animation:wibPulse 1.8s ease-in-out infinite}
+@keyframes wibPulse{0%,100%{opacity:1}50%{opacity:.25}}
+.wib-proj-name{
+  font-family:var(--sans);font-size:clamp(1.15rem,1.9vw,1.5rem);font-weight:700;
+  letter-spacing:-.035em;line-height:1.15;color:var(--ink);
 }
-.wib-lg:hover{
-  border-color:rgba(255,255,255,.3);
-  box-shadow:0 28px 56px rgba(0,0,0,.45);
-  transform:translateY(-6px);
+.wib-proj-desc{
+  font-size:clamp(.78rem,1vw,.88rem);color:var(--mist);
+  line-height:1.72;
 }
-.wib-lg-media{position:relative;aspect-ratio:16/9;overflow:hidden;flex-shrink:0}
-.wib-lg-media img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.16,1,.3,1)}
-.wib-lg:hover .wib-lg-media img{transform:scale(1.06)}
-.wib-lg-scrim{position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(8,8,8,.88))}
-.wib-lg-body{padding:1.1rem 1.25rem 1.25rem;display:flex;flex-direction:column;gap:.55rem;flex:1}
-.wib-active-dot{
-  display:inline-flex;align-items:center;gap:.4rem;
-  font-family:var(--mono);font-size:.54rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);
-}
-.wib-active-dot span{
-  width:7px;height:7px;border-radius:50%;background:#f59e0b;
-  box-shadow:0 0 8px rgba(245,158,11,.7);
-  animation:wibPulse 1.8s ease-in-out infinite;flex-shrink:0;
-}
-@keyframes wibPulse{0%,100%{opacity:1}50%{opacity:.35}}
-.wib-lg-name{
-  font-family:var(--sans);font-size:clamp(1.25rem,2.2vw,1.65rem);font-weight:800;
-  letter-spacing:-.04em;line-height:1.1;color:var(--ink);
-}
-.wib-lg-tags{display:flex;flex-wrap:wrap;gap:.3rem}
-.wib-lg-tags span{
+.wib-proj-tags{display:flex;flex-wrap:wrap;gap:.3rem}
+.wib-proj-tag{
   font-family:var(--mono);font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;
   border:1px solid var(--line);border-radius:999px;padding:.2rem .5rem;color:var(--fog);
 }
-.wib-lg-foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:.75rem;border-top:1px solid var(--line)}
-.wib-free-badge{
-  font-family:var(--mono);font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;
-  color:#78dc82;border:1px solid rgba(120,220,130,.4);padding:.22rem .6rem;border-radius:999px;
+.wib-proj-foot{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:.85rem;border-top:1px solid var(--line);margin-top:auto;
 }
-.wib-pct-badge{
+.wib-badge-done{
+  font-family:var(--mono);font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;
+  color:#78dc82;border:1px solid rgba(120,220,130,.32);padding:.22rem .6rem;border-radius:999px;
+}
+.wib-badge-pct{
   font-family:var(--mono);font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;
   color:var(--mist);border:1px solid var(--line);padding:.22rem .6rem;border-radius:999px;
 }
-.wib-lg-cta{
+.wib-proj-cta{
   font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--ink);transition:opacity .2s;
+  color:var(--ink);display:inline-flex;align-items:center;gap:.35rem;transition:gap .2s;
 }
-.wib-lg:hover .wib-lg-cta{opacity:.75}
+.wib-proj:hover .wib-proj-cta{gap:.6rem}
 
-/* kart placeholder visual */
-.wib-kart-vis{position:absolute;inset:0;overflow:hidden}
-.wib-kart-grid{
-  position:absolute;inset:0;
-  background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
-  background-size:28px 28px;
+/* ── Wing card: hover-to-play video ── */
+.wib-proj-video{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;display:block;z-index:1;
+  opacity:0;transition:opacity .55s cubic-bezier(.16,1,.3,1);
 }
-.wib-kart-dot{position:absolute;width:6px;height:6px;border-radius:50%;background:#3b82f6;box-shadow:0 0 12px #3b82f6}
-.wib-kart-dot.d1{top:38%;left:42%;animation:wibDot 3s ease-in-out infinite}
-.wib-kart-dot.d2{top:55%;left:62%;animation:wibDot 3s ease-in-out .7s infinite}
-@keyframes wibDot{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.6);opacity:.3}}
-.wib-kart-ring{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:90px;height:90px;border-radius:50%;
-  border:1px solid rgba(59,130,246,.3);
-  animation:wibRing 3s linear infinite;
+.wib-proj-video.is-active{opacity:1}
+/* Suppress the image scale when video is showing */
+.wib-proj:hover .wib-proj-media img{transform:scale(1.04)}
+.wib-proj-video.is-active ~ img,.wib-proj-media:has(.wib-proj-video.is-active) img{transform:none!important}
+.wib-vid-prompt{
+  position:absolute;inset:0;z-index:2;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.42);
+  opacity:0;pointer-events:none;
+  transition:opacity .45s ease;
 }
-@keyframes wibRing{from{transform:translate(-50%,-50%) scale(.6);opacity:.8}to{transform:translate(-50%,-50%) scale(1.4);opacity:0}}
+.wib-vid-prompt.is-visible{opacity:1}
+.wib-vid-prompt-pill{
+  display:inline-flex;align-items:center;gap:.55rem;
+  font-family:'IBM Plex Mono',monospace;font-size:.58rem;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(240,240,240,.95);
+  background:rgba(8,8,8,.72);
+  backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);
+  border:1px solid rgba(255,255,255,.18);border-radius:999px;
+  padding:.62rem 1.2rem .62rem 1rem;
+  box-shadow:0 4px 28px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.08);
+}
+.wib-vid-prompt-pill svg{flex-shrink:0;opacity:.9}
 
 /* ── CTA row ── */
-.wib-cta-row{padding:3rem 5vw 0;display:flex;align-items:center}
+.wib-cta-row{padding:2.5rem 5vw 0;display:flex;align-items:center}
 .wib-cta-btn{
   display:inline-flex;align-items:center;gap:.65rem;
   font-family:var(--sans);font-size:clamp(.82rem,1.1vw,.95rem);font-weight:600;
   letter-spacing:-.01em;
   color:var(--paper);background:var(--ink);
-  padding:.9rem 2rem;
-  border-radius:999px;
-  border:1.5px solid var(--ink);
-  text-decoration:none;
+  padding:.9rem 2rem;border-radius:999px;
+  border:1.5px solid var(--ink);text-decoration:none;
   transition:background .22s,color .22s,transform .18s,box-shadow .22s;
 }
 .wib-cta-btn:hover{
   background:transparent;color:var(--ink);
-  transform:translateY(-2px);
-  box-shadow:0 8px 28px rgba(240,240,240,.1);
+  transform:translateY(-2px);box-shadow:0 8px 28px rgba(240,240,240,.1);
 }
 .wib-cta-btn span{display:inline-block;transition:transform .2s}
 .wib-cta-btn:hover span{transform:translateX(4px)}
+@media(max-width:640px){
+  /* Stack cards vertically — both fit in roughly half the screen */
+  .wib-grid{grid-template-columns:1fr;margin:0 4vw;border-radius:14px}
+  .wib-proj+.wib-proj{border-left:none;border-top:1px solid var(--line)}
+  .wib-proj-media{aspect-ratio:5/2}           /* very short wide thumbnail */
+  .wib-proj-body{padding:.7rem 1rem .85rem;gap:.3rem}
+  .wib-proj-name{font-size:.9rem;line-height:1.2}
+  .wib-proj-desc{display:none}                /* hide long desc to save height */
+  .wib-proj-tags{display:none}                /* hide tags row */
+  .wib-proj-foot{margin-top:.1rem}
+  .wib-chip{font-size:.46rem;padding:.2rem .5rem}
+  .wib-proj-num{font-size:.5rem}
+  .wib-title{font-size:clamp(1.5rem,6vw,2.4rem);white-space:normal;line-height:1.05}
+  .wib-header{margin-bottom:1.4rem;padding:0 4vw}
+  .wib-cta-row{padding:1.6rem 4vw 0}
+  /* Tighten section padding + kill the border that creates the dead-space line */
+  #build-log{padding-top:2.8rem;padding-bottom:1.8rem;border-bottom:none}
+}
 
 /* ─────────────────────────────────── INSTAGRAM FEED ── */
 #ig-feed{
@@ -4489,6 +4526,88 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .pitch-form-wrap{margin-top:2rem}
 }
 @media(max-width:520px){.pitch-row{grid-template-columns:1fr}}
+
+/* ════════════════════════════════════════════════════════════════
+   MOBILE — max-width: 480px  (phones)
+   All mechanics preserved — purely layout / sizing adjustments
+   ════════════════════════════════════════════════════════════════ */
+@media(max-width:480px){
+
+  /* ── NAV: tighter on small screens ── */
+  nav{padding:.85rem 4vw;gap:.45rem}
+  nav.stuck{padding:.7rem 4vw}
+  .nav-logo-wordmark{font-size:.72rem;letter-spacing:.05em}
+  .nav-links a{font-size:.68rem;padding:.36rem .72rem;border-radius:6px}
+  .nav-links{gap:.2rem}
+
+  /* ── GENERAL PANELS: less vertical padding ── */
+  section.panel{padding:4.5rem 4vw}
+
+  /* ── INSTAGRAM: compact header, no extra gap above ── */
+  #ig-feed{padding:2rem 4vw 3.5rem;border-bottom:none}
+  /* Remove random divider lines between sections on mobile */
+  section.panel{border-bottom:none}
+  .ig-header{margin-bottom:1.4rem;gap:.5rem;align-items:center}
+  .ig-kicker{display:none}
+  .ig-title{font-size:clamp(1.1rem,5vw,1.5rem);gap:.4rem;flex-wrap:nowrap}
+  .ig-followers{font-size:.65rem}
+  .ig-follow-btn{padding:.4rem .9rem;font-size:.7rem}
+  .ig-follow-btn span{display:none}
+  .ig-pan-pointer{display:none}
+  /* thumbnails + wrap — scale up together, keep same ratio */
+  .ig-pan-wrap{max-height:90vw}
+  .ig-pan-thumb{
+    width:clamp(90px,23vw,120px);
+    height:clamp(90px,23vw,120px);
+    border-radius:7px;
+  }
+  .ig-pan-feat{height:78%}
+  /* badge + icons: scale down to stop crowding */
+  .ig-pan-feat-badge{font-size:.46rem;padding:.16rem .46rem}
+  .ig-post-bar{gap:.6rem;right:.42rem;bottom:.65rem}
+  .ig-post-action svg{width:15px;height:15px;stroke-width:1.6}
+
+  /* ── ABOUT "WHO I AM": mobile reflow — intro → carousel → body ── */
+  #about{padding-top:1.8rem;border-top:none}
+  .about-layout{display:flex;flex-direction:column;gap:0}
+  /* dissolve the .about-text box so .about-intro and .about-body become flex children */
+  .about-text{display:contents}
+  .about-intro{order:1;margin-bottom:1.1rem}
+  .about-carousel-col{order:2;width:100%}
+  .about-body{order:3;margin-top:1.3rem}
+  /* square carousel — enough height for the collage grid to be visible */
+  .about-carousel{aspect-ratio:1/1;border-radius:14px;max-width:none}
+  /* reduce slide bottom padding to give the collage more room at mobile */
+  .about-slide{padding:0 0 6.5rem}
+  /* shrink spotlight to match */
+  .about-spotlight{left:.5rem;right:.5rem;bottom:.5rem;padding:.65rem .75rem .6rem}
+  .about-spot-title{font-size:.85rem}
+  .about-spot-meta{font-size:.68rem;-webkit-line-clamp:2}
+  .about-spot-actions{margin-top:.5rem}
+  /* lede text: readable but compact on mobile */
+  .lede{font-size:clamp(.92rem,4vw,1.2rem);margin-bottom:0}
+  .about-body p{font-size:.82rem;line-height:1.75}
+  .about-facts{gap:.45rem}
+  .sec-title{font-size:clamp(1.9rem,7.5vw,3rem)}
+
+  /* ── STATS BAR: single column ── */
+  .stats-bar{grid-template-columns:1fr 1fr}
+  .sb-n{font-size:1.9rem}
+  .sb-item{padding:1.1rem 4vw;gap:1rem}
+
+  /* ── GENERAL TEXT SIZE ── */
+  .wib-cta-btn{font-size:.78rem;padding:.75rem 1.5rem}
+}
+
+/* ── View Transitions — silky crossfade between pages ── */
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:200ms ease-out both vt-out}
+::view-transition-new(root){animation:380ms cubic-bezier(.16,1,.3,1) 80ms both vt-in}
+@keyframes vt-out{to{opacity:0;transform:translateY(-6px)}}
+@keyframes vt-in{from{opacity:0;transform:translateY(10px)}}
+/* Nav stays pinned — no transition animation */
+#nav{view-transition-name:site-nav}
+::view-transition-old(site-nav),::view-transition-new(site-nav){animation:none;mix-blend-mode:normal}
 </style>
 </head>
 <body>
@@ -4499,6 +4618,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
     <span class="nav-logo-wordmark">ENGINEERINGWITHARSH</span>
   </a>
   <ul class="nav-links">
+    <li><a href="#" id="navHomeBtn">Home</a></li>
     <li><a href="builds.html">What I Built</a></li>
     <li><a href="guides.html">How-To Guides</a></li>
     <li><a href="about.html">About Me</a></li>
@@ -4582,87 +4702,72 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
     <h2 class="wib-title">What I Am Building.</h2>
   </div>
 
-  <!-- Horizontal timeline track -->
-  <div class="wib-wrap" id="wibWrap">
-    <div class="wib-track" id="wibTrack">
+  <div class="wib-grid">
 
-      <!-- ── Past / completed small cards ── -->
-      <a class="wib-card wib-sm" href="builds.html" aria-label="Automotive shop builds">
-        <div class="wib-sm-icon">🔧</div>
-        <div class="wib-sm-label">Automotive<br>Shop</div>
-        <div class="wib-sm-status done">Done</div>
-      </a>
-
-      <a class="wib-card wib-sm" href="builds.html" aria-label="Combat robot builds">
-        <div class="wib-sm-icon">⚔</div>
-        <div class="wib-sm-label">Combat<br>Robot v1</div>
-        <div class="wib-sm-status done">Done</div>
-      </a>
-
-      <a class="wib-card wib-sm" href="builds.html" aria-label="Custom PC builds">
-        <div class="wib-sm-icon">🖥</div>
-        <div class="wib-sm-label">Cosmic<br>PCs</div>
-        <div class="wib-sm-status done">Done</div>
-      </a>
-
-      <a class="wib-card wib-sm" href="builds.html" aria-label="Combat robot v2">
-        <div class="wib-sm-icon">⚙</div>
-        <div class="wib-sm-label">Combat<br>Robot v2</div>
-        <div class="wib-sm-status done">Done</div>
-      </a>
-
-      <!-- Divider/arrow between past and active -->
-      <div class="wib-divider" aria-hidden="true">
-        <div class="wib-divider-line"></div>
-        <div class="wib-divider-label">Now →</div>
+    <!-- PROJECT 01 — Active Aero Wing -->
+    <a class="wib-proj rv" href="projects/active-aero-wing.html" aria-label="Active Aerodynamics Wing build guide">
+      <div class="wib-proj-media">
+        <img src="images/experience/sae-front-wing-v2.jpg" alt="Active aero wing" loading="lazy" decoding="async">
+        <!-- hover preview — swap src if filename differs -->
+        <video class="wib-proj-video" src="videos/active-aero-wing.mp4"
+               muted playsinline preload="none" loop
+               aria-hidden="true"></video>
+        <div class="wib-vid-prompt" aria-hidden="true">
+          <span class="wib-vid-prompt-pill">
+            <svg width="10" height="11" viewBox="0 0 10 11" fill="currentColor" aria-hidden="true">
+              <polygon points="1,1 9,5.5 1,10"/>
+            </svg>
+            Watch full video →
+          </span>
+        </div>
       </div>
-
-      <!-- ── Active builds (big cards) ── -->
-      <a class="wib-card wib-lg" href="projects/active-aero-wing.html" aria-label="Active aerodynamics wing build">
-        <div class="wib-lg-media">
-          <img src="images/experience/sae-front-wing-v2.jpg" alt="Active aero wing" loading="lazy" decoding="async">
-          <div class="wib-lg-scrim"></div>
+      <div class="wib-proj-body">
+        <div class="wib-proj-top">
+          <span class="wib-proj-num">01</span>
+          <span class="wib-chip wib-chip-done"><span class="wib-chip-dot"></span>Complete</span>
         </div>
-        <div class="wib-lg-body">
-          <div class="wib-active-dot"><span></span>Active</div>
-          <div class="wib-lg-name">Active Aero Wing</div>
-          <div class="wib-lg-tags">
-            <span>CFD</span><span>Carbon Fiber</span><span>FSAE</span>
-          </div>
-          <div class="wib-lg-foot">
-            <span class="wib-free-badge">Free Guide</span>
-            <span class="wib-lg-cta">View Guide →</span>
-          </div>
+        <div class="wib-proj-name">Active Aerodynamics Wing</div>
+        <p class="wib-proj-desc">Servo-actuated front wing for Formula SAE — DRS and high-downforce modes, CFD-validated in ANSYS Fluent, full carbon fiber layup over 3D-printed molds.</p>
+        <div class="wib-proj-tags">
+          <span class="wib-proj-tag">CFD</span>
+          <span class="wib-proj-tag">Carbon Fiber</span>
+          <span class="wib-proj-tag">FSAE</span>
+          <span class="wib-proj-tag">ANSYS</span>
         </div>
-      </a>
-
-      <a class="wib-card wib-lg" href="builds.html" aria-label="Autonomous go-kart build">
-        <div class="wib-lg-media" style="background:linear-gradient(160deg,#04090f 0%,#0a1929 60%,#0d2040 100%)">
-          <div class="wib-kart-vis" aria-hidden="true">
-            <div class="wib-kart-grid"></div>
-            <div class="wib-kart-dot d1"></div>
-            <div class="wib-kart-dot d2"></div>
-            <div class="wib-kart-ring"></div>
-          </div>
-          <div class="wib-lg-scrim"></div>
+        <div class="wib-proj-foot">
+          <span class="wib-badge-done">Free Guide</span>
+          <span class="wib-proj-cta">View Build Guide →</span>
         </div>
-        <div class="wib-lg-body">
-          <div class="wib-active-dot"><span></span>Active</div>
-          <div class="wib-lg-name">Autonomous Go-Kart</div>
-          <div class="wib-lg-tags">
-            <span>ROS 2</span><span>Computer Vision</span><span>Fabrication</span>
-          </div>
-          <div class="wib-lg-foot">
-            <span class="wib-pct-badge">~35%</span>
-            <span class="wib-lg-cta">Follow Build →</span>
-          </div>
+      </div>
+    </a>
+
+    <!-- PROJECT 02 — Self-Driving F1 Car -->
+    <a class="wib-proj rv" href="builds.html" aria-label="Self-Driving F1 Car build">
+      <div class="wib-proj-media" style="background:#060a12">
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,#060c1c 0%,#0d1f3e 100%)"></div>
+      </div>
+      <div class="wib-proj-body">
+        <div class="wib-proj-top">
+          <span class="wib-proj-num">02</span>
+          <span class="wib-chip wib-chip-active"><span class="wib-chip-dot"></span>In Progress</span>
         </div>
-      </a>
+        <div class="wib-proj-name">Self-Driving F1 Car</div>
+        <p class="wib-proj-desc">Stock go-kart converted to a full autonomous platform — drive-by-wire controls, LiDAR and camera sensor fusion, and a ROS 2 navigation stack. Built from the chassis up.</p>
+        <div class="wib-proj-tags">
+          <span class="wib-proj-tag">ROS 2</span>
+          <span class="wib-proj-tag">Computer Vision</span>
+          <span class="wib-proj-tag">CAN-BUS</span>
+          <span class="wib-proj-tag">LiDAR</span>
+        </div>
+        <div class="wib-proj-foot">
+          <span class="wib-badge-pct">~35% complete</span>
+          <span class="wib-proj-cta">Follow Build →</span>
+        </div>
+      </div>
+    </a>
 
-    </div><!-- /wib-track -->
-  </div><!-- /wib-wrap -->
+  </div>
 
-  <!-- Giant CTA -->
   <div class="wib-cta-row rv">
     <a href="builds.html" class="wib-cta-btn">View Everything I Have Built <span>→</span></a>
   </div>
@@ -4705,19 +4810,14 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 <!-- ABOUT -->
 <section class="panel" id="about">
   <div class="sec-header rv">
-    <span class="sec-label">01 — About</span>
     <div class="sec-title">Who I am.</div>
   </div>
   <div class="about-layout">
-    <div class="rv">
+    <div class="rv about-carousel-col">
       <div class="about-carousel" data-about-carousel aria-label="Event and conference photos">
         <div class="about-slides">
           <!-- Duplicate this .about-slide block for each new event/conference -->
           <div class="about-slide is-active" data-kicker="Competition Highlight" data-title="2nd Place Nationally at MIG Quant Conference" data-meta="University of Michigan · Sponsored and flown out · Team performance across market-making and derivatives simulations." data-tags="2nd National|Algo 7th|Delta Dash 3rd" data-open-label="Click to view more" data-modal="true" data-modal-label="Conference Highlight" data-modal-title="2nd Place Nationally - Michigan Investment Group Quant Conference" data-modal-meta="University of Michigan · March 2026" data-modal-desc="Competed against top trading universities including MIT, Stanford, and UCB. Our team delivered consistent performance across timed market-making, derivatives, and estimation modules." data-modal-outcomes="2nd place national team finish at one of the largest student quantitative conferences.||Delta Dash: 3rd place, optimized dynamic bid-ask placement in a live stochastic limit-order-book simulation.||Contract Trading Game: 2nd place, focused on price discovery and liquidity under asymmetric information.||Algorithmic Trading Challenge: built and backtested a Python strategy in a 30-stock universe, finished 7th overall.||Sponsored and flown out by Michigan Investment Group; connected with professionals from major trading firms." data-modal-tags="Market Making|Algorithmic Trading|Derivatives|Fermi Estimation">
-            <div class="about-slide-meta">
-              <span class="about-slide-name">Michigan Quant Conference</span>
-              <span class="about-slide-index">01</span>
-            </div>
             <div class="about-collage-grid">
               <figure class="about-shot shot-main">
                 <img src="images/about/michigan-quant/img1.jpg" alt="Arsh and team at the Michigan quant conference" loading="eager" decoding="async">
@@ -4742,10 +4842,6 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
             </div>
           </div>
           <div class="about-slide" data-post="emergent-2026" data-kicker="Conference Highlight" data-title="2026 Emergent Tech Startup Conference" data-meta="Brown University · Nelson Center for Entrepreneurship · April 2026" data-tags="Entrepreneurship|Startups|AI" data-open-label="Click to view more" data-modal="true" data-modal-label="Conference Highlight" data-modal-title="2026 Emergent Tech Startup Conference" data-modal-meta="Brown University · Nelson Center for Entrepreneurship · April 2026" data-modal-desc="Student-run conference at Brown University bringing together the next generation of founders with the people building today’s most innovative technologies. A full day of keynotes, panels, workshops, and networking with speakers from Anthropic, Google, AWS, Cerebras, Waymo, Intel, Lightmatter, Precision Neuroscience, Z Fellows, and more." data-modal-outcomes="Full-day immersion in AI, deep tech, and the startup ecosystem; engaged with founders and operators from 20+ leading companies.||Opening keynote: Cory Levy (Z Fellows) on building a founder journey early.||Panels across storytelling & AI, career pivots into startups, the full AI stack (chip to chatbot), and frontier deep tech.||Workshop: How to Build in the Attention Economy — Taylor Hughes (CTO, Hypernatural).||Connected with cofounders and early-stage startups through startup speed dating + networking at the Nelson Center; closing keynote from John Sculley (former CEO of Apple)." data-modal-tags="Entrepreneurship|AI Startups|Deep Tech|Networking|Founders|Innovation">
-            <div class="about-slide-meta">
-              <span class="about-slide-name">Emergent Tech Startup Conference</span>
-              <span class="about-slide-index">02</span>
-            </div>
             <div class="about-collage-grid">
               <figure class="about-shot shot-main">
                 <img src="images/about/michigan-quant-pt2/img1.jpg" alt="Arsh Hashmi and Ishmael Lallmahamad standing in front of Emergent signage at Brown University" loading="lazy" decoding="async">
@@ -4792,15 +4888,19 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
       <!-- (removed) -->
     </div>
     <div class="about-text">
-      <p class="lede rv d1">I'm a Mechanical Engineering + Computer Science student at Binghamton University on a direct path into motorsport engineering — designing, building, and testing the systems that make vehicles faster, smarter, and more precise.</p>
-      <p class="rv d2">My hands-on experience spans aerodynamic design, CAD/CFD simulation, fabrication, and on-car testing. I've designed and validated active aerodynamic components in ANSYS and Fusion 360, contributed to EV and autonomous vehicle projects, and worked through complete build cycles from concept to bench test. I also took 2nd place nationally at the Michigan Investment Group Quant Conference — a credential that sharpened my analytical edge under pressure, competing against teams from MIT, Stanford, and UCB.</p>
-      <p class="rv d3">Beyond the build, I design and backtest algorithmic trading strategies in Python, hold certifications from UPenn, Duke, and Bloomberg, and have run my own entrepreneurial venture from the ground up — which means I know how to ship things without a safety net.</p>
-      <p class="rv d4">I'm currently seeking engineering internships in motorsport, automotive, or advanced R&amp;D — and always open to connecting with engineers, teams, and recruiters pushing the edge of what vehicles can do.</p>
-      <div class="about-facts rv d4">
-        <div><span class="af-n">3+</span><span class="af-l">Years Entrepreneurship</span></div>
-        <div><span class="af-n">4</span><span class="af-l">Engineering Teams</span></div>
-        <div><span class="af-n">99.5</span><span class="af-l">HS GPA / 100</span></div>
-        <div><span class="af-n">6</span><span class="af-l">Certifications</span></div>
+      <div class="about-intro">
+        <p class="lede rv d1">I'm a Mechanical Engineering + Computer Science student at Binghamton University on a direct path into motorsport engineering — designing, building, and testing the systems that make vehicles faster, smarter, and more precise.</p>
+      </div>
+      <div class="about-body">
+        <p class="rv d2">My hands-on experience spans aerodynamic design, CAD/CFD simulation, fabrication, and on-car testing. I've designed and validated active aerodynamic components in ANSYS and Fusion 360, contributed to EV and autonomous vehicle projects, and worked through complete build cycles from concept to bench test. I also took 2nd place nationally at the Michigan Investment Group Quant Conference — a credential that sharpened my analytical edge under pressure, competing against teams from MIT, Stanford, and UCB.</p>
+        <p class="rv d3">Beyond the build, I design and backtest algorithmic trading strategies in Python, hold certifications from UPenn, Duke, and Bloomberg, and have run my own entrepreneurial venture from the ground up — which means I know how to ship things without a safety net.</p>
+        <p class="rv d4">I'm currently seeking engineering internships in motorsport, automotive, or advanced R&amp;D — and always open to connecting with engineers, teams, and recruiters pushing the edge of what vehicles can do.</p>
+        <div class="about-facts rv d4">
+          <div><span class="af-n">3+</span><span class="af-l">Years Entrepreneurship</span></div>
+          <div><span class="af-n">4</span><span class="af-l">Engineering Teams</span></div>
+          <div><span class="af-n">99.5</span><span class="af-l">HS GPA / 100</span></div>
+          <div><span class="af-n">6</span><span class="af-l">Certifications</span></div>
+        </div>
       </div>
     </div>
   </div>
@@ -6802,6 +6902,11 @@ if(aboutCarousel||aboutModal){
   }
 
   aboutOpenBtns.forEach(btn=>btn.addEventListener('click',openAbout));
+  /* Clicking anywhere on the carousel (except the nav prev/next buttons) opens the modal */
+  aboutCarousel?.addEventListener('click',e=>{
+    if(e.target.closest('[data-about-prev],[data-about-next]'))return;
+    openAbout();
+  });
   aboutCloseBtn?.addEventListener('click',closeAbout);
   aboutModal?.addEventListener('click',e=>{if(e.target===aboutModal)closeAbout()});
   window.addEventListener('keydown',e=>{
@@ -7747,6 +7852,16 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
   a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}});
 });
 
+/* Home nav pill — scroll to softlocked name-card position */
+document.getElementById('navHomeBtn')?.addEventListener('click',e=>{
+  e.preventDefault();
+  const heroSec=document.getElementById('hero-reel');
+  if(heroSec){
+    const y=heroSec.offsetHeight-window.innerHeight;
+    window.scrollTo({top:Math.max(0,y),behavior:'instant'});
+  }
+});
+
 /* Experience gallery modal */
 const expThumbs=[...document.querySelectorAll('[data-exp-thumb]')];
 const expModal=document.querySelector('[data-exp-modal]');
@@ -8052,6 +8167,33 @@ if(expThumbs.length&&expModal){
   onScroll();
 })();
 
+/* ── Wing card: hover-to-play video preview ── */
+(function(){
+  const card = document.querySelector('.wib-proj[href*="active-aero"]');
+  if(!card) return;
+  const video  = card.querySelector('.wib-proj-video');
+  const prompt = card.querySelector('.wib-vid-prompt');
+  if(!video || !prompt) return;
+  let t = null;
+
+  card.addEventListener('mouseenter', function(){
+    video.currentTime = 0;
+    video.play().catch(function(){});   /* silently ignore if blocked */
+    video.classList.add('is-active');
+    prompt.classList.remove('is-visible');
+    /* show CTA after 10 s */
+    t = setTimeout(function(){ prompt.classList.add('is-visible'); }, 10000);
+  });
+
+  card.addEventListener('mouseleave', function(){
+    clearTimeout(t);
+    video.pause();
+    video.currentTime = 0;
+    video.classList.remove('is-active');
+    prompt.classList.remove('is-visible');
+  });
+})();
+
 /* Preload key imagery to avoid carousel lag */
 (() => {
   const preloadList=[
@@ -8102,53 +8244,6 @@ if(expThumbs.length&&expModal){
   sectionObserver.observe(projectsSection);
 })();
 
-/* ── What I Am Building — pan-in timeline animation ──────────── */
-(() => {
-  const wrap  = document.getElementById('wibWrap');
-  const track = document.getElementById('wibTrack');
-  if (!wrap || !track) return;
-
-  /* ── Drag-to-scroll ── */
-  let isDown = false, startX = 0, startScroll = 0;
-  wrap.addEventListener('mousedown', e => {
-    isDown = true; startX = e.pageX; startScroll = wrap.scrollLeft;
-    wrap.classList.add('is-dragging');
-  });
-  window.addEventListener('mouseup', () => { isDown = false; wrap.classList.remove('is-dragging'); });
-  window.addEventListener('mousemove', e => {
-    if (!isDown) return;
-    e.preventDefault();
-    wrap.scrollLeft = startScroll - (e.pageX - startX);
-  });
-
-  /* ── Pan-in animation triggered by IntersectionObserver ── */
-  let animated = false;
-  const easeOut = t => 1 - Math.pow(1 - t, 3);
-
-  const runPan = () => {
-    if (animated) return;
-    animated = true;
-
-    /* scroll to show the big (active) cards — target = track right edge minus one card width buffer */
-    const targetScroll = Math.max(0, track.scrollWidth - wrap.clientWidth - 40);
-    const duration = 1400; /* ms */
-    const start = performance.now();
-    const from  = 0;
-
-    const step = now => {
-      const elapsed = now - start;
-      const p = Math.min(elapsed / duration, 1);
-      wrap.scrollLeft = from + (targetScroll - from) * easeOut(p);
-      if (p < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  };
-
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { runPan(); obs.disconnect(); } });
-  }, { threshold: 0.25 });
-  obs.observe(wrap);
-})();
 
 /* ── Pitch Form — spam-resistant idea submission ──────────────── */
 (() => {
@@ -8336,6 +8431,50 @@ if(expThumbs.length&&expModal){
   over.className = 'ig-pan-feat-over';
   over.innerHTML = `<div class="ig-pan-feat-play"></div><span class="ig-pan-feat-cta">Watch on Instagram</span>`;
   featEl.appendChild(over);
+})();
+
+/* ── Scroll position save & restore for back/forward navigation ── */
+(function(){
+  // Save scroll position continuously (debounced) and on pagehide
+  var _saveT;
+  window.addEventListener('scroll',function(){
+    clearTimeout(_saveT);
+    _saveT=setTimeout(function(){
+      try{sessionStorage.setItem('idx_y',Math.round(window.scrollY))}catch(e){}
+    },80);
+  },{passive:true});
+  window.addEventListener('pagehide',function(){
+    try{sessionStorage.setItem('idx_y',Math.round(window.scrollY))}catch(e){}
+  });
+  // On pageshow: handle bfcache (e.persisted) — non-bfcache back/forward handled by head script
+  window.addEventListener('pageshow',function(e){
+    if(!e.persisted) return; // bfcache only; head script covers non-bfcache
+    document.documentElement.classList.add('skip-rv');
+    try{
+      var y=parseInt(sessionStorage.getItem('idx_y')||'0',10);
+      if(y>0) requestAnimationFrame(function(){window.scrollTo({top:y,behavior:'instant'})});
+    }catch(ex){}
+  });
+  // Restore scroll on non-bfcache back/forward (skip-rv already set by head script)
+  var isSkip=document.documentElement.classList.contains('skip-rv');
+  var isGoto=document.documentElement.classList.contains('goto-hero-name');
+  if(isGoto){
+    // Navigate to softlocked name-card position
+    document.documentElement.classList.remove('goto-hero-name');
+    var heroSec=document.getElementById('hero-reel');
+    if(heroSec){
+      var targetY=heroSec.offsetHeight-window.innerHeight;
+      // Pre-show finale immediately so there's no opacity:0 flash before onScroll fires
+      var _fe=document.getElementById('heroReelFinale');
+      if(_fe){_fe.style.opacity='1';_fe.style.pointerEvents='auto';}
+      requestAnimationFrame(function(){window.scrollTo({top:Math.max(0,targetY),behavior:'instant'})});
+    }
+  } else if(isSkip){
+    try{
+      var y=parseInt(sessionStorage.getItem('idx_y')||'0',10);
+      if(y>0) requestAnimationFrame(function(){window.scrollTo({top:y,behavior:'instant'})});
+    }catch(e){}
+  }
 })();
 </script>
 </body>

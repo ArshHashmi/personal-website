@@ -12,7 +12,7 @@
 <meta property="og:image" content="https://arshhashmi.com/images/experience/sae-front-wing-v2.jpg"/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -44,12 +44,22 @@ body::before{
 
 /* ── NAV ── */
 .pnav{
-  position:fixed;top:0;left:0;right:0;z-index:200;
-  padding:1.25rem 5vw;
-  display:flex;justify-content:space-between;align-items:center;
-  background:rgba(8,8,8,.88);backdrop-filter:blur(18px);
+  position:fixed;top:0;left:0;right:0;z-index:200;height:60px;
+  padding:0 5vw;
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+  background:rgba(8,8,8,.88);backdrop-filter:blur(20px);
   border-bottom:1px solid var(--line);
 }
+.pnav-logo{display:flex;align-items:center;text-decoration:none;flex-shrink:0}
+.pnav-logo-wordmark{font-family:var(--sans);font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);white-space:nowrap;line-height:1}
+.pnav-links{display:flex;list-style:none;align-items:center;gap:.4rem;justify-content:center}
+.pnav-links a{font-family:'Manrope',sans-serif;font-size:.82rem;font-weight:600;letter-spacing:-.01em;color:rgba(255,255,255,.72);text-decoration:none;padding:.46rem 1.05rem;border-radius:7px;white-space:nowrap;background:rgba(255,255,255,.08);transition:color .14s,background .14s}
+.pnav-links a:hover{color:#fff;background:rgba(255,255,255,.16)}
+.pnav-links a.is-active{color:#fff;background:rgba(255,255,255,.14)}
+.pnav-right{display:flex;align-items:center;gap:.65rem;justify-self:end}
+.pnav-cta{font-family:var(--sans);font-size:.82rem;font-weight:400;letter-spacing:-.01em;color:rgba(255,255,255,.28);text-decoration:none;white-space:nowrap;transition:color .15s}
+.pnav-cta:hover{color:rgba(255,255,255,.55)}
+@media(max-width:680px){.pnav-links{display:none}}
 .pnav-back{
   display:inline-flex;align-items:center;gap:.5rem;
   font-family:var(--mono);font-size:.6rem;font-weight:600;
@@ -60,6 +70,35 @@ body::before{
 .pnav-back:hover{color:var(--ink)}
 .pnav-back-arrow{display:inline-block;transition:transform .2s}
 .pnav-back:hover .pnav-back-arrow{transform:translateX(-3px)}
+/* Floating back fab */
+.back-fab{
+  position:fixed;top:72px;left:1.5rem;z-index:150;
+  display:inline-flex;align-items:center;gap:.48rem;
+  font-family:var(--mono);font-size:.56rem;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(240,240,240,.42);
+  background:rgba(10,10,10,.62);
+  backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);
+  border:1px solid rgba(255,255,255,.08);border-radius:999px;
+  padding:.5rem 1rem .5rem .68rem;
+  text-decoration:none;
+  box-shadow:0 2px 18px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.05);
+  transition:color .3s cubic-bezier(.16,1,.3,1),border-color .3s cubic-bezier(.16,1,.3,1),background .3s cubic-bezier(.16,1,.3,1),box-shadow .3s cubic-bezier(.16,1,.3,1),transform .3s cubic-bezier(.16,1,.3,1);
+}
+.back-fab:hover{color:rgba(240,240,240,.95);border-color:rgba(255,255,255,.22);background:rgba(22,22,22,.88);box-shadow:0 4px 26px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.1);transform:translateX(-2px)}
+.back-fab:active{transform:translateX(-1px) scale(.98);transition-duration:.1s}
+.back-fab-icon{display:flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);flex-shrink:0;transition:background .3s cubic-bezier(.16,1,.3,1),border-color .3s cubic-bezier(.16,1,.3,1),transform .3s cubic-bezier(.16,1,.3,1)}
+.back-fab:hover .back-fab-icon{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.22);transform:translateX(-1px)}
+.back-fab-icon svg{width:9px;height:9px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* View Transitions */
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:200ms ease-out both vt-out}
+::view-transition-new(root){animation:380ms cubic-bezier(.16,1,.3,1) 80ms both vt-in}
+@keyframes vt-out{to{opacity:0;transform:translateY(-6px)}}
+@keyframes vt-in{from{opacity:0;transform:translateY(10px)}}
+.pnav{view-transition-name:site-nav}
+.back-fab{view-transition-name:back-fab}
+::view-transition-old(site-nav),::view-transition-new(site-nav),::view-transition-old(back-fab),::view-transition-new(back-fab){animation:none;mix-blend-mode:normal}
 .pnav-badge{
   display:inline-flex;align-items:center;gap:.32rem;
   border:1px solid rgba(245,158,11,.3);border-radius:999px;
@@ -372,14 +411,25 @@ body::before{
 
 <!-- NAV -->
 <nav class="pnav">
-  <a href="../index.html" class="pnav-back">
-    <span class="pnav-back-arrow">←</span> Back to portfolio
+  <a href="../index.html#hero-name" class="pnav-logo">
+    <span class="pnav-logo-wordmark">ENGINEERINGWITHARSH</span>
   </a>
-  <div style="display:flex;align-items:center;gap:.65rem">
+  <ul class="pnav-links">
+    <li><a href="../index.html#hero-name">Home</a></li>
+    <li><a href="../builds.html" class="is-active">What I Built</a></li>
+    <li><a href="../guides.html">How-To Guides</a></li>
+    <li><a href="../about.html">About Me</a></li>
+  </ul>
+  <div class="pnav-right">
     <div class="pnav-badge"><span class="pnav-dot"></span>In Progress</div>
     <div class="pnav-free">Free Guide</div>
+    <a href="../contact.html" class="pnav-cta">Contact</a>
   </div>
 </nav>
+<a href="javascript:history.back()" class="back-fab" aria-label="Go back">
+  <span class="back-fab-icon"><svg viewBox="0 0 9 9"><polyline points="6,1 2,4.5 6,8"/></svg></span>
+  Back
+</a>
 
 <!-- HERO -->
 <section class="phero">
