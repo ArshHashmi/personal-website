@@ -341,10 +341,12 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
 .about-slide.is-active .about-shot:nth-child(3){animation-delay:.12s}
 .about-slide.is-active .about-shot:nth-child(4){animation-delay:.18s}
 .about-slide.is-active .about-shot:nth-child(5){animation-delay:.24s}
-/* Only the main cover image shows in the carousel — rest are modal-only */
-.shot-main{grid-column:1 / -1;grid-row:1 / -1}
+.shot-main{grid-column:1 / span 8;grid-row:1 / span 8}
 .shot-main{--main-pos-x:50%;--main-pos-y:35%}
-.shot-win,.shot-sponsors,.shot-logo,.shot-code{display:none}
+.shot-win{grid-column:9 / span 4;grid-row:1 / span 3}
+.shot-sponsors{grid-column:9 / span 4;grid-row:4 / span 3}
+.shot-logo{grid-column:9 / span 2;grid-row:7 / span 2}
+.shot-code{grid-column:11 / span 2;grid-row:7 / span 2}
 .shot-main img{
   object-fit:cover;
   object-position:var(--main-pos-x) var(--main-pos-y);
@@ -3175,7 +3177,12 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .hb-actions{justify-content:flex-start}
   .about-layout{grid-template-columns:1fr;gap:2.5rem}
   .about-carousel{max-width:840px}
-  .shot-main{grid-column:1 / -1;grid-row:1 / -1}
+  .about-collage-grid{grid-template-rows:repeat(8,minmax(0,1fr))}
+  .shot-main{grid-column:1 / span 12;grid-row:1 / span 5}
+  .shot-win{grid-column:1 / span 12;grid-row:6 / span 2}
+  .shot-sponsors{grid-column:1 / span 6;grid-row:8 / span 1}
+  .shot-logo{grid-column:7 / span 3;grid-row:8 / span 1}
+  .shot-code{grid-column:10 / span 3;grid-row:8 / span 1}
   .about-spot-title{-webkit-line-clamp:2}
   .about-spot-meta{-webkit-line-clamp:2}
   .about-modal-card{grid-template-columns:1fr}
@@ -3254,8 +3261,12 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .about-facts{grid-template-columns:1fr 1fr}
   .about-carousel{aspect-ratio:1/1.1}
   .about-slide{padding:0 0 7rem}
-  .about-collage-grid{gap:.45rem}
-  .shot-main{grid-column:1 / -1;grid-row:1 / -1}
+  .about-collage-grid{gap:.45rem;grid-template-rows:repeat(9,minmax(0,1fr))}
+  .shot-main{grid-column:1 / span 12;grid-row:1 / span 5}
+  .shot-win{grid-column:1 / span 12;grid-row:6 / span 2}
+  .shot-sponsors{grid-column:1 / span 12;grid-row:8 / span 1}
+  .shot-logo{grid-column:1 / span 6;grid-row:9 / span 1}
+  .shot-code{grid-column:7 / span 6;grid-row:9 / span 1}
   .about-controls{top:.75rem;right:.75rem;left:auto;bottom:auto}
   .about-btn{width:2.05rem;height:2.05rem;font-size:1rem}
   .about-spotlight{left:.75rem;right:.75rem;bottom:.75rem;padding:.82rem .85rem .8rem}
@@ -4579,6 +4590,9 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .about-carousel{aspect-ratio:1/1;border-radius:14px;max-width:none}
   /* reduce slide bottom padding to give the collage more room at mobile */
   .about-slide{padding:0 0 6.5rem}
+  /* mobile: single cover image only — sub-shots are modal-only */
+  .shot-win,.shot-sponsors,.shot-logo,.shot-code{display:none}
+  .shot-main{grid-column:1 / -1;grid-row:1 / -1}
   /* shrink spotlight to match */
   .about-spotlight{left:.5rem;right:.5rem;bottom:.5rem;padding:.65rem .75rem .6rem}
   .about-spot-title{font-size:.85rem}
