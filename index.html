@@ -5,8 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="theme-color" content="#080808"/>
 <title>Arsh Hashmi</title>
-<!-- Video is the hero — preload it at highest priority so it's ready when JS runs -->
-<link rel="preload" as="video" href="videos/welding.mp4" fetchpriority="high">
+<!-- Preload the correct video version (mobile gets half-res) at highest priority -->
+<script>
+(function(){
+  var link=document.createElement('link');
+  link.rel='preload';link.as='video';
+  link.setAttribute('fetchpriority','high');
+  link.href=window.innerWidth<=768?'videos/welding-mobile.mp4':'videos/welding.mp4';
+  document.head.appendChild(link);
+})();
+</script>
 <meta name="description" content="Arsh Hashmi — Mechanical Engineering &amp; Computer Science @ Binghamton University | Motorsport Engineering | CAD · CFD · Fabrication · Aerodynamics · Autonomous Systems"/>
 <meta name="keywords" content="Arsh Hashmi, mechanical engineering, computer science, motorsport engineering, Binghamton University, CAD, CFD, ANSYS, Fusion 360, aerodynamics, fabrication, autonomous vehicles, active aerodynamics, Formula SAE"/>
 <link rel="canonical" href="https://arshhashmi.com/">
@@ -4659,7 +4667,8 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 
     <video id="heroReelVideo" class="hero-reel-video"
            preload="none" muted playsinline>
-      <source src="videos/welding.mp4" type="video/mp4">
+      <!-- src set by JS so mobile gets the half-res version -->
+      <source id="heroReelSource" src="" type="video/mp4">
     </video>
     <div class="hero-reel-scrim"></div>
     <div class="hero-reel-scrim-dark" id="heroReelScrimDark"></div>
@@ -8010,7 +8019,16 @@ if(expThumbs.length&&expModal){
   let videoReady = false;
   video.addEventListener('loadedmetadata', () => { videoReady = true; });
 
-  /* ── Video loader: start buffering immediately — video IS the hero ── */
+  /* ── Video loader: pick correct version then buffer immediately ──
+     Mobile (≤768px) gets the half-res 119 KB version;
+     Desktop gets the 469 KB full-res version.
+     Both are H.264 with faststart so playback begins after first few KB. */
+  const heroSource = document.getElementById('heroReelSource');
+  const videoSrc = window.innerWidth <= 768
+    ? 'videos/welding-mobile.mp4'
+    : 'videos/welding.mp4';
+  if (heroSource) heroSource.src = videoSrc;
+  else video.src = videoSrc;
   video.setAttribute('fetchpriority', 'high');
   video.preload = 'auto';
   video.load();
