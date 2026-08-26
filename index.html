@@ -5,9 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="theme-color" content="#080808"/>
 <title>Arsh Hashmi</title>
-<link rel="preload" as="video" href="videos/welding.mp4" fetchpriority="high">
-<link rel="preload" as="image" href="images/about/michigan-quant/img1.jpg">
-<link rel="preload" as="image" href="images/about/michigan-quant/img5.jpg">
+<!-- video loaded by JS after page is interactive; carousel images loaded lazily -->
 <meta name="description" content="Arsh Hashmi — Mechanical Engineering &amp; Computer Science @ Binghamton University | Motorsport Engineering | CAD · CFD · Fabrication · Aerodynamics · Autonomous Systems"/>
 <meta name="keywords" content="Arsh Hashmi, mechanical engineering, computer science, motorsport engineering, Binghamton University, CAD, CFD, ANSYS, Fusion 360, aerodynamics, fabrication, autonomous vehicles, active aerodynamics, Formula SAE"/>
 <link rel="canonical" href="https://arshhashmi.com/">
@@ -4655,7 +4653,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
     </div>
 
     <video id="heroReelVideo" class="hero-reel-video"
-           preload="auto" muted playsinline>
+           preload="none" muted playsinline>
       <source src="videos/welding.mp4" type="video/mp4">
     </video>
     <div class="hero-reel-scrim"></div>
@@ -4834,23 +4832,23 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
           <div class="about-slide is-active" data-kicker="Competition Highlight" data-title="2nd Place Nationally at MIG Quant Conference" data-meta="University of Michigan · Sponsored and flown out · Team performance across market-making and derivatives simulations." data-tags="2nd National|Algo 7th|Delta Dash 3rd" data-open-label="Click to view more" data-modal="true" data-modal-label="Conference Highlight" data-modal-title="2nd Place Nationally - Michigan Investment Group Quant Conference" data-modal-meta="University of Michigan · March 2026" data-modal-desc="Competed against top trading universities including MIT, Stanford, and UCB. Our team delivered consistent performance across timed market-making, derivatives, and estimation modules." data-modal-outcomes="2nd place national team finish at one of the largest student quantitative conferences.||Delta Dash: 3rd place, optimized dynamic bid-ask placement in a live stochastic limit-order-book simulation.||Contract Trading Game: 2nd place, focused on price discovery and liquidity under asymmetric information.||Algorithmic Trading Challenge: built and backtested a Python strategy in a 30-stock universe, finished 7th overall.||Sponsored and flown out by Michigan Investment Group; connected with professionals from major trading firms." data-modal-tags="Market Making|Algorithmic Trading|Derivatives|Fermi Estimation">
             <div class="about-collage-grid">
               <figure class="about-shot shot-main">
-                <img src="images/about/michigan-quant/img1.jpg" alt="Arsh and team at the Michigan quant conference" loading="eager" decoding="async">
+                <img src="images/about/michigan-quant/img1.jpg" alt="Arsh and team at the Michigan quant conference" loading="lazy" decoding="async">
                 <figcaption class="about-shot-caption">Team photo after our 2nd place national finish.</figcaption>
               </figure>
               <figure class="about-shot shot-win">
-                <img src="images/about/michigan-quant/img5.jpg" alt="Team celebrating at Michigan quant conference" loading="eager" decoding="async">
+                <img src="images/about/michigan-quant/img5.jpg" alt="Team celebrating at Michigan quant conference" loading="lazy" decoding="async">
                 <figcaption class="about-shot-caption">Celebrating the win after final scoring.</figcaption>
               </figure>
               <a class="about-shot shot-logo" href="https://www.michiganinvestmentgroup.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit Michigan Investment Group website">
-                <img src="images/about/michigan-quant/img2.jpg" alt="Michigan Investment Group logo" loading="eager" decoding="async">
+                <img src="images/about/michigan-quant/img2.jpg" alt="Michigan Investment Group logo" loading="lazy" decoding="async">
                 <span class="about-shot-caption">Michigan Investment Group, the host and sponsor.</span>
               </a>
               <figure class="about-shot shot-sponsors">
-                <img src="images/about/michigan-quant/img3.jpg" alt="Event sponsors at Michigan quant conference" loading="eager" decoding="async">
+                <img src="images/about/michigan-quant/img3.jpg" alt="Event sponsors at Michigan quant conference" loading="lazy" decoding="async">
                 <figcaption class="about-shot-caption">Top firms supporting the conference.</figcaption>
               </figure>
               <figure class="about-shot shot-code">
-                <img src="images/about/michigan-quant/img4.jpg" alt="Team working on quant challenge code" loading="eager" decoding="async">
+                <img src="images/about/michigan-quant/img4.jpg" alt="Team working on quant challenge code" loading="lazy" decoding="async">
                 <figcaption class="about-shot-caption">Live coding and strategy iteration during timed rounds.</figcaption>
               </figure>
             </div>
@@ -5178,7 +5176,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
             <div class="proj-tab-panels" data-proj-panels="aero">
               <!-- CAD — image already present -->
               <div class="proj-tab-panel is-active" id="aero-panel-cad" data-proj-panel="cad" role="tabpanel">
-                <img src="images/experience/1772027490733.jpg" alt="Active aero wing CAD model in Fusion 360" loading="eager" decoding="async">
+                <img src="images/experience/1772027490733.jpg" alt="Active aero wing CAD model in Fusion 360" loading="lazy" decoding="async">
               </div>
               <!-- CFD -->
               <div class="proj-tab-panel" id="aero-panel-cfd" data-proj-panel="cfd" role="tabpanel">
@@ -8007,6 +8005,24 @@ if(expThumbs.length&&expModal){
   let videoReady = false;
   video.addEventListener('loadedmetadata', () => { videoReady = true; });
 
+  /* Start buffering the video after the page is interactive — don't compete
+     with critical resources on initial load. Kick off on first interaction
+     (scroll/touch) or after 1.5 s, whichever is sooner. */
+  let videoLoadStarted = false;
+  const startVideoBuffer = () => {
+    if (videoLoadStarted) return;
+    videoLoadStarted = true;
+    video.preload = 'auto';
+    video.load();
+  };
+  const earlyEvents = ['scroll', 'touchstart', 'pointerdown'];
+  const onEarlyInteraction = () => {
+    startVideoBuffer();
+    earlyEvents.forEach(ev => window.removeEventListener(ev, onEarlyInteraction));
+  };
+  earlyEvents.forEach(ev => window.addEventListener(ev, onEarlyInteraction, { passive: true, once: true }));
+  setTimeout(startVideoBuffer, 1500);
+
   const cl = (p, i0, i1) => Math.max(0, Math.min(1, (p - i0) / (i1 - i0)));
   const getScrollMax = () => section.offsetHeight - window.innerHeight;
 
@@ -8210,19 +8226,26 @@ if(expThumbs.length&&expModal){
 
 /* Preload key imagery to avoid carousel lag */
 (() => {
-  const preloadList=[
-    'images/about/michigan-quant/img1.jpg',
-    'images/about/michigan-quant/img2.jpg',
-    'images/about/michigan-quant/img3.jpg',
-    'images/about/michigan-quant/img4.jpg',
-    'images/about/michigan-quant/img5.jpg'
-  ];
-  preloadList.forEach(src=>{
-    const img=new Image();
-    img.decoding='async';
-    img.loading='eager';
-    img.src=src;
-  });
+  /* About carousel images: preload only when the section is 400px away from view
+     — avoids competing with critical resources on initial page load */
+  const aboutSection=document.getElementById('about');
+  if(aboutSection&&'IntersectionObserver'in window){
+    const imgUrls=[
+      'images/about/michigan-quant/img1.jpg',
+      'images/about/michigan-quant/img2.jpg',
+      'images/about/michigan-quant/img3.jpg',
+      'images/about/michigan-quant/img4.jpg',
+      'images/about/michigan-quant/img5.jpg'
+    ];
+    let carouselPreloaded=false;
+    const carouselObs=new IntersectionObserver(entries=>{
+      if(!entries[0].isIntersecting||carouselPreloaded)return;
+      carouselPreloaded=true;
+      carouselObs.disconnect();
+      imgUrls.forEach(src=>{const img=new Image();img.decoding='async';img.src=src;});
+    },{rootMargin:'400px'});
+    carouselObs.observe(aboutSection);
+  }
 })();
 
 /* Preload work/experience gallery images — deferred until #projects enters view
