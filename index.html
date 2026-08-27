@@ -4098,8 +4098,16 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
     align-items:center;
     justify-content:center;
     gap:1.5rem;
-    /* top clears the nav bar; bottom clears the scroll cue + Safari toolbar */
-    padding:4.5rem 5vw calc(7rem + env(safe-area-inset-bottom,0px));
+    /* Symmetric padding so justify-content:center centres the photo+name pair
+       as one block, rather than the old 4.5/7rem split that pushed the pair up
+       and left the name reading as "below centre". */
+    padding:4.5rem 5vw;
+    /* The box is 100vh, but iOS hides its bottom behind the toolbar, so a
+       centred block sits visually low. (100vh - 100dvh) is the toolbar height
+       while shown and 0 once collapsed; adding it to the bottom padding lifts
+       the block to the centre of the *visible* area. Padding (not height) so
+       the container never resizes and the video never rescales. */
+    padding-bottom:calc(4.5rem + (100vh - 100dvh));
   }
   .hrf-photo-wrap{
     position:static;
@@ -4127,7 +4135,11 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .hrf-name{font-size:clamp(2.8rem,13vw,4.5rem);line-height:.88;text-align:center}
 
   /* ── Sequence words: centered, scaled to fit ── */
+  /* Same toolbar compensation as the finale: the extra bottom padding lifts
+     "Welcome to [WORD]" off the area Safari's toolbar covers, so it reads as
+     centred instead of sitting low on the screen. */
   .hero-reel-sequence{padding:0 5vw;justify-content:center;align-items:center}
+  .hero-reel-sequence{padding-bottom:calc(100vh - 100dvh)}
   .hrs-wt{flex-direction:column;align-items:center;gap:.8rem;text-align:center}
   .hrs-wt-left{font-size:clamp(1rem,4.5vw,1.9rem);text-align:center}
   .hrs-wt-right{width:88vw;height:clamp(3rem,11vw,5.5rem)}
@@ -6711,8 +6723,13 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 </div>
 
 <script>
-/* Intro */
-setTimeout(()=>document.getElementById('intro').style.display='none',2000);
+/* Intro — the #intro overlay no longer exists in the markup, so guard the
+   lookup. Without this the callback threw "Cannot read properties of null"
+   on every page load, 2s in. */
+setTimeout(()=>{
+  const intro=document.getElementById('intro');
+  if(intro)intro.style.display='none';
+},2000);
 
 /* About carousel */
 const aboutCarousel=document.querySelector('[data-about-carousel]');
@@ -8511,7 +8528,12 @@ if(expThumbs.length&&expModal){
       const img = document.createElement('img');
       img.src = `images/reels/${r.n}.jpg`;
       img.alt = '';
-      img.loading = 'lazy';
+      /* NOT loading="lazy". These sit in .ig-pan-row, which runs an infinite
+         translateX animation; Safari resolves lazy-load intersection against
+         the animated position and frequently never fires the load, leaving
+         cells blank. Deferral already happens at the section level — this
+         whole builder only runs once #ig-feed is near the viewport. */
+      img.loading = 'eager';
       img.decoding = 'async';
       cell.appendChild(img);
       row.appendChild(cell);
@@ -8528,7 +8550,7 @@ if(expThumbs.length&&expModal){
   const img = document.createElement('img');
   img.src = `images/reels/${latest.n}.jpg`;
   img.alt = 'Latest reel';
-  img.loading = 'lazy';
+  img.loading = 'eager';   /* same reason as the row thumbs above */
   img.decoding = 'async';
   featEl.appendChild(img);
 
@@ -8565,13 +8587,32 @@ if(expThumbs.length&&expModal){
   /* Run when section is 300px from the viewport — avoids blocking initial render */
   if (igSection && 'IntersectionObserver' in window) {
     let built = false;
-    const obs = new IntersectionObserver(entries => {
-      if (!entries[0].isIntersecting || built) return;
+    const run = () => {
+      if (built) return;
       built = true;
-      obs.disconnect();
       buildIG();
+    };
+    const obs = new IntersectionObserver(entries => {
+      /* .some() rather than entries[0]: a single callback can batch several
+         records, and the first isn't guaranteed to be the intersecting one. */
+      if (!entries.some(e => e.isIntersecting)) return;
+      obs.disconnect();
+      run();
     }, { rootMargin: '300px' });
     obs.observe(igSection);
+    /* Safety net: if the observer never fires (Safari occasionally drops
+       callbacks for elements inside animated/transformed ancestors), build it
+       anyway once the section is anywhere near the viewport on a scroll. */
+    const onScrollFallback = () => {
+      if (built) { window.removeEventListener('scroll', onScrollFallback); return; }
+      const r = igSection.getBoundingClientRect();
+      if (r.top < window.innerHeight + 600 && r.bottom > -600) {
+        obs.disconnect();
+        window.removeEventListener('scroll', onScrollFallback);
+        run();
+      }
+    };
+    window.addEventListener('scroll', onScrollFallback, { passive: true });
   } else {
     buildIG(); /* fallback: no IO support, just run it */
   }
