@@ -3903,13 +3903,13 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 /* ── Media ── */
 .blt-media{position:relative;overflow:hidden;background:#0a0a0a;aspect-ratio:16/10}
 .blt-card-past .blt-media{aspect-ratio:16/9}
-.blt-media img{
+.blt-media img,.blt-media video{
   width:100%;height:100%;object-fit:cover;display:block;
   filter:saturate(.82) contrast(1.02);
   transform:scale(1.012);
   transition:transform 1.2s cubic-bezier(.16,1,.3,1),filter .7s ease;
 }
-.blt-card:hover .blt-media img{transform:scale(1.075);filter:saturate(1.04) contrast(1.05)}
+.blt-card:hover .blt-media img,.blt-card:hover .blt-media video{transform:scale(1.075);filter:saturate(1.04) contrast(1.05)}
 /* Blend the photo into the card body so there's no hard seam */
 .blt-media::after{
   content:'';position:absolute;inset:0;pointer-events:none;
@@ -4456,28 +4456,29 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   <!-- ── BUILDING NOW ────────────────────────────────────────── -->
   <div class="blt-grid blt-grid-now">
 
-    <!-- 01 — Active Aerodynamics Wing -->
+    <!-- 01 — AVIWS: Active Variable Incidence Wing System -->
     <a class="blt-card rv" data-blt-card href="projects/active-aero-wing.html"
-       aria-label="Active Aerodynamics Wing — read the build guide">
+       aria-label="AVIWS — Active Variable Incidence Wing System — read the full write-up">
       <div class="blt-media">
-        <img src="images/experience/sae-wing-mold.jpg"
-             alt="Carbon fibre layup curing in the front wing moulds"
-             loading="lazy" decoding="async">
+        <video data-inview-video data-src="videos/active-aero-wing-card.mp4"
+               poster="images/aviws/wing-standalone.jpg"
+               muted playsinline loop preload="none"
+               aria-label="AVIWS on-car test footage"></video>
       </div>
       <div class="blt-body">
         <div class="blt-top">
           <span class="blt-idx">01</span>
           <span class="blt-status blt-status-done"><span class="blt-dot"></span>Complete</span>
         </div>
-        <div class="blt-name">Active Aerodynamics Wing</div>
-        <p class="blt-line">A servo-actuated front wing that switches between low-drag and high-downforce on demand.</p>
+        <div class="blt-name">AVIWS — Active Wing System</div>
+        <p class="blt-line">A fully autonomous rear wing that shifts angle of incidence in real time — no driver input, self-contained.</p>
         <div class="blt-specs">
-          <span class="blt-spec">Formula SAE</span>
-          <span class="blt-spec">ANSYS Fluent</span>
-          <span class="blt-spec">Carbon Fibre</span>
+          <span class="blt-spec">3 Auto Modes</span>
+          <span class="blt-spec">Arduino + IMU</span>
+          <span class="blt-spec">85.7:1 L/D</span>
         </div>
         <div class="blt-foot">
-          <span class="blt-meta">Full build guide</span>
+          <span class="blt-meta">Full write-up</span>
           <span class="blt-cta">Read it
             <svg width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true">
               <path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.4"
@@ -7733,6 +7734,33 @@ document.getElementById('navHomeBtn')?.addEventListener('click',e=>{
   onScroll();
 })();
 
+
+/* ── In-view video: plays only while the user is actually looking at it ──
+   Used for the AVIWS card preview. src is set lazily (via data-src) so the
+   file isn't fetched until the card is close to the viewport; playback
+   starts on intersect and pauses the moment it scrolls out, so it never
+   burns battery/CPU off-screen. Muted + playsinline so autoplay is allowed
+   everywhere, including iOS Safari. */
+(function(){
+  const vids=document.querySelectorAll('[data-inview-video]');
+  if(!vids.length)return;
+  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  vids.forEach(v=>{
+    if(reduce)return;               /* poster frame only — no motion */
+    let loaded=false;
+    const obs=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          if(!loaded){loaded=true;v.src=v.dataset.src;v.load();}
+          v.play().catch(()=>{});
+        }else{
+          v.pause();
+        }
+      });
+    },{threshold:.3});
+    obs.observe(v);
+  });
+})();
 
 /* ── Build cards: progress bars fill when they scroll into view ── */
 (function(){

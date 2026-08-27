@@ -224,12 +224,12 @@ footer{
 
 .arc-media{position:relative;overflow:hidden;background:#0a0a0a;aspect-ratio:16/10}
 .arc-grid-now .arc-media{aspect-ratio:16/9}
-.arc-media img{
+.arc-media img,.arc-media video{
   width:100%;height:100%;object-fit:cover;display:block;
   filter:saturate(.82) contrast(1.02);transform:scale(1.012);
   transition:transform 1.2s cubic-bezier(.16,1,.3,1),filter .7s ease;
 }
-.arc-card:hover .arc-media img{transform:scale(1.075);filter:saturate(1.04) contrast(1.05)}
+.arc-card:hover .arc-media img,.arc-card:hover .arc-media video{transform:scale(1.075);filter:saturate(1.04) contrast(1.05)}
 .arc-media::after{
   content:'';position:absolute;inset:0;pointer-events:none;
   background:linear-gradient(to bottom,rgba(0,0,0,.30) 0%,transparent 38%,
@@ -404,26 +404,27 @@ footer{
   <div class="arc-grid arc-grid-now">
 
     <a class="arc-card" data-arc data-status="done" href="projects/active-aero-wing.html"
-       aria-label="Active Aerodynamics Wing — read the build guide">
+       aria-label="AVIWS — Active Variable Incidence Wing System — read the full write-up">
       <div class="arc-media">
-        <img src="images/experience/sae-wing-mold.jpg"
-             alt="Carbon fibre layup curing in the front wing moulds"
-             loading="eager" decoding="async">
+        <video data-inview-video data-src="videos/active-aero-wing-card.mp4"
+               poster="images/aviws/wing-standalone.jpg"
+               muted playsinline loop preload="none"
+               aria-label="AVIWS on-car test footage"></video>
       </div>
       <div class="arc-body">
         <div class="arc-top">
           <span class="arc-idx">01</span>
           <span class="arc-status arc-status-done"><span class="arc-dot"></span>Complete</span>
         </div>
-        <div class="arc-name">Active Aerodynamics Wing</div>
-        <p class="arc-line">A servo-actuated front wing that switches between low-drag and high-downforce on demand.</p>
+        <div class="arc-name">AVIWS — Active Wing System</div>
+        <p class="arc-line">A fully autonomous rear wing that shifts angle of incidence in real time — no driver input, self-contained.</p>
         <div class="arc-specs">
-          <span class="arc-spec">Formula SAE</span>
-          <span class="arc-spec">ANSYS Fluent</span>
-          <span class="arc-spec">Carbon Fibre</span>
+          <span class="arc-spec">3 Auto Modes</span>
+          <span class="arc-spec">Arduino + IMU</span>
+          <span class="arc-spec">85.7:1 L/D</span>
         </div>
         <div class="arc-foot">
-          <span class="arc-meta">Full build guide</span>
+          <span class="arc-meta">Full write-up</span>
           <span class="arc-cta">Read it
             <svg width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true">
               <path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.4"
@@ -629,6 +630,30 @@ footer{
     b.classList.add('active');
     apply(b.dataset.filter);
   }));
+})();
+
+/* In-view video: plays only while it's actually on screen. src is set
+   lazily via data-src so nothing downloads until the card nears the
+   viewport; muted+playsinline so autoplay is allowed everywhere. */
+(function(){
+  const vids=document.querySelectorAll('[data-inview-video]');
+  if(!vids.length)return;
+  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  vids.forEach(v=>{
+    if(reduce)return;
+    let loaded=false;
+    const obs=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          if(!loaded){loaded=true;v.src=v.dataset.src;v.load();}
+          v.play().catch(()=>{});
+        }else{
+          v.pause();
+        }
+      });
+    },{threshold:.3});
+    obs.observe(v);
+  });
 })();
 
 /* Progress bars fill when they scroll into view */
