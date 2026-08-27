@@ -5,16 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 <meta name="theme-color" content="#080808"/>
 <title>Arsh Hashmi</title>
-<!-- Preload the correct video version (mobile gets half-res) at highest priority -->
-<script>
-(function(){
-  var link=document.createElement('link');
-  link.rel='preload';link.as='video';
-  link.setAttribute('fetchpriority','high');
-  link.href=window.innerWidth<=768?'videos/welding-mobile.mp4':'videos/welding.mp4';
-  document.head.appendChild(link);
-})();
-</script>
+<!-- Hero video is kicked off by an inline script directly after the <video>
+     element in the body. Deliberately NOT a <link rel=preload as=video>:
+     Safari has poor support for as="video" and would fetch the file a second
+     time for the element itself, doubling the bytes on the critical path. -->
 <meta name="description" content="Arsh Hashmi — Mechanical Engineering &amp; Computer Science @ Binghamton University | Motorsport Engineering | CAD · CFD · Fabrication · Aerodynamics · Autonomous Systems"/>
 <meta name="keywords" content="Arsh Hashmi, mechanical engineering, computer science, motorsport engineering, Binghamton University, CAD, CFD, ANSYS, Fusion 360, aerodynamics, fabrication, autonomous vehicles, active aerodynamics, Formula SAE"/>
 <link rel="canonical" href="https://arshhashmi.com/">
@@ -3706,8 +3700,12 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 .hero-reel-sticky{
   position:sticky;
   top:0;
+  /* MUST stay 100vh (not dvh/svh). On iOS, vh is fixed to the toolbar-hidden
+     height, so it never changes mid-scroll. dvh grows as Safari collapses its
+     toolbar, which resizes this box and rescales the object-fit:cover video —
+     that reads as the page "zooming" while you scroll. Bottom-anchored cues
+     compensate for the toolbar via calc(100vh - 100dvh) instead. */
   height:100vh;
-  height:100dvh;          /* iOS 16+ / Safari 16+: accounts for browser chrome */
   overflow:hidden;
   background:#020202;
 }
@@ -3774,6 +3772,10 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 .hero-reel-hint{
   position:absolute;
   bottom:calc(2.8rem + env(safe-area-inset-bottom,0px));
+  /* (100vh - 100dvh) = height of Safari's bottom toolbar while it's showing,
+     and 0 once it collapses. Lifts the cue clear of the toolbar without
+     resizing any container. Ignored by browsers without dvh support. */
+  bottom:calc(2.8rem + (100vh - 100dvh) + env(safe-area-inset-bottom,0px));
   left:50%;
   transform:translateX(-50%);
   display:flex;
@@ -4045,6 +4047,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 .hrf-scroll-down{
   position:absolute;
   bottom:calc(2.4rem + env(safe-area-inset-bottom,0px));
+  bottom:calc(2.4rem + (100vh - 100dvh) + env(safe-area-inset-bottom,0px));
   left:50%;
   transform:translateX(-50%);
   display:flex;
@@ -4083,14 +4086,27 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .hrf-flash-text{white-space:nowrap;font-size:min(6.5vw,8.5rem);letter-spacing:.03em}
   .hero-boot-name{font-size:clamp(1.8rem,9vw,3rem)}
 
-  /* ── Finale: absolute layout — photo top-center, name bottom-left ── */
-  .hero-reel-finale{display:block} /* take children out of flex flow */
+  /* ── Finale: photo stacked above name, centered ──
+     Flex column rather than two absolutely-positioned boxes. The old version
+     pinned the photo at top:5rem and the name at bottom:44vh, so on shorter
+     screens (and whenever the container unit didn't match the vh the name was
+     positioned with) the name slid up underneath the photo. Flex makes overlap
+     impossible at any viewport height. */
+  .hero-reel-finale{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:1.5rem;
+    /* top clears the nav bar; bottom clears the scroll cue + Safari toolbar */
+    padding:4.5rem 5vw calc(7rem + env(safe-area-inset-bottom,0px));
+  }
   .hrf-photo-wrap{
-    position:absolute;
-    top:5rem;          /* clears nav bar */
-    left:50%;
-    transform:translateX(-50%);
-    width:min(56vw,230px);
+    position:static;
+    transform:none;
+    width:min(52vw,210px);
+    flex:0 0 auto;
+    order:-1;           /* photo above the name (DOM has the name first) */
   }
   .hrf-photo{
     width:100%;
@@ -4100,10 +4116,10 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
     object-position:center center;
   }
   .hrf-left{
-    position:absolute;
-    bottom:44vh;
-    left:50%;
-    transform:translateX(-50%);
+    position:static;
+    transform:none;
+    flex:0 0 auto;
+    align-items:center;
     text-align:center;
     white-space:nowrap;
     background:none;
@@ -4667,9 +4683,27 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
     </div>
 
     <video id="heroReelVideo" class="hero-reel-video"
-           muted playsinline>
-      <!-- src injected by JS — no <source> to avoid empty-src errors on iOS Safari -->
+           muted playsinline preload="auto">
+      <!-- src injected by the inline script below — deliberately no <source>,
+           since an empty src="" makes iOS Safari error the element instantly -->
     </video>
+    <script>
+    /* Runs the moment the <video> above is parsed — the earliest point the
+       fetch can start without the double-download a preload link would cause.
+       Mobile (≤768px) gets the portrait crop; desktop gets the full frame.
+       iOS ignores preload="auto", so play() is what actually forces buffering;
+       we pause immediately (the element is opacity:0 for its first 1.4s). */
+    (function(){
+      var v = document.getElementById('heroReelVideo');
+      if (!v) return;
+      v.src = window.innerWidth <= 768 ? 'videos/welding-mobile.mp4'
+                                       : 'videos/welding.mp4';
+      v.load();
+      var p = v.play();
+      if (p && p.then) p.then(function(){ v.pause(); v.currentTime = 0; })
+                        .catch(function(){});
+    })();
+    </script>
     <div class="hero-reel-scrim"></div>
     <div class="hero-reel-scrim-dark" id="heroReelScrimDark"></div>
     <div class="hero-reel-overlay">
@@ -5411,11 +5445,11 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
           <span class="work-sub is-pop">Restoration + electrical</span>
           <span class="work-indicator" aria-hidden="true"></span>
         </button>
-        <div class="work-preview" data-work-gallery data-preview-count="8" data-preview-cycle="true" data-preview-tabs="buy|body|tint|upholstery|wrap|electrical" data-title="Automotive Rebuilds & Custom Modifications" data-images="images/automotive/buying-selling/jpg1.png|images/automotive/buying-selling/jpg2.png|images/automotive/buying-selling/jpg3.png|images/automotive/buying-selling/jpg4.png|images/automotive/buying-selling/jpg5.png|images/automotive/buying-selling/jpg6.png|images/automotive/buying-selling/jpg7.png|images/automotive/buying-selling/jpg8.png|images/automotive/buying-selling/jpg9.png|images/automotive/buying-selling/jpg10.png|images/automotive/buying-selling/jpg11.png|images/automotive/buying-selling/jpg12.png|images/automotive/buying-selling/jpg13.png|images/automotive/buying-selling/jpg14.png|images/automotive/buying-selling/jpg15.png|images/automotive/buying-selling/jpg16.png|images/automotive/buying-selling/jpg17.png" data-details="Buying, restoring, and flipping||Tinting, wrapping, and interior work||Electrical installs and upgrades">
-          <button class="work-thumb size-lg" data-work-open data-index="0" style="--img:url('images/automotive/buying-selling/jpg1.png')" aria-label="Open automotive gallery image 1"><span aria-hidden="true">View</span></button>
-          <button class="work-thumb size-sm" data-work-open data-index="2" style="--img:url('images/automotive/buying-selling/jpg5.png')" aria-label="Open automotive gallery image 2"><span aria-hidden="true">View</span></button>
-          <button class="work-thumb size-md" data-work-open data-index="4" style="--img:url('images/automotive/buying-selling/jpg8.png')" aria-label="Open automotive gallery image 3"><span aria-hidden="true">View</span></button>
-          <button class="work-thumb size-sm" data-work-open data-index="1" style="--img:url('images/automotive/buying-selling/jpg2.png')" aria-label="Open automotive gallery image 4"><span aria-hidden="true">View</span></button>
+        <div class="work-preview" data-work-gallery data-preview-count="8" data-preview-cycle="true" data-preview-tabs="buy|body|tint|upholstery|wrap|electrical" data-title="Automotive Rebuilds & Custom Modifications" data-images="images/automotive/buying-selling/jpg1.jpg|images/automotive/buying-selling/jpg2.jpg|images/automotive/buying-selling/jpg3.jpg|images/automotive/buying-selling/jpg4.jpg|images/automotive/buying-selling/jpg5.jpg|images/automotive/buying-selling/jpg6.jpg|images/automotive/buying-selling/jpg7.jpg|images/automotive/buying-selling/jpg8.jpg|images/automotive/buying-selling/jpg9.jpg|images/automotive/buying-selling/jpg10.jpg|images/automotive/buying-selling/jpg11.jpg|images/automotive/buying-selling/jpg12.jpg|images/automotive/buying-selling/jpg13.jpg|images/automotive/buying-selling/jpg14.jpg|images/automotive/buying-selling/jpg15.jpg|images/automotive/buying-selling/jpg16.jpg|images/automotive/buying-selling/jpg17.jpg" data-details="Buying, restoring, and flipping||Tinting, wrapping, and interior work||Electrical installs and upgrades">
+          <button class="work-thumb size-lg" data-work-open data-index="0" style="--img:url('images/automotive/buying-selling/jpg1.jpg')" aria-label="Open automotive gallery image 1"><span aria-hidden="true">View</span></button>
+          <button class="work-thumb size-sm" data-work-open data-index="2" style="--img:url('images/automotive/buying-selling/jpg5.jpg')" aria-label="Open automotive gallery image 2"><span aria-hidden="true">View</span></button>
+          <button class="work-thumb size-md" data-work-open data-index="4" style="--img:url('images/automotive/buying-selling/jpg8.jpg')" aria-label="Open automotive gallery image 3"><span aria-hidden="true">View</span></button>
+          <button class="work-thumb size-sm" data-work-open data-index="1" style="--img:url('images/automotive/buying-selling/jpg2.jpg')" aria-label="Open automotive gallery image 4"><span aria-hidden="true">View</span></button>
         </div>
       </div>
       <div class="work-panel" data-work-panel>
@@ -5453,28 +5487,28 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
                       <div class="work-subgroup">
                       <div class="work-subgroup-title">2008 Chevy Impala Police Package</div>
                       <p class="work-subgroup-desc">My first flip. Full maintenance pass, head gasket + valve cover, then sold on Facebook Marketplace.</p>
-                      <div class="work-submedia" data-work-gallery data-title="Buying &amp; Selling - Impala" data-images="images/automotive/buying-selling/jpg1.png|images/automotive/buying-selling/jpg2.png|images/automotive/buying-selling/jpg3.png|images/automotive/buying-selling/jpg4.png" data-captions="Impala after gasket work||Impala maintenance progress||Impala listing-ready shot||Impala handoff photo" data-details="Maintenance and repairs on a $2,000 buy||Flipped for profit through Facebook Marketplace||First full maintenance workflow">
-                        <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/automotive/buying-selling/jpg1.png')" aria-label="Open Impala gallery image 1"></button>
-                        <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/automotive/buying-selling/jpg2.png')" aria-label="Open Impala gallery image 2"></button>
-                        <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/automotive/buying-selling/jpg3.png')" aria-label="Open Impala gallery image 3"></button>
+                      <div class="work-submedia" data-work-gallery data-title="Buying &amp; Selling - Impala" data-images="images/automotive/buying-selling/jpg1.jpg|images/automotive/buying-selling/jpg2.jpg|images/automotive/buying-selling/jpg3.jpg|images/automotive/buying-selling/jpg4.jpg" data-captions="Impala after gasket work||Impala maintenance progress||Impala listing-ready shot||Impala handoff photo" data-details="Maintenance and repairs on a $2,000 buy||Flipped for profit through Facebook Marketplace||First full maintenance workflow">
+                        <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/automotive/buying-selling/jpg1.jpg')" aria-label="Open Impala gallery image 1"></button>
+                        <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/automotive/buying-selling/jpg2.jpg')" aria-label="Open Impala gallery image 2"></button>
+                        <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/automotive/buying-selling/jpg3.jpg')" aria-label="Open Impala gallery image 3"></button>
                       </div>
                       </div>
                       <div class="work-subgroup">
                       <div class="work-subgroup-title">2013 Toyota Corolla</div>
                       <p class="work-subgroup-desc">Bought from my uncle, repeated the same maintenance checklist and refined the process.</p>
-                      <div class="work-submedia" data-work-gallery data-title="Buying &amp; Selling - Corolla" data-images="images/automotive/buying-selling/jpg5.png|images/automotive/buying-selling/jpg6.png|images/automotive/buying-selling/jpg7.png" data-captions="Corolla before service||Corolla maintenance detail||Corolla after service" data-details="Routine maintenance repeated from the Impala||Built consistency and speed in the workflow||Clean, reliable flip-ready condition">
-                        <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/automotive/buying-selling/jpg5.png')" aria-label="Open Corolla gallery image 1"></button>
-                        <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/automotive/buying-selling/jpg6.png')" aria-label="Open Corolla gallery image 2"></button>
-                        <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/automotive/buying-selling/jpg7.png')" aria-label="Open Corolla gallery image 3"></button>
+                      <div class="work-submedia" data-work-gallery data-title="Buying &amp; Selling - Corolla" data-images="images/automotive/buying-selling/jpg5.jpg|images/automotive/buying-selling/jpg6.jpg|images/automotive/buying-selling/jpg7.jpg" data-captions="Corolla before service||Corolla maintenance detail||Corolla after service" data-details="Routine maintenance repeated from the Impala||Built consistency and speed in the workflow||Clean, reliable flip-ready condition">
+                        <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/automotive/buying-selling/jpg5.jpg')" aria-label="Open Corolla gallery image 1"></button>
+                        <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/automotive/buying-selling/jpg6.jpg')" aria-label="Open Corolla gallery image 2"></button>
+                        <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/automotive/buying-selling/jpg7.jpg')" aria-label="Open Corolla gallery image 3"></button>
                       </div>
                       </div>
                       <div class="work-subgroup">
                       <div class="work-subgroup-title">Additional Flips</div>
                       <p class="work-subgroup-desc">A mix of basic flips and tougher projects once I understood registration, insurance, and repair planning.</p>
-                      <div class="work-submedia" data-work-gallery data-title="Buying &amp; Selling - Additional Flips" data-images="images/automotive/buying-selling/jpg8.png|images/automotive/buying-selling/jpg9.png|images/automotive/buying-selling/jpg10.png|images/automotive/buying-selling/jpg11.png|images/automotive/buying-selling/jpg12.png|images/automotive/buying-selling/jpg13.png|images/automotive/buying-selling/jpg14.png|images/automotive/buying-selling/jpg15.png|images/automotive/buying-selling/jpg16.png|images/automotive/buying-selling/jpg17.png" data-captions="Flip 01 (placeholder caption)||Flip 02 (placeholder caption)||Flip 03 (placeholder caption)||Flip 04 (placeholder caption)||Flip 05 (placeholder caption)||Flip 06 (placeholder caption)||Flip 07 (placeholder caption)||Flip 08 (placeholder caption)||Flip 09 (placeholder caption)||Flip 10 (placeholder caption)" data-details="More flips once I had the process dialed in||Mix of clean-ups and deeper fixes||Great practice for buying decisions and resale">
-                        <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/automotive/buying-selling/jpg8.png')" aria-label="Open additional flips gallery image 1"></button>
-                        <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/automotive/buying-selling/jpg9.png')" aria-label="Open additional flips gallery image 2"></button>
-                        <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/automotive/buying-selling/jpg10.png')" aria-label="Open additional flips gallery image 3"></button>
+                      <div class="work-submedia" data-work-gallery data-title="Buying &amp; Selling - Additional Flips" data-images="images/automotive/buying-selling/jpg8.jpg|images/automotive/buying-selling/jpg9.jpg|images/automotive/buying-selling/jpg10.jpg|images/automotive/buying-selling/jpg11.jpg|images/automotive/buying-selling/jpg12.jpg|images/automotive/buying-selling/jpg13.jpg|images/automotive/buying-selling/jpg14.jpg|images/automotive/buying-selling/jpg15.jpg|images/automotive/buying-selling/jpg16.jpg|images/automotive/buying-selling/jpg17.jpg" data-captions="Flip 01 (placeholder caption)||Flip 02 (placeholder caption)||Flip 03 (placeholder caption)||Flip 04 (placeholder caption)||Flip 05 (placeholder caption)||Flip 06 (placeholder caption)||Flip 07 (placeholder caption)||Flip 08 (placeholder caption)||Flip 09 (placeholder caption)||Flip 10 (placeholder caption)" data-details="More flips once I had the process dialed in||Mix of clean-ups and deeper fixes||Great practice for buying decisions and resale">
+                        <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/automotive/buying-selling/jpg8.jpg')" aria-label="Open additional flips gallery image 1"></button>
+                        <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/automotive/buying-selling/jpg9.jpg')" aria-label="Open additional flips gallery image 2"></button>
+                        <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/automotive/buying-selling/jpg10.jpg')" aria-label="Open additional flips gallery image 3"></button>
                       </div>
                       </div>
                     </div>
@@ -5500,7 +5534,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
                           <li>Repaint + clear coat to bring the body line back clean.</li>
                           <li>Big learning moment for prep, straightness, and finishing.</li>
                         </ul>
-                        <div class="work-submedia" data-work-gallery data-title="Autobody - 2010 Dodge Ram 1500" data-images="images/automotive/autobody/img1.png|images/automotive/autobody/img6.png|images/automotive/autobody/img7.png|images/automotive/autobody/img4.png|images/automotive/autobody/img5.png|images/automotive/autobody/img2.png|images/automotive/autobody/img3.png" data-captions="Rust and rot before repair||Initial sanding and surface prep||Mesh backing installed behind rotted sections||First body filler pass||Filler shaped and refined||Completed repaired panel||Finished result from another angle" data-details="Sequence: before damage shot first||Prep stage uses img6 and img7, then filler with img4 and img5||Completed results are img2 and img3"></div>
+                        <div class="work-submedia" data-work-gallery data-title="Autobody - 2010 Dodge Ram 1500" data-images="images/automotive/autobody/img1.jpg|images/automotive/autobody/img6.jpg|images/automotive/autobody/img7.jpg|images/automotive/autobody/img4.jpg|images/automotive/autobody/img5.jpg|images/automotive/autobody/img2.jpg|images/automotive/autobody/img3.jpg" data-captions="Rust and rot before repair||Initial sanding and surface prep||Mesh backing installed behind rotted sections||First body filler pass||Filler shaped and refined||Completed repaired panel||Finished result from another angle" data-details="Sequence: before damage shot first||Prep stage uses img6 and img7, then filler with img4 and img5||Completed results are img2 and img3"></div>
                       </div>
                       <div class="work-subgroup">
                         <div class="work-subgroup-title">2011 Lexus ES 350</div>
@@ -5510,7 +5544,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
                           <li>Repaired wiring harness issues so everything ran smoothly again.</li>
                           <li>Finished with clean fitment and a straight front end.</li>
                         </ul>
-                        <div class="work-submedia" data-work-gallery data-title="Autobody - 2011 Lexus ES 350" data-images="images/automotive/autobody/img9.png|images/automotive/autobody/img10.png|images/automotive/autobody/img8.jpg|images/automotive/autobody/img11.png" data-captions="Condition after the previous owner's crash||Front-end damage at the time of purchase||Closer look at how severe the impact was||Finished rebuild after frame correction and wiring repair" data-details="The project started with a heavily damaged front end and a car that needed serious correction before it could go back on the road||The repair involved structural pulling, panel fitment work, and sorting damaged electrical harnesses so everything operated properly again||The final result came together straight, clean, and fully driveable"></div>
+                        <div class="work-submedia" data-work-gallery data-title="Autobody - 2011 Lexus ES 350" data-images="images/automotive/autobody/img9.jpg|images/automotive/autobody/img10.jpg|images/automotive/autobody/img8.jpg|images/automotive/autobody/img11.jpg" data-captions="Condition after the previous owner's crash||Front-end damage at the time of purchase||Closer look at how severe the impact was||Finished rebuild after frame correction and wiring repair" data-details="The project started with a heavily damaged front end and a car that needed serious correction before it could go back on the road||The repair involved structural pulling, panel fitment work, and sorting damaged electrical harnesses so everything operated properly again||The final result came together straight, clean, and fully driveable"></div>
                       </div>
                     </div>
                   </div>
@@ -5530,7 +5564,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
                       <div class="work-subgroup">
                         <div class="work-subgroup-title">2013 Mazda 3 — Practice Car</div>
                         <p class="work-subgroup-desc">Every service started on my own car: full prep, spray tint, and final finish before offering it to clients.</p>
-                        <div class="work-submedia" data-work-gallery data-title="Tinting - Mazda 3 Practice" data-images="images/automotive/tinting-service/img1.jpg|images/automotive/tinting-service/img6.png|images/automotive/tinting-service/img3.png|images/automotive/tinting-service/img2.jpg" data-captions="Masking and prep for taillight spray tint||Prep detail before spraying||Mid-process progress shot||Finished Mazda 3 taillight tint" data-details="Prepped and masked the Mazda 3 taillights||Used the car as a testbed before client work||Final smoke finish shown in daylight"></div>
+                        <div class="work-submedia" data-work-gallery data-title="Tinting - Mazda 3 Practice" data-images="images/automotive/tinting-service/img1.jpg|images/automotive/tinting-service/img6.jpg|images/automotive/tinting-service/img3.png|images/automotive/tinting-service/img2.jpg" data-captions="Masking and prep for taillight spray tint||Prep detail before spraying||Mid-process progress shot||Finished Mazda 3 taillight tint" data-details="Prepped and masked the Mazda 3 taillights||Used the car as a testbed before client work||Final smoke finish shown in daylight"></div>
                       </div>
                       <div class="work-subgroup">
                         <div class="work-subgroup-title">2013 Lexus ES300h — Red-Only Smoke</div>
@@ -5540,12 +5574,12 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
                       <div class="work-subgroup">
                         <div class="work-subgroup-title">2011 Lexus ES 350 — Full 5% Tint</div>
                         <p class="work-subgroup-desc">Repeat client from the bodywork project: added 5% film and a subtle sunstrip.</p>
-                        <div class="work-submedia" data-work-gallery data-title="Tinting - Lexus ES 350" data-images="images/automotive/tinting-service/img9.png" data-captions="Completed 5% window tint on ES 350" data-details="Matches prior restoration work with a dark, uniform finish"></div>
+                        <div class="work-submedia" data-work-gallery data-title="Tinting - Lexus ES 350" data-images="images/automotive/tinting-service/img9.jpg" data-captions="Completed 5% window tint on ES 350" data-details="Matches prior restoration work with a dark, uniform finish"></div>
                       </div>
                       <div class="work-subgroup">
                         <div class="work-subgroup-title">Jaguar — Interior Tint Showcase</div>
                         <p class="work-subgroup-desc">Sold Jaguar with interior shot highlighting the 5% ceramic tint I installed.</p>
-                        <div class="work-submedia" data-work-gallery data-title="Tinting - Jaguar Interior" data-images="images/automotive/tinting-service/img7.png" data-captions="Interior shot showing 5% tint and low glare" data-details="Demonstrates even film application and clean edges"></div>
+                        <div class="work-submedia" data-work-gallery data-title="Tinting - Jaguar Interior" data-images="images/automotive/tinting-service/img7.jpg" data-captions="Interior shot showing 5% tint and low glare" data-details="Demonstrates even film application and clean edges"></div>
                       </div>
                       <div class="work-subgroup">
                         <div class="work-subgroup-title">2018 Lexus RX 450hL — Taillight Tint</div>
@@ -5571,17 +5605,17 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
                       <div class="work-subgroup">
                         <div class="work-subgroup-title">2013 Mazda 3 — Alcantara Inserts</div>
                         <p class="work-subgroup-desc">Removed door panels, wrapped inserts in alcantara-style suede, and reinstalled with OEM fit.</p>
-                        <div class="work-submedia" data-work-gallery data-title="Upholstery - Mazda 3 Inserts" data-images="images/automotive/upholstery/img1.png|images/automotive/upholstery/img2.jpg" data-captions="Door insert wrapped off-car||Reinstalled alcantara insert on the Mazda 3" data-details="Full disassembly for clean edges||Adhered and stitched for a factory-plus look"></div>
+                        <div class="work-submedia" data-work-gallery data-title="Upholstery - Mazda 3 Inserts" data-images="images/automotive/upholstery/img1.jpg|images/automotive/upholstery/img2.jpg" data-captions="Door insert wrapped off-car||Reinstalled alcantara insert on the Mazda 3" data-details="Full disassembly for clean edges||Adhered and stitched for a factory-plus look"></div>
                       </div>
                       <div class="work-subgroup">
                         <div class="work-subgroup-title">2013 Mazda 3 — Red Seat Conversion</div>
                         <p class="work-subgroup-desc">Pulled seats, stitched custom red covers, and tied the cabin together with the suede inserts.</p>
-                        <div class="work-submedia" data-work-gallery data-title="Upholstery - Mazda 3 Seats" data-images="images/automotive/upholstery/img3.png|images/automotive/upholstery/img4.jpg" data-captions="Red leather seat conversion||Finished interior with seats + inserts" data-details="Refit and tensioned covers for tight bolsters||Matched materials to the new trim"></div>
+                        <div class="work-submedia" data-work-gallery data-title="Upholstery - Mazda 3 Seats" data-images="images/automotive/upholstery/img3.jpg|images/automotive/upholstery/img4.jpg" data-captions="Red leather seat conversion||Finished interior with seats + inserts" data-details="Refit and tensioned covers for tight bolsters||Matched materials to the new trim"></div>
                       </div>
                       <div class="work-subgroup">
                         <div class="work-subgroup-title">Custom Steering Wheel Wrap</div>
                         <p class="work-subgroup-desc">Measured, cut, and hand-stitched perforated leather for a tailored wheel finish.</p>
-                        <div class="work-submedia" data-work-gallery data-title="Upholstery - Steering Wheel" data-images="images/automotive/upholstery/img5.png|images/automotive/upholstery/img6.png|images/automotive/upholstery/img7.jpg|images/automotive/upholstery/img8.jpg" data-captions="Wheel before wrap||In-progress hand stitching||Stitch detail closeup||Finished perforated leather wrap" data-details="Cut leather to diameter, then saddle-stitched||Even tension for a smooth, OEM-feel grip"></div>
+                        <div class="work-submedia" data-work-gallery data-title="Upholstery - Steering Wheel" data-images="images/automotive/upholstery/img5.jpg|images/automotive/upholstery/img6.png|images/automotive/upholstery/img7.jpg|images/automotive/upholstery/img8.jpg" data-captions="Wheel before wrap||In-progress hand stitching||Stitch detail closeup||Finished perforated leather wrap" data-details="Cut leather to diameter, then saddle-stitched||Even tension for a smooth, OEM-feel grip"></div>
                       </div>
                       <div class="work-subgroup">
                         <div class="work-subgroup-title">2011 Lexus ES 350 — Red Interior Client Build</div>
@@ -5607,22 +5641,22 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
                       <div class="work-subgroup">
                         <div class="work-subgroup-title">Panels & Jambs</div>
                         <p class="work-subgroup-desc">Started on the Mazda 3 driver door and jambs to set the two-tone base.</p>
-                        <div class="work-submedia" data-work-gallery data-title="Wraps - Panels & Jambs" data-images="images/automotive/wraps/img1.png|images/automotive/wraps/img2.png|images/automotive/wraps/img3.png" data-captions="Driver door wrapped satin black||Red door jamb wrap||Rear quarter in progress" data-details="Exterior skin first, jambs separately for clean shuts||Quarter panel stretch and relief cuts"></div>
+                        <div class="work-submedia" data-work-gallery data-title="Wraps - Panels & Jambs" data-images="images/automotive/wraps/img1.jpg|images/automotive/wraps/img2.jpg|images/automotive/wraps/img3.jpg" data-captions="Driver door wrapped satin black||Red door jamb wrap||Rear quarter in progress" data-details="Exterior skin first, jambs separately for clean shuts||Quarter panel stretch and relief cuts"></div>
                       </div>
                       <div class="work-subgroup">
                         <div class="work-subgroup-title">Half-and-Half Hood & Seam</div>
                         <p class="work-subgroup-desc">Used knifeless tape to split colors across hood, doors, and fenders.</p>
-                        <div class="work-submedia" data-work-gallery data-title="Wraps - Hood Split" data-images="images/automotive/wraps/img4.png|images/automotive/wraps/img5.jpg|images/automotive/wraps/img6.jpg|images/automotive/wraps/img8.png" data-captions="Hood partial wrap setup||Half-and-half seam with knifeless tape||Hood wrap progress||Hood + eyelids nearly complete" data-details="Aligned seam across panels||Maintained tension for smooth finish"></div>
+                        <div class="work-submedia" data-work-gallery data-title="Wraps - Hood Split" data-images="images/automotive/wraps/img4.jpg|images/automotive/wraps/img5.jpg|images/automotive/wraps/img6.jpg|images/automotive/wraps/img8.jpg" data-captions="Hood partial wrap setup||Half-and-half seam with knifeless tape||Hood wrap progress||Hood + eyelids nearly complete" data-details="Aligned seam across panels||Maintained tension for smooth finish"></div>
                       </div>
                       <div class="work-subgroup">
                         <div class="work-subgroup-title">Inlays & Overlays</div>
                         <p class="work-subgroup-desc">Broke complex areas into pieces to avoid overstretching.</p>
-                        <div class="work-submedia" data-work-gallery data-title="Wraps - Inlays & Overlays" data-images="images/automotive/wraps/img7.jpg|images/automotive/wraps/img12.png" data-captions="Rear bumper inlays and overlays||Trunk wrap in progress" data-details="Sectioned bumper for tight radii||Separate trunk piece for clean edges"></div>
+                        <div class="work-submedia" data-work-gallery data-title="Wraps - Inlays & Overlays" data-images="images/automotive/wraps/img7.jpg|images/automotive/wraps/img12.jpg" data-captions="Rear bumper inlays and overlays||Trunk wrap in progress" data-details="Sectioned bumper for tight radii||Separate trunk piece for clean edges"></div>
                       </div>
                       <div class="work-subgroup">
                         <div class="work-subgroup-title">Finish & Reveal</div>
                         <p class="work-subgroup-desc">Final panels closed out the two-tone concept and tied the body lines together.</p>
-                        <div class="work-submedia" data-work-gallery data-title="Wraps - Final" data-images="images/automotive/wraps/img9.png|images/automotive/wraps/img10.png|images/automotive/wraps/img11.jpg|images/automotive/wraps/img13.png|images/automotive/wraps/img14.png|images/automotive/wraps/img15.png" data-captions="Finished rear quarter||Rear mid-process||Completed rear end||Two-tone side view||Front three-quarter||Full reveal" data-details="Half-and-half scheme visible across panels||Even seams and edge wraps on final pass"></div>
+                        <div class="work-submedia" data-work-gallery data-title="Wraps - Final" data-images="images/automotive/wraps/img9.jpg|images/automotive/wraps/img10.jpg|images/automotive/wraps/img11.jpg|images/automotive/wraps/img13.jpg|images/automotive/wraps/img14.jpg|images/automotive/wraps/img15.jpg" data-captions="Finished rear quarter||Rear mid-process||Completed rear end||Two-tone side view||Front three-quarter||Full reveal" data-details="Half-and-half scheme visible across panels||Even seams and edge wraps on final pass"></div>
                       </div>
                     </div>
                   </div>
@@ -5642,12 +5676,12 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
                       <div class="work-subgroup">
                         <div class="work-subgroup-title">Valved Exhaust System</div>
                         <p class="work-subgroup-desc">Welded in a valve section, removed the cat, and wired a remote-controlled butterfly for loud/quiet modes.</p>
-                        <div class="work-submedia" data-work-gallery data-title="Electrical - Valved Exhaust" data-images="images/automotive/electrical/img2.png|images/automotive/electrical/img1.jpg|images/automotive/electrical/img3.jpg|images/automotive/electrical/img4.png" data-captions="Catalytic converter removed||Welded-in valve section||Remote-controlled butterfly valve||Hardwiring with multimeter and switch" data-details="MIG weld prep and fitment||Remote frequencies matched to the valve module||Debugged power and grounds before final loom wrap"></div>
+                        <div class="work-submedia" data-work-gallery data-title="Electrical - Valved Exhaust" data-images="images/automotive/electrical/img2.jpg|images/automotive/electrical/img1.jpg|images/automotive/electrical/img3.jpg|images/automotive/electrical/img4.jpg" data-captions="Catalytic converter removed||Welded-in valve section||Remote-controlled butterfly valve||Hardwiring with multimeter and switch" data-details="MIG weld prep and fitment||Remote frequencies matched to the valve module||Debugged power and grounds before final loom wrap"></div>
                       </div>
                       <div class="work-subgroup">
                         <div class="work-subgroup-title">Arduino Lightbar</div>
                         <p class="work-subgroup-desc">Strobe/brightness-controlled lightbar mounted flush in the grille with an OEM-looking cabin button.</p>
-                        <div class="work-submedia" data-work-gallery data-title="Electrical - Lightbar" data-images="images/automotive/electrical/img5.png|images/automotive/electrical/img6.jpg|images/automotive/electrical/img7.png" data-captions="Bench test and wiring layout||Lightbar seated in grille||Cabin-mounted control button" data-details="Tested current draw and patterns before install||Clean harness routing behind grille||Button placement to match factory interior"></div>
+                        <div class="work-submedia" data-work-gallery data-title="Electrical - Lightbar" data-images="images/automotive/electrical/img5.jpg|images/automotive/electrical/img6.jpg|images/automotive/electrical/img7.jpg" data-captions="Bench test and wiring layout||Lightbar seated in grille||Cabin-mounted control button" data-details="Tested current draw and patterns before install||Clean harness routing behind grille||Button placement to match factory interior"></div>
                       </div>
                       <div class="work-subgroup">
                         <div class="work-subgroup-title">Headunit & Camera Upgrade</div>
@@ -5690,10 +5724,10 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
           <span class="work-sub">Storefront, parts ops, test bench</span>
           <span class="work-indicator" aria-hidden="true"></span>
         </button>
-        <div class="work-preview" data-preview-count="8" data-preview-cycle="true" data-preview-tabs="web|parts|bench|builds|social" data-work-gallery data-title="Cosmic PCs" data-images="images/cosmic/img15.png|images/cosmic/img18.png|images/cosmic/img8.png|images/cosmic/img3.jpg|images/cosmic/img9.png|images/cosmic/img16.png" data-details="Website||Custom parts lists||Build station||Intel Arc build||RGB showcase||Instagram">
-          <button class="work-thumb size-lg" data-work-open data-index="0" style="--img:url('images/cosmic/img15.png')" aria-label="Open Cosmic PCs gallery image 1"><span aria-hidden="true">View</span></button>
+        <div class="work-preview" data-preview-count="8" data-preview-cycle="true" data-preview-tabs="web|parts|bench|builds|social" data-work-gallery data-title="Cosmic PCs" data-images="images/cosmic/img15.jpg|images/cosmic/img18.png|images/cosmic/img8.jpg|images/cosmic/img3.jpg|images/cosmic/img9.jpg|images/cosmic/img16.jpg" data-details="Website||Custom parts lists||Build station||Intel Arc build||RGB showcase||Instagram">
+          <button class="work-thumb size-lg" data-work-open data-index="0" style="--img:url('images/cosmic/img15.jpg')" aria-label="Open Cosmic PCs gallery image 1"><span aria-hidden="true">View</span></button>
           <button class="work-thumb size-sm" data-work-open data-index="1" style="--img:url('images/cosmic/img18.png')" aria-label="Open Cosmic PCs gallery image 2"><span aria-hidden="true">View</span></button>
-          <button class="work-thumb size-md" data-work-open data-index="2" style="--img:url('images/cosmic/img8.png')" aria-label="Open Cosmic PCs gallery image 3"><span aria-hidden="true">View</span></button>
+          <button class="work-thumb size-md" data-work-open data-index="2" style="--img:url('images/cosmic/img8.jpg')" aria-label="Open Cosmic PCs gallery image 3"><span aria-hidden="true">View</span></button>
           <button class="work-thumb size-sm" data-work-open data-index="3" style="--img:url('images/cosmic/img3.jpg')" aria-label="Open Cosmic PCs gallery image 4"><span aria-hidden="true">View</span></button>
         </div>
       </div>
@@ -5733,9 +5767,9 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
                       <div class="work-subgroup">
                         <div class="work-subgroup-title">Homepage &amp; Build Pages</div>
                         <p class="work-subgroup-desc">Storefront experience with interactive component explainers and clear CTAs.</p>
-                        <div class="work-submedia" data-work-gallery data-title="Cosmic PCs - Website" data-images="images/cosmic/img15.png|images/cosmic/img19.png" data-captions="Homepage storefront||Build page layout" data-details="Live site captures">
-                          <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/cosmic/img15.png')" aria-label="Open website gallery image 1"></button>
-                          <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/cosmic/img19.png')" aria-label="Open website gallery image 2"></button>
+                        <div class="work-submedia" data-work-gallery data-title="Cosmic PCs - Website" data-images="images/cosmic/img15.jpg|images/cosmic/img19.jpg" data-captions="Homepage storefront||Build page layout" data-details="Live site captures">
+                          <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/cosmic/img15.jpg')" aria-label="Open website gallery image 1"></button>
+                          <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/cosmic/img19.jpg')" aria-label="Open website gallery image 2"></button>
                         </div>
                       </div>
                     </div>
@@ -5780,8 +5814,8 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
                       <div class="work-subgroup">
                         <div class="work-subgroup-title">Workstation &amp; Test Bench</div>
                         <p class="work-subgroup-desc">Build surface, diagnostics, spares, and capture setup.</p>
-                        <div class="work-submedia" data-work-gallery data-title="Cosmic PCs - Build Station" data-images="images/cosmic/img8.png" data-captions="Workstation and test bench" data-details="Build/diagnostic station">
-                          <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/cosmic/img8.png')" aria-label="Open bench gallery image 1"></button>
+                        <div class="work-submedia" data-work-gallery data-title="Cosmic PCs - Build Station" data-images="images/cosmic/img8.jpg" data-captions="Workstation and test bench" data-details="Build/diagnostic station">
+                          <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/cosmic/img8.jpg')" aria-label="Open bench gallery image 1"></button>
                         </div>
                       </div>
                     </div>
@@ -5802,15 +5836,15 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
                       <div class="work-subgroup">
                         <div class="work-subgroup-title">Showcase Builds</div>
                         <p class="work-subgroup-desc">Client-favorite rigs, plus themed and notable configs.</p>
-                        <div class="work-submedia" data-work-gallery data-title="Cosmic PCs - Builds" data-images="images/cosmic/img3.jpg|images/cosmic/img9.png|images/cosmic/img7.png|images/cosmic/img1.jpg|images/cosmic/img2.jpg|images/cosmic/img5.png|images/cosmic/img6.png|images/cosmic/img10.png|images/cosmic/img13.jpg|images/cosmic/img14.jpg" data-captions="Intel Arc feature build||RGB showcase||All-white build||Custom build||Custom build||Custom build||Custom build||Custom build||Custom build||Build in progress" data-details="Watercooled, air-cooled, themed builds, and upgrade jobs">
+                        <div class="work-submedia" data-work-gallery data-title="Cosmic PCs - Builds" data-images="images/cosmic/img3.jpg|images/cosmic/img9.jpg|images/cosmic/img7.jpg|images/cosmic/img1.jpg|images/cosmic/img2.jpg|images/cosmic/img5.jpg|images/cosmic/img6.jpg|images/cosmic/img10.jpg|images/cosmic/img13.jpg|images/cosmic/img14.jpg" data-captions="Intel Arc feature build||RGB showcase||All-white build||Custom build||Custom build||Custom build||Custom build||Custom build||Custom build||Build in progress" data-details="Watercooled, air-cooled, themed builds, and upgrade jobs">
                           <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/cosmic/img3.jpg')" aria-label="Open builds gallery image 1"></button>
-                          <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/cosmic/img9.png')" aria-label="Open builds gallery image 2"></button>
-                          <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/cosmic/img7.png')" aria-label="Open builds gallery image 3"></button>
+                          <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/cosmic/img9.jpg')" aria-label="Open builds gallery image 2"></button>
+                          <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/cosmic/img7.jpg')" aria-label="Open builds gallery image 3"></button>
                           <button class="work-subthumb" data-work-open data-index="3" style="--img:url('images/cosmic/img1.jpg')" aria-label="Open builds gallery image 4"></button>
                           <button class="work-subthumb" data-work-open data-index="4" style="--img:url('images/cosmic/img2.jpg')" aria-label="Open builds gallery image 5"></button>
-                          <button class="work-subthumb" data-work-open data-index="5" style="--img:url('images/cosmic/img5.png')" aria-label="Open builds gallery image 6"></button>
-                          <button class="work-subthumb" data-work-open data-index="6" style="--img:url('images/cosmic/img6.png')" aria-label="Open builds gallery image 7"></button>
-                          <button class="work-subthumb" data-work-open data-index="7" style="--img:url('images/cosmic/img10.png')" aria-label="Open builds gallery image 8"></button>
+                          <button class="work-subthumb" data-work-open data-index="5" style="--img:url('images/cosmic/img5.jpg')" aria-label="Open builds gallery image 6"></button>
+                          <button class="work-subthumb" data-work-open data-index="6" style="--img:url('images/cosmic/img6.jpg')" aria-label="Open builds gallery image 7"></button>
+                          <button class="work-subthumb" data-work-open data-index="7" style="--img:url('images/cosmic/img10.jpg')" aria-label="Open builds gallery image 8"></button>
                           <button class="work-subthumb" data-work-open data-index="8" style="--img:url('images/cosmic/img13.jpg')" aria-label="Open builds gallery image 9"></button>
                           <button class="work-subthumb" data-work-open data-index="9" style="--img:url('images/cosmic/img14.jpg')" aria-label="Open builds gallery image 10"></button>
                         </div>
@@ -5840,10 +5874,10 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
                       <div class="work-subgroup">
                         <div class="work-subgroup-title">Instagram Highlights</div>
                         <p class="work-subgroup-desc">Grid, reels, and behind-the-scenes clips (Cosmic_PCs).</p>
-                        <div class="work-submedia" data-work-gallery data-title="Cosmic PCs - Social" data-images="images/cosmic/img16.png|images/cosmic/img17.png|images/cosmic/img11.png" data-captions="Instagram page||Instagram setup grid||Build in progress (IG)" data-details="IG grids, reels, and BTS">
-                          <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/cosmic/img16.png')" aria-label="Open social gallery image 1"></button>
-                          <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/cosmic/img17.png')" aria-label="Open social gallery image 2"></button>
-                          <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/cosmic/img11.png')" aria-label="Open social gallery image 3"></button>
+                        <div class="work-submedia" data-work-gallery data-title="Cosmic PCs - Social" data-images="images/cosmic/img16.jpg|images/cosmic/img17.jpg|images/cosmic/img11.jpg" data-captions="Instagram page||Instagram setup grid||Build in progress (IG)" data-details="IG grids, reels, and BTS">
+                          <button class="work-subthumb" data-work-open data-index="0" style="--img:url('images/cosmic/img16.jpg')" aria-label="Open social gallery image 1"></button>
+                          <button class="work-subthumb" data-work-open data-index="1" style="--img:url('images/cosmic/img17.jpg')" aria-label="Open social gallery image 2"></button>
+                          <button class="work-subthumb" data-work-open data-index="2" style="--img:url('images/cosmic/img11.jpg')" aria-label="Open social gallery image 3"></button>
                         </div>
                       </div>
                     </div>
@@ -8007,21 +8041,21 @@ if(expThumbs.length&&expModal){
   const scrollDownEl = document.getElementById('hrfScrollDown');
   if (!section || !video) return;
 
-  /* ── Set video src immediately — needed by both paths below ──
-     Set video.src directly rather than via a <source> element.
-     An empty <source src=""> on iOS Safari triggers a failed fetch that
-     marks the element errored before JS can assign the real URL.
-     Mobile (≤768px) gets the 119 KB half-res crop; desktop gets 469 KB. ── */
-  const videoSrc = window.innerWidth <= 768
-    ? 'videos/welding-mobile.mp4'
-    : 'videos/welding.mp4';
-  video.setAttribute('fetchpriority', 'high');
-  video.src = videoSrc;
+  /* The inline script beside the <video> element already assigned src and
+     started buffering. Only act as a fallback if that somehow didn't run —
+     re-assigning src here would throw away the buffer and refetch the file. */
+  if (!video.getAttribute('src')) {
+    video.src = window.innerWidth <= 768
+      ? 'videos/welding-mobile.mp4'
+      : 'videos/welding.mp4';
+    video.load();
+    const p = video.play();
+    if (p && p.then) p.then(() => { video.pause(); video.currentTime = 0; }).catch(() => {});
+  }
 
   /* Reduced-motion: show finale immediately, autoplay video */
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     video.loop = true;
-    video.load();
     video.play().catch(() => {});
     if (scrimDark) scrimDark.style.opacity = '0.68';
     if (finaleEl)  { finaleEl.style.opacity = '1'; finaleEl.style.pointerEvents = 'auto'; }
@@ -8029,20 +8063,16 @@ if(expThumbs.length&&expModal){
   }
 
   let videoReady = false;
+  /* May already have fired before this script ran — check readyState too. */
+  if (video.readyState >= 1) videoReady = true;
   video.addEventListener('loadedmetadata', () => { videoReady = true; });
 
-  /* ── Buffer video immediately ──
-     iOS Safari ignores preload="auto" and won't buffer from .load() alone.
-     Calling play() forces the browser to download; we pause right after.
-     The video is opacity:0 for the first 1.4s (CSS animation) — no visible flash. */
-  video.load();
-  const _iosPlay = video.play();
-  if (_iosPlay !== undefined) {
-    _iosPlay.then(() => { video.pause(); video.currentTime = 0; }).catch(() => {});
-  }
-
   const cl = (p, i0, i1) => Math.max(0, Math.min(1, (p - i0) / (i1 - i0)));
-  const getScrollMax = () => section.offsetHeight - window.innerHeight;
+  /* Measure the sticky box rather than window.innerHeight: on iOS, innerHeight
+     shrinks/grows as Safari's toolbar shows and hides, which moved scrollMax
+     mid-scroll and made the finale threshold unreachable (soft lock never
+     engaged). The sticky element is 100vh, which iOS keeps constant. */
+  const getScrollMax = () => section.offsetHeight - (sticky?.offsetHeight || window.innerHeight);
 
   /* ── Finale scroll-down hint ── */
   let scrollDownTimer = null;
