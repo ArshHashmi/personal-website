@@ -4167,7 +4167,9 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 #build-log{padding:6.5rem 0 7rem;border-bottom:1px solid var(--line);overflow:hidden}
 
 /* ── Header ── */
-.blt-head{max-width:1560px;margin:0 auto 3rem;padding:0 5vw}
+/* Full-bleed with 5vw gutters — matches section.panel and the rest of the
+   page. No max-width, so this section spans the viewport like everything else. */
+.blt-head{margin:0 0 3rem;padding:0 5vw}
 .blt-title{
   font-family:var(--sans);font-size:clamp(2.4rem,5vw,4.5rem);font-weight:800;
   letter-spacing:-.045em;line-height:.98;color:var(--ink);margin:0;
@@ -4190,7 +4192,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 .blt-rail-line{flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
 
 /* ── Grids ── */
-.blt-grid{max-width:1560px;margin:0 auto;padding:0 5vw;display:grid;gap:1.15rem}
+.blt-grid{margin:0;padding:0 5vw;display:grid;gap:1.3rem}
 .blt-grid-now{grid-template-columns:1fr 1fr;margin-bottom:3.6rem}
 .blt-grid-past{grid-template-columns:1fr 1fr}
 
@@ -4355,7 +4357,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 .blt-card:hover .blt-cta svg{transform:translateX(3px)}
 
 /* ── Section CTA ── */
-.blt-end{max-width:1560px;margin:0 auto;padding:2.8rem 5vw 0;display:flex}
+.blt-end{margin:0;padding:2.8rem 5vw 0;display:flex}
 .blt-end-btn{
   display:inline-flex;align-items:center;gap:.6rem;
   font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.16em;
@@ -4844,17 +4846,11 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 <section id="build-log">
 
   <div class="blt-head rv">
-    <h2 class="blt-title">What I've Built.</h2>
-    <p class="blt-sub">Mechanical and autonomous systems taken from CAD to a finished, working part.</p>
+    <h2 class="blt-title">What I'm Building.</h2>
+    <p class="blt-sub">The two builds on my bench right now — the full archive lives on the build log.</p>
   </div>
 
   <!-- ── BUILDING NOW ────────────────────────────────────────── -->
-  <div class="blt-rail rv">
-    <span class="blt-rail-label">Building Now</span>
-    <span class="blt-rail-line"></span>
-    <span class="blt-rail-count">02</span>
-  </div>
-
   <div class="blt-grid blt-grid-now">
 
     <!-- 01 — Active Aerodynamics Wing -->
@@ -4926,81 +4922,6 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
         <div class="blt-foot">
           <span class="blt-meta">Updated as it goes</span>
           <span class="blt-cta">Follow build
-            <svg width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true">
-              <path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.4"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </span>
-        </div>
-      </div>
-    </a>
-
-  </div>
-
-  <!-- ── SHIPPED BEFORE ──────────────────────────────────────── -->
-  <div class="blt-rail rv">
-    <span class="blt-rail-label">Shipped Before</span>
-    <span class="blt-rail-line"></span>
-    <span class="blt-rail-count">02</span>
-  </div>
-
-  <div class="blt-grid blt-grid-past">
-
-    <!-- 03 — Nosecone -->
-    <!-- Points at #experience, which actually carries the nosecone entry.
-         builds.html only covers the two current builds. -->
-    <a class="blt-card blt-card-past rv" data-blt-card href="#experience"
-       aria-label="Formula SAE nosecone — see it in experience">
-      <div class="blt-media">
-        <img src="images/experience/1772026114347.jpg"
-             alt="Formula SAE nosecone in the paint booth after moulding"
-             loading="lazy" decoding="async">
-      </div>
-      <div class="blt-body">
-        <div class="blt-top">
-          <span class="blt-idx">03</span>
-          <span class="blt-status blt-status-done"><span class="blt-dot"></span>Complete</span>
-        </div>
-        <div class="blt-name">Formula SAE Nosecone</div>
-        <p class="blt-line">Moulded composite nose, surfaced in CAD and laid up from 3D-printed tooling.</p>
-        <div class="blt-specs">
-          <span class="blt-spec">Composites</span>
-          <span class="blt-spec">Fusion 360</span>
-        </div>
-        <div class="blt-foot">
-          <span class="blt-meta">Binghamton Motorsports</span>
-          <span class="blt-cta">View
-            <svg width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true">
-              <path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.4"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </span>
-        </div>
-      </div>
-    </a>
-
-    <!-- 04 — Cosmic PCs -->
-    <a class="blt-card blt-card-past rv d1" data-blt-card href="#projects"
-       aria-label="Cosmic PCs — see the work">
-      <div class="blt-media">
-        <img src="images/cosmic/img1.jpg"
-             alt="Custom water-cooled PC build on the bench"
-             loading="lazy" decoding="async">
-      </div>
-      <div class="blt-body">
-        <div class="blt-top">
-          <span class="blt-idx">04</span>
-          <span class="blt-status blt-status-done"><span class="blt-dot"></span>Complete</span>
-        </div>
-        <div class="blt-name">Cosmic PCs</div>
-        <p class="blt-line">A custom PC build service I ran end to end — specs, assembly, and delivery.</p>
-        <div class="blt-specs">
-          <span class="blt-spec">Hardware</span>
-          <span class="blt-spec">Client Builds</span>
-        </div>
-        <div class="blt-foot">
-          <span class="blt-meta">Founder</span>
-          <span class="blt-cta">View
             <svg width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true">
               <path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.4"
                     stroke-linecap="round" stroke-linejoin="round"/>
