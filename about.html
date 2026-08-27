@@ -48,8 +48,92 @@
     .link-btn.accent:hover{background:var(--accent);color:var(--paper)}
     .divider{border:none;border-top:1px solid var(--line);margin:3rem 0}
     .section-label{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mist);margin-bottom:1.5rem;display:block}
-    .skills-grid{display:flex;flex-wrap:wrap;gap:.5rem}
-    .skill-pill{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;padding:.35rem .85rem;border:1px solid var(--line);color:var(--mist)}
+    /* ── Wider shell now that the timeline + toolkit live here ── */
+    main{max-width:1080px}
+    .section-head{display:flex;align-items:baseline;gap:1rem;margin-bottom:1.8rem}
+    .section-head .section-label{margin-bottom:0}
+    .section-rule{flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+
+    /* ── CAREER TIMELINE ──────────────────────────────────────────
+       Rebuilt for this page: a single rail, one card per role. The old
+       version carried thumbnail buttons opening a lightbox, but the images
+       were mismatched (the 3D-printing role showed a front-wing render), so
+       the imagery is dropped rather than shown wrong. */
+    .tl{position:relative;padding-left:2rem}
+    .tl::before{
+      content:'';position:absolute;left:.32rem;top:.4rem;bottom:.4rem;width:1px;
+      background:linear-gradient(180deg,rgba(240,240,240,.28),rgba(240,240,240,.06));
+    }
+    .tl-item{position:relative;padding-bottom:2.6rem}
+    .tl-item:last-child{padding-bottom:0}
+    .tl-item::before{
+      content:'';position:absolute;left:-1.85rem;top:.45rem;width:9px;height:9px;
+      border-radius:50%;background:var(--paper);border:1.5px solid rgba(240,240,240,.4);
+      transition:border-color .3s ease,box-shadow .3s ease;
+    }
+    .tl-item.is-current::before{
+      border-color:var(--accent);
+      box-shadow:0 0 0 4px rgba(232,255,87,.12);
+    }
+    .tl-when{
+      font-family:var(--mono);font-size:.58rem;font-weight:500;letter-spacing:.16em;
+      text-transform:uppercase;color:var(--mist);display:block;margin-bottom:.5rem;
+    }
+    .tl-role{font-size:1.12rem;font-weight:700;letter-spacing:-.02em;line-height:1.25;color:var(--ink)}
+    .tl-org{font-size:.85rem;color:var(--mist);margin-top:.22rem}
+    .tl-loc{font-family:var(--mono);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;
+      color:rgba(240,240,240,.28);margin-top:.4rem}
+    .tl-summary{font-size:.88rem;line-height:1.7;color:var(--mist);margin-top:.85rem;max-width:62ch}
+    .tl-sub{margin-top:1rem;padding-left:.9rem;border-left:1px solid var(--line)}
+    .tl-sub-title{font-size:.82rem;font-weight:600;color:var(--ink);margin-bottom:.4rem}
+    .tl-list{list-style:none;margin-top:.7rem;display:grid;gap:.42rem;max-width:64ch}
+    .tl-list li{position:relative;padding-left:1rem;font-size:.83rem;line-height:1.65;color:var(--mist)}
+    .tl-list li::before{content:'';position:absolute;left:0;top:.62em;width:4px;height:1px;background:rgba(240,240,240,.35)}
+    .tl-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1rem}
+    .tl-tag{
+      font-family:var(--mono);font-size:.53rem;letter-spacing:.11em;text-transform:uppercase;
+      color:rgba(240,240,240,.42);border:1px solid var(--line);border-radius:999px;padding:.24rem .6rem;
+      transition:border-color .25s ease,color .25s ease;
+    }
+    .tl-item:hover .tl-tag{border-color:rgba(240,240,240,.22);color:rgba(240,240,240,.6)}
+
+    /* ── TECHNICAL TOOLKIT ── */
+    .tk{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line)}
+    @media(max-width:860px){.tk{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:560px){.tk{grid-template-columns:1fr}}
+    .tk-col{padding:1.6rem;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .tk-col:nth-child(3n){border-right:none}
+    @media(max-width:860px){
+      .tk-col{border-right:1px solid var(--line)}
+      .tk-col:nth-child(3n){border-right:1px solid var(--line)}
+      .tk-col:nth-child(2n){border-right:none}
+    }
+    @media(max-width:560px){.tk-col,.tk-col:nth-child(3n),.tk-col:nth-child(2n){border-right:none}}
+    .tk-head{
+      font-family:var(--mono);font-size:.56rem;font-weight:600;letter-spacing:.18em;
+      text-transform:uppercase;color:var(--ink);margin-bottom:.95rem;
+    }
+    .tk-items{display:flex;flex-wrap:wrap;gap:.35rem}
+    .tk-item{
+      font-size:.72rem;font-weight:300;padding:.26rem .6rem;
+      border:1px solid var(--line);color:var(--mist);transition:border-color .25s,color .25s;
+    }
+    .tk-item:hover{border-color:var(--ink);color:var(--ink)}
+
+    /* ── REACH OUT ── */
+    .rch{text-align:center;padding:1rem 0 0}
+    .rch-title{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;letter-spacing:-.035em;margin-bottom:.8rem}
+    .rch-lede{font-size:.95rem;line-height:1.7;color:var(--mist);max-width:48ch;margin:0 auto 1.8rem}
+    .rch-btn{
+      display:inline-flex;align-items:center;gap:.7rem;font-family:var(--mono);
+      font-size:.8rem;font-weight:600;letter-spacing:.03em;
+      color:var(--paper);background:var(--ink);border:1px solid var(--ink);
+      border-radius:999px;padding:.9rem 1.7rem;text-decoration:none;
+      transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s ease,gap .3s ease;
+      box-shadow:0 10px 30px -14px rgba(255,255,255,.4);
+    }
+    .rch-btn:hover{transform:translateY(-3px);gap:1rem;box-shadow:0 16px 40px -16px rgba(255,255,255,.5)}
+    @media(prefers-reduced-motion:reduce){.rch-btn{transition:none}.rch-btn:hover{transform:none}}
   </style>
 </head>
 <body>
@@ -88,20 +172,159 @@
 
     <hr class="divider">
 
-    <span class="section-label">Skills + Tools</span>
-    <div class="skills-grid">
-      <span class="skill-pill">Fusion 360</span>
-      <span class="skill-pill">ANSYS Fluent</span>
-      <span class="skill-pill">Carbon Fiber</span>
-      <span class="skill-pill">MIG Welding</span>
-      <span class="skill-pill">FDM 3D Printing</span>
-      <span class="skill-pill">CFD Analysis</span>
-      <span class="skill-pill">Python</span>
-      <span class="skill-pill">Computer Vision</span>
-      <span class="skill-pill">ROS</span>
-      <span class="skill-pill">Rapid Prototyping</span>
-      <span class="skill-pill">Tolerance Analysis</span>
-      <span class="skill-pill">Vacuum Bagging</span>
+    <div class="section-head">
+      <span class="section-label">Career timeline</span>
+      <span class="section-rule"></span>
+    </div>
+
+    <div class="tl">
+
+      <div class="tl-item is-current">
+        <span class="tl-when">Feb 2026 — Present · 3 mos</span>
+        <div class="tl-role">Additive Manufacturing Technician</div>
+        <div class="tl-org">MakerLab · Binghamton University</div>
+        <div class="tl-loc">Binghamton, New York</div>
+        <p class="tl-summary">Operate and manage multiple FDM systems to fabricate student-submitted parts, ensuring print quality, dimensional accuracy, and proper material usage.</p>
+        <ul class="tl-list">
+          <li>Monitor, maintain, and troubleshoot printers through routine calibration, cleaning, and preventative maintenance.</li>
+          <li>Use laser scanning and digital fabrication tools for reverse engineering, prototyping, and custom part development.</li>
+          <li>Manage print requests in the MakerLab database, tracking status and prioritising workflow for fast turnaround.</li>
+          <li>Help students prepare CAD models for printing, verifying printability and recommending changes for stronger parts.</li>
+        </ul>
+        <div class="tl-tags">
+          <span class="tl-tag">Additive Manufacturing</span>
+          <span class="tl-tag">FDM 3D Printing</span>
+          <span class="tl-tag">Rapid Prototyping</span>
+          <span class="tl-tag">Reverse Engineering</span>
+          <span class="tl-tag">Laser Scanning</span>
+          <span class="tl-tag">Quality Control</span>
+        </div>
+      </div>
+
+      <div class="tl-item is-current">
+        <span class="tl-when">Sep 2025 — Present · 8 mos</span>
+        <div class="tl-role">Binghamton Motorsports (SAE)</div>
+        <div class="tl-org">Binghamton University</div>
+        <div class="tl-loc">Binghamton, New York</div>
+
+        <div class="tl-sub">
+          <div class="tl-sub-title">Formula Student Aerodynamics Apprentice (EV)</div>
+          <ul class="tl-list">
+            <li>Develop custom airfoils in Fusion 360 and Ansys Fluent CFD.</li>
+            <li>Build meshes and calculate drag/lift coefficients across conditions, iterating on airflow results.</li>
+            <li>Produce 3D-printed female moulds and manufacture parts with 3K/12K carbon layups, vacuum bagging, and curing.</li>
+          </ul>
+        </div>
+
+        <div class="tl-sub">
+          <div class="tl-sub-title">EV Go-Kart Frame Engineer / Designer</div>
+          <ul class="tl-list">
+            <li>Contribute weekly to design and fabrication for an electric go-kart platform.</li>
+            <li>Merge individual parts into a master assembly in Fusion 360 and validate fit.</li>
+            <li>Build fabrication capability through MIG welding, notching, surface prep, and printed fit-check mockups.</li>
+          </ul>
+        </div>
+
+        <div class="tl-tags">
+          <span class="tl-tag">Fusion 360</span>
+          <span class="tl-tag">Ansys Fluent</span>
+          <span class="tl-tag">CFD</span>
+          <span class="tl-tag">Carbon Fibre</span>
+          <span class="tl-tag">Vacuum Bagging</span>
+          <span class="tl-tag">MIG Welding</span>
+        </div>
+      </div>
+
+      <div class="tl-item is-current">
+        <span class="tl-when">Aug 2025 — Present · 9 mos</span>
+        <div class="tl-role">Combat Robotics Engineer</div>
+        <div class="tl-org">Watson Combat Robotics League · Binghamton University</div>
+        <div class="tl-loc">Binghamton, New York</div>
+        <p class="tl-summary">Design, build, and compete with antweight-class (1&nbsp;lb) combat robots in a three-person team.</p>
+        <ul class="tl-list">
+          <li>Design regulation-compliant parts in Fusion 360 and improve structural integrity.</li>
+          <li>Print, machine, and assemble successive iterations, validating tolerances and function each cycle.</li>
+          <li>Solder and integrate drive motors, radio systems, batteries, and weapon motors to combat standards.</li>
+          <li>Refine designs against stress and performance test data while staying inside competition rules.</li>
+        </ul>
+        <div class="tl-tags">
+          <span class="tl-tag">Fusion 360</span>
+          <span class="tl-tag">FDM 3D Printing</span>
+          <span class="tl-tag">Soldering</span>
+          <span class="tl-tag">Tolerance Analysis</span>
+          <span class="tl-tag">Arduino IDE</span>
+          <span class="tl-tag">Embedded Systems</span>
+        </div>
+      </div>
+
+      <div class="tl-item is-current">
+        <span class="tl-when">Jun 2022 — Present</span>
+        <div class="tl-role">Founder &amp; Project Manager</div>
+        <div class="tl-org">Cosmic PCs</div>
+        <div class="tl-loc">New York, NY</div>
+        <p class="tl-summary">Run an end-to-end custom hardware brand covering demand generation, build operations, and customer delivery.</p>
+        <ul class="tl-list">
+          <li>Lead build scoping, component planning, and quality control.</li>
+          <li>Coordinate timelines and deliverables across a small team.</li>
+          <li>Track sales, inventory, and margins using structured spreadsheets.</li>
+        </ul>
+        <div class="tl-tags">
+          <span class="tl-tag">E-Commerce</span>
+          <span class="tl-tag">Hardware</span>
+          <span class="tl-tag">Operations</span>
+          <span class="tl-tag">Leadership</span>
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="divider">
+
+    <div class="section-head">
+      <span class="section-label">Technical toolkit</span>
+      <span class="section-rule"></span>
+    </div>
+
+    <div class="tk">
+      <div class="tk-col">
+        <div class="tk-head">Engineering &amp; CAD</div>
+        <div class="tk-items"><span class="tk-item">Autodesk Fusion 360</span><span class="tk-item">ANSYS Fluent CFD</span><span class="tk-item">SolidWorks</span><span class="tk-item">Tinkercad</span><span class="tk-item">FDM 3D Printing</span><span class="tk-item">Laser Scanning</span><span class="tk-item">DXF / Waterjet</span><span class="tk-item">Carbon Fiber Layups</span><span class="tk-item">Vacuum Bagging</span><span class="tk-item">MIG Welding</span></div>
+      </div>
+      <div class="tk-col">
+        <div class="tk-head">Electronics &amp; Embedded</div>
+        <div class="tk-items"><span class="tk-item">Arduino IDE</span><span class="tk-item">Soldering</span><span class="tk-item">CAN-BUS Protocol</span><span class="tk-item">PCB Integration</span><span class="tk-item">Wiring Harnesses</span><span class="tk-item">SIMHUB</span><span class="tk-item">Bluetooth Modules</span><span class="tk-item">Motor Controllers</span></div>
+      </div>
+      <div class="tk-col">
+        <div class="tk-head">Software &amp; Creative</div>
+        <div class="tk-items"><span class="tk-item">Adobe Photoshop</span><span class="tk-item">Illustrator</span><span class="tk-item">After Effects</span><span class="tk-item">DaVinci Resolve</span><span class="tk-item">CapCut</span><span class="tk-item">Canva</span><span class="tk-item">Excel</span><span class="tk-item">Google Suite</span><span class="tk-item">Website Building</span></div>
+      </div>
+      <div class="tk-col">
+        <div class="tk-head">Automotive &amp; Fabrication</div>
+        <div class="tk-items"><span class="tk-item">Car Tinting</span><span class="tk-item">Vinyl Wrapping</span><span class="tk-item">Autobody</span><span class="tk-item">Interior Upholstery</span><span class="tk-item">Vehicle Diagnostics</span><span class="tk-item">Engine Maintenance</span><span class="tk-item">Aftermarket Audio</span><span class="tk-item">Car Flipping</span></div>
+      </div>
+      <div class="tk-col">
+        <div class="tk-head">Research &amp; Analysis</div>
+        <div class="tk-items"><span class="tk-item">En-vivo Coding</span><span class="tk-item">Apriori Coding</span><span class="tk-item">Interview Protocols</span><span class="tk-item">Otter.ai</span><span class="tk-item">Academic Writing</span><span class="tk-item">Presentational Literacy</span></div>
+      </div>
+      <div class="tk-col">
+        <div class="tk-head">Languages</div>
+        <div class="tk-items"><span class="tk-item">English (Native)</span><span class="tk-item">Urdu (Native)</span><span class="tk-item">Hindi / Punjabi</span><span class="tk-item">Spanish (Learning)</span></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="rch">
+      <h2 class="rch-title">Reach out.</h2>
+      <p class="rch-lede">Advice, a question about a build, an idea you want made, or work you'd like to talk about — it all goes straight to my inbox.</p>
+      <a class="rch-btn" href="mailto:arshhashmi.nyc@gmail.com?subject=Hey%20Arsh"
+         aria-label="Email Arsh at arshhashmi.nyc@gmail.com">
+        arshhashmi.nyc@gmail.com
+        <svg width="14" height="10" viewBox="0 0 13 9" fill="none" aria-hidden="true">
+          <path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
     </div>
   </main>
 </body>
