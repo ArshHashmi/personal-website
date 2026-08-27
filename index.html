@@ -4160,157 +4160,230 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 }
 
 /* ─────────────────────────────────── WHAT I AM BUILDING ── */
-#build-log{padding:5rem 0 6rem;border-bottom:1px solid var(--line);overflow:hidden}
-/* ── WHAT I AM BUILDING ── */
-.wib-header{padding:0 5vw;margin-bottom:2.8rem}
-.wib-title{
-  font-family:var(--sans);font-size:clamp(2rem,4.5vw,3.8rem);font-weight:800;
-  letter-spacing:-.04em;line-height:1.0;color:var(--ink);
-  white-space:nowrap;
+/* ═══════════════════════════════════════════ WHAT I'VE BUILT ══
+   Two groups — what's live now, what shipped before. Each card is
+   one idea: status, name, a single line, the specs that matter.
+   ============================================================== */
+#build-log{padding:6.5rem 0 7rem;border-bottom:1px solid var(--line);overflow:hidden}
+
+/* ── Header ── */
+.blt-head{max-width:1560px;margin:0 auto 3rem;padding:0 5vw}
+.blt-title{
+  font-family:var(--sans);font-size:clamp(2.4rem,5vw,4.5rem);font-weight:800;
+  letter-spacing:-.045em;line-height:.98;color:var(--ink);margin:0;
 }
-.wib-grid{
-  display:grid;grid-template-columns:1fr 1fr;
-  margin:0 5vw;
-  border:1px solid var(--line);border-radius:20px;overflow:hidden;
+.blt-sub{margin:.95rem 0 0;font-size:.95rem;line-height:1.6;color:var(--mist);max-width:44ch}
+
+/* ── Group rail: "Building now" / "Shipped" ── */
+.blt-rail{
+  max-width:1560px;margin:0 auto 1.25rem;padding:0 5vw;
+  display:flex;align-items:center;gap:1.1rem;
 }
-.wib-proj{
-  display:flex;flex-direction:column;
-  text-decoration:none;color:inherit;
-  background:rgba(255,255,255,.015);
-  transition:background .22s;
-  position:relative;
+.blt-rail-label{
+  font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--mist);white-space:nowrap;
 }
-.wib-proj+.wib-proj{border-left:1px solid var(--line)}
-.wib-proj:hover{background:rgba(255,255,255,.038)}
-.wib-proj-media{
-  position:relative;aspect-ratio:3/2;overflow:hidden;
-  flex-shrink:0;background:#0c0c0c;
+.blt-rail-count{
+  font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.14em;
+  color:var(--fog);
 }
-.wib-proj-media img{
+.blt-rail-line{flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+
+/* ── Grids ── */
+.blt-grid{max-width:1560px;margin:0 auto;padding:0 5vw;display:grid;gap:1.15rem}
+.blt-grid-now{grid-template-columns:1fr 1fr;margin-bottom:3.6rem}
+.blt-grid-past{grid-template-columns:1fr 1fr}
+
+/* ── Card shell ── */
+.blt-card{
+  position:relative;display:flex;flex-direction:column;isolation:isolate;
+  border:1px solid var(--line);border-radius:18px;overflow:hidden;
+  background:var(--surface);text-decoration:none;color:inherit;
+  transition:transform .55s cubic-bezier(.16,1,.3,1),
+             border-color .45s ease,
+             box-shadow .55s cubic-bezier(.16,1,.3,1);
+}
+.blt-card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(255,255,255,.2);
+  box-shadow:0 28px 70px -30px rgba(0,0,0,.95);
+}
+.blt-card:focus-visible{outline:2px solid rgba(255,255,255,.55);outline-offset:3px}
+/* Cursor-tracked spotlight — --mx/--my are written by JS on pointermove */
+.blt-card::after{
+  content:'';position:absolute;inset:0;z-index:4;pointer-events:none;opacity:0;
+  transition:opacity .45s ease;
+  background:radial-gradient(460px circle at var(--mx,50%) var(--my,50%),
+             rgba(255,255,255,.07),transparent 62%);
+}
+.blt-card:hover::after{opacity:1}
+
+/* ── Media ── */
+.blt-media{position:relative;overflow:hidden;background:#0a0a0a;aspect-ratio:16/10}
+.blt-card-past .blt-media{aspect-ratio:16/9}
+.blt-media img{
   width:100%;height:100%;object-fit:cover;display:block;
-  transition:transform .7s cubic-bezier(.16,1,.3,1);
+  filter:saturate(.82) contrast(1.02);
+  transform:scale(1.012);
+  transition:transform 1.2s cubic-bezier(.16,1,.3,1),filter .7s ease;
 }
-.wib-proj:hover .wib-proj-media img{transform:scale(1.04)}
-.wib-proj-body{
-  padding:1.5rem 1.6rem 1.6rem;
-  display:flex;flex-direction:column;gap:.85rem;
-  border-top:1px solid var(--line);flex:1;
+.blt-card:hover .blt-media img{transform:scale(1.075);filter:saturate(1.04) contrast(1.05)}
+/* Blend the photo into the card body so there's no hard seam */
+.blt-media::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to bottom,
+    rgba(0,0,0,.30) 0%,transparent 38%,
+    rgba(15,15,15,.72) 86%,var(--surface) 100%);
 }
-.wib-proj-top{
+
+/* ── Autonomy visual: this build has no photo yet, so it gets a
+      purpose-built sensor view rather than a stand-in image ── */
+.blt-viz{position:absolute;inset:0;overflow:hidden;
+  background:radial-gradient(115% 88% at 50% 104%,#0b1626 0%,#070810 62%)}
+.blt-viz-grid{
+  position:absolute;inset:-20%;
+  background-image:
+    linear-gradient(rgba(96,170,255,.11) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(96,170,255,.11) 1px,transparent 1px);
+  background-size:38px 38px;
+  -webkit-mask-image:radial-gradient(circle at 50% 68%,#000 12%,transparent 66%);
+          mask-image:radial-gradient(circle at 50% 68%,#000 12%,transparent 66%);
+  animation:bltGrid 7s linear infinite;
+}
+@keyframes bltGrid{to{background-position:0 38px,38px 0}}
+.blt-viz-sweep{
+  position:absolute;left:50%;top:68%;width:min(86%,340px);aspect-ratio:1;
+  transform:translate(-50%,-50%);border-radius:50%;
+  background:conic-gradient(from 0deg,
+    rgba(96,178,255,0) 0deg,rgba(96,178,255,.26) 42deg,rgba(96,178,255,0) 88deg);
+  -webkit-mask-image:radial-gradient(circle,#000 34%,transparent 70%);
+          mask-image:radial-gradient(circle,#000 34%,transparent 70%);
+  animation:bltSweep 4.2s linear infinite;
+}
+@keyframes bltSweep{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.blt-viz-ping{
+  position:absolute;width:6px;height:6px;border-radius:50%;
+  background:#7cc4ff;box-shadow:0 0 12px 2px rgba(124,196,255,.6);
+  animation:bltPing 4.2s ease-in-out infinite;
+}
+@keyframes bltPing{0%,72%,100%{opacity:.18;transform:scale(.85)}80%{opacity:1;transform:scale(1.25)}}
+.blt-viz-ping.p1{left:34%;top:52%;animation-delay:.5s}
+.blt-viz-ping.p2{left:62%;top:44%;animation-delay:1.6s}
+.blt-viz-ping.p3{left:71%;top:63%;animation-delay:2.7s}
+.blt-viz-readout{
+  position:absolute;left:1.15rem;top:1.15rem;
+  font-family:var(--mono);font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(150,200,255,.62);
+}
+
+/* ── Body ── */
+.blt-body{
+  position:relative;z-index:2;flex:1;
+  padding:1.55rem 1.65rem 1.6rem;
+  display:flex;flex-direction:column;gap:.72rem;
+}
+.blt-card-past .blt-body{padding:1.25rem 1.35rem 1.35rem;gap:.55rem}
+.blt-top{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.blt-idx{font-family:var(--mono);font-size:.58rem;font-weight:600;letter-spacing:.2em;color:var(--fog)}
+
+/* Status pill */
+.blt-status{
+  display:inline-flex;align-items:center;gap:.42rem;
+  font-family:var(--mono);font-size:.53rem;font-weight:600;letter-spacing:.15em;
+  text-transform:uppercase;padding:.28rem .62rem;border-radius:999px;border:1px solid;
+}
+.blt-status-live{color:#f5a524;border-color:rgba(245,165,36,.32);background:rgba(245,165,36,.07)}
+.blt-status-done{color:#3ddc84;border-color:rgba(61,220,132,.28);background:rgba(61,220,132,.06)}
+.blt-dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
+.blt-status-live .blt-dot{animation:bltPulse 2s ease-in-out infinite}
+@keyframes bltPulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(245,165,36,.5)}
+  55%{box-shadow:0 0 0 5px rgba(245,165,36,0)}
+}
+
+.blt-name{
+  font-family:var(--sans);font-size:1.62rem;font-weight:700;
+  letter-spacing:-.028em;line-height:1.1;color:var(--ink);
+}
+.blt-card-past .blt-name{font-size:1.12rem;letter-spacing:-.02em}
+.blt-line{margin:0;font-size:.88rem;line-height:1.56;color:var(--mist)}
+.blt-card-past .blt-line{font-size:.8rem;line-height:1.5}
+
+/* Specs — a dot-separated run, not a pile of chips */
+.blt-specs{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin-top:.1rem}
+.blt-spec{
+  font-family:var(--mono);font-size:.57rem;font-weight:500;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--fog);
+}
+.blt-spec:not(:last-child)::after{content:'·';margin-left:.5rem;opacity:.5}
+
+/* Progress — fills once the card reveals */
+.blt-prog{margin-top:.5rem}
+.blt-prog-top{
+  display:flex;align-items:baseline;justify-content:space-between;margin-bottom:.6rem;
+  font-family:var(--mono);font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fog);
+}
+.blt-prog-val{color:#f5a524;font-weight:600}
+.blt-prog-track{height:3px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
+.blt-prog-fill{
+  height:100%;border-radius:99px;width:0;
+  background:linear-gradient(90deg,#e0901a,#ffcf6b);
+  transition:width 1.6s cubic-bezier(.16,1,.3,1) .35s;
+}
+/* Width is set by JS on reveal (see the build-cards script). Driving it from
+   the stylesheet via var(--pct) proved unreliable to verify, so the fill is
+   given an explicit width instead; this stays as the no-JS fallback. */
+.blt-card.in .blt-prog-fill{width:var(--pct,0%)}
+.no-js .blt-prog-fill{width:var(--pct,0%)}
+
+/* Footer */
+.blt-foot{
+  margin-top:auto;padding-top:1.1rem;border-top:1px solid var(--line);
   display:flex;align-items:center;justify-content:space-between;gap:1rem;
 }
-.wib-proj-num{
-  font-family:var(--mono);font-size:.56rem;font-weight:600;
-  letter-spacing:.22em;text-transform:uppercase;color:var(--fog);
+.blt-card-past .blt-foot{padding-top:.9rem}
+.blt-meta{font-family:var(--mono);font-size:.55rem;letter-spacing:.13em;text-transform:uppercase;color:var(--fog)}
+.blt-cta{
+  display:inline-flex;align-items:center;gap:.45rem;
+  font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink);white-space:nowrap;
+  transition:gap .4s cubic-bezier(.16,1,.3,1);
 }
-.wib-chip{
-  display:inline-flex;align-items:center;gap:.38rem;
-  font-family:var(--mono);font-size:.52rem;font-weight:600;
-  letter-spacing:.14em;text-transform:uppercase;
-  border-radius:999px;border:1px solid;padding:.25rem .65rem;
-}
-.wib-chip-done{color:#22c55e;border-color:rgba(34,197,94,.28);background:rgba(34,197,94,.06)}
-.wib-chip-active{color:#f59e0b;border-color:rgba(245,158,11,.28);background:rgba(245,158,11,.06)}
-.wib-chip-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
-.wib-chip-done .wib-chip-dot{background:#22c55e}
-.wib-chip-active .wib-chip-dot{background:#f59e0b;animation:wibPulse 1.8s ease-in-out infinite}
-@keyframes wibPulse{0%,100%{opacity:1}50%{opacity:.25}}
-.wib-proj-name{
-  font-family:var(--sans);font-size:clamp(1.15rem,1.9vw,1.5rem);font-weight:700;
-  letter-spacing:-.035em;line-height:1.15;color:var(--ink);
-}
-.wib-proj-desc{
-  font-size:clamp(.78rem,1vw,.88rem);color:var(--mist);
-  line-height:1.72;
-}
-.wib-proj-tags{display:flex;flex-wrap:wrap;gap:.3rem}
-.wib-proj-tag{
-  font-family:var(--mono);font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;
-  border:1px solid var(--line);border-radius:999px;padding:.2rem .5rem;color:var(--fog);
-}
-.wib-proj-foot{
-  display:flex;align-items:center;justify-content:space-between;
-  padding-top:.85rem;border-top:1px solid var(--line);margin-top:auto;
-}
-.wib-badge-done{
-  font-family:var(--mono);font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;
-  color:#78dc82;border:1px solid rgba(120,220,130,.32);padding:.22rem .6rem;border-radius:999px;
-}
-.wib-badge-pct{
-  font-family:var(--mono);font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--mist);border:1px solid var(--line);padding:.22rem .6rem;border-radius:999px;
-}
-.wib-proj-cta{
-  font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--ink);display:inline-flex;align-items:center;gap:.35rem;transition:gap .2s;
-}
-.wib-proj:hover .wib-proj-cta{gap:.6rem}
+.blt-card-past .blt-cta{font-size:.55rem}
+.blt-card:hover .blt-cta{gap:.8rem}
+.blt-cta svg{transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.blt-card:hover .blt-cta svg{transform:translateX(3px)}
 
-/* ── Wing card: hover-to-play video ── */
-.wib-proj-video{
-  position:absolute;inset:0;width:100%;height:100%;
-  object-fit:cover;display:block;z-index:1;
-  opacity:0;transition:opacity .55s cubic-bezier(.16,1,.3,1);
+/* ── Section CTA ── */
+.blt-end{max-width:1560px;margin:0 auto;padding:2.8rem 5vw 0;display:flex}
+.blt-end-btn{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink);text-decoration:none;
+  padding:.95rem 1.75rem;border:1px solid var(--line);border-radius:999px;
+  background:rgba(255,255,255,.02);
+  transition:background .35s ease,border-color .35s ease,gap .35s cubic-bezier(.16,1,.3,1);
 }
-.wib-proj-video.is-active{opacity:1}
-/* Suppress the image scale when video is showing */
-.wib-proj:hover .wib-proj-media img{transform:scale(1.04)}
-.wib-proj-video.is-active ~ img,.wib-proj-media:has(.wib-proj-video.is-active) img{transform:none!important}
-.wib-vid-prompt{
-  position:absolute;inset:0;z-index:2;
-  display:flex;align-items:center;justify-content:center;
-  background:rgba(0,0,0,.42);
-  opacity:0;pointer-events:none;
-  transition:opacity .45s ease;
-}
-.wib-vid-prompt.is-visible{opacity:1}
-.wib-vid-prompt-pill{
-  display:inline-flex;align-items:center;gap:.55rem;
-  font-family:'IBM Plex Mono',monospace;font-size:.58rem;font-weight:600;
-  letter-spacing:.12em;text-transform:uppercase;
-  color:rgba(240,240,240,.95);
-  background:rgba(8,8,8,.72);
-  backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);
-  border:1px solid rgba(255,255,255,.18);border-radius:999px;
-  padding:.62rem 1.2rem .62rem 1rem;
-  box-shadow:0 4px 28px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.08);
-}
-.wib-vid-prompt-pill svg{flex-shrink:0;opacity:.9}
+.blt-end-btn:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.26);gap:.95rem}
+.blt-end-btn svg{transition:transform .35s cubic-bezier(.16,1,.3,1)}
+.blt-end-btn:hover svg{transform:translateX(3px)}
 
-/* ── CTA row ── */
-.wib-cta-row{padding:2.5rem 5vw 0;display:flex;align-items:center}
-.wib-cta-btn{
-  display:inline-flex;align-items:center;gap:.65rem;
-  font-family:var(--sans);font-size:clamp(.82rem,1.1vw,.95rem);font-weight:600;
-  letter-spacing:-.01em;
-  color:var(--paper);background:var(--ink);
-  padding:.9rem 2rem;border-radius:999px;
-  border:1.5px solid var(--ink);text-decoration:none;
-  transition:background .22s,color .22s,transform .18s,box-shadow .22s;
+@media(prefers-reduced-motion:reduce){
+  .blt-viz-grid,.blt-viz-sweep,.blt-viz-ping,.blt-status-live .blt-dot{animation:none}
+  .blt-card,.blt-media img,.blt-cta,.blt-prog-fill{transition:none}
+  .blt-card:hover{transform:none}
 }
-.wib-cta-btn:hover{
-  background:transparent;color:var(--ink);
-  transform:translateY(-2px);box-shadow:0 8px 28px rgba(240,240,240,.1);
-}
-.wib-cta-btn span{display:inline-block;transition:transform .2s}
-.wib-cta-btn:hover span{transform:translateX(4px)}
 @media(max-width:640px){
-  /* Stack cards vertically — both fit in roughly half the screen */
-  .wib-grid{grid-template-columns:1fr;margin:0 4vw;border-radius:14px}
-  .wib-proj+.wib-proj{border-left:none;border-top:1px solid var(--line)}
-  .wib-proj-media{aspect-ratio:5/2}           /* very short wide thumbnail */
-  .wib-proj-body{padding:.7rem 1rem .85rem;gap:.3rem}
-  .wib-proj-name{font-size:.9rem;line-height:1.2}
-  .wib-proj-desc{display:none}                /* hide long desc to save height */
-  .wib-proj-tags{display:none}                /* hide tags row */
-  .wib-proj-foot{margin-top:.1rem}
-  .wib-chip{font-size:.46rem;padding:.2rem .5rem}
-  .wib-proj-num{font-size:.5rem}
-  .wib-title{font-size:clamp(1.5rem,6vw,2.4rem);white-space:normal;line-height:1.05}
-  .wib-header{margin-bottom:1.4rem;padding:0 4vw}
-  .wib-cta-row{padding:1.6rem 4vw 0}
-  /* Tighten section padding + kill the border that creates the dead-space line */
-  #build-log{padding-top:2.8rem;padding-bottom:1.8rem;border-bottom:none}
+  /* Placeholder stack only — proper mobile pass for this section is still to
+     come. Keeps the new desktop layout from spilling into a 2-col grid on a
+     phone; nothing here is tuned yet. */
+  .blt-grid-now,.blt-grid-past{grid-template-columns:1fr}
+  .blt-grid{padding:0 4vw;gap:.9rem}
+  .blt-head,.blt-rail,.blt-end{padding-left:4vw;padding-right:4vw}
+  .blt-title{font-size:clamp(1.9rem,7.5vw,2.6rem)}
+  .blt-name{font-size:1.25rem}
+  .blt-card-past .blt-name{font-size:1.05rem}
+  #build-log{padding:3.2rem 0 2.4rem;border-bottom:none}
 }
 
 /* ─────────────────────────────────── INSTAGRAM FEED ── */
@@ -4650,7 +4723,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .sb-item{padding:1.1rem 4vw;gap:1rem}
 
   /* ── GENERAL TEXT SIZE ── */
-  .wib-cta-btn{font-size:.78rem;padding:.75rem 1.5rem}
+  .blt-end-btn{font-size:.66rem;padding:.8rem 1.5rem}
 }
 
 /* ── View Transitions — silky crossfade between pages ── */
@@ -4770,78 +4843,183 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 <!-- WHAT I AM BUILDING ──────────────────────────────────────── -->
 <section id="build-log">
 
-  <div class="wib-header rv">
-    <h2 class="wib-title">What I Am Building.</h2>
+  <div class="blt-head rv">
+    <h2 class="blt-title">What I've Built.</h2>
+    <p class="blt-sub">Mechanical and autonomous systems taken from CAD to a finished, working part.</p>
   </div>
 
-  <div class="wib-grid">
+  <!-- ── BUILDING NOW ────────────────────────────────────────── -->
+  <div class="blt-rail rv">
+    <span class="blt-rail-label">Building Now</span>
+    <span class="blt-rail-line"></span>
+    <span class="blt-rail-count">02</span>
+  </div>
 
-    <!-- PROJECT 01 — Active Aero Wing -->
-    <a class="wib-proj rv" href="projects/active-aero-wing.html" aria-label="Active Aerodynamics Wing build guide">
-      <div class="wib-proj-media">
-        <img src="images/experience/sae-front-wing-v2.jpg" alt="Active aero wing" loading="lazy" decoding="async">
-        <!-- hover preview — swap src if filename differs -->
-        <video class="wib-proj-video" src="videos/active-aero-wing.mp4"
-               muted playsinline preload="none" loop
-               aria-hidden="true"></video>
-        <div class="wib-vid-prompt" aria-hidden="true">
-          <span class="wib-vid-prompt-pill">
-            <svg width="10" height="11" viewBox="0 0 10 11" fill="currentColor" aria-hidden="true">
-              <polygon points="1,1 9,5.5 1,10"/>
+  <div class="blt-grid blt-grid-now">
+
+    <!-- 01 — Active Aerodynamics Wing -->
+    <a class="blt-card rv" data-blt-card href="projects/active-aero-wing.html"
+       aria-label="Active Aerodynamics Wing — read the build guide">
+      <div class="blt-media">
+        <img src="images/experience/sae-wing-mold.jpg"
+             alt="Carbon fibre layup curing in the front wing moulds"
+             loading="lazy" decoding="async">
+      </div>
+      <div class="blt-body">
+        <div class="blt-top">
+          <span class="blt-idx">01</span>
+          <span class="blt-status blt-status-done"><span class="blt-dot"></span>Complete</span>
+        </div>
+        <div class="blt-name">Active Aerodynamics Wing</div>
+        <p class="blt-line">A servo-actuated front wing that switches between low-drag and high-downforce on demand.</p>
+        <div class="blt-specs">
+          <span class="blt-spec">Formula SAE</span>
+          <span class="blt-spec">ANSYS Fluent</span>
+          <span class="blt-spec">Carbon Fibre</span>
+        </div>
+        <div class="blt-foot">
+          <span class="blt-meta">Full build guide</span>
+          <span class="blt-cta">Read it
+            <svg width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true">
+              <path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.4"
+                    stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            Watch full video →
           </span>
         </div>
       </div>
-      <div class="wib-proj-body">
-        <div class="wib-proj-top">
-          <span class="wib-proj-num">01</span>
-          <span class="wib-chip wib-chip-done"><span class="wib-chip-dot"></span>Complete</span>
-        </div>
-        <div class="wib-proj-name">Active Aerodynamics Wing</div>
-        <p class="wib-proj-desc">Servo-actuated front wing for Formula SAE — DRS and high-downforce modes, CFD-validated in ANSYS Fluent, full carbon fiber layup over 3D-printed molds.</p>
-        <div class="wib-proj-tags">
-          <span class="wib-proj-tag">CFD</span>
-          <span class="wib-proj-tag">Carbon Fiber</span>
-          <span class="wib-proj-tag">FSAE</span>
-          <span class="wib-proj-tag">ANSYS</span>
-        </div>
-        <div class="wib-proj-foot">
-          <span class="wib-badge-done">Free Guide</span>
-          <span class="wib-proj-cta">View Build Guide →</span>
-        </div>
-      </div>
     </a>
 
-    <!-- PROJECT 02 — Self-Driving F1 Car -->
-    <a class="wib-proj rv" href="builds.html" aria-label="Self-Driving F1 Car build">
-      <div class="wib-proj-media" style="background:#060a12">
-        <div style="position:absolute;inset:0;background:linear-gradient(135deg,#060c1c 0%,#0d1f3e 100%)"></div>
+    <!-- 02 — Self-Driving F1 Car -->
+    <a class="blt-card rv d1" data-blt-card href="builds.html"
+       aria-label="Self-Driving F1 Car — follow the build">
+      <div class="blt-media">
+        <!-- No photo of this build yet, so the card carries a sensor readout
+             rather than a stand-in image. -->
+        <div class="blt-viz" aria-hidden="true">
+          <div class="blt-viz-grid"></div>
+          <div class="blt-viz-sweep"></div>
+          <span class="blt-viz-ping p1"></span>
+          <span class="blt-viz-ping p2"></span>
+          <span class="blt-viz-ping p3"></span>
+          <span class="blt-viz-readout">LiDAR · Perception</span>
+        </div>
       </div>
-      <div class="wib-proj-body">
-        <div class="wib-proj-top">
-          <span class="wib-proj-num">02</span>
-          <span class="wib-chip wib-chip-active"><span class="wib-chip-dot"></span>In Progress</span>
+      <div class="blt-body">
+        <div class="blt-top">
+          <span class="blt-idx">02</span>
+          <span class="blt-status blt-status-live"><span class="blt-dot"></span>In Progress</span>
         </div>
-        <div class="wib-proj-name">Self-Driving F1 Car</div>
-        <p class="wib-proj-desc">Stock go-kart converted to a full autonomous platform — drive-by-wire controls, LiDAR and camera sensor fusion, and a ROS 2 navigation stack. Built from the chassis up.</p>
-        <div class="wib-proj-tags">
-          <span class="wib-proj-tag">ROS 2</span>
-          <span class="wib-proj-tag">Computer Vision</span>
-          <span class="wib-proj-tag">CAN-BUS</span>
-          <span class="wib-proj-tag">LiDAR</span>
+        <div class="blt-name">Self-Driving F1 Car</div>
+        <p class="blt-line">A go-kart rebuilt into an autonomous platform — drive-by-wire, sensor fusion, ROS 2.</p>
+        <div class="blt-specs">
+          <span class="blt-spec">ROS 2</span>
+          <span class="blt-spec">LiDAR</span>
+          <span class="blt-spec">CAN Bus</span>
         </div>
-        <div class="wib-proj-foot">
-          <span class="wib-badge-pct">~35% complete</span>
-          <span class="wib-proj-cta">Follow Build →</span>
+        <div class="blt-prog" style="--pct:35%">
+          <div class="blt-prog-top">
+            <span>Chassis &amp; drive-by-wire</span>
+            <span class="blt-prog-val">35%</span>
+          </div>
+          <div class="blt-prog-track"><div class="blt-prog-fill"></div></div>
+        </div>
+        <div class="blt-foot">
+          <span class="blt-meta">Updated as it goes</span>
+          <span class="blt-cta">Follow build
+            <svg width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true">
+              <path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.4"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
         </div>
       </div>
     </a>
 
   </div>
 
-  <div class="wib-cta-row rv">
-    <a href="builds.html" class="wib-cta-btn">View Everything I Have Built <span>→</span></a>
+  <!-- ── SHIPPED BEFORE ──────────────────────────────────────── -->
+  <div class="blt-rail rv">
+    <span class="blt-rail-label">Shipped Before</span>
+    <span class="blt-rail-line"></span>
+    <span class="blt-rail-count">02</span>
+  </div>
+
+  <div class="blt-grid blt-grid-past">
+
+    <!-- 03 — Nosecone -->
+    <!-- Points at #experience, which actually carries the nosecone entry.
+         builds.html only covers the two current builds. -->
+    <a class="blt-card blt-card-past rv" data-blt-card href="#experience"
+       aria-label="Formula SAE nosecone — see it in experience">
+      <div class="blt-media">
+        <img src="images/experience/1772026114347.jpg"
+             alt="Formula SAE nosecone in the paint booth after moulding"
+             loading="lazy" decoding="async">
+      </div>
+      <div class="blt-body">
+        <div class="blt-top">
+          <span class="blt-idx">03</span>
+          <span class="blt-status blt-status-done"><span class="blt-dot"></span>Complete</span>
+        </div>
+        <div class="blt-name">Formula SAE Nosecone</div>
+        <p class="blt-line">Moulded composite nose, surfaced in CAD and laid up from 3D-printed tooling.</p>
+        <div class="blt-specs">
+          <span class="blt-spec">Composites</span>
+          <span class="blt-spec">Fusion 360</span>
+        </div>
+        <div class="blt-foot">
+          <span class="blt-meta">Binghamton Motorsports</span>
+          <span class="blt-cta">View
+            <svg width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true">
+              <path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.4"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 04 — Cosmic PCs -->
+    <a class="blt-card blt-card-past rv d1" data-blt-card href="#projects"
+       aria-label="Cosmic PCs — see the work">
+      <div class="blt-media">
+        <img src="images/cosmic/img1.jpg"
+             alt="Custom water-cooled PC build on the bench"
+             loading="lazy" decoding="async">
+      </div>
+      <div class="blt-body">
+        <div class="blt-top">
+          <span class="blt-idx">04</span>
+          <span class="blt-status blt-status-done"><span class="blt-dot"></span>Complete</span>
+        </div>
+        <div class="blt-name">Cosmic PCs</div>
+        <p class="blt-line">A custom PC build service I ran end to end — specs, assembly, and delivery.</p>
+        <div class="blt-specs">
+          <span class="blt-spec">Hardware</span>
+          <span class="blt-spec">Client Builds</span>
+        </div>
+        <div class="blt-foot">
+          <span class="blt-meta">Founder</span>
+          <span class="blt-cta">View
+            <svg width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true">
+              <path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.4"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="blt-end rv">
+    <a href="builds.html" class="blt-end-btn">
+      See everything I've built
+      <svg width="14" height="10" viewBox="0 0 13 9" fill="none" aria-hidden="true">
+        <path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.4"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
   </div>
 
 </section>
@@ -8303,30 +8481,50 @@ if(expThumbs.length&&expModal){
   onScroll();
 })();
 
-/* ── Wing card: hover-to-play video preview ── */
+
+/* ── Build cards: progress bars fill when they scroll into view ── */
 (function(){
-  const card = document.querySelector('.wib-proj[href*="active-aero"]');
-  if(!card) return;
-  const video  = card.querySelector('.wib-proj-video');
-  const prompt = card.querySelector('.wib-vid-prompt');
-  if(!video || !prompt) return;
-  let t = null;
+  const progs=document.querySelectorAll('.blt-prog');
+  if(!progs.length)return;
+  const fillIt=el=>{
+    const bar=el.querySelector('.blt-prog-fill');
+    if(!bar)return;
+    /* --pct lives on .blt-prog as an inline style, e.g. "35%" */
+    const pct=getComputedStyle(el).getPropertyValue('--pct').trim()||'0%';
+    bar.style.width=pct;
+  };
+  if(!('IntersectionObserver'in window)){progs.forEach(fillIt);return;}
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting)return;
+      obs.unobserve(e.target);
+      fillIt(e.target);
+    });
+  },{rootMargin:'0px 0px -10% 0px'});
+  progs.forEach(p=>obs.observe(p));
+})();
 
-  card.addEventListener('mouseenter', function(){
-    video.currentTime = 0;
-    video.play().catch(function(){});   /* silently ignore if blocked */
-    video.classList.add('is-active');
-    prompt.classList.remove('is-visible');
-    /* show CTA after 10 s */
-    t = setTimeout(function(){ prompt.classList.add('is-visible'); }, 10000);
-  });
-
-  card.addEventListener('mouseleave', function(){
-    clearTimeout(t);
-    video.pause();
-    video.currentTime = 0;
-    video.classList.remove('is-active');
-    prompt.classList.remove('is-visible');
+/* ── Build cards: cursor-tracked spotlight ──
+   Writes --mx/--my on the hovered card; the ::after radial gradient reads
+   them. Pointer-driven only, so it costs nothing on touch devices. */
+(function(){
+  const cards=document.querySelectorAll('[data-blt-card]');
+  if(!cards.length)return;
+  if(window.matchMedia('(hover:none)').matches)return;   /* skip on touch */
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  cards.forEach(card=>{
+    let raf=null,px=0,py=0;
+    card.addEventListener('pointermove',e=>{
+      const r=card.getBoundingClientRect();
+      px=((e.clientX-r.left)/r.width)*100;
+      py=((e.clientY-r.top)/r.height)*100;
+      if(raf)return;                       /* coalesce to one write per frame */
+      raf=requestAnimationFrame(()=>{
+        card.style.setProperty('--mx',px.toFixed(1)+'%');
+        card.style.setProperty('--my',py.toFixed(1)+'%');
+        raf=null;
+      });
+    },{passive:true});
   });
 })();
 
