@@ -539,9 +539,6 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
 }
 .about-edu-wrap .edu-card{padding:2.3rem 2.5rem}
 .about-edu-wrap .ec-school{font-size:1.65rem}
-.about-edu-wrap .ec-deg{margin-bottom:1.6rem}
-.about-edu-wrap .edu-meta{gap:.5rem}
-.about-edu-wrap .edu-pill{font-size:.58rem;padding:.28rem .55rem}
 
 /* CERTIFICATIONS */
 .certs-wrap{
@@ -2745,26 +2742,32 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
   font-family:var(--mono);font-size:.62rem;font-weight:500;letter-spacing:.14em;
   text-transform:uppercase;color:var(--fog);line-height:1.6;margin-top:.45rem;
 }
-.edu-meta{display:grid;gap:.65rem;margin-top:1rem}
-.edu-label{
+/* Spec-sheet rows rather than pills. Each card was carrying 15-20 identical
+   capsules across three or four groups, which read as noise and told you
+   nothing about which entries mattered. A mono label in a fixed left column
+   against a plain wrapped line reads faster, sets the groups apart, and
+   matches the spec tables on the project pages. */
+.edu-rows{
+  display:grid;margin:1.4rem 0 0;
+  border-top:1px solid var(--line);
+}
+.edu-row{
+  display:grid;grid-template-columns:8.5rem minmax(0,1fr);
+  gap:1.1rem;padding:.85rem 0;
+  border-bottom:1px solid var(--line);
+}
+.edu-row:last-child{border-bottom:none;padding-bottom:0}
+.edu-row dt{
   font-family:var(--mono);font-size:.52rem;font-weight:600;letter-spacing:.22em;
-  text-transform:uppercase;color:var(--fog);
+  text-transform:uppercase;color:var(--fog);padding-top:.2rem;
 }
-.edu-pills{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
-.edu-scroll{overflow:visible;padding-bottom:0}
-.edu-scroll::-webkit-scrollbar{display:none}
-.edu-pill{
-  font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--mist);
-  border:1px solid var(--line);border-radius:999px;
-  padding:.32rem .6rem;background:rgba(255,255,255,.03);
-  white-space:nowrap;transition:.25s;
+.edu-row dd{
+  margin:0;font-size:.84rem;line-height:1.7;color:var(--mist);
 }
-.edu-pill:hover{
-  color:var(--ink);
-  border-color:rgba(255,255,255,.55);
-  background:rgba(255,255,255,.08);
-}
+/* Separator between entries — a dim mid-dot, so the line still scans as a
+   list without a border around every item. */
+.edu-row dd i{font-style:normal;color:var(--fog);padding:0 .4rem}
+.edu-row dd b{font-weight:500;color:var(--ink)}
 
 /* CONTACT */
 #contact{
@@ -2978,18 +2981,100 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
     animation:none;
   }
   .work-toggle{padding:1.1rem 1.2rem}
-  .work-panel-inner{padding:1.2rem 1.2rem 1.6rem}
-  .work-meta{grid-template-columns:1fr}
-  .work-subnav{flex-wrap:nowrap;overflow-x:auto;gap:.6rem}
+
+  /* ── Expanded panel ────────────────────────────────────────────────
+     The automotive dropdown laid out at ~2,400px of inner height on a
+     phone: desktop-sized copy, 140px-wide tab pills in a scroller twice
+     the viewport width, and two columns of 4:3 thumbnails stacked into
+     tall ragged runs. Everything below tightens the type, shrinks the
+     tabs to their labels, and puts the thumbnails on a fixed 3-up grid
+     so each gallery is a couple of neat rows instead of a column. */
+  .work-panel-inner{padding:1.05rem 1rem 1.3rem;gap:.75rem}
+  .work-desc{font-size:.84rem;line-height:1.7;margin-bottom:.75rem}
+  .work-list{gap:.4rem;margin-bottom:.9rem}
+  .work-list li{font-size:.81rem;line-height:1.6;padding-left:.85rem}
+  .work-subsections{margin-top:.9rem;padding-top:.9rem;gap:.7rem}
+
+  .work-meta{gap:.4rem}
+  .work-meta-block{padding:.3rem .6rem}
+  .work-meta-value{font-size:.7rem}
+
+  /* Tabs sized to their labels, not to a 140px minimum — six of them fit
+     in ~590px of scroll instead of 890px, so the row reads as a strip you
+     swipe rather than a wall. Height stays at 44px for the tap target;
+     that costs nothing horizontally. */
+  .work-subnav{
+    flex-wrap:nowrap;overflow-x:auto;gap:.4rem;
+    scroll-snap-type:x proximity;scrollbar-width:none;
+    padding-bottom:.5rem;
+  }
   .work-subnav::-webkit-scrollbar{display:none}
   .work-subtab{
-    min-height:48px;
-    min-width:140px;
-    padding:.8rem 1.15rem;
-    font-size:.62rem;
+    min-height:44px;
+    min-width:0;
+    padding:.55rem .8rem;
+    font-size:.55rem;
+    letter-spacing:.12em;
+    border-radius:10px;
+    scroll-snap-align:start;
+    box-shadow:0 6px 14px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.1);
   }
-  .work-submedia-stack{grid-template-columns:1fr}
-  .work-submedia{column-count:2}
+
+  .work-subtitle{font-size:.55rem;margin-bottom:.45rem}
+  .work-subdesc{font-size:.81rem;line-height:1.6;margin-bottom:.5rem}
+  .work-sublist{gap:.35rem}
+  .work-sublist li{font-size:.78rem;line-height:1.55}
+  .work-subgrid{gap:.85rem}
+  .work-submedia-stack{grid-template-columns:1fr;gap:.85rem}
+  .work-subgroup{gap:.45rem;padding-left:.7rem}
+  .work-subgroup-title{font-size:.55rem}
+  .work-subgroup-desc{font-size:.75rem;line-height:1.55}
+  /* The border-left on the media block doubled up with the one on the
+     subgroup it sits inside, and just ate width once the grid was single
+     column. */
+  .work-subgrid > .work-submedia{padding-left:0;border-left:none}
+
+  /* Fixed 3-up grid. Multi-column flow gave every gallery a different
+     shape and turned a ten-image set into a 776px column; this makes any
+     gallery a predictable few rows. The full image is one tap away in the
+     modal, so a square crop in the thumbnail loses nothing. */
+  .work-submedia,
+  .work-submedia[data-layout="featured-last"]{
+    display:grid;
+    column-count:auto;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:6px;
+  }
+  .work-submedia .work-subthumb,
+  .work-submedia[data-layout="featured-last"] .work-subthumb{
+    margin:0;
+    aspect-ratio:1 / 1;
+    border-radius:10px;
+    box-shadow:0 6px 14px rgba(0,0,0,.22);
+  }
+  /* The featured item spanned two rows in a two-column grid; in a 3-up
+     grid that leaves a hole, so it just becomes another cell. */
+  .work-submedia[data-layout="featured-last"] .work-subthumb.is-featured{
+    grid-column:auto;grid-row:auto;align-self:auto;
+  }
+  /* Past six thumbnails the grid runs to four rows and eats most of a phone
+     screen on one gallery, so those become a single swipeable row instead —
+     the same gesture the preview strip at the top of the item already uses.
+     Browsers without :has() keep the grid, which is only ever taller. */
+  .work-submedia:has(.work-subthumb:nth-child(7)){
+    grid-template-columns:none;
+    grid-auto-flow:column;
+    grid-auto-columns:31.5%;
+    overflow-x:auto;
+    overscroll-behavior-x:contain;
+    scroll-snap-type:x proximity;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .work-submedia:has(.work-subthumb:nth-child(7))::-webkit-scrollbar{display:none}
+  .work-submedia:has(.work-subthumb:nth-child(7)) .work-subthumb{
+    scroll-snap-align:start;
+  }
   .work-modal-body{grid-template-columns:1fr}
   .work-modal-side{flex-direction:row;justify-content:space-between;width:100%;align-items:center}
   .finance-grid{grid-template-columns:1fr}
@@ -3031,9 +3116,14 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .about-modal-title{font-size:1.2rem}
   .hb-desc{font-size:1rem;line-height:1.85}
   .hb-meta{font-size:.62rem}
-  .edu-top{flex-direction:column;gap:.6rem}
-  .ec-school{font-size:1.45rem}
-  .edu-scroll{flex-wrap:wrap;overflow-x:visible;padding-bottom:0}
+  .edu-top{flex-direction:column;gap:.6rem;margin-bottom:1rem}
+  .ec-school{font-size:1.35rem}
+  .ec-deg{font-size:.58rem;line-height:1.55}
+  /* Label above value — an 8.5rem label column leaves nothing for the text
+     at phone width. */
+  .edu-row{grid-template-columns:1fr;gap:.3rem;padding:.75rem 0}
+  .edu-row dt{padding-top:0}
+  .edu-row dd{font-size:.8rem;line-height:1.6}
   .ct-row{gap:1.35rem}
   footer{flex-direction:column;align-items:flex-start;gap:.6rem}
 }
@@ -3863,7 +3953,16 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 
 @media(max-width:680px){
   .hero-reel-bar{top:1.6rem;left:6vw;right:6vw;flex-direction:column;gap:.4rem}
-  .hrf-flash-text{white-space:nowrap;font-size:min(6.5vw,8.5rem);letter-spacing:.03em}
+
+  /* ── Flash: same toolbar compensation as the sequence and the finale ──
+     This box is 100vh, but Safari's bottom toolbar covers the last stretch
+     of it, so a centred line renders below the middle of what you can
+     actually see. (100vh - 100dvh) is the toolbar's height while it's up
+     and 0 once it collapses; adding it to the bottom padding re-centres the
+     text on the visible area. Padding rather than height, so the box never
+     resizes and the video behind it never rescales. */
+  .hero-reel-flash{padding:0 5vw;padding-bottom:calc(100vh - 100dvh)}
+  .hrf-flash-text{white-space:nowrap;font-size:min(6.2vw,8.5rem);letter-spacing:.03em}
   .hero-boot-name{font-size:clamp(1.8rem,9vw,3rem)}
 
   /* ── Finale: photo stacked above name, centered ──
@@ -3915,11 +4014,12 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .hrf-name{font-size:clamp(2.8rem,13vw,4.5rem);line-height:.88;text-align:center}
 
   /* ── Sequence words: centered, scaled to fit ── */
-  /* Same toolbar compensation as the finale: the extra bottom padding lifts
-     "Welcome to [WORD]" off the area Safari's toolbar covers, so it reads as
-     centred instead of sitting low on the screen. */
-  .hero-reel-sequence{padding:0 5vw;justify-content:center;align-items:center}
-  .hero-reel-sequence{padding-bottom:calc(100vh - 100dvh)}
+  /* Same toolbar compensation as the flash and the finale — see above. */
+  .hero-reel-sequence{
+    padding:0 5vw;
+    padding-bottom:calc(100vh - 100dvh);
+    justify-content:center;align-items:center;
+  }
   .hrs-wt{flex-direction:column;align-items:center;gap:.8rem;text-align:center}
   .hrs-wt-left{font-size:clamp(1rem,4.5vw,1.9rem);text-align:center}
   .hrs-wt-right{width:88vw;height:clamp(3rem,11vw,5.5rem)}
@@ -4911,70 +5011,44 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
       <div class="edu-card" data-fx="lift">
         <div class="edu-top">
           <div>
-            <div class="ec-school">East Meadow High School</div>
-            <div class="ec-deg">Advanced Regents Diploma · GPA 99.5/100 · SAT 1300/1600</div>
+            <div class="ec-school">Binghamton University</div>
+            <div class="ec-deg">Mechanical Engineering + Computer Science &middot; Economics Minor &middot; Watson College of Engineering &amp; Applied Science</div>
           </div>
-          <div class="ec-yr">Graduated June 2025</div>
+          <div class="ec-yr">Aug 2025 — May 2029</div>
         </div>
-        <div class="edu-meta">
-          <div class="edu-label">Honors</div>
-          <div class="edu-pills edu-scroll">
-            <span class="edu-pill">National Honor Society</span>
-            <span class="edu-pill">Science Honor Society</span>
-            <span class="edu-pill">AP Scholar Award</span>
-            <span class="edu-pill">AP Research &amp; Seminar Certificate</span>
-            <span class="edu-pill">BOF Award for Academic Excellence</span>
+        <dl class="edu-rows">
+          <div class="edu-row">
+            <dt>Teams &amp; Orgs</dt>
+            <dd><b>Motorsports SAE</b> — Aero Apprentice, EV Go-Kart Engineer<i aria-hidden="true">·</i><b>Watson Combat Robotics</b> — Antweight Full Engineer<i aria-hidden="true">·</i>ASME<i aria-hidden="true">·</i>Computer Robotics &amp; Engineering Community (CoRE)</dd>
           </div>
-        </div>
-        <div class="edu-meta">
-          <div class="edu-label">Focus Areas</div>
-          <div class="edu-pills edu-scroll">
-            <span class="edu-pill">CAD / CFD</span>
-            <span class="edu-pill">Fabrication</span>
-            <span class="edu-pill">Electronics</span>
-            <span class="edu-pill">Python</span>
-            <span class="edu-pill">Quantitative Finance</span>
-            <span class="edu-pill">Entrepreneurship</span>
+          <div class="edu-row">
+            <dt>Certifications</dt>
+            <dd>Bloomberg Finance Fundamentals<i aria-hidden="true">·</i>Bloomberg Spreadsheet Analysis<i aria-hidden="true">·</i>Introduction to Corporate Finance (UPenn)<i aria-hidden="true">·</i>Fundamentals of Quantitative Modeling (UPenn)<i aria-hidden="true">·</i>Cash Flow Management (Duke)<i aria-hidden="true">·</i>Google AI Essentials</dd>
           </div>
-        </div>
-        <div class="edu-meta">
-          <div class="edu-label">Athletics</div>
-          <div class="edu-pills edu-scroll">
-            <span class="edu-pill">Soccer (JV/Varsity)</span>
-            <span class="edu-pill">Cross Country</span>
-            <span class="edu-pill">Track &amp; Field</span>
-          </div>
-        </div>
+        </dl>
       </div>
       <div class="edu-card d1" data-fx="lift">
         <div class="edu-top">
           <div>
-            <div class="ec-school">Binghamton University</div>
-            <div class="ec-deg">Mechanical Engineering + Computer Science · Economics Minor · Watson College of Engineering &amp; Applied Science</div>
+            <div class="ec-school">East Meadow High School</div>
+            <div class="ec-deg">Advanced Regents Diploma &middot; GPA 99.5/100 &middot; SAT 1300/1600</div>
           </div>
-          <div class="ec-yr">Aug 2025 — May 2029</div>
+          <div class="ec-yr">Graduated June 2025</div>
         </div>
-        <div class="edu-meta">
-          <div class="edu-label">Teams & Orgs</div>
-          <div class="edu-pills edu-scroll">
-            <span class="edu-pill">Motorsports SAE — Aero Apprentice</span>
-            <span class="edu-pill">Motorsports SAE — EV Go-Kart Engineer</span>
-            <span class="edu-pill">Watson Combat Robotics League — Antweight Full Engineer</span>
-            <span class="edu-pill">ASME General Body Member</span>
-            <span class="edu-pill">Computer Robotics &amp; Engineering Community (CoRE)</span>
+        <dl class="edu-rows">
+          <div class="edu-row">
+            <dt>Honors</dt>
+            <dd>National Honor Society<i aria-hidden="true">·</i>Science Honor Society<i aria-hidden="true">·</i>AP Scholar Award<i aria-hidden="true">·</i>AP Research &amp; Seminar Certificate<i aria-hidden="true">·</i>BOF Award for Academic Excellence</dd>
           </div>
-        </div>
-        <div class="edu-meta">
-          <div class="edu-label">Certifications</div>
-          <div class="edu-pills edu-scroll">
-            <span class="edu-pill">Bloomberg Finance Fundamentals</span>
-            <span class="edu-pill">Bloomberg Spreadsheet Analysis</span>
-            <span class="edu-pill">Introduction to Corporate Finance (UPenn)</span>
-            <span class="edu-pill">Fundamentals of Quantitative Modeling (UPenn)</span>
-            <span class="edu-pill">Cash Flow Management (Duke)</span>
-            <span class="edu-pill">Google AI Essentials</span>
+          <div class="edu-row">
+            <dt>Focus Areas</dt>
+            <dd>CAD / CFD<i aria-hidden="true">·</i>Fabrication<i aria-hidden="true">·</i>Electronics<i aria-hidden="true">·</i>Python<i aria-hidden="true">·</i>Quantitative Finance<i aria-hidden="true">·</i>Entrepreneurship</dd>
           </div>
-        </div>
+          <div class="edu-row">
+            <dt>Athletics</dt>
+            <dd>Soccer (JV/Varsity)<i aria-hidden="true">·</i>Cross Country<i aria-hidden="true">·</i>Track &amp; Field</dd>
+          </div>
+        </dl>
       </div>
     </div>
   </div>
