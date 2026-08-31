@@ -532,13 +532,7 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
 }
 .af-n{font-family:var(--sans);font-size:2.3rem;font-weight:600;line-height:1;display:block}
 .af-l{font-family:var(--mono);font-size:.55rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--fog);margin-top:.3rem;display:block}
-.about-edu-wrap{margin-top:3.5rem}
-.about-edu-label{
-  font-family:var(--mono);font-size:.58rem;font-weight:600;letter-spacing:.22em;
-  text-transform:uppercase;color:var(--fog);display:block;margin-bottom:1.4rem;
-}
-.about-edu-wrap .edu-card{padding:2.3rem 2.5rem}
-.about-edu-wrap .ec-school{font-size:1.65rem}
+.about-edu-wrap{margin-top:4rem;padding-top:.5rem}
 
 /* CERTIFICATIONS */
 .certs-wrap{
@@ -2711,36 +2705,28 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
 .work-modal-close:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 /* SKILLS */
 
-/* EDUCATION */
-.edu-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.6rem}
-.edu-card{
-  padding:2.35rem 2.6rem;
-  border:1px solid var(--line);
-  border-radius:18px;
-  background:linear-gradient(135deg,rgba(255,255,255,.045),rgba(255,255,255,.015));
-  position:relative;overflow:hidden;
-  transition:transform .35s,box-shadow .35s,border-color .35s;
+/* EDUCATION
+   One entry, so it reads as a section rather than a card: a labelled rule
+   across the top and the content sitting on the page. The old version was a
+   two-up grid of gradient-filled boxes with a glowing top hairline and a
+   hover lift, which was more chrome than anything else on the site carries. */
+.edu-rail{display:flex;align-items:center;gap:1.1rem;margin-bottom:1.9rem}
+.edu-rail-label,
+.edu-rail-year{
+  font-family:var(--mono);font-size:.58rem;font-weight:600;letter-spacing:.24em;
+  text-transform:uppercase;white-space:nowrap;
 }
-.edu-card::before{
-  content:'';
-  position:absolute;left:1.5rem;right:1.5rem;top:0;height:2px;
-  background:linear-gradient(90deg,rgba(255,255,255,.8),rgba(220,220,220,.55),transparent);
-  opacity:.75;pointer-events:none;
+.edu-rail-label{color:var(--mist)}
+.edu-rail-year{color:var(--fog);letter-spacing:.2em}
+.edu-rail-line{flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+.edu-entry{max-width:1100px}
+.ec-school{
+  font-family:var(--sans);font-size:clamp(1.7rem,3vw,2.4rem);font-weight:700;
+  letter-spacing:-.03em;line-height:1.05;color:var(--ink);margin:0;
 }
-.edu-card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 22px 50px rgba(0,0,0,.4);
-  border-color:rgba(243,246,250,.28);
-}
-.edu-top{display:flex;justify-content:space-between;gap:1.5rem;align-items:flex-start;margin-bottom:1.4rem}
-.ec-yr{
-  font-family:var(--mono);font-size:.58rem;font-weight:500;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--fog);white-space:nowrap;margin:0;
-}
-.ec-school{font-family:var(--sans);font-size:1.65rem;font-weight:600;letter-spacing:-.02em;line-height:1.1}
 .ec-deg{
   font-family:var(--mono);font-size:.62rem;font-weight:500;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--fog);line-height:1.6;margin-top:.45rem;
+  text-transform:uppercase;color:var(--fog);line-height:1.7;margin:.6rem 0 0;
 }
 /* Spec-sheet rows rather than pills. Each card was carrying 15-20 identical
    capsules across three or four groups, which read as noise and told you
@@ -2748,15 +2734,19 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
    against a plain wrapped line reads faster, sets the groups apart, and
    matches the spec tables on the project pages. */
 .edu-rows{
-  display:grid;margin:1.4rem 0 0;
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0 3.5rem;margin:2rem 0 0;
   border-top:1px solid var(--line);
-}
-.edu-row{
-  display:grid;grid-template-columns:8.5rem minmax(0,1fr);
-  gap:1.1rem;padding:.85rem 0;
   border-bottom:1px solid var(--line);
 }
-.edu-row:last-child{border-bottom:none;padding-bottom:0}
+.edu-row{
+  display:grid;grid-template-columns:8rem minmax(0,1fr);
+  gap:1.1rem;padding:1.1rem 0;
+}
+/* The outer rules belong to the grid so they run the full width instead of
+   stopping at the column gap. Only the internal separators sit on the rows —
+   in a two-column grid that is every row from the third on. */
+.edu-row:nth-child(n+3){border-top:1px solid var(--line)}
 .edu-row dt{
   font-family:var(--mono);font-size:.52rem;font-weight:600;letter-spacing:.22em;
   text-transform:uppercase;color:var(--fog);padding-top:.2rem;
@@ -2876,7 +2866,10 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .hero-name-wrap{flex-direction:column;align-items:flex-start;gap:2rem}
   .hero-bottom{grid-template-columns:1fr;gap:1.3rem}
   .hb-actions{justify-content:flex-start}
+  /* Stacked, so the bio comes before the photos rather than after them —
+     the section reads as a statement then the evidence. */
   .about-layout{grid-template-columns:1fr;gap:2.5rem}
+  .about-text{order:-1;justify-self:stretch;max-width:none}
   .about-carousel{max-width:840px}
   .about-collage-grid{grid-template-rows:repeat(8,minmax(0,1fr))}
   .shot-main{grid-column:1 / span 12;grid-row:1 / span 5}
@@ -2899,8 +2892,6 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .work-submedia{column-count:2}
   .work-meta{grid-template-columns:1fr 1fr}
   .sk-col:nth-child(n+3){border-top:1px solid var(--line)}
-  .edu-grid{grid-template-columns:1fr}
-  .edu-card{padding:2rem 2.1rem}
 }
 @media (max-width:760px){
   nav{padding:1.1rem 5vw;align-items:center;flex-wrap:wrap;gap:.6rem}
@@ -2941,43 +2932,32 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .work-toggle::before{display:none}
   .work-title{font-size:1.02rem;line-height:1.25}
   .work-indicator{width:26px;height:26px}
-  /* Swipeable strip. The CSS marquee fought touch scrolling, so on mobile
-     the animation is off and the track scrolls natively with snap. */
+  /* One panning row of small thumbnails. The strip used to be a 210px
+     swipe-and-snap carousel; it now keeps the desktop marquee so the images
+     move on their own, at a third of the height. Nothing here scrolls, so
+     the animation never fights a touch gesture. */
   .work-preview{
     width:100%;min-width:0;max-width:none;
-    height:210px;padding:8px;
+    height:128px;padding:8px;
     border-radius:0 0 20px 20px;border-top:none;
     opacity:1;transform:none;
-    overflow-x:auto;overflow-y:hidden;
-    -webkit-overflow-scrolling:touch;
-    scroll-snap-type:x mandatory;
-    scroll-padding-left:8px;
-    scrollbar-width:none;
+    overflow:hidden;
   }
-  .work-preview::-webkit-scrollbar{display:none}
   .work-preview-track{
-    animation:none!important;
     height:100%;
     grid-template-rows:minmax(0,1fr);
-    grid-auto-columns:62vw;
-    gap:8px;
+    grid-auto-columns:124px;
+    gap:6px;
   }
   /* Keep the base height:100%/aspect-ratio:auto sizing — the thumbs carry a
      portrait --media-ratio, so letting aspect-ratio drive height blows them
      up far past the strip. Fill the row instead. */
-  .work-preview-track .work-thumb{
-    scroll-snap-align:start;
-    transform:none!important;
-  }
-  /* The marquee builder clones every gallery image (~150 thumbs per section
-     for a loop that no longer runs here). Laying them all out on a phone is
-     wasted work, so only the first dozen stay in flow. */
-  .work-preview-track .work-thumb:nth-child(n+13){display:none}
+  .work-preview-track .work-thumb{transform:none!important}
   .work-preview-track .work-thumb img{
     width:100%;height:100%;
     max-width:none;max-height:none;
     object-fit:cover;
-    border-radius:12px;
+    border-radius:10px;
     animation:none;
   }
   .work-toggle{padding:1.1rem 1.2rem}
@@ -2989,45 +2969,84 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
      tall ragged runs. Everything below tightens the type, shrinks the
      tabs to their labels, and puts the thumbnails on a fixed 3-up grid
      so each gallery is a couple of neat rows instead of a column. */
-  .work-panel-inner{padding:1.05rem 1rem 1.3rem;gap:.75rem}
+  /* The drawer gets its own surface rather than running straight on from
+     the page, so the boundary between "the item" and "inside the item" is
+     legible without a heading. */
+  .work-panel-inner{
+    padding:1.1rem 1rem 1.35rem;gap:.85rem;
+    background:rgba(255,255,255,.018);
+    border-top:1px solid var(--line);
+  }
   .work-desc{font-size:.84rem;line-height:1.7;margin-bottom:.75rem}
-  .work-list{gap:.4rem;margin-bottom:.9rem}
+  .work-list{gap:.4rem;margin-bottom:0}
   .work-list li{font-size:.81rem;line-height:1.6;padding-left:.85rem}
-  .work-subsections{margin-top:.9rem;padding-top:.9rem;gap:.7rem}
+  .work-subsections{margin-top:1.1rem;padding-top:1.1rem;gap:.85rem}
 
-  .work-meta{gap:.4rem}
-  .work-meta-block{padding:.3rem .6rem}
-  .work-meta-value{font-size:.7rem}
+  /* Four wrapping capsules for four label/value pairs is a lot of border
+     for very little text. Same spec-sheet rows as the education cards. */
+  .work-meta{
+    display:grid;grid-template-columns:1fr 1fr;gap:.7rem .9rem;
+    padding:.75rem 0;margin-bottom:.3rem;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .work-meta-block{
+    display:block;
+    border:none;border-radius:0;background:none;padding:0;
+  }
+  .work-meta-label{display:block;font-size:.48rem;letter-spacing:.2em;margin-bottom:.2rem}
+  .work-meta-value{font-size:.74rem;line-height:1.4;color:var(--ink)}
 
-  /* Tabs sized to their labels, not to a 140px minimum — six of them fit
-     in ~590px of scroll instead of 890px, so the row reads as a strip you
-     swipe rather than a wall. Height stays at 44px for the tap target;
-     that costs nothing horizontally. */
+  /* Tabs as one segmented track instead of six free-floating capsules:
+     no per-pill shadow, a single recessed strip behind them, and labels
+     that set their own width. Six fit in ~416px instead of 888px. Height
+     stays at 44px for the tap target, which costs nothing horizontally. */
   .work-subnav{
-    flex-wrap:nowrap;overflow-x:auto;gap:.4rem;
+    flex-wrap:nowrap;overflow-x:auto;gap:.25rem;
     scroll-snap-type:x proximity;scrollbar-width:none;
-    padding-bottom:.5rem;
+    scroll-padding-inline:.25rem;
+    padding:.25rem;border:1px solid var(--line);border-radius:12px;
+    background:rgba(0,0,0,.28);
   }
   .work-subnav::-webkit-scrollbar{display:none}
   .work-subtab{
-    min-height:44px;
+    min-height:40px;
     min-width:0;
-    padding:.55rem .8rem;
-    font-size:.55rem;
-    letter-spacing:.12em;
-    border-radius:10px;
+    padding:.5rem .7rem;
+    font-size:.54rem;
+    letter-spacing:.1em;
+    border:1px solid transparent;
+    border-radius:9px;
+    background:none;
+    color:var(--mist);
+    box-shadow:none;
     scroll-snap-align:start;
-    box-shadow:0 6px 14px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.1);
   }
+  .work-subtab.is-active{
+    color:var(--paper);
+    background:var(--ink);
+    border-color:var(--ink);
+    box-shadow:none;
+    transform:none;
+  }
+  /* The sliding underline belongs to the old bordered nav; the filled tab
+     is the state now. */
+  .work-sub-indicator{display:none}
 
   .work-subtitle{font-size:.55rem;margin-bottom:.45rem}
   .work-subdesc{font-size:.81rem;line-height:1.6;margin-bottom:.5rem}
   .work-sublist{gap:.35rem}
   .work-sublist li{font-size:.78rem;line-height:1.55}
-  .work-subgrid{gap:.85rem}
-  .work-submedia-stack{grid-template-columns:1fr;gap:.85rem}
-  .work-subgroup{gap:.45rem;padding-left:.7rem}
-  .work-subgroup-title{font-size:.55rem}
+  .work-subgrid{gap:.9rem}
+  .work-submedia-stack{grid-template-columns:1fr;gap:.7rem}
+  /* Each build becomes its own card, so a stack of six reads as six things
+     rather than one long column of alternating text and thumbnails. */
+  .work-subgroup{
+    gap:.5rem;padding:.8rem .8rem .85rem;
+    border:1px solid var(--line);border-radius:14px;
+    background:rgba(255,255,255,.022);
+  }
+  .work-subgroup-title{font-size:.55rem;color:var(--ink)}
   .work-subgroup-desc{font-size:.75rem;line-height:1.55}
   /* The border-left on the media block doubled up with the one on the
      subgroup it sits inside, and just ate width once the grid was single
@@ -3116,14 +3135,22 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .about-modal-title{font-size:1.2rem}
   .hb-desc{font-size:1rem;line-height:1.85}
   .hb-meta{font-size:.62rem}
-  .edu-top{flex-direction:column;gap:.6rem;margin-bottom:1rem}
-  .ec-school{font-size:1.35rem}
-  .ec-deg{font-size:.58rem;line-height:1.55}
-  /* Label above value — an 8.5rem label column leaves nothing for the text
-     at phone width. */
-  .edu-row{grid-template-columns:1fr;gap:.3rem;padding:.75rem 0}
+  .about-edu-wrap{margin-top:3rem}
+  /* Label and date hold the two ends of the row; the rule between them is
+     what runs out of width first, so that is what goes. */
+  .edu-rail{gap:.8rem;margin-bottom:1.3rem;justify-content:space-between}
+  .edu-rail-line{display:none}
+  .edu-rail-label{font-size:.52rem;letter-spacing:.2em}
+  .edu-rail-year{font-size:.5rem;letter-spacing:.16em}
+  .ec-deg{font-size:.55rem;line-height:1.6;letter-spacing:.12em}
+  /* One column, label above value — an 8rem label column leaves nothing for
+     the text at phone width. */
+  .edu-rows{grid-template-columns:1fr;gap:0;margin-top:1.5rem}
+  .edu-row{grid-template-columns:1fr;gap:.35rem;padding:.9rem 0}
   .edu-row dt{padding-top:0}
-  .edu-row dd{font-size:.8rem;line-height:1.6}
+  .edu-row dd{font-size:.8rem;line-height:1.65}
+  /* One column, so every row past the first needs the separator. */
+  .edu-row:nth-child(n+2){border-top:1px solid var(--line)}
   .ct-row{gap:1.35rem}
   footer{flex-direction:column;align-items:flex-start;gap:.6rem}
 }
@@ -3160,6 +3187,12 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   }
   .work-thumb:hover{border-color:var(--line)}
   .work-item:hover .work-head::after{opacity:0}
+
+  /* The strip pauses on hover so you can read it with a cursor. There is no
+     cursor here, and iOS latches :hover onto whatever you last tapped, so
+     that rule would stop the marquee dead on first touch and never restart
+     it. Keep it panning. */
+  .work-preview:hover .work-preview-track{animation-play-state:running}
 
   /* Give taps a real target size on the interactive bits. */
   .work-thumb,
@@ -5006,50 +5039,24 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
     </div>
   </div>
   <div class="about-edu-wrap rv d4">
-    <span class="about-edu-label">Academic Background</span>
-    <div class="edu-grid">
-      <div class="edu-card" data-fx="lift">
-        <div class="edu-top">
-          <div>
-            <div class="ec-school">Binghamton University</div>
-            <div class="ec-deg">Mechanical Engineering + Computer Science &middot; Economics Minor &middot; Watson College of Engineering &amp; Applied Science</div>
-          </div>
-          <div class="ec-yr">Aug 2025 — May 2029</div>
+    <div class="edu-rail">
+      <span class="edu-rail-label">Academic Background</span>
+      <span class="edu-rail-line" aria-hidden="true"></span>
+      <span class="edu-rail-year">Aug 2025 — May 2029</span>
+    </div>
+    <div class="edu-entry">
+      <h3 class="ec-school">Binghamton University</h3>
+      <p class="ec-deg">Mechanical Engineering + Computer Science &middot; Economics Minor &middot; Watson College of Engineering &amp; Applied Science</p>
+      <dl class="edu-rows">
+        <div class="edu-row">
+          <dt>Teams &amp; Orgs</dt>
+          <dd><b>Motorsports SAE</b> — Aero Apprentice, EV Go-Kart Engineer<i aria-hidden="true">·</i><b>Watson Combat Robotics</b> — Antweight Full Engineer<i aria-hidden="true">·</i>ASME<i aria-hidden="true">·</i>Computer Robotics &amp; Engineering Community (CoRE)</dd>
         </div>
-        <dl class="edu-rows">
-          <div class="edu-row">
-            <dt>Teams &amp; Orgs</dt>
-            <dd><b>Motorsports SAE</b> — Aero Apprentice, EV Go-Kart Engineer<i aria-hidden="true">·</i><b>Watson Combat Robotics</b> — Antweight Full Engineer<i aria-hidden="true">·</i>ASME<i aria-hidden="true">·</i>Computer Robotics &amp; Engineering Community (CoRE)</dd>
-          </div>
-          <div class="edu-row">
-            <dt>Certifications</dt>
-            <dd>Bloomberg Finance Fundamentals<i aria-hidden="true">·</i>Bloomberg Spreadsheet Analysis<i aria-hidden="true">·</i>Introduction to Corporate Finance (UPenn)<i aria-hidden="true">·</i>Fundamentals of Quantitative Modeling (UPenn)<i aria-hidden="true">·</i>Cash Flow Management (Duke)<i aria-hidden="true">·</i>Google AI Essentials</dd>
-          </div>
-        </dl>
-      </div>
-      <div class="edu-card d1" data-fx="lift">
-        <div class="edu-top">
-          <div>
-            <div class="ec-school">East Meadow High School</div>
-            <div class="ec-deg">Advanced Regents Diploma &middot; GPA 99.5/100 &middot; SAT 1300/1600</div>
-          </div>
-          <div class="ec-yr">Graduated June 2025</div>
+        <div class="edu-row">
+          <dt>Certifications</dt>
+          <dd>Bloomberg Finance Fundamentals<i aria-hidden="true">·</i>Bloomberg Spreadsheet Analysis<i aria-hidden="true">·</i>Introduction to Corporate Finance (UPenn)<i aria-hidden="true">·</i>Fundamentals of Quantitative Modeling (UPenn)<i aria-hidden="true">·</i>Cash Flow Management (Duke)<i aria-hidden="true">·</i>Google AI Essentials</dd>
         </div>
-        <dl class="edu-rows">
-          <div class="edu-row">
-            <dt>Honors</dt>
-            <dd>National Honor Society<i aria-hidden="true">·</i>Science Honor Society<i aria-hidden="true">·</i>AP Scholar Award<i aria-hidden="true">·</i>AP Research &amp; Seminar Certificate<i aria-hidden="true">·</i>BOF Award for Academic Excellence</dd>
-          </div>
-          <div class="edu-row">
-            <dt>Focus Areas</dt>
-            <dd>CAD / CFD<i aria-hidden="true">·</i>Fabrication<i aria-hidden="true">·</i>Electronics<i aria-hidden="true">·</i>Python<i aria-hidden="true">·</i>Quantitative Finance<i aria-hidden="true">·</i>Entrepreneurship</dd>
-          </div>
-          <div class="edu-row">
-            <dt>Athletics</dt>
-            <dd>Soccer (JV/Varsity)<i aria-hidden="true">·</i>Cross Country<i aria-hidden="true">·</i>Track &amp; Field</dd>
-          </div>
-        </dl>
-      </div>
+      </dl>
     </div>
   </div>
 </section>
@@ -7253,7 +7260,15 @@ const buildWorkPreviewThumbs=()=>{
     while(baseEntries.length<count){
       baseEntries.push(...previewEntries);
     }
-    const visibleEntries=baseEntries.slice(0,Math.max(count,previewEntries.length));
+    /* Desktop takes every collected image (73 for automotive, doubled to 146
+       once the loop is cloned). That is a lot of layout for a phone, and the
+       strip is a third the height there, so a shorter loop reads the same.
+       Measured at load like the hero video source — the marquee is rebuilt
+       only on reload, not on rotate. */
+    const previewCap=window.matchMedia('(max-width:760px)').matches
+      ? Math.max(count,14)
+      : Math.max(count,previewEntries.length);
+    const visibleEntries=baseEntries.slice(0,previewCap);
     track.setAttribute('data-base-count',String(visibleEntries.length));
     visibleEntries.forEach((entry,i)=>{
       const btn=document.createElement('button');
