@@ -66,93 +66,6 @@ nav{
   body .back-fab{top:88px;left:1rem}
 }
 
-/* ── PAGE HERO ── */
-.page-hero{
-  padding:8rem 5vw 4rem;
-  border-bottom:1px solid var(--line);
-}
-.page-hero-kicker{
-  font-family:var(--mono);font-size:clamp(.54rem,.7vw,.64rem);font-weight:600;
-  letter-spacing:.24em;text-transform:uppercase;color:var(--fog);
-  display:block;margin-bottom:1rem;
-}
-.page-hero-title{
-  font-family:var(--sans);font-size:clamp(2.6rem,5vw,4.4rem);
-  font-weight:700;letter-spacing:-.04em;line-height:.96;
-  margin-bottom:1.4rem;
-}
-.page-hero-sub{
-  font-size:clamp(.9rem,1.4vw,1.05rem);font-weight:300;
-  line-height:1.8;color:var(--mist);max-width:560px;
-}
-.page-hero-stats{
-  display:flex;gap:3rem;flex-wrap:wrap;margin-top:2.8rem;
-  padding-top:2.4rem;border-top:1px solid var(--line);
-}
-.phs-n{font-family:var(--sans);font-size:clamp(1.8rem,3vw,2.6rem);font-weight:700;letter-spacing:-.03em;display:block;line-height:1}
-.phs-l{font-family:var(--mono);font-size:clamp(.5rem,.65vw,.6rem);font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--mist);margin-top:.3rem;display:block}
-
-/* ── FILTER TABS ── */
-.filter-bar{
-  padding:1.5rem 5vw;
-  display:flex;align-items:center;gap:.55rem;flex-wrap:wrap;
-  border-bottom:1px solid var(--line);
-  position:sticky;top:60px;z-index:100;
-  background:rgba(8,8,8,.94);backdrop-filter:blur(18px);
-}
-.filter-btn{
-  font-family:var(--mono);font-size:clamp(.54rem,.7vw,.64rem);font-weight:600;
-  letter-spacing:.14em;text-transform:uppercase;
-  border:1px solid var(--line);border-radius:999px;
-  padding:.5rem 1.1rem;cursor:pointer;
-  background:rgba(255,255,255,.02);color:var(--mist);
-  transition:.22s;
-}
-.filter-btn:hover{border-color:rgba(255,255,255,.28);color:var(--ink)}
-.filter-btn.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-.filter-btn[data-filter="in-progress"].active{background:var(--amber);border-color:var(--amber);color:#080808}
-.filter-btn[data-filter="done"].active{background:var(--green);border-color:var(--green);color:#050f06}
-
-/* ── PITCH STRIP ── */
-.pitch-strip{
-  margin:4rem 5vw 0;
-  border:1px solid var(--line);border-radius:20px;
-  background:radial-gradient(circle at 20% 0%,rgba(255,255,255,.05),transparent 55%),
-    linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.01));
-  padding:2.4rem 2.8rem;
-  display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;
-}
-.pitch-strip-text{}
-.pitch-strip-kicker{font-family:var(--mono);font-size:clamp(.52rem,.68vw,.62rem);font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--fog);display:block;margin-bottom:.6rem}
-.pitch-strip-title{font-family:var(--sans);font-size:clamp(1.3rem,2.2vw,1.7rem);font-weight:700;letter-spacing:-.03em;margin-bottom:.5rem}
-.pitch-strip-desc{font-size:clamp(.82rem,1.1vw,.92rem);font-weight:300;line-height:1.75;color:var(--mist);max-width:440px}
-.pitch-strip-cta{
-  display:inline-flex;align-items:center;gap:.6rem;flex-shrink:0;
-  font-family:var(--mono);font-size:clamp(.62rem,.82vw,.74rem);font-weight:600;
-  letter-spacing:.15em;text-transform:uppercase;
-  background:var(--ink);color:var(--paper);
-  border:none;border-radius:12px;padding:.88rem 1.9rem;
-  text-decoration:none;cursor:pointer;transition:opacity .2s,transform .2s;
-}
-.pitch-strip-cta:hover{opacity:.85;transform:translateY(-1px)}
-
-/* ── FOOTER ── */
-footer{
-  padding:2.2rem 5vw;border-top:1px solid var(--line);
-  display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
-  margin-top:4rem;
-}
-.footer-brand{font-family:var(--sans);font-size:.9rem;font-weight:600;text-decoration:none;color:var(--ink)}
-.footer-note{font-family:var(--mono);font-size:clamp(.5rem,.65vw,.6rem);letter-spacing:.12em;text-transform:uppercase;color:var(--fog)}
-.footer-back{
-  font-family:var(--mono);font-size:clamp(.54rem,.7vw,.64rem);font-weight:600;
-  letter-spacing:.14em;text-transform:uppercase;
-  color:var(--mist);text-decoration:none;
-  border:1px solid var(--line);padding:.5rem 1rem;border-radius:999px;
-  transition:.25s;
-}
-.footer-back:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-
 /* ── FLOATING BACK BUTTON ── */
 .back-fab{
   position:fixed;top:72px;left:1.5rem;z-index:150;
@@ -191,29 +104,46 @@ footer{
 ::view-transition-new(root){animation:380ms cubic-bezier(.16,1,.3,1) 80ms both vt-in}
 @keyframes vt-out{to{opacity:0;transform:translateY(-6px)}}
 @keyframes vt-in{from{opacity:0;transform:translateY(10px)}}#nav{view-transition-name:site-nav}.back-fab{view-transition-name:back-fab}::view-transition-old(site-nav),::view-transition-new(site-nav),::view-transition-old(back-fab),::view-transition-new(back-fab){animation:none;mix-blend-mode:normal}
-@media(max-width:800px){
-}
 
-/* ── RESPONSIVE ── */
+/* ── PAGE HERO ── */
+.page-hero{
+  padding:8rem 5vw 4rem;
+  border-bottom:1px solid var(--line);
+}
+.page-hero-title{
+  font-family:var(--sans);font-size:clamp(2.6rem,5vw,4.4rem);
+  font-weight:700;letter-spacing:-.04em;line-height:.96;
+  margin-bottom:1.4rem;
+}
+/* ── REQUEST A BUILD ──
+   The eyebrow ("Community") is gone, and the button is Sora rather than
+   tracked-out mono, to match the card buttons above it. */
+.pitch-strip{
+  margin:4.5rem 5vw 0;
+  border:1px solid var(--line);border-radius:20px;
+  background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.01));
+  padding:2.4rem 2.8rem;
+  display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;
+}
+.pitch-strip-title{font-family:var(--sans);font-size:clamp(1.3rem,2.2vw,1.7rem);font-weight:700;letter-spacing:-.03em;margin-bottom:.5rem}
+.pitch-strip-desc{font-size:clamp(.86rem,1.1vw,.95rem);font-weight:300;line-height:1.7;color:var(--mist);max-width:46ch;margin:0}
+.pitch-strip-cta{
+  display:inline-flex;align-items:center;gap:.6rem;flex-shrink:0;
+  font-family:var(--sans);font-size:.84rem;font-weight:600;letter-spacing:-.01em;
+  background:var(--ink);color:var(--paper);
+  border:none;border-radius:999px;padding:.72rem 1.25rem;
+  text-decoration:none;cursor:pointer;
+  transition:gap .4s cubic-bezier(.16,1,.3,1),transform .4s cubic-bezier(.16,1,.3,1),
+             box-shadow .4s cubic-bezier(.16,1,.3,1);
+}
+.pitch-strip-cta:hover{gap:.9rem;transform:translateY(-1px);
+  box-shadow:0 12px 30px -12px rgba(255,255,255,.55)}
 @media(max-width:640px){
-  .pitch-strip{flex-direction:column}
+  .pitch-strip{flex-direction:column;align-items:flex-start;padding:1.6rem 1.5rem;margin-top:3rem}
   .pitch-strip-cta{align-self:stretch;justify-content:center}
-  .page-hero-stats{gap:1.8rem}
 }
-/* ══════════════════════════════════ ARCHIVE GRID ══
-   Same card language as the home page's "What I'm Building", widened out
-   to a 3-up archive. One card per build — no build appears twice.
-   ================================================================== */
-.arc{padding:3.5rem 5vw 6rem}
-.arc-rail{display:flex;align-items:center;gap:1.1rem;margin:0 0 1.4rem}
-.arc-rail:not(:first-child){margin-top:4rem}
-.arc-rail-label{
-  font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.24em;
-  text-transform:uppercase;color:var(--mist);white-space:nowrap;
-}
-.arc-rail-count{font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.14em;color:var(--fog)}
-.arc-rail-line{flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
 
+.arc{padding:3.5rem 5vw 6rem}
 .arc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem}
 @media(max-width:1180px){.arc-grid{grid-template-columns:repeat(2,1fr)}}
 /* Feature the two live builds at half-width each */
@@ -239,8 +169,6 @@ footer{
              rgba(255,255,255,.07),transparent 62%);
 }
 .arc-card:hover::after{opacity:1}
-/* Filtered-out cards collapse out of the grid */
-.arc-card[data-hidden]{display:none}
 
 .arc-media{position:relative;overflow:hidden;background:#0a0a0a;aspect-ratio:16/10}
 .arc-grid-now .arc-media{aspect-ratio:16/9}
@@ -256,105 +184,54 @@ footer{
              rgba(15,15,15,.72) 86%,var(--surface) 100%);
 }
 
-/* Sensor view for the autonomy build — it has no photograph yet */
-.arc-viz{position:absolute;inset:0;overflow:hidden;
-  background:radial-gradient(115% 88% at 50% 104%,#0b1626 0%,#070810 62%)}
-.arc-viz-grid{
-  position:absolute;inset:-20%;
-  background-image:
-    linear-gradient(rgba(96,170,255,.11) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(96,170,255,.11) 1px,transparent 1px);
-  background-size:38px 38px;
-  -webkit-mask-image:radial-gradient(circle at 50% 68%,#000 12%,transparent 66%);
-          mask-image:radial-gradient(circle at 50% 68%,#000 12%,transparent 66%);
-  animation:arcGrid 7s linear infinite;
-}
-@keyframes arcGrid{to{background-position:0 38px,38px 0}}
-.arc-viz-sweep{
-  position:absolute;left:50%;top:68%;width:min(86%,340px);aspect-ratio:1;
-  transform:translate(-50%,-50%);border-radius:50%;
-  background:conic-gradient(from 0deg,rgba(96,178,255,0) 0deg,
-             rgba(96,178,255,.26) 42deg,rgba(96,178,255,0) 88deg);
-  -webkit-mask-image:radial-gradient(circle,#000 34%,transparent 70%);
-          mask-image:radial-gradient(circle,#000 34%,transparent 70%);
-  animation:arcSweep 4.2s linear infinite;
-}
-@keyframes arcSweep{to{transform:translate(-50%,-50%) rotate(360deg)}}
-.arc-viz-ping{
-  position:absolute;width:6px;height:6px;border-radius:50%;background:#7cc4ff;
-  box-shadow:0 0 12px 2px rgba(124,196,255,.6);animation:arcPing 4.2s ease-in-out infinite;
-}
-@keyframes arcPing{0%,72%,100%{opacity:.18;transform:scale(.85)}80%{opacity:1;transform:scale(1.25)}}
-.arc-viz-ping.p1{left:34%;top:52%;animation-delay:.5s}
-.arc-viz-ping.p2{left:62%;top:44%;animation-delay:1.6s}
-.arc-viz-ping.p3{left:71%;top:63%;animation-delay:2.7s}
-.arc-viz-readout{
-  position:absolute;left:1.15rem;top:1.15rem;font-family:var(--mono);font-size:.55rem;
-  letter-spacing:.14em;text-transform:uppercase;color:rgba(150,200,255,.62);
-}
+.arc-body{position:relative;z-index:2;flex:1;padding:1.55rem 1.65rem 1.6rem;
+  display:flex;flex-direction:column;gap:.72rem}
 
-.arc-body{position:relative;z-index:2;flex:1;padding:1.4rem 1.5rem 1.45rem;
-  display:flex;flex-direction:column;gap:.62rem}
-.arc-grid-now .arc-body{padding:1.55rem 1.65rem 1.6rem;gap:.72rem}
-.arc-top{display:flex;align-items:center;justify-content:space-between;gap:1rem}
-.arc-idx{font-family:var(--mono);font-size:.58rem;font-weight:600;letter-spacing:.2em;color:var(--fog)}
-
+/* Status: a dot and a word. It was a bordered, tinted, glow-pulsing capsule
+   with an index number beside it — the same treatment the home page cards
+   already dropped. */
 .arc-status{
-  display:inline-flex;align-items:center;gap:.42rem;font-family:var(--mono);
-  font-size:.53rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;
-  padding:.28rem .62rem;border-radius:999px;border:1px solid;
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--mist);
 }
-.arc-status-live{color:#f5a524;border-color:rgba(245,165,36,.32);background:rgba(245,165,36,.07)}
-.arc-status-done{color:#3ddc84;border-color:rgba(61,220,132,.28);background:rgba(61,220,132,.06)}
-.arc-dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
-.arc-status-live .arc-dot{animation:arcPulse 2s ease-in-out infinite}
-@keyframes arcPulse{0%,100%{box-shadow:0 0 0 0 rgba(245,165,36,.5)}55%{box-shadow:0 0 0 5px rgba(245,165,36,0)}}
+.arc-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.arc-status-done .arc-dot{background:#3ddc84}
+.arc-status-live .arc-dot{background:#f5a524}
 
-.arc-name{font-family:var(--sans);font-size:1.2rem;font-weight:700;
-  letter-spacing:-.022em;line-height:1.12;color:var(--ink)}
-.arc-grid-now .arc-name{font-size:1.62rem;letter-spacing:-.028em;line-height:1.1}
-.arc-line{margin:0;font-size:.82rem;line-height:1.55;color:var(--mist)}
-.arc-grid-now .arc-line{font-size:.88rem;line-height:1.56}
+.arc-name{font-family:var(--sans);font-size:1.62rem;font-weight:700;
+  letter-spacing:-.028em;line-height:1.1;color:var(--ink)}
+.arc-line{margin:0;font-size:.95rem;line-height:1.65;color:var(--mist);max-width:46ch}
 
-.arc-specs{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin-top:.1rem}
-.arc-spec{font-family:var(--mono);font-size:.57rem;font-weight:500;
-  letter-spacing:.12em;text-transform:uppercase;color:var(--fog)}
-.arc-spec:not(:last-child)::after{content:'·';margin-left:.5rem;opacity:.5}
-
-.arc-prog{margin-top:.5rem}
-.arc-prog-top{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:.6rem;
-  font-family:var(--mono);font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fog)}
-.arc-prog-val{color:#f5a524;font-weight:600}
-.arc-prog-track{height:3px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
-.arc-prog-fill{height:100%;border-radius:99px;width:0;
-  background:linear-gradient(90deg,#e0901a,#ffcf6b);
+.arc-prog{margin-top:.9rem}
+.arc-prog-top{display:flex;align-items:baseline;justify-content:space-between;
+  gap:1rem;margin-bottom:.65rem}
+.arc-prog-stage{font-family:var(--mono);font-size:.64rem;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--mist)}
+.arc-prog-val{font-family:var(--mono);font-size:.72rem;font-weight:600;
+  letter-spacing:.06em;color:#f5a524}
+.arc-prog-track{height:5px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden}
+.arc-prog-fill{height:100%;border-radius:99px;width:0;background:#f5a524;
   transition:width 1.6s cubic-bezier(.16,1,.3,1) .2s}
 
-.arc-foot{margin-top:auto;padding-top:1rem;border-top:1px solid var(--line);
-  display:flex;align-items:center;justify-content:space-between;gap:1rem}
-.arc-meta{font-family:var(--mono);font-size:.55rem;letter-spacing:.13em;text-transform:uppercase;color:var(--fog)}
-.arc-cta{display:inline-flex;align-items:center;gap:.45rem;font-family:var(--mono);
-  font-size:.56rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--ink);white-space:nowrap;transition:gap .4s cubic-bezier(.16,1,.3,1)}
-.arc-grid-now .arc-cta{font-size:.6rem}
-.arc-card:hover .arc-cta{gap:.8rem}
-.arc-cta svg{transition:transform .4s cubic-bezier(.16,1,.3,1)}
-.arc-card:hover .arc-cta svg{transform:translateX(3px)}
-
-/* Empty state when a filter matches nothing */
-.arc-empty{
-  display:none;padding:3rem 0;font-family:var(--mono);font-size:.66rem;
-  letter-spacing:.14em;text-transform:uppercase;color:var(--fog);
+/* No rule above the footer — with the meta line gone there is nothing on the
+   far side of it to separate. */
+.arc-foot{margin-top:auto;padding-top:1.5rem;display:flex}
+.arc-btn{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-family:var(--sans);font-size:.84rem;font-weight:600;letter-spacing:-.01em;
+  color:var(--paper);background:var(--ink);
+  border-radius:999px;padding:.72rem 1.25rem;
+  transition:gap .4s cubic-bezier(.16,1,.3,1),
+             box-shadow .4s cubic-bezier(.16,1,.3,1),
+             transform .4s cubic-bezier(.16,1,.3,1);
 }
-.arc-empty.is-on{display:block}
+.arc-card:hover .arc-btn{gap:.9rem;transform:translateY(-1px);
+  box-shadow:0 12px 30px -12px rgba(255,255,255,.55)}
+.arc-btn svg{flex-shrink:0}
 
-@media(max-width:820px){
-  .arc-grid,.arc-grid-now{grid-template-columns:1fr}
-  .arc{padding:2.4rem 5vw 4rem}
-}
 @media(prefers-reduced-motion:reduce){
-  .arc-viz-grid,.arc-viz-sweep,.arc-viz-ping,.arc-status-live .arc-dot{animation:none}
-  .arc-card,.arc-media img,.arc-cta,.arc-prog-fill{transition:none}
+  .arc-card,.arc-media img,.arc-btn,.arc-prog-fill{transition:none}
   .arc-card:hover{transform:none}
 }
 
@@ -363,15 +240,12 @@ footer{
    them to a readable floor and pull the tracking in so the wider glyphs
    don't push their rows out. */
 @media(max-width:680px){
-  .arc-viz-readout,.arc-idx,.arc-status,.arc-spec,
-  .arc-prog-top,.arc-meta,.arc-cta{font-size:.64rem;letter-spacing:.12em}
+  .arc-status,.arc-prog-stage,.arc-prog-val{font-size:.64rem;letter-spacing:.12em}
   /* Clear the floating BACK pill, which now sits below the two-row bar. */
   .page-hero{padding:8.2rem 5vw 3rem}
-  .page-hero-kicker{font-size:.64rem}
-  .arc-rail-label,.arc-rail-count{font-size:.64rem}
   /* These clamp down to .5rem at phone widths — the vw term never gets a
      chance to lift them. */
-  .phs-l,.pitch-strip-kicker,.footer-note,.footer-back{font-size:.64rem;letter-spacing:.12em}
+  .footer-note,.footer-back{font-size:.64rem;letter-spacing:.12em}
 }
 
 /* ═══════════════════════════════════════════════════ MY HOBBIES ══
@@ -500,7 +374,9 @@ footer{
   text-align:left;
   width:100%;
   display:grid;
-  grid-template-columns:auto 1fr auto;
+  /* Two columns now that the index numbers are gone: the title block, then
+     the open/close indicator. */
+  grid-template-columns:1fr auto;
   grid-template-rows:auto auto;
   column-gap:.9rem;
   row-gap:.35rem;
@@ -531,20 +407,12 @@ footer{
   outline-offset:4px;
   border-radius:12px;
 }
-.work-index{
-  font-family:var(--mono);
-  font-size:.6rem;
-  letter-spacing:.22em;
-  text-transform:uppercase;
-  color:var(--fog);
-  grid-row:1 / span 2;
-}
 .work-title{
   font-family:var(--sans);
   font-size:1.35rem;
   font-weight:600;
   letter-spacing:-.01em;
-  grid-column:2;
+  grid-column:1;
   grid-row:1;
 }
 .work-sub{
@@ -553,7 +421,7 @@ footer{
   letter-spacing:.18em;
   text-transform:uppercase;
   color:var(--mist);
-  grid-column:2;
+  grid-column:1;
   grid-row:2;
   justify-self:start;
 }
@@ -581,7 +449,7 @@ footer{
   border-radius:999px;
   position:relative;
   justify-self:end;
-  grid-column:3;
+  grid-column:2;
   grid-row:1 / span 2;
 }
 .work-indicator::before,
@@ -2612,107 +2480,57 @@ section.panel.dark{background:var(--paper);color:var(--ink)}
 
 <!-- PAGE HERO -->
 <div class="page-hero">
-  <span class="page-hero-kicker">Build Log</span>
   <h1 class="page-hero-title">Everything<br>I've built.</h1>
-  <p class="page-hero-sub">Every build in one place — what's on the bench now, and what already shipped. Guides go up as each one is finished.</p>
-  <div class="page-hero-stats">
-    <div>
-      <span class="phs-n">5</span>
-      <span class="phs-l">Builds logged</span>
-    </div>
-    <div>
-      <span class="phs-n">1</span>
-      <span class="phs-l">In progress</span>
-    </div>
-    <div>
-      <span class="phs-n">1</span>
-      <span class="phs-l">Full guide published</span>
-    </div>
-  </div>
-</div>
-
-<div class="filter-bar">
-  <button class="filter-btn active" data-filter="all">All</button>
-  <button class="filter-btn" data-filter="live">In Progress</button>
-  <button class="filter-btn" data-filter="done">Completed</button>
 </div>
 
 <div class="arc">
-
-  <!-- ── ON THE BENCH ──────────────────────────────────────────── -->
-  <div class="arc-rail" data-rail="now">
-    <span class="arc-rail-label">On The Bench</span>
-    <span class="arc-rail-line"></span>
-    <span class="arc-rail-count">02</span>
-  </div>
-
   <div class="arc-grid arc-grid-now">
 
-    <a class="arc-card" data-arc data-status="done" href="projects/active-aero-wing.html"
-       aria-label="AVIWS — Active Variable Incidence Wing System — read the full write-up">
+    <a class="arc-card" data-arc href="projects/active-aero-wing.html"
+       aria-label="Active Wing System: read the build guide">
       <div class="arc-media">
         <video data-inview-video data-src="videos/active-aero-wing-card.mp4"
                poster="images/aviws/wing-standalone.jpg"
                muted playsinline loop preload="none"
-               aria-label="AVIWS on-car test footage"></video>
+               aria-label="Active wing on-car test footage"></video>
       </div>
       <div class="arc-body">
-        <div class="arc-top">
-          <span class="arc-idx">01</span>
-          <span class="arc-status arc-status-done"><span class="arc-dot"></span>Complete</span>
-        </div>
-        <div class="arc-name">AVIWS — Active Wing System</div>
-        <p class="arc-line">A fully autonomous rear wing that shifts angle of incidence in real time — no driver input, self-contained.</p>
-        <div class="arc-specs">
-          <span class="arc-spec">3 Auto Modes</span>
-          <span class="arc-spec">Arduino + IMU</span>
-          <span class="arc-spec">85.7:1 L/D</span>
-        </div>
+        <span class="arc-status arc-status-done"><span class="arc-dot"></span>Built</span>
+        <div class="arc-name">Active Wing System</div>
+        <p class="arc-line">A fully autonomous rear wing that shifts its angle of incidence in real time. No driver input, no vehicle integration, entirely self-contained.</p>
         <div class="arc-foot">
-          <span class="arc-meta">Full write-up</span>
-          <span class="arc-cta">Read it
+          <span class="arc-btn">Build one yourself
             <svg width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true">
-              <path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.4"
+              <path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.6"
                     stroke-linecap="round" stroke-linejoin="round"/></svg>
           </span>
         </div>
       </div>
     </a>
 
-    <a class="arc-card" data-arc data-status="live" href="projects/self-driving-f1-car.html"
-       aria-label="Self-Driving F1 Car — follow the build">
+    <a class="arc-card" data-arc href="projects/self-driving-f1-car.html"
+       aria-label="Self-Driving F1 Car: follow the build">
       <div class="arc-media">
-        <!-- Placeholder clip of the bare chassis — swap for the real
-             cinematic cut once it's ready. Cropped from a vertical source. -->
         <video data-inview-video data-src="videos/self-driving-car-card.mp4"
                poster="images/selfdriving/chassis-placeholder.jpg"
                muted playsinline loop preload="none"
                aria-label="Self-driving go-kart chassis, current build stage"></video>
       </div>
       <div class="arc-body">
-        <div class="arc-top">
-          <span class="arc-idx">02</span>
-          <span class="arc-status arc-status-live"><span class="arc-dot"></span>In Progress</span>
-        </div>
+        <span class="arc-status arc-status-live"><span class="arc-dot"></span>Building</span>
         <div class="arc-name">Self-Driving F1 Car</div>
-        <p class="arc-line">A go-kart rebuilt into an autonomous platform — drive-by-wire, sensor fusion, ROS 2.</p>
-        <div class="arc-specs">
-          <span class="arc-spec">ROS 2</span>
-          <span class="arc-spec">LiDAR</span>
-          <span class="arc-spec">CAN Bus</span>
-        </div>
+        <p class="arc-line">A go-kart rebuilt into an autonomous platform, from drive-by-wire steering up to full sensor fusion.</p>
         <div class="arc-prog" style="--pct:35%">
           <div class="arc-prog-top">
-            <span>Chassis &amp; drive-by-wire</span>
+            <span class="arc-prog-stage">Chassis &amp; drive-by-wire</span>
             <span class="arc-prog-val">35%</span>
           </div>
           <div class="arc-prog-track"><div class="arc-prog-fill"></div></div>
         </div>
         <div class="arc-foot">
-          <span class="arc-meta">Guide when it's done</span>
-          <span class="arc-cta">Follow build
+          <span class="arc-btn">Follow the build
             <svg width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true">
-              <path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.4"
+              <path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.6"
                     stroke-linecap="round" stroke-linejoin="round"/></svg>
           </span>
         </div>
@@ -2720,125 +2538,9 @@ section.panel.dark{background:var(--paper);color:var(--ink)}
     </a>
 
   </div>
-
-  <!-- ── SHIPPED ───────────────────────────────────────────────── -->
-  <div class="arc-rail" data-rail="done">
-    <span class="arc-rail-label">Shipped</span>
-    <span class="arc-rail-line"></span>
-    <span class="arc-rail-count">03</span>
-  </div>
-
-  <div class="arc-grid">
-
-    <a class="arc-card" data-arc data-status="done" href="index.html#experience"
-       aria-label="Formula SAE nosecone">
-      <div class="arc-media">
-        <img src="images/experience/1772026114347.jpg"
-             alt="Formula SAE nosecone in the paint booth after moulding"
-             loading="lazy" decoding="async">
-      </div>
-      <div class="arc-body">
-        <div class="arc-top">
-          <span class="arc-idx">03</span>
-          <span class="arc-status arc-status-done"><span class="arc-dot"></span>Complete</span>
-        </div>
-        <div class="arc-name">Formula SAE Nosecone</div>
-        <p class="arc-line">Moulded composite nose, surfaced in CAD and laid up from 3D-printed tooling.</p>
-        <div class="arc-specs">
-          <span class="arc-spec">Composites</span>
-          <span class="arc-spec">Fusion 360</span>
-        </div>
-        <div class="arc-foot">
-          <span class="arc-meta">Binghamton Motorsports</span>
-          <span class="arc-cta">View
-            <svg width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true">
-              <path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.4"
-                    stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </span>
-        </div>
-      </div>
-    </a>
-
-    <a class="arc-card" data-arc data-status="done" href="#projects"
-       aria-label="Cosmic PCs">
-      <div class="arc-media">
-        <img src="images/cosmic/img1.jpg"
-             alt="Custom water-cooled PC build on the bench"
-             loading="lazy" decoding="async">
-      </div>
-      <div class="arc-body">
-        <div class="arc-top">
-          <span class="arc-idx">04</span>
-          <span class="arc-status arc-status-done"><span class="arc-dot"></span>Complete</span>
-        </div>
-        <div class="arc-name">Cosmic PCs</div>
-        <p class="arc-line">A custom PC build service I ran end to end — specs, assembly, and delivery.</p>
-        <div class="arc-specs">
-          <span class="arc-spec">Hardware</span>
-          <span class="arc-spec">Client Builds</span>
-        </div>
-        <div class="arc-foot">
-          <span class="arc-meta">Founder</span>
-          <span class="arc-cta">View
-            <svg width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true">
-              <path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.4"
-                    stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </span>
-        </div>
-      </div>
-    </a>
-
-    <a class="arc-card" data-arc data-status="done" href="#projects"
-       aria-label="Automotive rebuilds and modifications">
-      <div class="arc-media">
-        <img src="images/automotive/wraps/img1.jpg"
-             alt="Satin black vinyl wrap laid on a car door"
-             loading="lazy" decoding="async">
-      </div>
-      <div class="arc-body">
-        <div class="arc-top">
-          <span class="arc-idx">05</span>
-          <span class="arc-status arc-status-done"><span class="arc-dot"></span>Complete</span>
-        </div>
-        <div class="arc-name">Automotive Shop</div>
-        <p class="arc-line">Wraps, tint, upholstery and autobody work across a run of personal builds and flips.</p>
-        <div class="arc-specs">
-          <span class="arc-spec">Fabrication</span>
-          <span class="arc-spec">Finishing</span>
-        </div>
-        <div class="arc-foot">
-          <span class="arc-meta">Hands-on</span>
-          <span class="arc-cta">View
-            <svg width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true">
-              <path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.4"
-                    stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </span>
-        </div>
-      </div>
-    </a>
-
-  </div>
-
-  <p class="arc-empty" id="arcEmpty">No builds match that filter.</p>
-
 </div>
 
-<!-- PITCH STRIP -->
-<div class="pitch-strip">
-  <div class="pitch-strip-text">
-    <span class="pitch-strip-kicker">Community</span>
-    <div class="pitch-strip-title">Got an idea for a build?</div>
-    <p class="pitch-strip-desc">Submit a project concept and it might become the next full build guide on this site. You'll be credited, and the guide will be free.</p>
-  </div>
-  <a href="index.html#pitch" class="pitch-strip-cta">Submit Your Idea →</a>
-</div>
-
-<!-- FOOTER -->
 <section class="panel dark" id="projects">
-  <div class="sec-header rv">
-    <div class="sec-title">My hobbies.</div>
-  </div>
-
   <!-- ════════════════════════════════════════════════════════
        FEATURED PROJECT SHOWCASES
        Hidden for now per request — remove style="display:none" to bring
@@ -3104,7 +2806,6 @@ section.panel.dark{background:var(--paper);color:var(--ink)}
     <article class="work-item rv" data-work-item>
       <div class="work-head">
         <button class="work-toggle" data-work-toggle aria-expanded="false">
-          <span class="work-index">01</span>
           <span class="work-title">Automotive Rebuilds & Custom Modifications</span>
           <span class="work-sub is-pop">Restoration + electrical</span>
           <span class="work-indicator" aria-hidden="true"></span>
@@ -3383,7 +3084,6 @@ section.panel.dark{background:var(--paper);color:var(--ink)}
     <article class="work-item rv" data-work-item>
       <div class="work-head">
         <button class="work-toggle" data-work-toggle aria-expanded="false">
-          <span class="work-index">09</span>
           <span class="work-title">Cosmic PCs — Startup</span>
           <span class="work-sub">Storefront, parts ops, test bench</span>
           <span class="work-indicator" aria-hidden="true"></span>
@@ -4046,6 +3746,15 @@ section.panel.dark{background:var(--paper);color:var(--ink)}
   </div>
 </section>
 
+<!-- REQUEST A BUILD -->
+<div class="pitch-strip">
+  <div class="pitch-strip-text">
+    <div class="pitch-strip-title">Got an idea for a build?</div>
+    <p class="pitch-strip-desc">Send it over and it might become the next full build guide on this site. You'll be credited, and the guide will be free.</p>
+  </div>
+  <a href="mailto:arshhashmi.nyc@gmail.com?subject=Build%20idea" class="pitch-strip-cta">Send it over &rarr;</a>
+</div>
+
 <div class="work-modal" data-work-modal>
   <button class="work-modal-close" data-work-close>Close</button>
   <div class="work-modal-card">
@@ -4077,38 +3786,6 @@ section.panel.dark{background:var(--paper);color:var(--ink)}
 </footer>
 
 <script>
-/* Filter tabs — show only builds matching the chosen status, and hide a
-   group's rail when that group ends up empty. */
-(function(){
-  const btns  = [...document.querySelectorAll('.filter-btn')];
-  const cards = [...document.querySelectorAll('[data-arc]')];
-  const empty = document.getElementById('arcEmpty');
-  if(!btns.length || !cards.length) return;
-
-  const apply = filter => {
-    cards.forEach(c=>{
-      const show = filter==='all' || c.dataset.status===filter;
-      c.toggleAttribute('data-hidden', !show);
-    });
-    /* A rail belongs to the grid directly after it; hide both when empty. */
-    document.querySelectorAll('.arc-rail').forEach(rail=>{
-      const grid = rail.nextElementSibling;
-      if(!grid || !grid.classList.contains('arc-grid')) return;
-      const shown = grid.querySelectorAll('[data-arc]:not([data-hidden])').length;
-      rail.style.display = shown ? '' : 'none';
-      grid.style.display = shown ? '' : 'none';
-    });
-    const anyShown = cards.some(c=>!c.hasAttribute('data-hidden'));
-    if(empty) empty.classList.toggle('is-on', !anyShown);
-  };
-
-  btns.forEach(b=>b.addEventListener('click',()=>{
-    btns.forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');
-    apply(b.dataset.filter);
-  }));
-})();
-
 /* In-view video: plays only while it's actually on screen. src is set
    lazily via data-src so nothing downloads until the card nears the
    viewport; muted+playsinline so autoplay is allowed everywhere. */
