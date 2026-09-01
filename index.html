@@ -530,19 +530,15 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
 .about-text .lede{font-family:var(--sans);font-size:clamp(1.6rem,2.7vw,2.15rem);font-weight:500;line-height:1.45;letter-spacing:-.015em;margin-bottom:1.7rem;color:var(--ink)}
 .about-text p{font-size:1.02rem;font-weight:300;line-height:1.85;color:var(--mist);margin-bottom:1rem}
 /* Desktop: the paragraph sat at 16px against a 34px lede and a 500px-tall
-   photo beside it, which read as an afterthought. Up to 18px with a little
-   more air, and the two columns centre against each other so neither hangs
-   below the other. */
+   photo beside it, which read as an afterthought. Both columns stay top
+   aligned — centring them floated the lede down off the top of the photo,
+   which read worse than the overhang it was fixing. */
 @media (min-width:1101px){
-  .about-layout{align-items:center}
   .about-text .lede{margin-bottom:1.9rem}
-  .about-text p{font-size:1.06rem;font-weight:400;line-height:1.8;margin-bottom:1.15rem}
+  .about-text p{font-size:1.12rem;font-weight:400;line-height:1.78;margin-bottom:1.15rem}
 }
-/* The full bump only once the column is wide enough to take it — below this
-   the text is already the taller of the two and more type just widens the
-   gap against the photo. */
 @media (min-width:1366px){
-  .about-text p{font-size:1.12rem}
+  .about-text p{font-size:1.18rem;line-height:1.75}
 }
 .about-edu-wrap{margin-top:4rem;padding-top:.5rem}
 
