@@ -2725,8 +2725,8 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
   letter-spacing:-.03em;line-height:1.05;color:var(--ink);margin:0;
 }
 .ec-deg{
-  font-family:var(--mono);font-size:.62rem;font-weight:500;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--fog);line-height:1.7;margin:.6rem 0 0;
+  font-family:var(--mono);font-size:.68rem;font-weight:500;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--mist);line-height:1.8;margin:.7rem 0 0;
 }
 /* Spec-sheet rows rather than pills. Each card was carrying 15-20 identical
    capsules across three or four groups, which read as noise and told you
@@ -2734,8 +2734,7 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
    against a plain wrapped line reads faster, sets the groups apart, and
    matches the spec tables on the project pages. */
 .edu-rows{
-  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:0 3.5rem;margin:2rem 0 0;
+  display:grid;margin:2rem 0 0;
   border-top:1px solid var(--line);
   border-bottom:1px solid var(--line);
 }
@@ -2743,56 +2742,63 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
   display:grid;grid-template-columns:8rem minmax(0,1fr);
   gap:1.1rem;padding:1.1rem 0;
 }
-/* The outer rules belong to the grid so they run the full width instead of
-   stopping at the column gap. Only the internal separators sit on the rows —
-   in a two-column grid that is every row from the third on. */
-.edu-row:nth-child(n+3){border-top:1px solid var(--line)}
+.edu-row:nth-child(n+2){border-top:1px solid var(--line)}
 .edu-row dt{
-  font-family:var(--mono);font-size:.52rem;font-weight:600;letter-spacing:.22em;
-  text-transform:uppercase;color:var(--fog);padding-top:.2rem;
+  font-family:var(--mono);font-size:.55rem;font-weight:600;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--mist);padding-top:.2rem;
 }
 .edu-row dd{
-  margin:0;font-size:.84rem;line-height:1.7;color:var(--mist);
+  margin:0;font-size:.9rem;line-height:1.75;color:var(--ink);
 }
 /* Separator between entries — a dim mid-dot, so the line still scans as a
    list without a border around every item. */
 .edu-row dd i{font-style:normal;color:var(--fog);padding:0 .4rem}
-.edu-row dd b{font-weight:500;color:var(--ink)}
+.edu-row dd b{font-weight:600}
 
-/* CONTACT */
-#contact{
-  min-height:90vh;display:flex;flex-direction:column;
-  justify-content:center;padding:8rem 5vw;
-  background:var(--paper);position:relative;overflow:hidden;
-  border-bottom:none;
+/* CONTACT
+   A labelled rule, a statement, and every way to reach me as one spec list.
+   No watermark word, no duplicate mailto, no second full-height panel. */
+#contact{padding:6.5rem 5vw 7rem;background:var(--paper);border-bottom:none}
+.ct-rail{display:flex;align-items:center;gap:1.1rem;margin-bottom:2.6rem}
+.ct-rail-label{
+  font-family:var(--mono);font-size:.58rem;font-weight:600;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--mist);white-space:nowrap;
 }
-.ct-bg{
-  position:absolute;bottom:-2rem;right:-2rem;
-  font-family:var(--sans);
-  font-size:clamp(10rem,22vw,20rem);font-weight:700;
-  letter-spacing:-.02em;color:rgba(243,246,250,.03);
-  pointer-events:none;user-select:none;line-height:1;white-space:nowrap;
+.ct-rail-line{flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+.ct-grid{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:3rem 5rem;align-items:start;
 }
-.ct-label{font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--fog);margin-bottom:2.5rem}
 .ct-heading{
-  font-family:var(--sans);
-  font-size:clamp(3.2rem,8.5vw,7rem);
-  font-weight:600;line-height:.92;letter-spacing:-.03em;
-  color:var(--ink);margin-bottom:4rem;
+  font-family:var(--sans);font-size:clamp(2.4rem,5vw,4.2rem);font-weight:700;
+  letter-spacing:-.04em;line-height:1;color:var(--ink);margin:0;
 }
-.ct-heading span{color:transparent;-webkit-text-stroke:1px rgba(243,246,250,.35)}
-.ct-email{
-  font-family:var(--sans);
-  font-size:clamp(1.1rem,2vw,1.5rem);
-  color:var(--ink);text-decoration:none;
-  border-bottom:1px solid var(--line);
-  padding-bottom:.3rem;transition:border-color .3s;
-  display:inline-block;
+.ct-note{
+  margin:1.1rem 0 0;max-width:38ch;
+  font-size:.92rem;line-height:1.75;color:var(--mist);
 }
-.ct-email:hover{border-color:var(--ink)}
-.ct-row{display:flex;gap:3rem;margin-top:3.5rem;flex-wrap:wrap}
-.ct-link{font-family:var(--mono);font-size:.62rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--fog);text-decoration:none;transition:color .25s;display:flex;align-items:center;gap:.4rem}
-.ct-link:hover{color:var(--ink)}
+.ct-list{
+  display:grid;margin:0;
+  border-top:1px solid var(--line);
+}
+.ct-item{
+  display:grid;grid-template-columns:7rem minmax(0,1fr);
+  gap:1.1rem;align-items:baseline;
+  padding:.95rem 0;border-bottom:1px solid var(--line);
+}
+.ct-item dt{
+  font-family:var(--mono);font-size:.52rem;font-weight:600;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--fog);
+}
+.ct-item dd{margin:0;min-width:0}
+.ct-item dd a{
+  font-size:.95rem;line-height:1.4;color:var(--ink);text-decoration:none;
+  border-bottom:1px solid transparent;
+  transition:border-color .25s ease,color .25s ease;
+  word-break:break-word;
+}
+.ct-item dd a:hover{border-bottom-color:rgba(255,255,255,.4)}
+.ct-item dd a span{color:var(--fog);font-size:.8em}
 
 /* FOOTER */
 footer{
@@ -3142,16 +3148,21 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .edu-rail-line{display:none}
   .edu-rail-label{font-size:.52rem;letter-spacing:.2em}
   .edu-rail-year{font-size:.5rem;letter-spacing:.16em}
-  .ec-deg{font-size:.55rem;line-height:1.6;letter-spacing:.12em}
+  .ec-deg{font-size:.6rem;line-height:1.7;letter-spacing:.08em}
   /* One column, label above value — an 8rem label column leaves nothing for
      the text at phone width. */
-  .edu-rows{grid-template-columns:1fr;gap:0;margin-top:1.5rem}
-  .edu-row{grid-template-columns:1fr;gap:.35rem;padding:.9rem 0}
+  .edu-rows{margin-top:1.5rem}
+  .edu-row{grid-template-columns:1fr;gap:.4rem;padding:.95rem 0}
   .edu-row dt{padding-top:0}
-  .edu-row dd{font-size:.8rem;line-height:1.65}
-  /* One column, so every row past the first needs the separator. */
-  .edu-row:nth-child(n+2){border-top:1px solid var(--line)}
-  .ct-row{gap:1.35rem}
+  .edu-row dd{font-size:.86rem;line-height:1.7}
+  /* Label above value; a 7rem label column leaves nothing for a full email
+     address at phone width. */
+  .ct-grid{grid-template-columns:1fr;gap:2.2rem}
+  .ct-item{grid-template-columns:1fr;gap:.3rem;padding:.85rem 0}
+  .ct-item dd a{font-size:.9rem}
+  .ct-note{font-size:.88rem;max-width:none}
+  .ct-rail{gap:.8rem;margin-bottom:1.9rem}
+  #contact{padding:4.2rem 5vw 4.6rem}
   footer{flex-direction:column;align-items:flex-start;gap:.6rem}
 }
 
@@ -4486,64 +4497,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .ig-pan-feat{border-radius:10px}
 }
 
-/* ─────────────────────────────────── PITCH FORM ── */
-/* ═══════════════════════════════════════════════ REACH OUT ══
-   Bottom-of-page contact CTA. Replaces the old pitch form — no fields to
-   fill in, the button just opens the visitor's mail client.
-   ========================================================== */
-#reach{padding:6.5rem 5vw 7rem;border-bottom:1px solid var(--line);position:relative;overflow:hidden}
-#reach::before{
-  content:'';position:absolute;left:50%;top:0;width:min(900px,90vw);height:1px;
-  transform:translateX(-50%);
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.16),transparent);
-}
-.reach-inner{max-width:760px;margin:0 auto;text-align:center;display:flex;
-  flex-direction:column;align-items:center}
-.reach-kicker{
-  font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.24em;
-  text-transform:uppercase;color:var(--mist);margin-bottom:1.1rem;
-}
-.reach-title{
-  font-family:var(--sans);font-size:clamp(2.4rem,5.4vw,4.4rem);font-weight:800;
-  letter-spacing:-.045em;line-height:.98;color:var(--ink);margin:0 0 1.1rem;
-}
-.reach-lede{
-  font-size:clamp(.92rem,1.3vw,1.06rem);line-height:1.72;color:var(--mist);
-  max-width:52ch;margin:0 0 2.4rem;
-}
-/* The mail button — the one thing this section is for */
-.reach-btn{
-  display:inline-flex;align-items:center;gap:.85rem;
-  font-family:var(--mono);font-size:clamp(.74rem,1.1vw,.92rem);font-weight:600;
-  letter-spacing:.04em;color:var(--paper);text-decoration:none;
-  background:var(--ink);border:1px solid var(--ink);border-radius:999px;
-  padding:1.05rem 2rem;
-  transition:transform .4s cubic-bezier(.16,1,.3,1),
-             box-shadow .4s cubic-bezier(.16,1,.3,1),gap .35s cubic-bezier(.16,1,.3,1);
-  box-shadow:0 10px 34px -14px rgba(255,255,255,.42);
-}
-.reach-btn:hover{transform:translateY(-3px);gap:1.15rem;
-  box-shadow:0 18px 48px -16px rgba(255,255,255,.55)}
-.reach-btn:active{transform:translateY(-1px)}
-.reach-btn:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
-.reach-btn svg{flex-shrink:0;transition:transform .35s cubic-bezier(.16,1,.3,1)}
-.reach-btn:hover svg{transform:translateX(3px)}
-
-.reach-alt{margin-top:1.5rem;display:flex;align-items:center;gap:1.4rem;flex-wrap:wrap;justify-content:center}
-.reach-alt a{
-  font-family:var(--mono);font-size:.62rem;font-weight:500;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--mist);text-decoration:none;
-  border-bottom:1px solid transparent;padding-bottom:.15rem;transition:color .3s ease,border-color .3s ease;
-}
-.reach-alt a:hover{color:var(--ink);border-bottom-color:rgba(255,255,255,.35)}
-.reach-note{
-  margin:2rem 0 0;font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--fog);
-}
 @media(max-width:640px){
-  #reach{padding:3.6rem 5vw 4rem}
-  .reach-btn{padding:.95rem 1.5rem;font-size:.72rem;max-width:100%}
-  .reach-lede{margin-bottom:1.8rem}
   /* Build cards — placeholder stack; proper mobile pass still to come. */
   .blt-grid-now{grid-template-columns:1fr}
   .blt-grid{padding:0 4vw;gap:.9rem}
@@ -4551,10 +4505,6 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .blt-title{font-size:clamp(1.9rem,7.5vw,2.6rem)}
   .blt-name{font-size:1.25rem}
   #build-log{padding:3.2rem 0 2.4rem;border-bottom:none}
-}
-@media(prefers-reduced-motion:reduce){
-  .reach-btn{transition:none}
-  .reach-btn:hover{transform:none}
 }
 
 
@@ -4572,6 +4522,32 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 /* Nav stays pinned — no transition animation */
 #nav{view-transition-name:site-nav}
 ::view-transition-old(site-nav),::view-transition-new(site-nav){animation:none;mix-blend-mode:normal}
+
+/* ── MOBILE TYPE FLOOR ──────────────────────────────────────────────
+   Lives at the end of the sheet on purpose: most of these classes are
+   single-class rules declared further down, and at equal specificity the
+   later declaration wins. */
+@media (max-width:760px){
+  .sec-label,.certs-label,.ct-rail-label,.edu-rail-label,
+  .blt-idx,.blt-spec,.blt-meta,.blt-prog-val,
+  .work-sub,.work-blurb-title,.work-modal-label,.work-modal-btn,
+  .proj-stage-name,.cert-viewer-close,.about-modal-close,
+  .fab-reel-label{font-size:.62rem;letter-spacing:.16em}
+
+  .af-l,.edu-rail-year,.cert-issuer,.cert-viewer-hint,
+  .about-open,.about-modal-sub,.work-modal-close,
+  .work-subtitle,.work-subgroup-title,.work-subtab,
+  .proj-kicker,.proj-tab,.proj-spec-label,
+  .finance-label,.trading-label,.future-pill{font-size:.62rem;letter-spacing:.13em}
+
+  .cert-link,.about-spot-tag,.work-meta-label,.work-blurb-desc,
+  .finance-card-step,.finance-grid-kicker,.finance-screen-status,
+  .trading-card-step,.trading-status,.future-state,
+  .depth-book-title,.equation-chip{font-size:.62rem;letter-spacing:.1em}
+
+  .cert-meta,.cert-meta span,.ct-item dt,.edu-row dt{font-size:.62rem;letter-spacing:.16em}
+  .blt-specs,.blt-spec{font-size:.62rem;letter-spacing:.12em}
+}
 </style>
 </head>
 <body>
@@ -5051,10 +5027,6 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
         <div class="edu-row">
           <dt>Teams &amp; Orgs</dt>
           <dd><b>Motorsports SAE</b> — Aero Apprentice, EV Go-Kart Engineer<i aria-hidden="true">·</i><b>Watson Combat Robotics</b> — Antweight Full Engineer<i aria-hidden="true">·</i>ASME<i aria-hidden="true">·</i>Computer Robotics &amp; Engineering Community (CoRE)</dd>
-        </div>
-        <div class="edu-row">
-          <dt>Certifications</dt>
-          <dd>Bloomberg Finance Fundamentals<i aria-hidden="true">·</i>Bloomberg Spreadsheet Analysis<i aria-hidden="true">·</i>Introduction to Corporate Finance (UPenn)<i aria-hidden="true">·</i>Fundamentals of Quantitative Modeling (UPenn)<i aria-hidden="true">·</i>Cash Flow Management (Duke)<i aria-hidden="true">·</i>Google AI Essentials</dd>
         </div>
       </dl>
     </div>
@@ -6277,43 +6249,43 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 
 
 <!-- REACH OUT ──────────────────────────────────────────────── -->
-<section id="reach">
-  <div class="reach-inner">
-    <span class="reach-kicker rv">Get in touch</span>
-    <h2 class="reach-title rv">Reach out.</h2>
-    <p class="reach-lede rv d1">Advice, a question about a build, an idea you want made, or work you'd like to talk about — it all goes straight to my inbox.</p>
-
-    <a class="reach-btn rv d2"
-       href="mailto:arshhashmi.nyc@gmail.com?subject=Hey%20Arsh"
-       aria-label="Email Arsh at arshhashmi.nyc@gmail.com">
-      arshhashmi.nyc@gmail.com
-      <svg width="15" height="10" viewBox="0 0 13 9" fill="none" aria-hidden="true">
-        <path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.5"
-              stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </a>
-
-    <div class="reach-alt rv d3">
-      <a href="https://instagram.com/engineeringwitharsh" target="_blank" rel="noopener">Instagram ↗</a>
-      <a href="contact.html">Contact page</a>
-    </div>
-
-    <p class="reach-note rv d3">I read everything that comes in.</p>
-  </div>
-</section>
-
-<!-- CONTACT -->
+<!-- CONTACT ────────────────────────────────────────────────────
+     One block, all of it. This used to be two full-height sections back to
+     back — a "Reach out." CTA and a "Let's build something." panel — both
+     leading with the same mailto, plus a 20rem watermark word behind them.
+     ============================================================== -->
 <section id="contact">
-  <div class="ct-bg">Together.</div>
-  <div class="ct-in">
-    <p class="ct-label rv">Open to internships & technical opportunities</p>
-    <div class="ct-heading rv">Let's build<br><span>something.</span></div>
-    <a href="mailto:arshhashmi.nyc@gmail.com" class="ct-email rv">arshhashmi.nyc@gmail.com</a>
-    <div class="ct-row rv d1">
-      <a href="https://www.linkedin.com/in/arsh-hashmi" target="_blank" class="ct-link">LinkedIn ↗</a>
-      <a href="tel:9293982760" class="ct-link">929 · 398 · 2760</a>
-      <a href="https://cosmicpcs.us" target="_blank" class="ct-link">Cosmic PCs ↗</a>
+  <div class="ct-rail rv">
+    <span class="ct-rail-label">Get in touch</span>
+    <span class="ct-rail-line" aria-hidden="true"></span>
+  </div>
+  <div class="ct-grid">
+    <div class="ct-lead rv">
+      <h2 class="ct-heading">Let's build something.</h2>
+      <p class="ct-note">Open to motorsport, automotive, and R&amp;D internships. Happy to talk through a build either way.</p>
     </div>
+    <dl class="ct-list rv d1">
+      <div class="ct-item">
+        <dt>Email</dt>
+        <dd><a href="mailto:arshhashmi.nyc@gmail.com">arshhashmi.nyc@gmail.com</a></dd>
+      </div>
+      <div class="ct-item">
+        <dt>Phone</dt>
+        <dd><a href="tel:+19293982760">929 398 2760</a></dd>
+      </div>
+      <div class="ct-item">
+        <dt>LinkedIn</dt>
+        <dd><a href="https://www.linkedin.com/in/arsh-hashmi" target="_blank" rel="noopener">/in/arsh-hashmi <span aria-hidden="true">&#8599;</span></a></dd>
+      </div>
+      <div class="ct-item">
+        <dt>Instagram</dt>
+        <dd><a href="https://instagram.com/engineeringwitharsh" target="_blank" rel="noopener">@engineeringwitharsh <span aria-hidden="true">&#8599;</span></a></dd>
+      </div>
+      <div class="ct-item">
+        <dt>Cosmic PCs</dt>
+        <dd><a href="https://cosmicpcs.us" target="_blank" rel="noopener">cosmicpcs.us <span aria-hidden="true">&#8599;</span></a></dd>
+      </div>
+    </dl>
   </div>
 </section>
 
@@ -6675,6 +6647,9 @@ let certRafId=0;
 let certLastTs=0;
 const certReducedMotionQuery=window.matchMedia('(prefers-reduced-motion: reduce)');
 let certTouchX=0;
+let certTouchTs=0;
+let certVelocity=0;
+let certFlingId=0;
 
 const setCertPaused=paused=>{
   if(!certCarousel)return;
@@ -6709,7 +6684,7 @@ if(certCarousel&&certCards.length){
     setCertPaused(true);
   };
   const resumeCertCycle=()=>{
-    if(certHovering||certFocused||certInteracting)return;
+    if(certHovering||certFocused||certInteracting||certFlingId)return;
     setCertPaused(false);
     certLastTs=0;
   };
@@ -6776,19 +6751,53 @@ if(certCarousel&&certCards.length){
     const delta=hasHorizontalIntent?e.deltaX:e.deltaY;
     nudgeCertOffset(delta);
   },{passive:true});
-  certCarousel.addEventListener('touchstart',holdCertPauseAfterInteraction,{passive:true});
+  /* ── Touch: drag, then coast ──────────────────────────────────────────
+     The track is three cloned sets driven by a transform, not a scroller, so
+     there is no native momentum to inherit — a swipe used to stop dead the
+     moment your finger left the glass. Track the velocity of the last move
+     and decay it after touchend so a flick carries. */
   certCarousel.addEventListener('touchstart',e=>{
     const touch=e.touches?.[0];
     if(!touch)return;
+    holdCertPauseAfterInteraction();
     certTouchX=touch.clientX;
+    certTouchTs=e.timeStamp||performance.now();
+    certVelocity=0;
+    if(certFlingId){cancelAnimationFrame(certFlingId);certFlingId=0;}
   },{passive:true});
   certCarousel.addEventListener('touchmove',e=>{
     const touch=e.touches?.[0];
     if(!touch)return;
     holdCertPauseAfterInteraction();
+    const now=e.timeStamp||performance.now();
     const dx=certTouchX-touch.clientX;
+    const dt=now-certTouchTs;
     certTouchX=touch.clientX;
+    certTouchTs=now;
+    /* px per ms, smoothed so one jittery sample can't launch the fling */
+    if(dt>0)certVelocity=certVelocity*0.7+(dx/dt)*0.3;
     nudgeCertOffset(dx);
+  },{passive:true});
+  certCarousel.addEventListener('touchend',()=>{
+    if(Math.abs(certVelocity)<0.05)return;
+    /* Cap the launch speed so a hard flick doesn't blur the whole strip. */
+    let v=Math.max(-3.2,Math.min(3.2,certVelocity));
+    let last=performance.now();
+    certInteracting=true;
+    const coast=ts=>{
+      const dt=Math.min(48,ts-last);
+      last=ts;
+      nudgeCertOffset(v*dt);
+      v*=Math.pow(0.9925,dt);          /* ~0.5s to settle from a normal flick */
+      if(Math.abs(v)>0.02){
+        certFlingId=requestAnimationFrame(coast);
+      }else{
+        certFlingId=0;
+        certInteracting=false;
+        scheduleCertResume();
+      }
+    };
+    certFlingId=requestAnimationFrame(coast);
   },{passive:true});
   certCarousel.addEventListener('pointerdown',holdCertPauseAfterInteraction);
   certCarousel.addEventListener('mouseenter',()=>{
@@ -7351,6 +7360,12 @@ window.addEventListener('resize',()=>{
   _previewResizeTimer=setTimeout(syncWorkPreviewMarquee,80);
 });
 
+/* Coarse pointer, not just a narrow window — a desktop browser resized down
+   still has a cursor and the full choreography reads fine there. Checked per
+   click so nothing is baked in at load. */
+const isCoarseWork=()=>window.matchMedia('(hover:none)').matches
+                     ||window.matchMedia('(max-width:760px)').matches;
+
 const bindPreviewThumbs=()=>{
   document.querySelectorAll('[data-preview-thumb]').forEach(thumb=>{
     if(thumb.dataset.previewBound)return;
@@ -7372,6 +7387,23 @@ const bindPreviewThumbs=()=>{
 
       // Keep Selected Work easy to browse: only one open at a time.
       closeOtherWorkItems(item);
+
+      /* ── Touch: open the section, switch to that tab, done ──────────────
+         The desktop path below sweeps the tab bar, steps the scroll position
+         twice, then pulses the group and the individual thumbnail you came
+         from. On a phone that is a second and a half of animation you cannot
+         see the end of, landing on a highlight that has already faded by the
+         time the scroll settles. Tapping any image here just means "show me
+         that tab". Tapping the header still closes it. */
+      if(isCoarseWork()){
+        item.querySelectorAll('[data-preview-thumb].is-selected').forEach(t=>t.classList.remove('is-selected'));
+        thumb.classList.add('is-selected');
+        if(!expanded)updateWorkPanel(item,true);
+        if(tabId&&setTab)setTab(tabId);
+        requestAnimationFrame(()=>ensureWorkBrowsePosition(item,{prefer:'subnav'}));
+        return;
+      }
+
       if(expanded&&tabId&&activeTab===tabId){
         item.classList.add('is-autoclose');
         updateWorkPanel(item,false);
@@ -8018,14 +8050,25 @@ document.getElementById('navHomeBtn')?.addEventListener('click',e=>{
   }
 })();
 
-/* Preload work/experience gallery images — deferred until #projects enters view
-   so they don't compete with hero + about images on initial load */
+/* Preload work/experience gallery images so the modal opens instantly.
+   This is 92 files and about 18 MB. It used to fire as a single burst the
+   moment #projects came within 400px of the viewport, on every device — the
+   heaviest thing the page did, and all of it while you were still reading.
+   Now: phones and metered connections skip it entirely (every thumbnail is
+   loading="lazy" and the modal fetches on open, so nothing breaks, it just
+   costs a moment on first open), and desktop drips it out during idle time
+   so it never competes with rendering. */
 (() => {
   const projectsSection=document.getElementById('projects');
   if(!projectsSection)return;
+  const conn=navigator.connection;
+  const skipPreload=window.matchMedia('(hover:none)').matches
+                  ||window.matchMedia('(max-width:760px)').matches
+                  ||conn?.saveData===true
+                  ||/^(slow-)?2g$/.test(conn?.effectiveType||'');
   let preloaded=false;
   const doPreload=()=>{
-    if(preloaded)return;
+    if(preloaded||skipPreload)return;
     preloaded=true;
     const urls=new Set();
     document.querySelectorAll('[data-work-gallery]').forEach(el=>{
@@ -8036,11 +8079,20 @@ document.getElementById('navHomeBtn')?.addEventListener('click',e=>{
         if(clean)urls.add(clean);
       });
     });
-    urls.forEach(src=>{
-      const img=new Image();
-      img.decoding='async';
-      img.src=src;
-    });
+    const queue=[...urls];
+    const idle=window.requestIdleCallback||(fn=>setTimeout(()=>fn({timeRemaining:()=>8}),200));
+    const pump=deadline=>{
+      /* Four at a time, and only while the main thread is free. */
+      let n=0;
+      while(queue.length&&n<4&&(deadline.timeRemaining?.()>2||deadline.didTimeout)){
+        const img=new Image();
+        img.decoding='async';
+        img.src=queue.shift();
+        n+=1;
+      }
+      if(queue.length)idle(pump,{timeout:2000});
+    };
+    idle(pump,{timeout:2000});
   };
   const sectionObserver=new IntersectionObserver(entries=>{
     if(entries[0].isIntersecting){

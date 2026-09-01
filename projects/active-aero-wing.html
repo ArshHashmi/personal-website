@@ -59,7 +59,30 @@ body::before{
 .pnav-right{display:flex;align-items:center;gap:.65rem;justify-self:end}
 .pnav-cta{font-family:var(--sans);font-size:.82rem;font-weight:400;letter-spacing:-.01em;color:rgba(255,255,255,.28);text-decoration:none;white-space:nowrap;transition:color .15s}
 .pnav-cta:hover{color:rgba(255,255,255,.55)}
-@media(max-width:680px){.pnav-links{display:none}}
+@media(max-width:680px){
+  /* The links were simply hidden here, which left every sub-page with no
+     navigation at all on a phone — just a logo and a Contact link. Wrap them
+     onto a second row instead. The bar grows from 60px to about 70px, which
+     every page's top offset already clears. */
+  .pnav{height:auto;padding:.6rem 5vw .55rem;grid-template-columns:1fr auto;row-gap:.5rem;align-items:center}
+  .pnav-logo{grid-column:1;grid-row:1}
+  .pnav-right{grid-column:2;grid-row:1}
+  .pnav-links{
+    grid-column:1 / -1;grid-row:2;justify-content:flex-start;gap:.3rem;
+    overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;
+    margin:0;padding:0;
+  }
+  .pnav-links::-webkit-scrollbar{display:none}
+  .pnav-links a{font-size:.76rem;padding:.42rem .8rem;flex:0 0 auto}
+  .pnav-logo-wordmark{font-size:.74rem;letter-spacing:.06em}
+  .pnav-cta{font-size:.76rem}
+  /* The status pills crowd the logo out of the top row, and the hero
+     two hundred pixels below says the same thing. */
+  .pnav-badge,.pnav-free{display:none}
+  /* The floating back control was pinned under the taller two-row bar.
+     Qualified with body because the base rule is declared further down. */
+  body .back-fab{top:88px;left:1rem}
+}
 .pnav-back{
   display:inline-flex;align-items:center;gap:.5rem;
   font-family:var(--mono);font-size:.6rem;font-weight:600;
@@ -414,6 +437,21 @@ body::before{
   .spec-cell:nth-child(2n){border-right:none}
   .spec-cell:nth-last-child(-n+2){border-bottom:none}
   .includes-grid{grid-template-columns:1fr}
+}
+
+/* ── MOBILE TYPE FLOOR ──────────────────────────────────────────────
+   This page runs its mono labels from .54rem down to .44rem — 7px on a
+   phone, well past the point of being readable. Lift everything to a
+   floor and pull the tracking in so the wider glyphs still fit. */
+@media(max-width:680px){
+  .phero-tag,.phero-stat-l,
+  .mode-tag,.mode-angle-l,.spec-k,.phase-label,.inc-desc{
+    font-size:.64rem;letter-spacing:.11em;
+  }
+  .phero-kicker,.psec-label,.mode-stat-k,.cta-kicker,
+  .pfooter-note,.pfooter-back,.phase-node{font-size:.66rem;letter-spacing:.13em}
+  .phase-status-pill{font-size:.62rem;letter-spacing:.09em}
+  .pimg-caption{font-size:.68rem;letter-spacing:.02em;line-height:1.5}
 }
 </style>
 </head>
