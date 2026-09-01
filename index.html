@@ -1143,14 +1143,9 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
 /* SKILLS */
 
 /* EDUCATION
-   No rules anywhere in here. The previous version fenced the entry with a
-   labelled rule across the top and then put every org on its own bordered
-   row, which chopped four short lines of text into five separate bands.
-   Type size and spacing do the same job without drawing anything. */
-.edu-label{
-  font-family:var(--ui);font-size:.9rem;font-weight:600;letter-spacing:-.005em;
-  color:var(--mist);display:block;margin-bottom:1.5rem;
-}
+   No rules anywhere in here, and no eyebrow labels either — "Binghamton
+   University" and "Teams & orgs" both already say what they are without a
+   caption over them. Type size and spacing carry the hierarchy instead. */
 .ec-school{
   font-family:var(--sans);font-size:clamp(1.9rem,3.4vw,2.8rem);font-weight:700;
   letter-spacing:-.035em;line-height:1.05;color:var(--ink);margin:0;
@@ -1181,24 +1176,19 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
 /* ── Desktop: two columns ────────────────────────────────────────────
    Everything was stacked in one narrow column, which left the whole right
    half of a wide screen empty and made the type read as a descending stack
-   of ever-smaller lines. School on the left, what I do there on the right,
-   with the two mono labels sharing a baseline. display:contents lets the
-   orgs label and its list place themselves as grid items so that alignment
-   holds without wrapping them in another element.
+   of ever-smaller lines. School top-left, orgs top-right, both starting on
+   the same line now that neither carries a caption above it.
    Scoped above the breakpoint where .about-layout stops being two columns,
    so the phone layout is untouched. */
 @media (min-width:1101px){
   .about-edu-wrap{
     display:grid;
     grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
-    column-gap:clamp(2.5rem,4vw,5rem);row-gap:1.4rem;
+    column-gap:clamp(2.5rem,4vw,5rem);
     align-items:start;
   }
-  .about-edu-wrap > .edu-label{grid-column:1;grid-row:1;margin-bottom:0}
-  .edu-entry{grid-column:1;grid-row:2}
-  .edu-orgs{display:contents}
-  .edu-orgs > .edu-label{grid-column:2;grid-row:1;margin-bottom:0}
-  .edu-org-list{grid-column:2;grid-row:2}
+  .edu-entry{grid-column:1;grid-row:1}
+  .edu-orgs{grid-column:2;grid-row:1;margin-top:0}
 
   /* Sized against the rest of the page rather than against itself: the
      school no longer has to be 45px to look like a heading now that it is
@@ -1218,15 +1208,9 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
 }
 
 /* CONTACT
-   A labelled rule, a statement, and every way to reach me as one spec list.
-   No watermark word, no duplicate mailto, no second full-height panel. */
+   A statement and every way to reach me, as one spec list. No eyebrow label,
+   no watermark word, no duplicate mailto, no second full-height panel. */
 #contact{padding:6.5rem 5vw 7rem;background:var(--paper);border-bottom:none}
-.ct-rail{display:flex;align-items:center;gap:1.1rem;margin-bottom:2.6rem}
-.ct-rail-label{
-  font-family:var(--ui);font-size:.9rem;font-weight:600;letter-spacing:-.005em;
-  color:var(--mist);white-space:nowrap;
-}
-.ct-rail-line{flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
 .ct-grid{
   display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
   gap:3rem 5rem;align-items:start;
@@ -1445,7 +1429,6 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .hb-desc{font-size:1rem;line-height:1.85}
   .hb-meta{font-size:.62rem}
   .about-edu-wrap{margin-top:3rem}
-  .edu-label{margin-bottom:1.1rem}
   .ec-major{font-size:1rem}
   .ec-sub{font-size:.86rem}
   .edu-orgs{margin-top:2.4rem}
@@ -1460,7 +1443,6 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .ct-item{grid-template-columns:1fr;gap:.3rem;padding:.85rem 0}
   .ct-item dd a{font-size:.9rem}
   .ct-note{font-size:.88rem;max-width:none}
-  .ct-rail{gap:.8rem;margin-bottom:1.9rem}
   #contact{padding:4.2rem 5vw 4.6rem}
   footer{flex-direction:column;align-items:flex-start;gap:.6rem}
 
@@ -2541,7 +2523,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 
   /* The relabelled set doesn't belong in the floor above — it is already
      well past it. It just comes down a step for the narrower column. */
-  .certs-label,.ct-rail-label,.edu-label{font-size:.84rem}
+  .certs-label{font-size:.84rem}
   .ct-item dt,.ec-when{font-size:.82rem}
   .cert-hint{font-size:.75rem}
 }
@@ -2987,8 +2969,6 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
     </div>
   </div>
   <div class="about-edu-wrap rv d4">
-    <span class="edu-label">Where I study</span>
-
     <div class="edu-entry">
       <h3 class="ec-school">Binghamton University</h3>
       <p class="ec-major">Mechanical Engineering + Computer Science</p>
@@ -2997,7 +2977,6 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
     </div>
 
     <div class="edu-orgs">
-      <span class="edu-label">Teams &amp; orgs</span>
       <ul class="edu-org-list">
         <li>
           <span class="org-name">Motorsports SAE</span>
@@ -3031,10 +3010,6 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
      leading with the same mailto, plus a 20rem watermark word behind them.
      ============================================================== -->
 <section id="contact">
-  <div class="ct-rail rv">
-    <span class="ct-rail-label">Get in touch</span>
-    <span class="ct-rail-line" aria-hidden="true"></span>
-  </div>
   <div class="ct-grid">
     <div class="ct-lead rv">
       <h2 class="ct-heading">Let's build something.</h2>
@@ -3046,20 +3021,12 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
         <dd><a href="mailto:arshhashmi.nyc@gmail.com">arshhashmi.nyc@gmail.com</a></dd>
       </div>
       <div class="ct-item">
-        <dt>Phone</dt>
-        <dd><a href="tel:+19293982760">929 398 2760</a></dd>
-      </div>
-      <div class="ct-item">
         <dt>LinkedIn</dt>
         <dd><a href="https://www.linkedin.com/in/arsh-hashmi" target="_blank" rel="noopener">/in/arsh-hashmi <span aria-hidden="true">&#8599;</span></a></dd>
       </div>
       <div class="ct-item">
         <dt>Instagram</dt>
         <dd><a href="https://instagram.com/engineeringwitharsh" target="_blank" rel="noopener">@engineeringwitharsh <span aria-hidden="true">&#8599;</span></a></dd>
-      </div>
-      <div class="ct-item">
-        <dt>Cosmic PCs</dt>
-        <dd><a href="https://cosmicpcs.us" target="_blank" rel="noopener">cosmicpcs.us <span aria-hidden="true">&#8599;</span></a></dd>
       </div>
     </dl>
   </div>
