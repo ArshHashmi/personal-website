@@ -83,6 +83,10 @@
   --serif:'Sora',sans-serif;
   --sans:'Sora',sans-serif;
   --mono:'IBM Plex Mono',monospace;
+  /* UI/label face. Already loaded for the nav — pairing the Sora display
+     face with a second sans reads as a system; pairing it with a monospace
+     at 8px read as a template. */
+  --ui:'Manrope',sans-serif;
 }
 html{scroll-behavior:smooth;background:#080808}
 body{
@@ -572,13 +576,20 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
   margin-bottom:1.1rem;
   z-index:1;
 }
+/* ── Section and field labels ────────────────────────────────────────
+   These were 8-9px IBM Plex Mono, uppercase, with .22em of tracking. That
+   exact combination — tiny, wide-tracked, all-caps monospace — is the most
+   over-used tic in template portfolio design, and at that size it was
+   barely legible on top of it. They are Manrope now, at a size you can
+   read, in sentence case with normal tracking. Sora still carries the
+   headings, so the page reads as a display face plus a UI face rather than
+   a display face plus a terminal. */
 .certs-label{
-  font-family:var(--mono);
-  font-size:.58rem;
+  font-family:var(--ui);
+  font-size:.9rem;
   font-weight:600;
-  letter-spacing:.22em;
-  text-transform:uppercase;
-  color:var(--fog);
+  letter-spacing:-.005em;
+  color:var(--mist);
 }
 .certs-actions{display:flex;align-items:center;gap:.55rem}
 .certs-btn{
@@ -799,10 +810,10 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
   position:relative;
   z-index:1;
   margin-top:.95rem;
-  font-family:var(--mono);
-  font-size:.52rem;
-  letter-spacing:.14em;
-  text-transform:uppercase;
+  font-family:var(--ui);
+  font-size:.8rem;
+  font-weight:400;
+  letter-spacing:0;
   color:var(--fog);
   display:flex;
   justify-content:space-between;
@@ -1137,8 +1148,8 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
    row, which chopped four short lines of text into five separate bands.
    Type size and spacing do the same job without drawing anything. */
 .edu-label{
-  font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.24em;
-  text-transform:uppercase;color:var(--mist);display:block;margin-bottom:1.5rem;
+  font-family:var(--ui);font-size:.9rem;font-weight:600;letter-spacing:-.005em;
+  color:var(--mist);display:block;margin-bottom:1.5rem;
 }
 .ec-school{
   font-family:var(--sans);font-size:clamp(1.9rem,3.4vw,2.8rem);font-weight:700;
@@ -1152,8 +1163,8 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
   font-size:.92rem;line-height:1.6;color:var(--mist);margin:.4rem 0 0;max-width:52ch;
 }
 .ec-when{
-  font-family:var(--mono);font-size:.64rem;font-weight:500;letter-spacing:.18em;
-  text-transform:uppercase;color:var(--fog);margin:1rem 0 0;
+  font-family:var(--ui);font-size:.9rem;font-weight:400;letter-spacing:0;
+  color:var(--fog);margin:1rem 0 0;
 }
 .edu-orgs{margin-top:3rem}
 .edu-org-list{list-style:none;margin:0;padding:0;display:grid;gap:1rem}
@@ -1196,7 +1207,7 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
   .ec-school{font-size:clamp(1.7rem,2.3vw,2.25rem)}
   .ec-major{font-size:1.12rem;font-weight:600;margin-top:.55rem}
   .ec-sub{font-size:1rem;line-height:1.65;margin-top:.5rem;max-width:34ch}
-  .ec-when{font-size:.68rem;letter-spacing:.16em;margin-top:1.1rem}
+  .ec-when{font-size:.92rem;margin-top:1.1rem}
 
   .edu-org-list{gap:.85rem}
   /* Wide enough that "Watson Combat Robotics" holds one line; only CoRE's
@@ -1212,8 +1223,8 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
 #contact{padding:6.5rem 5vw 7rem;background:var(--paper);border-bottom:none}
 .ct-rail{display:flex;align-items:center;gap:1.1rem;margin-bottom:2.6rem}
 .ct-rail-label{
-  font-family:var(--mono);font-size:.58rem;font-weight:600;letter-spacing:.24em;
-  text-transform:uppercase;color:var(--mist);white-space:nowrap;
+  font-family:var(--ui);font-size:.9rem;font-weight:600;letter-spacing:-.005em;
+  color:var(--mist);white-space:nowrap;
 }
 .ct-rail-line{flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
 .ct-grid{
@@ -1238,8 +1249,8 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
   padding:.95rem 0;border-bottom:1px solid var(--line);
 }
 .ct-item dt{
-  font-family:var(--mono);font-size:.52rem;font-weight:600;letter-spacing:.22em;
-  text-transform:uppercase;color:var(--fog);
+  font-family:var(--ui);font-size:.88rem;font-weight:500;letter-spacing:-.005em;
+  color:var(--fog);
 }
 .ct-item dd{margin:0;min-width:0}
 .ct-item dd a{
@@ -2511,13 +2522,13 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
    single-class rules declared further down, and at equal specificity the
    later declaration wins. */
 @media (max-width:760px){
-  .sec-label,.certs-label,.ct-rail-label,.edu-label,
+  .sec-label,
   .blt-prog-stage,.blt-prog-val,
   .work-sub,.work-blurb-title,.work-modal-label,.work-modal-btn,
   .proj-stage-name,.cert-viewer-close,.about-modal-close,
   .fab-reel-label{font-size:.62rem;letter-spacing:.16em}
 
-  .ec-when,.cert-issuer,.cert-viewer-hint,
+  .cert-issuer,.cert-viewer-hint,
   .about-open,.about-modal-sub,.work-modal-close,
   .work-subtitle,.work-subgroup-title,.work-subtab,
   .proj-kicker,.proj-tab,.proj-spec-label,
@@ -2528,7 +2539,11 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .trading-card-step,.trading-status,.future-state,
   .depth-book-title,.equation-chip{font-size:.62rem;letter-spacing:.1em}
 
-  .ct-item dt{font-size:.62rem;letter-spacing:.16em}
+  /* The relabelled set doesn't belong in the floor above — it is already
+     well past it. It just comes down a step for the narrower column. */
+  .certs-label,.ct-rail-label,.edu-label{font-size:.84rem}
+  .ct-item dt,.ec-when{font-size:.82rem}
+  .cert-hint{font-size:.75rem}
 }
 </style>
 </head>
@@ -2977,7 +2992,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
     <div class="edu-entry">
       <h3 class="ec-school">Binghamton University</h3>
       <p class="ec-major">Mechanical Engineering + Computer Science</p>
-      <p class="ec-sub">Economics minor &middot; Watson College of Engineering &amp; Applied Science</p>
+      <p class="ec-sub">Watson College of Engineering &amp; Applied Science</p>
       <p class="ec-when">Aug 2025 to May 2029</p>
     </div>
 
