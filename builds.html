@@ -14,7 +14,7 @@
 :root{
   --ink:#f0f0f0;--paper:#080808;--surface:#0f0f0f;--surface-2:#141414;
   --fog:#555555;--mist:#909090;--line:rgba(255,255,255,.09);
-  --sans:'Sora',sans-serif;--mono:'IBM Plex Mono',monospace;
+  --sans:'Sora',sans-serif;--mono:'IBM Plex Mono',monospace;--ui:'Manrope',sans-serif;
   --amber:#f59e0b;--green:#22c55e;
   --accent:#ffffff;--accent-2:#a0a0a0;
 }
@@ -149,86 +149,116 @@ nav{
 /* Feature the two live builds at half-width each */
 .arc-grid-now{grid-template-columns:repeat(2,1fr)}
 
+/* Text on top, media below, shadow for depth — same card as the home page. */
 .arc-card{
   position:relative;display:flex;flex-direction:column;isolation:isolate;
   border:1px solid var(--line);border-radius:18px;overflow:hidden;
   background:var(--surface);text-decoration:none;color:inherit;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.05),
+    0 20px 46px -30px rgba(0,0,0,.95);
   transition:transform .55s cubic-bezier(.16,1,.3,1),
              border-color .45s ease,box-shadow .55s cubic-bezier(.16,1,.3,1),
              opacity .4s ease;
 }
 .arc-card:hover{
-  transform:translateY(-6px);border-color:rgba(255,255,255,.2);
-  box-shadow:0 28px 70px -30px rgba(0,0,0,.95);
+  transform:translateY(-5px);border-color:rgba(255,255,255,.2);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.09),
+    0 36px 76px -34px rgba(0,0,0,1);
 }
 .arc-card:focus-visible{outline:2px solid rgba(255,255,255,.55);outline-offset:3px}
 .arc-card::after{
-  content:'';position:absolute;inset:0;z-index:4;pointer-events:none;opacity:0;
+  content:'';position:absolute;inset:0;z-index:6;pointer-events:none;opacity:0;
   transition:opacity .45s ease;
   background:radial-gradient(460px circle at var(--mx,50%) var(--my,50%),
-             rgba(255,255,255,.07),transparent 62%);
+             rgba(255,255,255,.06),transparent 62%);
 }
 .arc-card:hover::after{opacity:1}
 
-.arc-media{position:relative;overflow:hidden;background:#0a0a0a;aspect-ratio:16/10}
-.arc-grid-now .arc-media{aspect-ratio:16/9}
+.arc-body{
+  position:relative;z-index:2;flex:1;
+  padding:1.5rem 1.65rem 1.45rem;
+  display:flex;flex-direction:column;gap:.6rem;
+  background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,0) 72%);
+}
+/* Status left, call to action right — one row instead of two. */
+.arc-top{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;row-gap:.6rem;flex-wrap:wrap;margin-bottom:.3rem;
+}
+.arc-status{
+  display:inline-flex;align-items:center;gap:.55rem;
+  font-family:var(--ui);font-size:.8rem;font-weight:600;letter-spacing:.005em;
+  color:var(--mist);
+}
+.arc-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.arc-status-done .arc-dot{background:#3ddc84;box-shadow:0 0 9px rgba(61,220,132,.6)}
+.arc-status-live .arc-dot{background:#f5a524;box-shadow:0 0 9px rgba(245,165,36,.6)}
+
+.arc-name{font-family:var(--sans);font-size:1.62rem;font-weight:700;
+  letter-spacing:-.028em;line-height:1.1;color:var(--ink)}
+.arc-line{margin:0;font-size:.95rem;line-height:1.6;color:var(--mist);max-width:58ch}
+
+.arc-btn{
+  flex-shrink:0;
+  display:inline-flex;align-items:center;gap:.55rem;
+  font-family:var(--sans);font-size:.82rem;font-weight:600;letter-spacing:-.01em;
+  color:var(--paper);background:var(--ink);
+  border-radius:999px;padding:.62rem 1.15rem;
+  box-shadow:0 8px 20px -12px rgba(0,0,0,.95);
+  transition:gap .4s cubic-bezier(.16,1,.3,1),
+             box-shadow .4s cubic-bezier(.16,1,.3,1),
+             transform .4s cubic-bezier(.16,1,.3,1);
+}
+.arc-card:hover .arc-btn{gap:.85rem;transform:translateY(-1px);
+  box-shadow:0 12px 30px -12px rgba(255,255,255,.5)}
+.arc-btn svg{flex-shrink:0}
+
+/* Wide crop, recessed under the text with an inner shadow along its top. */
+.arc-media{position:relative;overflow:hidden;background:#0a0a0a;aspect-ratio:21/9}
 .arc-media img,.arc-media video{
   width:100%;height:100%;object-fit:cover;display:block;
   filter:saturate(.82) contrast(1.02);transform:scale(1.012);
   transition:transform 1.2s cubic-bezier(.16,1,.3,1),filter .7s ease;
 }
-.arc-card:hover .arc-media img,.arc-card:hover .arc-media video{transform:scale(1.075);filter:saturate(1.04) contrast(1.05)}
+.arc-card:hover .arc-media img,.arc-card:hover .arc-media video{transform:scale(1.06);filter:saturate(1.04) contrast(1.05)}
 .arc-media::after{
-  content:'';position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(to bottom,rgba(0,0,0,.30) 0%,transparent 38%,
-             rgba(15,15,15,.72) 86%,var(--surface) 100%);
+  content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(to bottom,
+    rgba(15,15,15,.88) 0%,rgba(15,15,15,.26) 6%,transparent 20%,
+    transparent 52%,rgba(0,0,0,.62) 100%);
+  box-shadow:inset 0 14px 24px -14px rgba(0,0,0,.95);
 }
 
-.arc-body{position:relative;z-index:2;flex:1;padding:1.55rem 1.65rem 1.6rem;
-  display:flex;flex-direction:column;gap:.72rem}
-
-/* Status: a dot and a word. It was a bordered, tinted, glow-pulsing capsule
-   with an index number beside it — the same treatment the home page cards
-   already dropped. */
-.arc-status{
-  display:inline-flex;align-items:center;gap:.5rem;
-  font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--mist);
-}
-.arc-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
-.arc-status-done .arc-dot{background:#3ddc84}
-.arc-status-live .arc-dot{background:#f5a524}
-
-.arc-name{font-family:var(--sans);font-size:1.62rem;font-weight:700;
-  letter-spacing:-.028em;line-height:1.1;color:var(--ink)}
-.arc-line{margin:0;font-size:.95rem;line-height:1.65;color:var(--mist);max-width:46ch}
-
-.arc-prog{margin-top:.9rem}
+/* Progress rides the bottom edge of the footage, costing no card height. */
+.arc-prog{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:0 1.15rem 1.05rem}
 .arc-prog-top{display:flex;align-items:baseline;justify-content:space-between;
-  gap:1rem;margin-bottom:.65rem}
-.arc-prog-stage{font-family:var(--mono);font-size:.64rem;font-weight:500;
-  letter-spacing:.14em;text-transform:uppercase;color:var(--mist)}
-.arc-prog-val{font-family:var(--mono);font-size:.72rem;font-weight:600;
-  letter-spacing:.06em;color:#f5a524}
-.arc-prog-track{height:5px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden}
+  gap:1rem;margin-bottom:.5rem}
+.arc-prog-stage{font-family:var(--ui);font-size:.78rem;font-weight:600;
+  letter-spacing:.005em;color:rgba(255,255,255,.9);text-shadow:0 1px 8px rgba(0,0,0,.95)}
+.arc-prog-val{font-family:var(--ui);font-size:.78rem;font-weight:700;
+  letter-spacing:.005em;color:#f5a524;text-shadow:0 1px 8px rgba(0,0,0,.95)}
+.arc-prog-track{height:4px;border-radius:99px;background:rgba(255,255,255,.18);overflow:hidden}
 .arc-prog-fill{height:100%;border-radius:99px;width:0;background:#f5a524;
+  box-shadow:0 0 12px rgba(245,165,36,.6);
   transition:width 1.6s cubic-bezier(.16,1,.3,1) .2s}
 
-/* No rule above the footer — with the meta line gone there is nothing on the
-   far side of it to separate. */
-.arc-foot{margin-top:auto;padding-top:1.5rem;display:flex}
-.arc-btn{
-  display:inline-flex;align-items:center;gap:.6rem;
-  font-family:var(--sans);font-size:.84rem;font-weight:600;letter-spacing:-.01em;
-  color:var(--paper);background:var(--ink);
-  border-radius:999px;padding:.72rem 1.25rem;
-  transition:gap .4s cubic-bezier(.16,1,.3,1),
-             box-shadow .4s cubic-bezier(.16,1,.3,1),
-             transform .4s cubic-bezier(.16,1,.3,1);
+/* Phones: one card per row — they were sharing the row down to 215px each —
+   and a 16:9 crop, which carries better at a phone's width than 21:9. */
+@media(max-width:640px){
+  .arc{padding:2.4rem 4vw 3.4rem}
+  .arc-grid,.arc-grid-now{grid-template-columns:1fr;gap:.9rem}
+  .arc-body{padding:1.15rem 1.15rem 1.3rem;gap:.5rem}
+  .arc-top{margin-bottom:.15rem}
+  .arc-name{font-size:1.3rem}
+  .arc-status{font-size:.76rem}
+  .arc-btn{font-size:.76rem;padding:.55rem 1rem;gap:.45rem}
+  .arc-line{font-size:.9rem;line-height:1.55}
+  .arc-media{aspect-ratio:16/9}
+  .arc-prog{padding:0 1rem .9rem}
+  .arc-prog-stage,.arc-prog-val{font-size:.72rem}
 }
-.arc-card:hover .arc-btn{gap:.9rem;transform:translateY(-1px);
-  box-shadow:0 12px 30px -12px rgba(255,255,255,.55)}
-.arc-btn svg{flex-shrink:0}
 
 @media(prefers-reduced-motion:reduce){
   .arc-card,.arc-media img,.arc-btn,.arc-prog-fill{transition:none}
@@ -240,7 +270,6 @@ nav{
    them to a readable floor and pull the tracking in so the wider glyphs
    don't push their rows out. */
 @media(max-width:680px){
-  .arc-status,.arc-prog-stage,.arc-prog-val{font-size:.64rem;letter-spacing:.12em}
   /* Clear the floating BACK pill, which now sits below the two-row bar. */
   .page-hero{padding:8.2rem 5vw 3rem}
   /* These clamp down to .5rem at phone widths — the vw term never gets a
@@ -2488,51 +2517,51 @@ section.panel.dark{background:var(--paper);color:var(--ink)}
 
     <a class="arc-card" data-arc href="projects/active-aero-wing.html"
        aria-label="Active Wing System: read the build guide">
-      <div class="arc-media">
-        <video data-inview-video data-src="videos/active-aero-wing-card.mp4"
-               poster="images/aviws/wing-standalone.jpg"
-               muted playsinline loop preload="none"
-               aria-label="Active wing on-car test footage"></video>
-      </div>
       <div class="arc-body">
-        <span class="arc-status arc-status-done"><span class="arc-dot"></span>Built</span>
-        <div class="arc-name">Active Wing System</div>
-        <p class="arc-line">A fully autonomous rear wing that shifts its angle of incidence in real time. No driver input, no vehicle integration, entirely self-contained.</p>
-        <div class="arc-foot">
+        <div class="arc-top">
+          <span class="arc-status arc-status-done"><span class="arc-dot"></span>Built</span>
           <span class="arc-btn">Build one yourself
             <svg width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true">
               <path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.6"
                     stroke-linecap="round" stroke-linejoin="round"/></svg>
           </span>
         </div>
+        <div class="arc-name">Active Wing System</div>
+        <p class="arc-line">A fully autonomous rear wing that shifts its angle of incidence in real time. No driver input, no vehicle integration, entirely self-contained.</p>
+      </div>
+      <div class="arc-media">
+        <video data-inview-video data-src="videos/active-aero-wing-card.mp4"
+               poster="images/aviws/wing-standalone.jpg"
+               muted playsinline loop preload="none"
+               aria-label="Active wing on-car test footage"></video>
       </div>
     </a>
 
     <a class="arc-card" data-arc href="projects/self-driving-f1-car.html"
        aria-label="Self-Driving F1 Car: follow the build">
+      <div class="arc-body">
+        <div class="arc-top">
+          <span class="arc-status arc-status-live"><span class="arc-dot"></span>Building</span>
+          <span class="arc-btn">Follow the build
+            <svg width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true">
+              <path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.6"
+                    stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </div>
+        <div class="arc-name">Self-Driving F1 Car</div>
+        <p class="arc-line">A go-kart rebuilt into an autonomous platform, from drive-by-wire steering up to full sensor fusion.</p>
+      </div>
       <div class="arc-media">
         <video data-inview-video data-src="videos/self-driving-car-card.mp4"
                poster="images/selfdriving/chassis-placeholder.jpg"
                muted playsinline loop preload="none"
                aria-label="Self-driving go-kart chassis, current build stage"></video>
-      </div>
-      <div class="arc-body">
-        <span class="arc-status arc-status-live"><span class="arc-dot"></span>Building</span>
-        <div class="arc-name">Self-Driving F1 Car</div>
-        <p class="arc-line">A go-kart rebuilt into an autonomous platform, from drive-by-wire steering up to full sensor fusion.</p>
         <div class="arc-prog" style="--pct:35%">
           <div class="arc-prog-top">
             <span class="arc-prog-stage">Chassis &amp; drive-by-wire</span>
             <span class="arc-prog-val">35%</span>
           </div>
           <div class="arc-prog-track"><div class="arc-prog-fill"></div></div>
-        </div>
-        <div class="arc-foot">
-          <span class="arc-btn">Follow the build
-            <svg width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true">
-              <path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.6"
-                    stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </span>
         </div>
       </div>
     </a>

@@ -2054,208 +2054,160 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 
 }
 
-/* ─────────────────────────────────── WHAT I AM BUILDING ── */
-
-/* ═══════════════════════════════════════════ WHAT I'VE BUILT ══
-   Two groups — what's live now, what shipped before. Each card is
-   one idea: status, name, a single line, the specs that matter.
-   ============================================================== */
+/* ═══════════════════════════════════════════ WHAT I'M BUILDING ══
+   Two cards. The text leads, the footage sits underneath it, and the
+   whole card is short enough to take in at a glance. Depth comes from
+   shadow — a raised slab with the media recessed into it — rather than
+   from height.
+   ================================================================ */
 #build-log{padding:6.5rem 0 7rem;border-bottom:1px solid var(--line);overflow:hidden}
 
 /* ── Header ── */
 /* Full-bleed with 5vw gutters — matches section.panel and the rest of the
    page. No max-width, so this section spans the viewport like everything else. */
-.blt-head{margin:0 0 3rem;padding:0 5vw}
+.blt-head{margin:0 0 2.6rem;padding:0 5vw}
 .blt-title{
   font-family:var(--sans);font-size:clamp(2.4rem,5vw,4.5rem);font-weight:800;
   letter-spacing:-.045em;line-height:.98;color:var(--ink);margin:0;
 }
-.blt-sub{margin:.95rem 0 0;font-size:.95rem;line-height:1.6;color:var(--mist);max-width:44ch}
 
-/* ── Group rail: "Building now" / "Shipped" ── */
-.blt-rail{
-  max-width:1560px;margin:0 auto 1.25rem;padding:0 5vw;
-  display:flex;align-items:center;gap:1.1rem;
-}
-.blt-rail-label{
-  font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.24em;
-  text-transform:uppercase;color:var(--mist);white-space:nowrap;
-}
-.blt-rail-count{
-  font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.14em;
-  color:var(--fog);
-}
-.blt-rail-line{flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
-
-/* ── Grids ── */
+/* ── Grid ── */
 .blt-grid{margin:0;padding:0 5vw;display:grid;gap:1.3rem}
-.blt-grid-now{grid-template-columns:1fr 1fr;margin-bottom:3.6rem}
-.blt-grid-past{grid-template-columns:1fr 1fr}
+.blt-grid-now{grid-template-columns:1fr 1fr}
 
-/* ── Card shell ── */
+/* ── Card shell ──
+   A resting shadow and a hairline of light along the top edge, so the card
+   sits above the page instead of being a tall flat panel. */
 .blt-card{
   position:relative;display:flex;flex-direction:column;isolation:isolate;
   border:1px solid var(--line);border-radius:18px;overflow:hidden;
   background:var(--surface);text-decoration:none;color:inherit;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.05),
+    0 20px 46px -30px rgba(0,0,0,.95);
   transition:transform .55s cubic-bezier(.16,1,.3,1),
              border-color .45s ease,
              box-shadow .55s cubic-bezier(.16,1,.3,1);
 }
 .blt-card:hover{
-  transform:translateY(-6px);
+  transform:translateY(-5px);
   border-color:rgba(255,255,255,.2);
-  box-shadow:0 28px 70px -30px rgba(0,0,0,.95);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.09),
+    0 36px 76px -34px rgba(0,0,0,1);
 }
 .blt-card:focus-visible{outline:2px solid rgba(255,255,255,.55);outline-offset:3px}
 /* Cursor-tracked spotlight — --mx/--my are written by JS on pointermove */
 .blt-card::after{
-  content:'';position:absolute;inset:0;z-index:4;pointer-events:none;opacity:0;
+  content:'';position:absolute;inset:0;z-index:6;pointer-events:none;opacity:0;
   transition:opacity .45s ease;
   background:radial-gradient(460px circle at var(--mx,50%) var(--my,50%),
-             rgba(255,255,255,.07),transparent 62%);
+             rgba(255,255,255,.06),transparent 62%);
 }
 .blt-card:hover::after{opacity:1}
 
-/* ── Media ── */
-.blt-media{position:relative;overflow:hidden;background:#0a0a0a;aspect-ratio:16/10}
-.blt-card-past .blt-media{aspect-ratio:16/9}
+/* ── Text, above the media ──
+   flex:1 so the two cards' images line up along the bottom even when one
+   blurb runs a line longer. */
+.blt-body{
+  position:relative;z-index:2;flex:1;
+  padding:1.5rem 1.65rem 1.45rem;
+  display:flex;flex-direction:column;gap:.6rem;
+  background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,0) 72%);
+}
+/* Status on the left, the call to action on the right. One row where there
+   used to be two — most of the height this card was wasting. */
+.blt-top{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;row-gap:.6rem;flex-wrap:wrap;margin-bottom:.3rem;
+}
+.blt-status{
+  display:inline-flex;align-items:center;gap:.55rem;
+  font-family:var(--ui);font-size:.8rem;font-weight:600;letter-spacing:.005em;
+  color:var(--mist);
+}
+.blt-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.blt-status-done .blt-dot{background:#3ddc84;box-shadow:0 0 9px rgba(61,220,132,.6)}
+.blt-status-live .blt-dot{background:#f5a524;box-shadow:0 0 9px rgba(245,165,36,.6)}
+
+.blt-name{
+  font-family:var(--sans);font-size:1.62rem;font-weight:700;
+  letter-spacing:-.028em;line-height:1.1;color:var(--ink);
+}
+.blt-line{margin:0;font-size:.95rem;line-height:1.6;color:var(--mist);max-width:58ch}
+
+.blt-btn{
+  flex-shrink:0;
+  display:inline-flex;align-items:center;gap:.55rem;
+  font-family:var(--sans);font-size:.82rem;font-weight:600;letter-spacing:-.01em;
+  color:var(--paper);background:var(--ink);
+  border-radius:999px;padding:.62rem 1.15rem;
+  box-shadow:0 8px 20px -12px rgba(0,0,0,.95);
+  transition:gap .4s cubic-bezier(.16,1,.3,1),
+             box-shadow .4s cubic-bezier(.16,1,.3,1),
+             transform .4s cubic-bezier(.16,1,.3,1);
+}
+.blt-card:hover .blt-btn{
+  gap:.85rem;transform:translateY(-1px);
+  box-shadow:0 12px 30px -12px rgba(255,255,255,.5);
+}
+.blt-btn svg{flex-shrink:0}
+
+/* ── Media ──
+   A wide crop, recessed under the text with an inner shadow along its top
+   edge so the card reads as layered rather than long. */
+.blt-media{position:relative;overflow:hidden;background:#0a0a0a;aspect-ratio:21/9}
 .blt-media img,.blt-media video{
   width:100%;height:100%;object-fit:cover;display:block;
   filter:saturate(.82) contrast(1.02);
   transform:scale(1.012);
   transition:transform 1.2s cubic-bezier(.16,1,.3,1),filter .7s ease;
 }
-.blt-card:hover .blt-media img,.blt-card:hover .blt-media video{transform:scale(1.075);filter:saturate(1.04) contrast(1.05)}
-/* Blend the photo into the card body so there's no hard seam */
+.blt-card:hover .blt-media img,.blt-card:hover .blt-media video{transform:scale(1.06);filter:saturate(1.04) contrast(1.05)}
 .blt-media::after{
-  content:'';position:absolute;inset:0;pointer-events:none;
+  content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
   background:linear-gradient(to bottom,
-    rgba(0,0,0,.30) 0%,transparent 38%,
-    rgba(15,15,15,.72) 86%,var(--surface) 100%);
+    rgba(15,15,15,.88) 0%,rgba(15,15,15,.26) 6%,transparent 20%,
+    transparent 52%,rgba(0,0,0,.62) 100%);
+  box-shadow:inset 0 14px 24px -14px rgba(0,0,0,.95);
 }
-
-/* ── Autonomy visual: this build has no photo yet, so it gets a
-      purpose-built sensor view rather than a stand-in image ── */
-.blt-viz{position:absolute;inset:0;overflow:hidden;
-  background:radial-gradient(115% 88% at 50% 104%,#0b1626 0%,#070810 62%)}
-.blt-viz-grid{
-  position:absolute;inset:-20%;
-  background-image:
-    linear-gradient(rgba(96,170,255,.11) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(96,170,255,.11) 1px,transparent 1px);
-  background-size:38px 38px;
-  -webkit-mask-image:radial-gradient(circle at 50% 68%,#000 12%,transparent 66%);
-          mask-image:radial-gradient(circle at 50% 68%,#000 12%,transparent 66%);
-  animation:bltGrid 7s linear infinite;
-}
-@keyframes bltGrid{to{background-position:0 38px,38px 0}}
-.blt-viz-sweep{
-  position:absolute;left:50%;top:68%;width:min(86%,340px);aspect-ratio:1;
-  transform:translate(-50%,-50%);border-radius:50%;
-  background:conic-gradient(from 0deg,
-    rgba(96,178,255,0) 0deg,rgba(96,178,255,.26) 42deg,rgba(96,178,255,0) 88deg);
-  -webkit-mask-image:radial-gradient(circle,#000 34%,transparent 70%);
-          mask-image:radial-gradient(circle,#000 34%,transparent 70%);
-  animation:bltSweep 4.2s linear infinite;
-}
-@keyframes bltSweep{to{transform:translate(-50%,-50%) rotate(360deg)}}
-.blt-viz-ping{
-  position:absolute;width:6px;height:6px;border-radius:50%;
-  background:#7cc4ff;box-shadow:0 0 12px 2px rgba(124,196,255,.6);
-  animation:bltPing 4.2s ease-in-out infinite;
-}
-@keyframes bltPing{0%,72%,100%{opacity:.18;transform:scale(.85)}80%{opacity:1;transform:scale(1.25)}}
-.blt-viz-ping.p1{left:34%;top:52%;animation-delay:.5s}
-.blt-viz-ping.p2{left:62%;top:44%;animation-delay:1.6s}
-.blt-viz-ping.p3{left:71%;top:63%;animation-delay:2.7s}
-.blt-viz-readout{
-  position:absolute;left:1.15rem;top:1.15rem;
-  font-family:var(--mono);font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;
-  color:rgba(150,200,255,.62);
-}
-
-/* ── Body ── */
-.blt-body{
-  position:relative;z-index:2;flex:1;
-  padding:1.55rem 1.65rem 1.6rem;
-  display:flex;flex-direction:column;gap:.72rem;
-}
-.blt-card-past .blt-body{padding:1.25rem 1.35rem 1.35rem;gap:.55rem}
-/* ── Status ──
-   Was a bordered, tinted, glow-pulsing capsule. A dot and a word carry the
-   same information without dressing it up as a dashboard widget. */
-.blt-status{
-  display:inline-flex;align-items:center;gap:.5rem;
-  font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--mist);
-}
-.blt-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
-.blt-status-done .blt-dot{background:#3ddc84}
-.blt-status-live .blt-dot{background:#f5a524}
-
-.blt-name{
-  font-family:var(--sans);font-size:1.62rem;font-weight:700;
-  letter-spacing:-.028em;line-height:1.1;color:var(--ink);
-}
-.blt-card-past .blt-name{font-size:1.12rem;letter-spacing:-.02em}
-.blt-line{margin:0;font-size:.95rem;line-height:1.65;color:var(--mist);max-width:46ch}
-.blt-card-past .blt-line{font-size:.8rem;line-height:1.5}
 
 /* ── Progress ──
-   Taller track, a single flat fill rather than a gradient, and a label row
-   big enough to read. */
-.blt-prog{margin-top:.9rem}
+   Rides the bottom edge of the footage, so tracking the build costs the
+   card no height at all. --pct is set inline; JS writes the fill width on
+   reveal (see the build-cards script) with these as the no-JS fallback. */
+.blt-prog{
+  position:absolute;left:0;right:0;bottom:0;z-index:3;
+  padding:0 1.15rem 1.05rem;
+}
 .blt-prog-top{
   display:flex;align-items:baseline;justify-content:space-between;gap:1rem;
-  margin-bottom:.65rem;
+  margin-bottom:.5rem;
 }
 .blt-prog-stage{
-  font-family:var(--mono);font-size:.64rem;font-weight:500;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--mist);
+  font-family:var(--ui);font-size:.78rem;font-weight:600;letter-spacing:.005em;
+  color:rgba(255,255,255,.9);text-shadow:0 1px 8px rgba(0,0,0,.95);
 }
 .blt-prog-val{
-  font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.06em;
-  color:#f5a524;
+  font-family:var(--ui);font-size:.78rem;font-weight:700;letter-spacing:.005em;
+  color:#f5a524;text-shadow:0 1px 8px rgba(0,0,0,.95);
 }
-.blt-prog-track{height:5px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden}
+.blt-prog-track{height:4px;border-radius:99px;background:rgba(255,255,255,.18);overflow:hidden}
 .blt-prog-fill{
   height:100%;border-radius:99px;width:0;background:#f5a524;
+  box-shadow:0 0 12px rgba(245,165,36,.6);
   transition:width 1.6s cubic-bezier(.16,1,.3,1) .35s;
 }
-/* Width is set by JS on reveal (see the build-cards script). Driving it from
-   the stylesheet via var(--pct) proved unreliable to verify, so the fill is
-   given an explicit width instead; this stays as the no-JS fallback. */
 .blt-card.in .blt-prog-fill{width:var(--pct,0%)}
 .no-js .blt-prog-fill{width:var(--pct,0%)}
-
-/* ── Footer ──
-   No rule across the top any more: with the meta line gone there is nothing
-   on the far side of it to separate. */
-.blt-foot{margin-top:auto;padding-top:1.5rem;display:flex}
-.blt-card-past .blt-foot{padding-top:1.1rem}
-.blt-btn{
-  display:inline-flex;align-items:center;gap:.6rem;
-  font-family:var(--sans);font-size:.84rem;font-weight:600;letter-spacing:-.01em;
-  color:var(--paper);background:var(--ink);
-  border-radius:999px;padding:.72rem 1.25rem;
-  transition:gap .4s cubic-bezier(.16,1,.3,1),
-             box-shadow .4s cubic-bezier(.16,1,.3,1),
-             transform .4s cubic-bezier(.16,1,.3,1);
-}
-.blt-card:hover .blt-btn{
-  gap:.9rem;transform:translateY(-1px);
-  box-shadow:0 12px 30px -12px rgba(255,255,255,.55);
-}
-.blt-btn svg{flex-shrink:0}
-.blt-card-past .blt-btn{font-size:.76rem;padding:.6rem 1.05rem}
 
 /* ── Section CTA ── */
 .blt-end{margin:0;padding:2.8rem 5vw 0;display:flex;justify-content:flex-end}
 .blt-end-btn{
   display:inline-flex;align-items:center;gap:.6rem;
-  font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--ink);text-decoration:none;
-  padding:.95rem 1.75rem;border:1px solid var(--line);border-radius:999px;
+  font-family:var(--ui);font-size:.88rem;font-weight:600;letter-spacing:.005em;
+  color:var(--ink);text-decoration:none;
+  padding:.85rem 1.6rem;border:1px solid var(--line);border-radius:999px;
   background:rgba(255,255,255,.02);
   transition:background .35s ease,border-color .35s ease,gap .35s cubic-bezier(.16,1,.3,1);
 }
@@ -2470,8 +2422,19 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .blt-grid-now{grid-template-columns:1fr}
   .blt-grid{padding:0 4vw;gap:.9rem}
   .blt-head,.blt-end{padding-left:4vw;padding-right:4vw}
+  .blt-head{margin-bottom:1.9rem}
   .blt-title{font-size:clamp(1.9rem,7.5vw,2.6rem)}
-  .blt-name{font-size:1.25rem}
+  .blt-name{font-size:1.3rem}
+  /* Tighter everywhere and a 16:9 crop instead of 21:9 — a phone-width
+     card can carry a taller image without getting long. */
+  .blt-body{padding:1.15rem 1.15rem 1.3rem;gap:.5rem}
+  .blt-top{margin-bottom:.15rem}
+  .blt-status{font-size:.76rem}
+  .blt-btn{font-size:.76rem;padding:.55rem 1rem;gap:.45rem}
+  .blt-line{font-size:.9rem;line-height:1.55}
+  .blt-media{aspect-ratio:16/9}
+  .blt-prog{padding:0 1rem .9rem}
+  .blt-prog-stage,.blt-prog-val{font-size:.72rem}
   /* Centred, full-width, and much closer in. The button used to sit left
      with 45px above it, 38px of section padding below, and then 80px more
      before the Instagram header — 118px of nothing between the last thing
@@ -2505,7 +2468,6 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
    later declaration wins. */
 @media (max-width:760px){
   .sec-label,
-  .blt-prog-stage,.blt-prog-val,
   .work-sub,.work-blurb-title,.work-modal-label,.work-modal-btn,
   .proj-stage-name,.cert-viewer-close,.about-modal-close,
   .fab-reel-label{font-size:.62rem;letter-spacing:.16em}
@@ -2647,17 +2609,9 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
     <!-- 01 — AVIWS: Active Variable Incidence Wing System -->
     <a class="blt-card rv" data-blt-card href="projects/active-aero-wing.html"
        aria-label="Active Wing System: read the build guide">
-      <div class="blt-media">
-        <video data-inview-video data-src="videos/active-aero-wing-card.mp4"
-               poster="images/aviws/wing-standalone.jpg"
-               muted playsinline loop preload="none"
-               aria-label="AVIWS on-car test footage"></video>
-      </div>
       <div class="blt-body">
-        <span class="blt-status blt-status-done"><span class="blt-dot"></span>Built</span>
-        <div class="blt-name">Active Wing System</div>
-        <p class="blt-line">A fully autonomous rear wing that shifts its angle of incidence in real time. No driver input, no vehicle integration, entirely self-contained.</p>
-        <div class="blt-foot">
+        <div class="blt-top">
+          <span class="blt-status blt-status-done"><span class="blt-dot"></span>Built</span>
           <span class="blt-btn">Build one yourself
             <svg width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true">
               <path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.6"
@@ -2665,12 +2619,33 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
             </svg>
           </span>
         </div>
+        <div class="blt-name">Active Wing System</div>
+        <p class="blt-line">A fully autonomous rear wing that shifts its angle of incidence in real time. No driver input, no vehicle integration, entirely self-contained.</p>
+      </div>
+      <div class="blt-media">
+        <video data-inview-video data-src="videos/active-aero-wing-card.mp4"
+               poster="images/aviws/wing-standalone.jpg"
+               muted playsinline loop preload="none"
+               aria-label="AVIWS on-car test footage"></video>
       </div>
     </a>
 
     <!-- 02 — Self-Driving F1 Car -->
     <a class="blt-card rv d1" data-blt-card href="projects/self-driving-f1-car.html"
        aria-label="Self-Driving F1 Car: follow the build">
+      <div class="blt-body">
+        <div class="blt-top">
+          <span class="blt-status blt-status-live"><span class="blt-dot"></span>Building</span>
+          <span class="blt-btn">Follow the build
+            <svg width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true">
+              <path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.6"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </div>
+        <div class="blt-name">Self-Driving F1 Car</div>
+        <p class="blt-line">A go-kart rebuilt into an autonomous platform, from drive-by-wire steering up to full sensor fusion.</p>
+      </div>
       <div class="blt-media">
         <!-- Placeholder clip of the bare chassis — swap for the real
              cinematic cut once it's ready. Cropped from a vertical source. -->
@@ -2678,25 +2653,14 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
                poster="images/selfdriving/chassis-placeholder.jpg"
                muted playsinline loop preload="none"
                aria-label="Self-driving go-kart chassis, current build stage"></video>
-      </div>
-      <div class="blt-body">
-        <span class="blt-status blt-status-live"><span class="blt-dot"></span>Building</span>
-        <div class="blt-name">Self-Driving F1 Car</div>
-        <p class="blt-line">A go-kart rebuilt into an autonomous platform, from drive-by-wire steering up to full sensor fusion.</p>
+        <!-- Sits on the footage rather than under it, so the stage readout
+             costs the card no height. -->
         <div class="blt-prog" style="--pct:35%">
           <div class="blt-prog-top">
             <span class="blt-prog-stage">Chassis &amp; drive-by-wire</span>
             <span class="blt-prog-val">35%</span>
           </div>
           <div class="blt-prog-track"><div class="blt-prog-fill"></div></div>
-        </div>
-        <div class="blt-foot">
-          <span class="blt-btn">Follow the build
-            <svg width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true">
-              <path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.6"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </span>
         </div>
       </div>
     </a>
