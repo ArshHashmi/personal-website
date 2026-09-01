@@ -2706,54 +2706,40 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
 /* SKILLS */
 
 /* EDUCATION
-   One entry, so it reads as a section rather than a card: a labelled rule
-   across the top and the content sitting on the page. The old version was a
-   two-up grid of gradient-filled boxes with a glowing top hairline and a
-   hover lift, which was more chrome than anything else on the site carries. */
-.edu-rail{display:flex;align-items:center;gap:1.1rem;margin-bottom:1.9rem}
-.edu-rail-label,
-.edu-rail-year{
-  font-family:var(--mono);font-size:.58rem;font-weight:600;letter-spacing:.24em;
-  text-transform:uppercase;white-space:nowrap;
+   No rules anywhere in here. The previous version fenced the entry with a
+   labelled rule across the top and then put every org on its own bordered
+   row, which chopped four short lines of text into five separate bands.
+   Type size and spacing do the same job without drawing anything. */
+.edu-label{
+  font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--mist);display:block;margin-bottom:1.5rem;
 }
-.edu-rail-label{color:var(--mist)}
-.edu-rail-year{color:var(--fog);letter-spacing:.2em}
-.edu-rail-line{flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
-.edu-entry{max-width:1100px}
 .ec-school{
-  font-family:var(--sans);font-size:clamp(1.7rem,3vw,2.4rem);font-weight:700;
-  letter-spacing:-.03em;line-height:1.05;color:var(--ink);margin:0;
+  font-family:var(--sans);font-size:clamp(1.9rem,3.4vw,2.8rem);font-weight:700;
+  letter-spacing:-.035em;line-height:1.05;color:var(--ink);margin:0;
 }
-.ec-deg{
-  font-family:var(--mono);font-size:.68rem;font-weight:500;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--mist);line-height:1.8;margin:.7rem 0 0;
+.ec-major{
+  font-family:var(--sans);font-size:clamp(1rem,1.5vw,1.18rem);font-weight:500;
+  letter-spacing:-.01em;line-height:1.4;color:var(--ink);margin:.7rem 0 0;
 }
-/* Spec-sheet rows rather than pills. Each card was carrying 15-20 identical
-   capsules across three or four groups, which read as noise and told you
-   nothing about which entries mattered. A mono label in a fixed left column
-   against a plain wrapped line reads faster, sets the groups apart, and
-   matches the spec tables on the project pages. */
-.edu-rows{
-  display:grid;margin:2rem 0 0;
-  border-top:1px solid var(--line);
-  border-bottom:1px solid var(--line);
+.ec-sub{
+  font-size:.92rem;line-height:1.6;color:var(--mist);margin:.4rem 0 0;max-width:52ch;
 }
-.edu-row{
-  display:grid;grid-template-columns:8rem minmax(0,1fr);
-  gap:1.1rem;padding:1.1rem 0;
+.ec-when{
+  font-family:var(--mono);font-size:.64rem;font-weight:500;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--fog);margin:1rem 0 0;
 }
-.edu-row:nth-child(n+2){border-top:1px solid var(--line)}
-.edu-row dt{
-  font-family:var(--mono);font-size:.55rem;font-weight:600;letter-spacing:.22em;
-  text-transform:uppercase;color:var(--mist);padding-top:.2rem;
+.edu-orgs{margin-top:3rem}
+.edu-org-list{list-style:none;margin:0;padding:0;display:grid;gap:1rem}
+.edu-org-list li{
+  display:grid;grid-template-columns:minmax(0,17rem) minmax(0,1fr);
+  gap:1.4rem;align-items:baseline;
 }
-.edu-row dd{
-  margin:0;font-size:.9rem;line-height:1.75;color:var(--ink);
+.org-name{
+  font-family:var(--sans);font-size:1rem;font-weight:600;
+  letter-spacing:-.015em;color:var(--ink);
 }
-/* Separator between entries — a dim mid-dot, so the line still scans as a
-   list without a border around every item. */
-.edu-row dd i{font-style:normal;color:var(--fog);padding:0 .4rem}
-.edu-row dd b{font-weight:600}
+.org-role{font-size:.92rem;line-height:1.5;color:var(--mist)}
 
 /* CONTACT
    A labelled rule, a statement, and every way to reach me as one spec list.
@@ -2900,16 +2886,27 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .sk-col:nth-child(n+3){border-top:1px solid var(--line)}
 }
 @media (max-width:760px){
-  nav{padding:1.1rem 5vw;align-items:center;flex-wrap:wrap;gap:.6rem}
-  nav.stuck{padding:.85rem 5vw}
+  nav{padding:.95rem 5vw;align-items:center;flex-wrap:wrap;gap:.5rem}
+  nav.stuck{padding:.8rem 5vw}
+  /* Second row, and all four fit without scrolling.
+     As capsules they measured 384px against the 351px a 390px phone has to
+     give — just past the edge, which is why it part-scrolled and felt
+     broken. Without the capsule fills the same four labels come to 261px,
+     so space-between can spread them edge to edge with ~30px between and
+     nothing moves. */
   .nav-links{
     position:static;transform:none;
-    order:3;width:100%;gap:.28rem;
-    overflow-x:auto;padding-bottom:.2rem;
-    scrollbar-width:none;flex-wrap:nowrap;
+    order:3;width:100%;margin:0;padding:0;
+    display:flex;flex-wrap:nowrap;justify-content:space-between;
+    gap:.5rem;overflow:visible;
   }
-  .nav-links::-webkit-scrollbar{display:none}
-  .nav-links a{font-size:.82rem;padding:.42rem .9rem}
+  .nav-links a{
+    font-size:.82rem;padding:.45rem 0;
+    background:none;border-radius:0;
+    color:rgba(255,255,255,.62);
+  }
+  .nav-links a:hover,
+  .nav-links a:active{background:none;color:#fff}
   .nav-right{display:none}
   .hero-name{font-size:clamp(3.3rem,18vw,5rem)}
   .hero-name-wrap{padding-top:8.5rem}
@@ -3111,14 +3108,18 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .about-facts{grid-template-columns:1fr 1fr}
   .certs-wrap{margin-top:2.2rem;padding:1.1rem 1rem 1rem;border-radius:16px}
   .certs-head{margin-bottom:.9rem}
-  .cert-card{max-width:82vw}
-  .cert-card-inner{padding:.4rem .42rem;gap:.35rem}
-  .cert-preview{height:158px;border-radius:8px}
-  .cert-title{font-size:.82rem}
-  .cert-issuer{font-size:.5rem}
-  .cert-meta{font-size:.45rem}
-  .cert-footer-logo{height:34px;max-width:104px}
-  .cert-info{padding:0 .35rem}
+  /* One and a third cards fit before, which is why it read as a strip of
+     cut-off fragments. Fixed width instead of fit-content gets two and a bit
+     on screen, so it's legible as a row you're scrolling through. The date,
+     credential ID and Verify link all live in the viewer that opens on tap,
+     so the card only needs the image, the name and the issuer. */
+  .cert-card{width:min(38vw,170px);max-width:none}
+  .cert-card-inner{padding:.35rem .35rem .1rem;gap:.4rem}
+  .cert-preview{width:100%;height:auto;aspect-ratio:4/3;border-radius:7px}
+  .cert-title{font-size:.74rem;line-height:1.3}
+  .cert-issuer{font-size:.6rem}
+  .cert-meta,.cert-bottom{display:none}
+  .cert-info{padding:0 .25rem .45rem}
   /* One cover photo only. The 5-cell collage squeezed each shot into a
      sliver at phone width and cropped faces out of frame; the rest of the
      set is still reachable by tapping through to the modal. */
@@ -3142,19 +3143,15 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .hb-desc{font-size:1rem;line-height:1.85}
   .hb-meta{font-size:.62rem}
   .about-edu-wrap{margin-top:3rem}
-  /* Label and date hold the two ends of the row; the rule between them is
-     what runs out of width first, so that is what goes. */
-  .edu-rail{gap:.8rem;margin-bottom:1.3rem;justify-content:space-between}
-  .edu-rail-line{display:none}
-  .edu-rail-label{font-size:.52rem;letter-spacing:.2em}
-  .edu-rail-year{font-size:.5rem;letter-spacing:.16em}
-  .ec-deg{font-size:.6rem;line-height:1.7;letter-spacing:.08em}
-  /* One column, label above value — an 8rem label column leaves nothing for
-     the text at phone width. */
-  .edu-rows{margin-top:1.5rem}
-  .edu-row{grid-template-columns:1fr;gap:.4rem;padding:.95rem 0}
-  .edu-row dt{padding-top:0}
-  .edu-row dd{font-size:.86rem;line-height:1.7}
+  .edu-label{margin-bottom:1.1rem}
+  .ec-major{font-size:1rem}
+  .ec-sub{font-size:.86rem}
+  .edu-orgs{margin-top:2.4rem}
+  /* Role under name — a 17rem name column leaves nothing for the role. */
+  .edu-org-list{gap:1.1rem}
+  .edu-org-list li{grid-template-columns:1fr;gap:.15rem}
+  .org-name{font-size:.95rem}
+  .org-role{font-size:.86rem}
   /* Label above value; a 7rem label column leaves nothing for a full email
      address at phone width. */
   .ct-grid{grid-template-columns:1fr;gap:2.2rem}
@@ -4069,11 +4066,18 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .hrs-wt-right{width:88vw;height:clamp(3rem,11vw,5.5rem)}
   /* Center each word within its slot */
   .hrs-ww{left:50%;transform:translate(-50%,-50%);white-space:nowrap}
-  .hrs-ww[data-word="1"]{font-size:clamp(1.8rem,8.5vw,4rem)}
-  .hrs-ww[data-word="2"]{font-size:clamp(1.4rem,6.5vw,3.2rem)}
-  .hrs-ww[data-word="3"]{font-size:clamp(1.6rem,7.5vw,3.6rem)}
-  .hrs-ww[data-word="4"]{font-size:clamp(1.3rem,6vw,2.8rem)}
-  .hrs-ww[data-word="5"]{font-size:clamp(1.9rem,9vw,4.2rem)}
+  /* Desktop steps each word's size to suit its typeface, which at phone
+     width just read as four of the five being undersized next to
+     "Engineering". One size for all five here — the faces still differ,
+     the scale no longer does. "Fabrication" is the longest word and sets
+     the ceiling, so this is the largest size that fits it on one line. */
+  .hrs-ww[data-word="1"],
+  .hrs-ww[data-word="2"],
+  .hrs-ww[data-word="3"],
+  .hrs-ww[data-word="4"],
+  .hrs-ww[data-word="5"]{font-size:clamp(1.8rem,8.4vw,4rem)}
+  /* Cormorant runs small at a given size; nudge it back to match. */
+  .hrs-ww[data-word="4"]{font-size:clamp(2rem,9.4vw,4.5rem)}
 }
 @media(prefers-reduced-motion:reduce){
   #hero-reel{height:100vh}
@@ -4210,51 +4214,45 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   display:flex;flex-direction:column;gap:.72rem;
 }
 .blt-card-past .blt-body{padding:1.25rem 1.35rem 1.35rem;gap:.55rem}
-.blt-top{display:flex;align-items:center;justify-content:space-between;gap:1rem}
-.blt-idx{font-family:var(--mono);font-size:.58rem;font-weight:600;letter-spacing:.2em;color:var(--fog)}
-
-/* Status pill */
+/* ── Status ──
+   Was a bordered, tinted, glow-pulsing capsule. A dot and a word carry the
+   same information without dressing it up as a dashboard widget. */
 .blt-status{
-  display:inline-flex;align-items:center;gap:.42rem;
-  font-family:var(--mono);font-size:.53rem;font-weight:600;letter-spacing:.15em;
-  text-transform:uppercase;padding:.28rem .62rem;border-radius:999px;border:1px solid;
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--mist);
 }
-.blt-status-live{color:#f5a524;border-color:rgba(245,165,36,.32);background:rgba(245,165,36,.07)}
-.blt-status-done{color:#3ddc84;border-color:rgba(61,220,132,.28);background:rgba(61,220,132,.06)}
-.blt-dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
-.blt-status-live .blt-dot{animation:bltPulse 2s ease-in-out infinite}
-@keyframes bltPulse{
-  0%,100%{box-shadow:0 0 0 0 rgba(245,165,36,.5)}
-  55%{box-shadow:0 0 0 5px rgba(245,165,36,0)}
-}
+.blt-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.blt-status-done .blt-dot{background:#3ddc84}
+.blt-status-live .blt-dot{background:#f5a524}
 
 .blt-name{
   font-family:var(--sans);font-size:1.62rem;font-weight:700;
   letter-spacing:-.028em;line-height:1.1;color:var(--ink);
 }
 .blt-card-past .blt-name{font-size:1.12rem;letter-spacing:-.02em}
-.blt-line{margin:0;font-size:.88rem;line-height:1.56;color:var(--mist)}
+.blt-line{margin:0;font-size:.95rem;line-height:1.65;color:var(--mist);max-width:46ch}
 .blt-card-past .blt-line{font-size:.8rem;line-height:1.5}
 
-/* Specs — a dot-separated run, not a pile of chips */
-.blt-specs{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin-top:.1rem}
-.blt-spec{
-  font-family:var(--mono);font-size:.57rem;font-weight:500;
-  letter-spacing:.12em;text-transform:uppercase;color:var(--fog);
-}
-.blt-spec:not(:last-child)::after{content:'·';margin-left:.5rem;opacity:.5}
-
-/* Progress — fills once the card reveals */
-.blt-prog{margin-top:.5rem}
+/* ── Progress ──
+   Taller track, a single flat fill rather than a gradient, and a label row
+   big enough to read. */
+.blt-prog{margin-top:.9rem}
 .blt-prog-top{
-  display:flex;align-items:baseline;justify-content:space-between;margin-bottom:.6rem;
-  font-family:var(--mono);font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fog);
+  display:flex;align-items:baseline;justify-content:space-between;gap:1rem;
+  margin-bottom:.65rem;
 }
-.blt-prog-val{color:#f5a524;font-weight:600}
-.blt-prog-track{height:3px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
+.blt-prog-stage{
+  font-family:var(--mono);font-size:.64rem;font-weight:500;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--mist);
+}
+.blt-prog-val{
+  font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.06em;
+  color:#f5a524;
+}
+.blt-prog-track{height:5px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden}
 .blt-prog-fill{
-  height:100%;border-radius:99px;width:0;
-  background:linear-gradient(90deg,#e0901a,#ffcf6b);
+  height:100%;border-radius:99px;width:0;background:#f5a524;
   transition:width 1.6s cubic-bezier(.16,1,.3,1) .35s;
 }
 /* Width is set by JS on reveal (see the build-cards script). Driving it from
@@ -4263,23 +4261,26 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 .blt-card.in .blt-prog-fill{width:var(--pct,0%)}
 .no-js .blt-prog-fill{width:var(--pct,0%)}
 
-/* Footer */
-.blt-foot{
-  margin-top:auto;padding-top:1.1rem;border-top:1px solid var(--line);
-  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+/* ── Footer ──
+   No rule across the top any more: with the meta line gone there is nothing
+   on the far side of it to separate. */
+.blt-foot{margin-top:auto;padding-top:1.5rem;display:flex}
+.blt-card-past .blt-foot{padding-top:1.1rem}
+.blt-btn{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-family:var(--sans);font-size:.84rem;font-weight:600;letter-spacing:-.01em;
+  color:var(--paper);background:var(--ink);
+  border-radius:999px;padding:.72rem 1.25rem;
+  transition:gap .4s cubic-bezier(.16,1,.3,1),
+             box-shadow .4s cubic-bezier(.16,1,.3,1),
+             transform .4s cubic-bezier(.16,1,.3,1);
 }
-.blt-card-past .blt-foot{padding-top:.9rem}
-.blt-meta{font-family:var(--mono);font-size:.55rem;letter-spacing:.13em;text-transform:uppercase;color:var(--fog)}
-.blt-cta{
-  display:inline-flex;align-items:center;gap:.45rem;
-  font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--ink);white-space:nowrap;
-  transition:gap .4s cubic-bezier(.16,1,.3,1);
+.blt-card:hover .blt-btn{
+  gap:.9rem;transform:translateY(-1px);
+  box-shadow:0 12px 30px -12px rgba(255,255,255,.55);
 }
-.blt-card-past .blt-cta{font-size:.55rem}
-.blt-card:hover .blt-cta{gap:.8rem}
-.blt-cta svg{transition:transform .4s cubic-bezier(.16,1,.3,1)}
-.blt-card:hover .blt-cta svg{transform:translateX(3px)}
+.blt-btn svg{flex-shrink:0}
+.blt-card-past .blt-btn{font-size:.76rem;padding:.6rem 1.05rem}
 
 /* ── Section CTA ── */
 .blt-end{margin:0;padding:2.8rem 5vw 0;display:flex}
@@ -4528,13 +4529,13 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
    single-class rules declared further down, and at equal specificity the
    later declaration wins. */
 @media (max-width:760px){
-  .sec-label,.certs-label,.ct-rail-label,.edu-rail-label,
-  .blt-idx,.blt-spec,.blt-meta,.blt-prog-val,
+  .sec-label,.certs-label,.ct-rail-label,.edu-label,
+  .blt-prog-stage,.blt-prog-val,
   .work-sub,.work-blurb-title,.work-modal-label,.work-modal-btn,
   .proj-stage-name,.cert-viewer-close,.about-modal-close,
   .fab-reel-label{font-size:.62rem;letter-spacing:.16em}
 
-  .af-l,.edu-rail-year,.cert-issuer,.cert-viewer-hint,
+  .af-l,.ec-when,.cert-issuer,.cert-viewer-hint,
   .about-open,.about-modal-sub,.work-modal-close,
   .work-subtitle,.work-subgroup-title,.work-subtab,
   .proj-kicker,.proj-tab,.proj-spec-label,
@@ -4545,8 +4546,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .trading-card-step,.trading-status,.future-state,
   .depth-book-title,.equation-chip{font-size:.62rem;letter-spacing:.1em}
 
-  .cert-meta,.cert-meta span,.ct-item dt,.edu-row dt{font-size:.62rem;letter-spacing:.16em}
-  .blt-specs,.blt-spec{font-size:.62rem;letter-spacing:.12em}
+  .ct-item dt{font-size:.62rem;letter-spacing:.16em}
 }
 </style>
 </head>
@@ -4660,7 +4660,6 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 
   <div class="blt-head rv">
     <h2 class="blt-title">What I'm Building.</h2>
-    <p class="blt-sub">The two builds on my bench right now — the full archive lives on the build log.</p>
   </div>
 
   <!-- ── BUILDING NOW ────────────────────────────────────────── -->
@@ -4668,7 +4667,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 
     <!-- 01 — AVIWS: Active Variable Incidence Wing System -->
     <a class="blt-card rv" data-blt-card href="projects/active-aero-wing.html"
-       aria-label="AVIWS — Active Variable Incidence Wing System — read the full write-up">
+       aria-label="Active Wing System: read the full write-up">
       <div class="blt-media">
         <video data-inview-video data-src="videos/active-aero-wing-card.mp4"
                poster="images/aviws/wing-standalone.jpg"
@@ -4676,22 +4675,13 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
                aria-label="AVIWS on-car test footage"></video>
       </div>
       <div class="blt-body">
-        <div class="blt-top">
-          <span class="blt-idx">01</span>
-          <span class="blt-status blt-status-done"><span class="blt-dot"></span>Complete</span>
-        </div>
-        <div class="blt-name">AVIWS — Active Wing System</div>
-        <p class="blt-line">A fully autonomous rear wing that shifts angle of incidence in real time — no driver input, self-contained.</p>
-        <div class="blt-specs">
-          <span class="blt-spec">3 Auto Modes</span>
-          <span class="blt-spec">Arduino + IMU</span>
-          <span class="blt-spec">85.7:1 L/D</span>
-        </div>
+        <span class="blt-status blt-status-done"><span class="blt-dot"></span>Built</span>
+        <div class="blt-name">Active Wing System</div>
+        <p class="blt-line">A fully autonomous rear wing that shifts its angle of incidence in real time. No driver input, no vehicle integration, entirely self-contained.</p>
         <div class="blt-foot">
-          <span class="blt-meta">Full write-up</span>
-          <span class="blt-cta">Read it
+          <span class="blt-btn">Read it
             <svg width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true">
-              <path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.4"
+              <path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.6"
                     stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </span>
@@ -4701,7 +4691,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 
     <!-- 02 — Self-Driving F1 Car -->
     <a class="blt-card rv d1" data-blt-card href="projects/self-driving-f1-car.html"
-       aria-label="Self-Driving F1 Car — follow the build">
+       aria-label="Self-Driving F1 Car: follow the build">
       <div class="blt-media">
         <!-- Placeholder clip of the bare chassis — swap for the real
              cinematic cut once it's ready. Cropped from a vertical source. -->
@@ -4711,29 +4701,20 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
                aria-label="Self-driving go-kart chassis, current build stage"></video>
       </div>
       <div class="blt-body">
-        <div class="blt-top">
-          <span class="blt-idx">02</span>
-          <span class="blt-status blt-status-live"><span class="blt-dot"></span>In Progress</span>
-        </div>
+        <span class="blt-status blt-status-live"><span class="blt-dot"></span>Building</span>
         <div class="blt-name">Self-Driving F1 Car</div>
-        <p class="blt-line">A go-kart rebuilt into an autonomous platform — drive-by-wire, sensor fusion, ROS 2.</p>
-        <div class="blt-specs">
-          <span class="blt-spec">ROS 2</span>
-          <span class="blt-spec">LiDAR</span>
-          <span class="blt-spec">CAN Bus</span>
-        </div>
+        <p class="blt-line">A go-kart rebuilt into an autonomous platform, from drive-by-wire steering up to full sensor fusion.</p>
         <div class="blt-prog" style="--pct:35%">
           <div class="blt-prog-top">
-            <span>Chassis &amp; drive-by-wire</span>
+            <span class="blt-prog-stage">Chassis &amp; drive-by-wire</span>
             <span class="blt-prog-val">35%</span>
           </div>
           <div class="blt-prog-track"><div class="blt-prog-fill"></div></div>
         </div>
         <div class="blt-foot">
-          <span class="blt-meta">Updated as it goes</span>
-          <span class="blt-cta">Follow build
+          <span class="blt-btn">Follow the build
             <svg width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true">
-              <path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.4"
+              <path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.6"
                     stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </span>
@@ -5015,20 +4996,35 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
     </div>
   </div>
   <div class="about-edu-wrap rv d4">
-    <div class="edu-rail">
-      <span class="edu-rail-label">Academic Background</span>
-      <span class="edu-rail-line" aria-hidden="true"></span>
-      <span class="edu-rail-year">Aug 2025 — May 2029</span>
-    </div>
+    <span class="edu-label">Where I study</span>
+
     <div class="edu-entry">
       <h3 class="ec-school">Binghamton University</h3>
-      <p class="ec-deg">Mechanical Engineering + Computer Science &middot; Economics Minor &middot; Watson College of Engineering &amp; Applied Science</p>
-      <dl class="edu-rows">
-        <div class="edu-row">
-          <dt>Teams &amp; Orgs</dt>
-          <dd><b>Motorsports SAE</b> — Aero Apprentice, EV Go-Kart Engineer<i aria-hidden="true">·</i><b>Watson Combat Robotics</b> — Antweight Full Engineer<i aria-hidden="true">·</i>ASME<i aria-hidden="true">·</i>Computer Robotics &amp; Engineering Community (CoRE)</dd>
-        </div>
-      </dl>
+      <p class="ec-major">Mechanical Engineering + Computer Science</p>
+      <p class="ec-sub">Economics minor &middot; Watson College of Engineering &amp; Applied Science</p>
+      <p class="ec-when">Aug 2025 to May 2029</p>
+    </div>
+
+    <div class="edu-orgs">
+      <span class="edu-label">Teams &amp; orgs</span>
+      <ul class="edu-org-list">
+        <li>
+          <span class="org-name">Motorsports SAE</span>
+          <span class="org-role">Aero Apprentice, EV Go-Kart Engineer</span>
+        </li>
+        <li>
+          <span class="org-name">Watson Combat Robotics</span>
+          <span class="org-role">Antweight Full Engineer</span>
+        </li>
+        <li>
+          <span class="org-name">ASME</span>
+          <span class="org-role">General body member</span>
+        </li>
+        <li>
+          <span class="org-name">Computer Robotics &amp; Engineering Community</span>
+          <span class="org-role">Member</span>
+        </li>
+      </ul>
     </div>
   </div>
 </section>
@@ -5036,8 +5032,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 <!-- PROJECTS -->
 <section class="panel dark" id="projects">
   <div class="sec-header rv">
-    <span class="sec-label">02 — Builds & Engineering</span>
-    <div class="sec-title">What I build.</div>
+    <div class="sec-title">My hobbies.</div>
   </div>
 
   <!-- ════════════════════════════════════════════════════════
@@ -6395,7 +6390,7 @@ if(aboutCarousel||aboutModal){
   const controls=aboutCarousel?.querySelector('.about-controls');
   const dotsWrap=aboutCarousel?.querySelector('.about-dots');
   let dots=[];
-  let current=0,timer=null,autoKickoff=null,startX=0,startY=0;
+  let current=0,timer=null,autoKickoff=null,startX=0,startY=0,swipedAt=0;
   let aboutInView=false;
   let didFirstAutoAdvance=false;
   let modalThumbs=[];
@@ -6594,7 +6589,15 @@ if(aboutCarousel||aboutModal){
         const touch=e.changedTouches[0];
         if(!touch)return;
         const dx=touch.clientX-startX,dy=touch.clientY-startY;
-        if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)){step(dx<0?1:-1);startAuto({reset:true,fromUser:true})}
+        if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)){
+          /* A swipe still emits a click, and the whole carousel opens the
+             modal on click — so every attempt to swipe between slides was
+             popping the modal instead. Stamp the gesture and let the click
+             handler stand down. */
+          swipedAt=Date.now();
+          step(dx<0?1:-1);
+          startAuto({reset:true,fromUser:true});
+        }
       },{passive:true});
       aboutCarousel.addEventListener('mouseenter',stopAuto);
       aboutCarousel.addEventListener('mouseleave',startAuto);
@@ -6618,6 +6621,7 @@ if(aboutCarousel||aboutModal){
   /* Clicking anywhere on the carousel (except the nav prev/next buttons) opens the modal */
   aboutCarousel?.addEventListener('click',e=>{
     if(e.target.closest('[data-about-prev],[data-about-next]'))return;
+    if(Date.now()-swipedAt<600)return;   /* that click came from a swipe */
     openAbout();
   });
   aboutCloseBtn?.addEventListener('click',closeAbout);
@@ -8253,6 +8257,14 @@ document.getElementById('navHomeBtn')?.addEventListener('click',e=>{
       }
     };
     window.addEventListener('scroll', onScrollFallback, { passive: true });
+    /* Last resort: build it anyway after a moment. Both gates above depend on
+       events that can simply never arrive — the rows sit inside an element
+       running an infinite translateX animation, which is the exact case where
+       Safari drops intersection callbacks, and the scroll net only helps if
+       the visitor scrolls. When neither fires the whole panel stays empty.
+       The payload is 26 small JPEGs totalling ~1MB, so building it unasked
+       costs little and guarantees it is never blank. */
+    setTimeout(run, 2500);
   } else {
     buildIG(); /* fallback: no IO support, just run it */
   }

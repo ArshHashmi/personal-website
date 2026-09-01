@@ -68,12 +68,11 @@ body::before{
   .pnav-logo{grid-column:1;grid-row:1}
   .pnav-right{grid-column:2;grid-row:1}
   .pnav-links{
-    grid-column:1 / -1;grid-row:2;justify-content:flex-start;gap:.3rem;
-    overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;
-    margin:0;padding:0;
+    grid-column:1 / -1;grid-row:2;justify-content:space-between;
+    gap:.5rem;flex-wrap:nowrap;overflow:visible;margin:0;padding:0;
   }
-  .pnav-links::-webkit-scrollbar{display:none}
-  .pnav-links a{font-size:.76rem;padding:.42rem .8rem;flex:0 0 auto}
+  .pnav-links a{font-size:.8rem;padding:.45rem 0;flex:0 0 auto;background:none;border-radius:0;color:rgba(255,255,255,.62)}
+  .pnav-links a.is-active,.pnav-links a:hover{background:none;color:#fff}
   .pnav-logo-wordmark{font-size:.74rem;letter-spacing:.06em}
   .pnav-cta{font-size:.76rem}
   /* The status pills crowd the logo out of the top row, and the hero
