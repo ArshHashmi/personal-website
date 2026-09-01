@@ -529,6 +529,21 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
 .about-text{justify-self:end;max-width:720px;display:flex;flex-direction:column;justify-content:center}
 .about-text .lede{font-family:var(--sans);font-size:clamp(1.6rem,2.7vw,2.15rem);font-weight:500;line-height:1.45;letter-spacing:-.015em;margin-bottom:1.7rem;color:var(--ink)}
 .about-text p{font-size:1.02rem;font-weight:300;line-height:1.85;color:var(--mist);margin-bottom:1rem}
+/* Desktop: the paragraph sat at 16px against a 34px lede and a 500px-tall
+   photo beside it, which read as an afterthought. Up to 18px with a little
+   more air, and the two columns centre against each other so neither hangs
+   below the other. */
+@media (min-width:1101px){
+  .about-layout{align-items:center}
+  .about-text .lede{margin-bottom:1.9rem}
+  .about-text p{font-size:1.06rem;font-weight:400;line-height:1.8;margin-bottom:1.15rem}
+}
+/* The full bump only once the column is wide enough to take it — below this
+   the text is already the taller of the two and more type just widens the
+   gap against the photo. */
+@media (min-width:1366px){
+  .about-text p{font-size:1.12rem}
+}
 .about-edu-wrap{margin-top:4rem;padding-top:.5rem}
 
 /* CERTIFICATIONS */
@@ -1155,6 +1170,45 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
   letter-spacing:-.015em;color:var(--ink);
 }
 .org-role{font-size:.92rem;line-height:1.5;color:var(--mist)}
+
+/* ── Desktop: two columns ────────────────────────────────────────────
+   Everything was stacked in one narrow column, which left the whole right
+   half of a wide screen empty and made the type read as a descending stack
+   of ever-smaller lines. School on the left, what I do there on the right,
+   with the two mono labels sharing a baseline. display:contents lets the
+   orgs label and its list place themselves as grid items so that alignment
+   holds without wrapping them in another element.
+   Scoped above the breakpoint where .about-layout stops being two columns,
+   so the phone layout is untouched. */
+@media (min-width:1101px){
+  .about-edu-wrap{
+    display:grid;
+    grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
+    column-gap:clamp(2.5rem,4vw,5rem);row-gap:1.4rem;
+    align-items:start;
+  }
+  .about-edu-wrap > .edu-label{grid-column:1;grid-row:1;margin-bottom:0}
+  .edu-entry{grid-column:1;grid-row:2}
+  .edu-orgs{display:contents}
+  .edu-orgs > .edu-label{grid-column:2;grid-row:1;margin-bottom:0}
+  .edu-org-list{grid-column:2;grid-row:2}
+
+  /* Sized against the rest of the page rather than against itself: the
+     school no longer has to be 45px to look like a heading now that it is
+     not competing with an empty right half, and the supporting lines come
+     up to the body scale used everywhere else. */
+  .ec-school{font-size:clamp(1.7rem,2.3vw,2.25rem)}
+  .ec-major{font-size:1.12rem;font-weight:600;margin-top:.55rem}
+  .ec-sub{font-size:1rem;line-height:1.65;margin-top:.5rem;max-width:34ch}
+  .ec-when{font-size:.68rem;letter-spacing:.16em;margin-top:1.1rem}
+
+  .edu-org-list{gap:.85rem}
+  /* Wide enough that "Watson Combat Robotics" holds one line; only CoRE's
+     full name still wraps, and baseline alignment keeps its role on the
+     first line where it belongs. */
+  .edu-org-list li{grid-template-columns:minmax(0,14rem) minmax(0,1fr);gap:1.2rem}
+  .org-role{font-size:1rem;line-height:1.45}
+}
 
 /* CONTACT
    A labelled rule, a statement, and every way to reach me as one spec list.
