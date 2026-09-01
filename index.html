@@ -523,15 +523,12 @@ section.panel.dark .tag:hover{border-color:var(--ink);color:var(--ink)}
 .about-spot-kicker{display:none}
 .about-spot-actions{display:none}
 
-.about-text{justify-self:end;max-width:720px}
-.about-text .lede{font-family:var(--sans);font-size:clamp(1.35rem,2.3vw,1.85rem);font-weight:500;line-height:1.5;letter-spacing:-.01em;margin-bottom:1.4rem;color:var(--ink)}
-.about-text p{font-size:.9rem;font-weight:300;line-height:1.9;color:var(--mist);margin-bottom:1rem}
-.about-facts{
-  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:1.2rem;margin-top:2.4rem;padding-top:2.4rem;border-top:1px solid var(--line)
-}
-.af-n{font-family:var(--sans);font-size:2.3rem;font-weight:600;line-height:1;display:block}
-.af-l{font-family:var(--mono);font-size:.55rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--fog);margin-top:.3rem;display:block}
+/* Stats row is gone — four numbers that didn't earn their place. The copy
+   now carries the column on its own, sized up to fill what they left behind
+   instead of leaving a gap under it. */
+.about-text{justify-self:end;max-width:720px;display:flex;flex-direction:column;justify-content:center}
+.about-text .lede{font-family:var(--sans);font-size:clamp(1.6rem,2.7vw,2.15rem);font-weight:500;line-height:1.45;letter-spacing:-.015em;margin-bottom:1.7rem;color:var(--ink)}
+.about-text p{font-size:1.02rem;font-weight:300;line-height:1.85;color:var(--mist);margin-bottom:1rem}
 .about-edu-wrap{margin-top:4rem;padding-top:.5rem}
 
 /* CERTIFICATIONS */
@@ -1344,10 +1341,8 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   section.panel{padding:3.2rem 5vw;border-bottom:none}
   .sec-header{margin-bottom:1.8rem}
   .about-layout{gap:2rem}
-  .about-facts{
-    grid-template-columns:1fr 1fr;
-    margin-top:2rem;padding-top:0;border-top:none;gap:1rem;
-  }
+  .about-text .lede{font-size:1.5rem}
+  .about-text p{font-size:.98rem}
   .about-edu-wrap{margin-top:2.4rem}
   /* The block ran 43px past the bottom of the cards for an 11px hint. */
   .certs-wrap{margin-top:2.2rem;padding:1rem 1rem .75rem;border-radius:16px}
@@ -2472,7 +2467,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .proj-stage-name,.cert-viewer-close,.about-modal-close,
   .fab-reel-label{font-size:.62rem;letter-spacing:.16em}
 
-  .af-l,.ec-when,.cert-issuer,.cert-viewer-hint,
+  .ec-when,.cert-issuer,.cert-viewer-hint,
   .about-open,.about-modal-sub,.work-modal-close,
   .work-subtitle,.work-subgroup-title,.work-subtab,
   .proj-kicker,.proj-tab,.proj-spec-label,
@@ -2792,12 +2787,6 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
       </div>
       <div class="about-body">
         <p class="rv d2">I've always liked taking things apart to understand how they work, then trying to build something better. That's what pulled me toward engineering in the first place, and it's the same thing pushing me toward motorsport now. Most of my time goes into the shop or a CAD screen, working through builds from a rough idea to something that actually runs. I've also picked up a few things along the way that don't fit neatly into "engineer": I trade and backtest strategies in Python, and I ran my own business for a few years before college. Right now I'm looking for motorsport, automotive, or R&amp;D internships where I can keep building.</p>
-        <div class="about-facts rv d4">
-          <div><span class="af-n">3+</span><span class="af-l">Years Entrepreneurship</span></div>
-          <div><span class="af-n">4</span><span class="af-l">Engineering Teams</span></div>
-          <div><span class="af-n">99.5</span><span class="af-l">HS GPA / 100</span></div>
-          <div><span class="af-n">6</span><span class="af-l">Certifications</span></div>
-        </div>
       </div>
     </div>
   </div>
