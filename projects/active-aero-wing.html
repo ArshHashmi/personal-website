@@ -4,10 +4,10 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="theme-color" content="#080808"/>
-<title>AVIWS — Active Variable Incidence Wing System — Arsh Hashmi</title>
+<title>AVIWS: Active Variable Incidence Wing System | Arsh Hashmi</title>
 <meta name="description" content="A self-contained active rear wing that reads the car's acceleration and moves itself between three aerodynamic modes. CFD-validated, 3D printed, built and tested on a BMW E93."/>
 <link rel="canonical" href="https://arshhashmi.com/projects/active-aero-wing"/>
-<meta property="og:title" content="AVIWS — Active Variable Incidence Wing System"/>
+<meta property="og:title" content="AVIWS: Active Variable Incidence Wing System"/>
 <meta property="og:description" content="Three modes, no driver input, no vehicle integration. 1,620 N of downforce swing between neutral and airbrake, validated in CFD and on the road."/>
 <meta property="og:image" content="https://arshhashmi.com/images/aviws/car-rear.jpg"/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -359,6 +359,115 @@ table.dt tbody tr:last-child td{border-bottom:none}
   background-repeat:no-repeat;background-position:0 100%;background-size:100% 1px;
 }
 
+
+/* ══════════════════════════════════════════════════════════════════
+   THE SIMULATOR
+   The car's own control logic, running in the browser: same 20 Hz
+   loop, same ten-sample moving average, same thresholds, same
+   one-second debounce. Downforce and drag are interpolated from the
+   three CFD points and scaled with the square of velocity, so the
+   numbers on screen are the report's numbers.
+   ══════════════════════════════════════════════════════════════════ */
+.sim{
+  display:grid;grid-template-columns:minmax(0,1.68fr) minmax(300px,1fr);
+  gap:2.6rem;margin-top:3rem;align-items:stretch;
+}
+.sim-stage{
+  position:relative;border-radius:14px;overflow:hidden;
+  background:radial-gradient(120% 130% at 50% 0%,#12161d 0%,#0b0d11 62%);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.07),0 30px 60px -34px rgba(0,0,0,1);
+  transition:box-shadow .6s ease;
+}
+.sim-svg{display:block;width:100%;height:auto}
+.sim-flow path{
+  fill:none;stroke:var(--flow,#6f7683);stroke-width:1.6;stroke-linecap:round;
+  transition:stroke .7s ease;
+}
+.sim-wing-shape{fill:#d7dbe2;stroke:rgba(255,255,255,.5);stroke-width:1.2}
+.sim-strut{stroke:#4a505b;stroke-width:5;stroke-linecap:round}
+.sim-deck{stroke:#2b3038;stroke-width:2.5;stroke-linecap:round}
+.sim-hinge{fill:var(--flow,#6f7683);transition:fill .7s ease}
+
+/* The mode read-out floats on the stage, where the eye already is. */
+.sim-badge{
+  position:absolute;left:1.4rem;top:1.3rem;display:flex;align-items:baseline;gap:.75rem;
+}
+.sim-badge-name{
+  font-family:var(--sans);font-size:1.5rem;font-weight:700;letter-spacing:-.03em;
+  color:var(--flow,#e6e6e6);transition:color .7s ease;
+}
+.sim-badge-ang{font-family:var(--sans);font-size:1.5rem;font-weight:700;letter-spacing:-.03em;color:rgba(255,255,255,.42)}
+.sim-pending{
+  position:absolute;left:1.4rem;top:3.5rem;
+  font-family:var(--ui);font-size:.86rem;font-weight:500;color:#7d838f;
+  opacity:0;transition:opacity .25s ease;
+}
+.sim-pending.on{opacity:1}
+.sim-speed{
+  position:absolute;right:1.5rem;top:1.2rem;text-align:right;
+}
+.sim-speed-v{
+  font-family:var(--sans);font-size:3.1rem;font-weight:800;letter-spacing:-.045em;
+  line-height:.9;color:var(--ink);font-variant-numeric:tabular-nums;
+}
+.sim-speed-k{margin-top:.3rem;font-family:var(--ui);font-size:.86rem;font-weight:500;color:#7d838f}
+
+/* ── Side panel ── */
+.sim-side{display:flex;flex-direction:column;gap:1.5rem}
+
+.sim-g{padding-bottom:.2rem}
+.sim-g-head{display:flex;align-items:baseline;justify-content:space-between;gap:1rem}
+.sim-g-k{font-family:var(--ui);font-size:.9rem;font-weight:600;color:#8d8d8d}
+.sim-g-v{font-family:var(--sans);font-size:1.05rem;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+/* The gate: centre is zero, the two ticks are the firmware thresholds. */
+.sim-g-track{
+  position:relative;height:26px;margin-top:.7rem;border-radius:6px;
+  background:rgba(255,255,255,.045);overflow:hidden;
+}
+.sim-g-zone{position:absolute;top:0;bottom:0;background:rgba(255,255,255,.05)}
+.sim-g-tick{position:absolute;top:0;bottom:0;width:1px;background:rgba(255,255,255,.26)}
+.sim-g-fill{
+  position:absolute;top:5px;bottom:5px;border-radius:3px;
+  background:var(--flow,#6f7683);transition:background .7s ease;
+}
+.sim-g-scale{
+  display:flex;justify-content:space-between;margin-top:.45rem;
+  font-family:var(--ui);font-size:.8rem;font-weight:500;color:var(--fog);
+}
+
+.sim-out{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
+.sim-out-v{font-family:var(--sans);font-size:1.45rem;font-weight:700;letter-spacing:-.03em;color:var(--ink);font-variant-numeric:tabular-nums}
+.sim-out-k{margin-top:.28rem;font-family:var(--ui);font-size:.86rem;font-weight:500;line-height:1.4;color:var(--fog)}
+
+.sim-pedals{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:auto}
+.pedal{
+  appearance:none;border:0;cursor:pointer;
+  padding:1.15rem 1rem;border-radius:11px;
+  font-family:var(--sans);font-size:1rem;font-weight:600;letter-spacing:-.01em;
+  color:var(--ink);background:#181b20;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.09);
+  transition:background .12s ease,box-shadow .12s ease,transform .12s ease;
+  touch-action:none;user-select:none;-webkit-user-select:none;
+}
+.pedal:hover{background:#1e222a}
+.pedal.is-down{transform:translateY(2px)}
+.pedal-gas.is-down{background:#14402f;box-shadow:inset 0 0 0 1px rgba(25,158,112,.85)}
+.pedal-brake.is-down{background:#43200f;box-shadow:inset 0 0 0 1px rgba(217,89,38,.85)}
+.pedal:focus-visible{outline:2px solid rgba(255,255,255,.55);outline-offset:3px}
+.pedal-key{display:block;margin-top:.3rem;font-family:var(--ui);font-size:.8rem;font-weight:500;color:#7d838f}
+.sim-hint{font-family:var(--ui);font-size:.88rem;font-weight:500;line-height:1.55;color:var(--fog)}
+
+@media(max-width:1100px){
+  .sim{grid-template-columns:1fr;gap:1.8rem}
+  .sim-side{gap:1.3rem}
+  .sim-pedals{margin-top:.4rem}
+}
+@media(max-width:700px){
+  .sim-speed-v{font-size:2.2rem}
+  .sim-badge-name,.sim-badge-ang{font-size:1.15rem}
+  .sim-out{gap:1rem}
+}
+
 /* ══════════════════════════════════════════════════════════════════
    RESPONSIVE — desktop is the target; these keep phones honest
    ══════════════════════════════════════════════════════════════════ */
@@ -440,6 +549,90 @@ table.dt tbody tr:last-child td{border-bottom:none}
 
 <div class="pwrap">
 
+  <!-- ═════════════════════════════════════════ SIMULATOR ══ -->
+  <section class="psec sim-sec">
+    <div class="shead">
+      <h2 class="stitle">Drive it.</h2>
+      <div class="slead">
+        <p>This is the car's control logic running in your browser: the same 20 Hz loop, the
+           same ten-sample moving average, the same thresholds, the same one second debounce.
+           Hold the throttle and the wing lies flat. Hold the brake and it stands up. Let go
+           and it settles back to cruise.</p>
+        <p>Downforce and drag are interpolated from the three CFD points and scaled with the
+           square of velocity, so the figures moving on screen are the ones from the report.</p>
+      </div>
+    </div>
+
+    <div class="sim" id="sim">
+      <div class="sim-stage">
+        <svg class="sim-svg" viewBox="0 0 900 340" role="img"
+             aria-label="Side view of the wing in a stream of air. The wing changes angle as you use the throttle and brake.">
+          <g class="sim-flow" id="simFlow"></g>
+          <line class="sim-deck" x1="120" y1="300" x2="780" y2="300"/>
+          <line class="sim-strut" x1="392" y1="299" x2="416" y2="186"/>
+          <line class="sim-strut" x1="470" y1="299" x2="446" y2="186"/>
+          <g id="simWing">
+            <path class="sim-wing-shape"
+                  d="M -74,-2 C -40,-15 30,-14 106,14 C 34,11 -34,13 -74,-2 Z"
+                  transform="translate(430,175)"/>
+          </g>
+          <circle class="sim-hinge" cx="430" cy="175" r="4.5"/>
+        </svg>
+
+        <div class="sim-badge">
+          <span class="sim-badge-name" id="simMode">Cruise</span>
+          <span class="sim-badge-ang" id="simAngle">+5°</span>
+        </div>
+        <div class="sim-pending" id="simPending">Debouncing</div>
+
+        <div class="sim-speed">
+          <div class="sim-speed-v" id="simSpeed">0</div>
+          <div class="sim-speed-k">mph</div>
+        </div>
+      </div>
+
+      <div class="sim-side">
+        <div class="sim-g">
+          <div class="sim-g-head">
+            <span class="sim-g-k">Longitudinal acceleration</span>
+            <span class="sim-g-v" id="simG">0.00 g</span>
+          </div>
+          <div class="sim-g-track">
+            <div class="sim-g-zone" id="simZone"></div>
+            <div class="sim-g-tick" id="simTickLo"></div>
+            <div class="sim-g-tick" id="simTickHi"></div>
+            <div class="sim-g-fill" id="simGFill"></div>
+          </div>
+          <div class="sim-g-scale"><span>−1.0 g</span><span>0</span><span>+1.0 g</span></div>
+        </div>
+
+        <div class="sim-out">
+          <div>
+            <div class="sim-out-v" id="simDf">0 N</div>
+            <div class="sim-out-k">Downforce at this speed</div>
+          </div>
+          <div>
+            <div class="sim-out-v" id="simDg">0 N</div>
+            <div class="sim-out-k">Drag at this speed</div>
+          </div>
+        </div>
+
+        <p class="sim-hint">The shaded band is the cruise dead zone. The wing only commits to a
+           new mode once acceleration has stayed outside it for a full second, which is what
+           stops a pothole from deploying the airbrake.</p>
+
+        <div class="sim-pedals">
+          <button type="button" class="pedal pedal-brake" id="pedBrake">
+            Brake<span class="pedal-key">hold, or press S</span>
+          </button>
+          <button type="button" class="pedal pedal-gas" id="pedGas">
+            Throttle<span class="pedal-key">hold, or press W</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ═════════════════════════════════════════ THE PROBLEM ══ -->
   <section class="psec">
     <div class="shead">
@@ -452,7 +645,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
            with it.</p>
         <p><b>AVIWS resolves it by refusing to pick.</b> An onboard IMU watches
            longitudinal acceleration, and the wing pitches to whichever angle the car
-           actually needs right now — flat under throttle, a shallow positive angle at
+           actually needs right now. Flat under throttle, a shallow positive angle at
            cruise, and fully deployed as an airbrake under braking.</p>
       </div>
     </div>
@@ -472,7 +665,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
            loading="lazy" decoding="async">
     </div>
     <p class="fig-cap" style="max-width:80ch">The finished system on the development car. The
-       whole assembly — wing, brackets, servos, electronics and its own battery — mounts to the
+       whole assembly (wing, brackets, servos, electronics and its own battery) mounts to the
        trunk lid on suction cups and comes off without leaving a mark.</p>
   </section>
 
@@ -483,12 +676,12 @@ table.dt tbody tr:last-child td{border-bottom:none}
       <div class="slead">
         <p>The variable-incidence idea is borrowed from the <b>Vought F-8 Crusader</b>, the
            only production aircraft that pivoted its entire wing rather than its control
-           surfaces — it raised the wing's incidence for carrier landings so the fuselage
+           surfaces. It raised the wing's incidence for carrier landings so the fuselage
            could stay level. The second reference is the <b>Zenvo TSR-1</b>, whose rear wing
            tilts laterally through a corner to generate a yaw-stabilising moment.</p>
         <p>The closest everyday relative is <b>F1's DRS</b>, which flattens the rear wing on
-           designated straights to shed drag. AVIWS does the same thing under acceleration —
-           and then adds the mode DRS doesn't have: a third, high-angle position that deploys
+           designated straights to shed drag. AVIWS does the same thing under acceleration,
+           then adds the mode DRS doesn't have: a third, high-angle position that deploys
            the wing as an active braking aid.</p>
       </div>
     </div>
@@ -499,7 +692,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
     <div class="shead">
       <h2 class="stitle">Three modes, chosen by the accelerometer.</h2>
       <div class="slead">
-        <p>Each mode was simulated in Autodesk Fusion CFD 2027 before anything was printed —
+        <p>Each mode was simulated in Autodesk Fusion CFD 2027 before anything was printed:
            steady-state incompressible flow, k-epsilon turbulence, 30 mph inlet. The plots
            below are velocity-magnitude streamlines through the wing at each of the three
            commanded angles.</p>
@@ -516,7 +709,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
             <span class="mode-name">Neutral</span>
             <span class="mode-ang" style="color:var(--m-neutral)">−5°</span>
           </div>
-          <p class="mode-when">Under throttle — <em>accel &gt; +0.09 g</em>. The wing lies down and gets out of the way so the drivetrain isn’t fighting it.</p>
+          <p class="mode-when">Under throttle, above <em>+0.09 g</em>. The wing lies down and gets out of the way so the drivetrain isn’t fighting it.</p>
           <div class="mode-nums">
             <div><div class="mode-num-v">88.4 N</div><div class="mode-num-k">Downforce</div></div>
             <div><div class="mode-num-v">9.4 N</div><div class="mode-num-k">Drag</div></div>
@@ -533,7 +726,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
             <span class="mode-name">Cruise</span>
             <span class="mode-ang" style="color:var(--m-cruise)">+5°</span>
           </div>
-          <p class="mode-when">Holding speed — <em>|accel| &lt; 0.07 g</em>. A shallow positive angle for baseline stability, and the system’s efficiency sweet spot.</p>
+          <p class="mode-when">Holding speed, inside the dead band. A shallow positive angle for baseline stability, and the system’s efficiency sweet spot.</p>
           <div class="mode-nums">
             <div><div class="mode-num-v">882.4 N</div><div class="mode-num-k">Downforce</div></div>
             <div><div class="mode-num-v">10.3 N</div><div class="mode-num-k">Drag</div></div>
@@ -550,7 +743,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
             <span class="mode-name">Airbrake</span>
             <span class="mode-ang" style="color:var(--m-airbrake)">+40°</span>
           </div>
-          <p class="mode-when">Under braking — <em>decel &gt; 0.07 g</em>. Flow separates off the upper surface on purpose, and the wake does the work.</p>
+          <p class="mode-when">Under braking, below <em>−0.07 g</em>. Flow separates off the upper surface on purpose, and the wake does the work.</p>
           <div class="mode-nums">
             <div><div class="mode-num-v">1,708.8 N</div><div class="mode-num-k">Downforce</div></div>
             <div><div class="mode-num-v">262.0 N</div><div class="mode-num-k">Drag</div></div>
@@ -577,17 +770,17 @@ table.dt tbody tr:last-child td{border-bottom:none}
         <figcaption class="chart-title">Downforce by mode</figcaption>
         <div class="chart-sub">Newtons at 30 mph. Higher is more grip.</div>
         <div class="bars">
-          <div class="bar-row" tabindex="0" data-tip="Neutral, −5° — 88.4 N (19.9 lb)">
+          <div class="bar-row" tabindex="0" data-tip="Neutral, −5°: 88.4 N (19.9 lb)">
             <span class="bar-lab">Neutral</span>
             <div class="bar-track"><div class="bar-fill" style="--w:5.2%;background:var(--m-neutral)"></div></div>
             <span class="bar-val">88.4 N</span>
           </div>
-          <div class="bar-row" tabindex="0" data-tip="Cruise, +5° — 882.4 N (198.4 lb)">
+          <div class="bar-row" tabindex="0" data-tip="Cruise, +5°: 882.4 N (198.4 lb)">
             <span class="bar-lab">Cruise</span>
             <div class="bar-track"><div class="bar-fill" style="--w:51.6%;background:var(--m-cruise)"></div></div>
             <span class="bar-val">882.4 N</span>
           </div>
-          <div class="bar-row" tabindex="0" data-tip="Airbrake, +40° — 1,708.8 N (384.1 lb)">
+          <div class="bar-row" tabindex="0" data-tip="Airbrake, +40°: 1,708.8 N (384.1 lb)">
             <span class="bar-lab">Airbrake</span>
             <div class="bar-track"><div class="bar-fill" style="--w:100%;background:var(--m-airbrake)"></div></div>
             <span class="bar-val">1,708.8 N</span>
@@ -599,17 +792,17 @@ table.dt tbody tr:last-child td{border-bottom:none}
         <figcaption class="chart-title">Drag by mode</figcaption>
         <div class="chart-sub">Newtons at 30 mph, on its own scale. Lower is faster.</div>
         <div class="bars">
-          <div class="bar-row" tabindex="0" data-tip="Neutral, −5° — 9.4 N (2.1 lb)">
+          <div class="bar-row" tabindex="0" data-tip="Neutral, −5°: 9.4 N (2.1 lb)">
             <span class="bar-lab">Neutral</span>
             <div class="bar-track"><div class="bar-fill" style="--w:3.6%;background:var(--m-neutral)"></div></div>
             <span class="bar-val">9.4 N</span>
           </div>
-          <div class="bar-row" tabindex="0" data-tip="Cruise, +5° — 10.3 N (2.3 lb)">
+          <div class="bar-row" tabindex="0" data-tip="Cruise, +5°: 10.3 N (2.3 lb)">
             <span class="bar-lab">Cruise</span>
             <div class="bar-track"><div class="bar-fill" style="--w:3.9%;background:var(--m-cruise)"></div></div>
             <span class="bar-val">10.3 N</span>
           </div>
-          <div class="bar-row" tabindex="0" data-tip="Airbrake, +40° — 262.0 N (58.9 lb)">
+          <div class="bar-row" tabindex="0" data-tip="Airbrake, +40°: 262.0 N (58.9 lb)">
             <span class="bar-lab">Airbrake</span>
             <div class="bar-track"><div class="bar-fill" style="--w:100%;background:var(--m-airbrake)"></div></div>
             <span class="bar-val">262.0 N</span>
@@ -620,7 +813,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
 
     <div class="tbl-wrap">
       <table class="dt">
-        <caption>Full CFD result set. Downforce-to-drag ratio is the efficiency figure —
+        <caption>Full CFD result set. Downforce-to-drag ratio is the efficiency figure:
                  higher means more grip per unit of drag.</caption>
         <thead>
           <tr>
@@ -659,7 +852,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
       <div class="callout-mark"></div>
       <div>
         <div class="callout-t">Neutral → cruise: +898% downforce, +10% drag.</div>
-        <p class="callout-d">Neutral → airbrake is the dramatic one — <b>+1,620.4 N of downforce
+        <p class="callout-d">Neutral to airbrake is the dramatic one: <b>+1,620.4 N of downforce
            and +252.6 N of drag</b>, a 2,687% increase in drag that is precisely the airbrake
            effect the system was built to exploit. But cruise is where the wing earns its keep,
            and it is the mode the car spends most of its life in.</p>
@@ -679,7 +872,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
         <p>Cambered rather than symmetric was a deliberate call. A symmetric section like a
            NACA 0012 makes nothing at zero angle of attack, which would mean every newton of
            cruise downforce had to be bought with servo angle. A cambered inverted profile
-           makes downforce passively at neutral incidence — so the actuator isn't holding a
+           makes downforce passively at neutral incidence, so the actuator isn't holding a
            load for the majority of the drive.</p>
       </div>
     </div>
@@ -706,12 +899,12 @@ table.dt tbody tr:last-child td{border-bottom:none}
       <div class="slead">
         <p>A <b>900 mm centre section</b> carries the constant profile and does the bulk of the
            work. Either side of it, a <b>250 mm outboard section</b> lofts from the centre
-           profile at its inboard end to a higher-angle profile at the tip — more downforce
-           toward the tips and a better spanwise load distribution, with no hard geometric
+           profile at its inboard end to a higher-angle profile at the tip. That puts more downforce
+           toward the tips and improves spanwise load distribution, with no hard geometric
            break to trip the flow.</p>
         <p>Endplates close both tips. They stop high-pressure air migrating around the wingtip
            to the low-pressure side, which is what generates induced drag and bleeds away
-           effective lift — and they double as the structural mounting interface, with M3 heat-set
+           effective lift. They also double as the structural mounting interface, with M3 heat-set
            inserts moulded straight into the print so nothing needs a nut on the back face.</p>
       </div>
     </div>
@@ -768,15 +961,15 @@ table.dt tbody tr:last-child td{border-bottom:none}
         <div class="fig-img"><img src="../images/aviws/printing.jpg"
              alt="A wing section being printed on an FDM 3D printer" loading="lazy" decoding="async"></div>
         <figcaption class="fig-cap"><b>What happened instead.</b> Every part printed straight
-          from the CAD geometry — 5% infill, three walls.</figcaption>
+          from the CAD geometry at 5% infill, three walls.</figcaption>
       </figure>
     </div>
 
     <div class="prose mt3">
       <p>Switching to FDM traded mass for precision, and the trade was worth making. Every part
          comes off the bed as the CAD file drew it, and the features that would have been
-         miserable to build into a foam core — hinge bores, dowel holes, heat-set insert
-         pockets, servo mounting geometry — are simply part of the print. <b>PLA</b> for the
+         miserable to build into a foam core (hinge bores, dowel holes, heat-set insert
+         pockets, servo mounting geometry) are simply part of the print. <b>PLA</b> for the
          structural components, chosen for dimensional stability and stiffness at these speeds.</p>
     </div>
   </section>
@@ -789,7 +982,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
         <p>No consumer printer swallows a 1,400 mm span, and a monolithic wing would mean
            reprinting the whole thing to fix any part of it. The centre element is split into
            <b>200 mm modules</b>, joined on <b>10 mm dowel pins</b> in bored holes on each
-           mating face — the dowels hold spanwise alignment and carry shear across the joint,
+           mating face. The dowels hold spanwise alignment and carry shear across the joint,
            so the assembly loads as one continuous element instead of a chain of segments.</p>
         <p>Then every external seam was <b>plastic welded</b>: a soldering iron run along the
            joint melts and intermixes the PLA on both sides, fusing the modules into a single
@@ -828,7 +1021,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
     <div class="shead">
       <h2 class="stitle">Direct drive, because a pushrod would flex.</h2>
       <div class="slead">
-        <p>Two <b>DS3218 servos</b> — 20 kg·cm stall at 6 V, full metal gears — sit in pockets
+        <p>Two <b>DS3218 servos</b>, rated 20 kg·cm stall at 6 V with full metal gears, sit in pockets
            in the support brackets with their output shafts on the wing's hinge axis. Metal
            gears were non-negotiable: aerodynamic hinge moment scales with the square of
            velocity, and at highway speed a wing this size will strip or back-drive the plastic
@@ -836,7 +1029,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
         <p>The servos drive the wing through a <b>custom-designed horn</b> rather than a generic
            one, to kill the angular slop that shows up when an off-the-shelf horn meets a
            third-party spline. Direct drive was chosen over a pushrod linkage because a slender
-           rod resisting that hinge moment is a buckling risk exactly when you need it most —
+           rod resisting that hinge moment is a buckling risk exactly when you need it most:
            in the airbrake position, at maximum load.</p>
       </div>
     </div>
@@ -851,8 +1044,8 @@ table.dt tbody tr:last-child td{border-bottom:none}
       <figure class="fig r43">
         <div class="fig-img contain"><img src="../images/aviws/cad-airbrake.jpg"
              alt="CAD view of the wing pitched to its 40 degree airbrake position" loading="lazy" decoding="async"></div>
-        <figcaption class="fig-cap"><b>Fully deployed.</b> The wing at its +40° airbrake stop —
-          the top of a 45° sweep, well inside the servo's 270° range.</figcaption>
+        <figcaption class="fig-cap"><b>Fully deployed.</b> The wing at its +40° airbrake stop,
+          the top of a 45° sweep and well inside the servo's 270° range.</figcaption>
       </figure>
     </div>
 
@@ -861,7 +1054,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
            alt="CAD render of the complete assembly: wing element, both support brackets and the servos"
            loading="lazy" decoding="async"></div>
       <figcaption class="fig-cap"><b>The whole system, as drawn.</b> Wing element, both support
-        brackets, servos and electronics — everything that goes on the car, and nothing that
+        brackets, servos and electronics. Everything that goes on the car, and nothing that
         goes in it.</figcaption>
     </figure>
   </section>
@@ -873,7 +1066,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
       <div class="slead">
         <p>The brief for the electronics was the fewest parts that would do the job reliably.
            An ESP32 has more of everything, but a single-axis loop with two inputs and one
-           output doesn't need dual cores or WiFi — and reliability scales inversely with part
+           output doesn't need dual cores or WiFi, and reliability scales inversely with part
            count. The whole assembly is recessed into the bracket's lattice rather than boxed
            separately, wiring zip-tied at intervals so nothing moves under vibration.</p>
       </div>
@@ -881,7 +1074,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
 
     <div class="kit">
       <div class="kit-row"><div class="kit-k">Microcontroller</div>
-        <div class="kit-v"><b>Arduino Nano.</b> 5 V logic, hardware I²C, PWM — talks to both the
+        <div class="kit-v"><b>Arduino Nano.</b> 5 V logic, hardware I²C, PWM. Talks to both the
           IMU and the servos with no level shifting.</div></div>
       <div class="kit-row"><div class="kit-k">Sensing</div>
         <div class="kit-v"><b>GY-521 (MPU-6050).</b> 3-axis accelerometer and gyro over I²C. Only
@@ -902,7 +1095,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
 
     <p class="pnote">One deliberate detail: the servos are fed straight from the buck output
        rather than through the Nano's onboard 5 V pin. A loaded DS3218 can pull over an amp,
-       which the Nano's regulator is not rated to supply — routing around it removes an entire
+       which the Nano's regulator is not rated to supply, so routing around it removes an entire
        failure mode.</p>
 
     <div class="grid2 mt3">
@@ -943,7 +1136,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
       <div class="loop-step">
         <div class="loop-n">02</div>
         <div class="loop-t">Correct</div>
-        <p class="loop-d">Subtract a 0.07 g offset — gravity bleeding into the longitudinal
+        <p class="loop-d">Subtract a 0.07 g offset: gravity bleeding into the longitudinal
            axis from an imperfect mounting angle, measured stationary and level.</p>
       </div>
       <div class="loop-step">
@@ -975,7 +1168,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
       </div>
     </div>
 
-    <p class="pnote">The loop polls at 50 ms — a 20 Hz update rate. That's far faster than it
+    <p class="pnote">The loop polls at 50 ms, a 20 Hz update rate. That's far faster than it
        needs to be: aerodynamic loads on a street car shift over hundreds of milliseconds, and
        the one-second debounce, not the polling rate, is what actually sets how quickly the
        wing responds. The filter itself adds about 500 ms of lag, which sits comfortably
@@ -991,7 +1184,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
            individually and then together to verify the mirrored position logic, the IMU tilted
            by hand along each axis to identify the longitudinal one, and the filter checked by
            tapping the sensor to confirm brief impulses didn't cross a threshold.</p>
-        <p>Then the whole thing went on the trunk lid of a 2011 E93 on suction cups — chosen
+        <p>Then the whole thing went on the trunk lid of a 2011 E93 on suction cups, chosen
            precisely because they leave the car untouched and move to any other car without
            refabricating anything. A laptop ran into the cabin on a USB lead for live serial,
            and a GoPro on the roof watched the wing.</p>
@@ -1008,16 +1201,16 @@ table.dt tbody tr:last-child td{border-bottom:none}
       <figure class="fig r169">
         <div class="fig-img"><img src="../images/aviws/calibration.jpg"
              alt="A laptop in the passenger seat showing live g-force readings from the IMU" loading="lazy" decoding="async"></div>
-        <figcaption class="fig-cap"><b>Live calibration.</b> Serial output in the passenger seat —
-          how the 0.07 g offset and both thresholds got tuned on the road rather than the bench.</figcaption>
+        <figcaption class="fig-cap"><b>Live calibration.</b> Serial output in the passenger seat.
+          This is how the 0.07 g offset and both thresholds got tuned on the road rather than the bench.</figcaption>
       </figure>
     </div>
 
     <div class="prose mt3">
       <p>It worked. The wing flattened under throttle, settled back to cruise at steady speed,
          and deployed fully under braking, at the points in the acceleration profile it was
-         supposed to. The <b>one-second debounce turned out to be the critical detail</b> —
-         earlier firmware without it hunted between modes on road undulations, gear changes and
+         supposed to. The <b>one-second debounce turned out to be the critical detail</b>.
+         Earlier firmware without it hunted between modes on road undulations, gear changes and
          small throttle inputs. The thresholds proved sensitive enough for ordinary street
          driving without needing to be provoked. The suction mount didn't move.</p>
     </div>
@@ -1070,7 +1263,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
     <div class="shead">
       <h2 class="stitle">Where it goes from here.</h2>
       <div class="slead">
-        <p>The architecture was drawn with the second axis in mind from the beginning — which is
+        <p>The architecture was drawn with the second axis in mind from the beginning, which is
            why the IMU's full six degrees of freedom are read even though the controller
            currently uses exactly one of them.</p>
       </div>
@@ -1081,7 +1274,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
         <div class="next-t">A lateral axis</div>
         <p class="next-d">The MPU-6050's lateral acceleration data is already there. A second
            servo axis on the hinge would let the wing tilt through a corner to generate a
-           yaw-stabilising moment — the Zenvo idea, at this scale.</p>
+           yaw-stabilising moment. The Zenvo idea, at this scale.</p>
       </div>
       <div>
         <div class="next-t">Telemetry</div>
@@ -1149,6 +1342,191 @@ table.dt tbody tr:last-child td{border-bottom:none}
     });
   },{rootMargin:'0px 0px -12% 0px'});
   fills.forEach(f=>obs.observe(f));
+})();
+
+/* ── The simulator ─────────────────────────────────────────────────
+   Physics on the animation frame, control logic on a fixed 20 Hz
+   accumulator so the filter window and the debounce are the real
+   ones rather than whatever the display refresh happens to be.     */
+(function(){
+  const root=document.getElementById('sim');
+  if(!root)return;
+
+  const W=900, WX=430, WY=175, TOP=22, BOT=286, NLINES=17;
+  const MODES={
+    neutral :{name:'Neutral', ang:-5, col:'#3987e5'},
+    cruise  :{name:'Cruise',  ang: 5, col:'#199e70'},
+    airbrake:{name:'Airbrake',ang:40, col:'#d95926'}
+  };
+  /* The three CFD points, at the 30 mph they were solved at. */
+  const PTS=[{a:-5,df:88.4,dg:9.4},{a:5,df:882.4,dg:10.3},{a:40,df:1708.8,dg:262.0}];
+  const ACC_T=0.09, BRK_T=-0.07, DEBOUNCE=1000, FILTER=10, TICK=50;
+  const GAS_G=0.30, BRAKE_G=0.85, MPH_PER_G=21.94;
+
+  const flowG=document.getElementById('simFlow');
+  const wingG=document.getElementById('simWing');
+  const el={
+    mode:document.getElementById('simMode'), angle:document.getElementById('simAngle'),
+    speed:document.getElementById('simSpeed'), g:document.getElementById('simG'),
+    gfill:document.getElementById('simGFill'), df:document.getElementById('simDf'),
+    dg:document.getElementById('simDg'), pending:document.getElementById('simPending')
+  };
+
+  /* Gate markings: the dead band and the two thresholds, to scale. */
+  const pct=g=>((g+1)/2)*100;
+  const zone=document.getElementById('simZone');
+  zone.style.left=pct(BRK_T)+'%'; zone.style.width=(pct(ACC_T)-pct(BRK_T))+'%';
+  document.getElementById('simTickLo').style.left=pct(BRK_T)+'%';
+  document.getElementById('simTickHi').style.left=pct(ACC_T)+'%';
+
+  const lines=[];
+  for(let i=0;i<NLINES;i++){
+    const y=TOP+(BOT-TOP)*i/(NLINES-1);
+    const p=document.createElementNS('http://www.w3.org/2000/svg','path');
+    p.setAttribute('stroke-dasharray','54 22');
+    flowG.appendChild(p);
+    lines.push({y:y,el:p});
+  }
+
+  const lerp=(a,b,t)=>a+(b-a)*t;
+  function interp(a,key){
+    if(a<=PTS[0].a)return PTS[0][key];
+    if(a>=PTS[2].a)return PTS[2][key];
+    const i=a<=PTS[1].a?0:1, p=PTS[i], q=PTS[i+1];
+    return lerp(p[key],q[key],(a-p.a)/(q.a-p.a));
+  }
+
+  /* Deflection tracks downforce, not raw angle: at -5 degrees the wing is
+     still making a little, so the air still turns a little. */
+  function paths(ang,t,sep){
+    const turn=interp(ang,'df')/1708.8;
+    for(let k=0;k<lines.length;k++){
+      const L=lines[k], y0=L.y;
+      const infl=Math.exp(-Math.pow(y0-WY,2)/(2*72*72));
+      const amp=turn*54*infl;
+      let d='M0,'+y0.toFixed(1);
+      for(let x=25;x<=W;x+=25){
+        const s=1/(1+Math.exp(-((x-WX)/78)));
+        let y=y0-amp*s;
+        y-=amp*0.16*Math.exp(-Math.pow(x-WX+78,2)/2600);
+        if(sep>0.01&&x>WX){
+          const run=Math.min(1,(x-WX)/230);
+          y+=Math.sin(x*0.085+t*0.006+y0*0.19)*sep*11*infl*run;
+        }
+        d+='L'+x.toFixed(1)+','+y.toFixed(1);
+      }
+      L.el.setAttribute('d',d);
+    }
+  }
+
+  let v=0, gas=false, brake=false, ang=5, targetAng=5;
+  let mode='cruise', wantMode='cruise', wantSince=0;
+  const buf=new Array(FILTER).fill(0); let bi=0;
+  let acc=0, last=performance.now(), dashOff=0, aInst=0;
+  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function setPed(id,on){const b=document.getElementById(id);if(b)b.classList.toggle('is-down',on);}
+  function press(which,on){
+    if(which==='gas'){gas=on;setPed('pedGas',on);}else{brake=on;setPed('pedBrake',on);}
+  }
+  [['pedGas','gas'],['pedBrake','brake']].forEach(function(pair){
+    const b=document.getElementById(pair[0]), w=pair[1];
+    b.addEventListener('pointerdown',function(e){e.preventDefault();b.setPointerCapture&&b.setPointerCapture(e.pointerId);press(w,true);});
+    ['pointerup','pointercancel','pointerleave'].forEach(function(ev){
+      b.addEventListener(ev,function(){press(w,false);});
+    });
+    b.addEventListener('keydown',function(e){if(e.key===' '||e.key==='Enter'){e.preventDefault();press(w,true);}});
+    b.addEventListener('keyup',function(e){if(e.key===' '||e.key==='Enter'){press(w,false);}});
+    b.addEventListener('blur',function(){press(w,false);});
+  });
+
+  /* W and S work only while the simulator is actually on screen, so the
+     keys stay free everywhere else on the page. */
+  let onScreen=false;
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){onScreen=es[0].isIntersecting;
+      if(!onScreen){press('gas',false);press('brake',false);}
+    },{threshold:.35}).observe(root);
+  }
+  window.addEventListener('keydown',function(e){
+    if(!onScreen||e.repeat||e.metaKey||e.ctrlKey||e.altKey)return;
+    const k=e.key.toLowerCase();
+    if(k==='w'){press('gas',true);}else if(k==='s'){press('brake',true);}
+  });
+  window.addEventListener('keyup',function(e){
+    const k=e.key.toLowerCase();
+    if(k==='w'){press('gas',false);}else if(k==='s'){press('brake',false);}
+  });
+  window.addEventListener('blur',function(){press('gas',false);press('brake',false);});
+
+  function control(now){
+    buf[bi]=aInst; bi=(bi+1)%FILTER;
+    let sum=0; for(let i=0;i<FILTER;i++)sum+=buf[i];
+    const f=sum/FILTER;
+    const want = f>ACC_T ? 'neutral' : (f<BRK_T ? 'airbrake' : 'cruise');
+    if(want!==mode){
+      if(want!==wantMode){wantMode=want;wantSince=now;}
+      else if(now-wantSince>=DEBOUNCE){mode=want;targetAng=MODES[mode].ang;wantMode=mode;}
+    }else{wantMode=mode;}
+    const pend = wantMode!==mode;
+    el.pending.classList.toggle('on',pend);
+    if(pend)el.pending.textContent='Debouncing to '+MODES[wantMode].name.toLowerCase();
+    return f;
+  }
+
+  let shownF=0;
+  function frame(now){
+    let dt=(now-last)/1000; last=now;
+    if(dt>0.1)dt=0.1;
+
+    aInst = brake ? -BRAKE_G : (gas ? GAS_G : -(0.014+0.000022*v*v));
+    if(v<=0&&!gas){v=0;if(!brake)aInst=0;}
+    if(brake&&v<=0){v=0;aInst=0;}
+    v+=aInst*MPH_PER_G*dt;
+    if(v<0)v=0; if(v>150)v=150;
+
+    acc+=dt*1000;
+    while(acc>=TICK){acc-=TICK;shownF=control(now);}
+
+    /* Servo sweep: the report's target is the full 45 degrees inside
+       500 ms, so a shade over 90 degrees a second. */
+    const rate=95*dt;
+    if(Math.abs(targetAng-ang)<=rate)ang=targetAng; else ang+=Math.sign(targetAng-ang)*rate;
+
+    const sep=Math.max(0,Math.min(1,(ang-14)/26));
+    if(!reduce||!frame.drawn){paths(ang,now,sep);frame.drawn=true;}
+
+    wingG.setAttribute('transform','rotate('+(-ang).toFixed(2)+','+WX+','+WY+')');
+
+    const spd=Math.max(0,Math.min(1,v/70));
+    dashOff-=v*dt*7.4;
+    for(let i=0;i<lines.length;i++){
+      const e=lines[i].el;
+      e.setAttribute('stroke-dashoffset',dashOff.toFixed(1));
+      e.setAttribute('stroke-opacity',(0.10+0.52*spd).toFixed(3));
+    }
+
+    const M=MODES[mode];
+    root.style.setProperty('--flow',M.col);
+    el.mode.textContent=M.name;
+    const shown=Math.round(ang);
+    el.angle.textContent=(shown>0?'+':(shown<0?'\u2212':''))+Math.abs(shown)+'\u00b0';
+    el.speed.textContent=Math.round(v);
+    el.g.textContent=(shownF>=0?'+':'\u2212')+Math.abs(shownF).toFixed(2)+' g';
+
+    const gp=pct(Math.max(-1,Math.min(1,shownF)));
+    el.gfill.style.left=Math.min(50,gp)+'%';
+    el.gfill.style.width=Math.abs(gp-50)+'%';
+
+    const q=Math.pow(v/30,2);
+    const fmt=x=>(x<10?x.toFixed(1):Math.round(x).toLocaleString())+' N';
+    el.df.textContent=fmt(interp(ang,'df')*q);
+    el.dg.textContent=fmt(interp(ang,'dg')*q);
+
+    requestAnimationFrame(frame);
+  }
+  paths(5,0,0);
+  requestAnimationFrame(frame);
 })();
 </script>
 </body>
