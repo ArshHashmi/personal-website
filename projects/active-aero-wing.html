@@ -717,12 +717,8 @@ table.dt tbody tr:last-child td{border-bottom:none}
 
   <!-- ═════════════════════════════════════════ THE NUMBERS ══ -->
   <section class="psec sec-banner">
-    <div class="shead">
+    <div class="shead shead-solo">
       <h2 class="stitle">The numbers.</h2>
-      <div class="slead">
-        <p>Three CFD runs, one for each commanded angle, and what they say the wing is
-           actually worth at each of them.</p>
-      </div>
     </div>
   </section>
 
@@ -731,10 +727,8 @@ table.dt tbody tr:last-child td{border-bottom:none}
     <div class="shead">
       <h3 class="stitle">Three modes, chosen by the accelerometer.</h3>
       <div class="slead">
-        <p>Each mode was simulated in Autodesk Fusion CFD 2027 before anything was printed:
-           steady-state incompressible flow, k-epsilon turbulence, 30 mph inlet. The plots
-           below are velocity-magnitude streamlines through the wing at each of the three
-           commanded angles.</p>
+        <p>Every angle was simulated in Autodesk Fusion CFD before anything got printed.
+           The plots are the airflow through the wing at each one.</p>
       </div>
     </div>
 
@@ -748,7 +742,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
             <span class="mode-name">Neutral</span>
             <span class="mode-ang" style="color:var(--m-neutral)">−5°</span>
           </div>
-          <p class="mode-when">Under throttle, above <em>+0.09 g</em>. The wing lies down and gets out of the way so the drivetrain isn’t fighting it.</p>
+          <p class="mode-when">Under throttle. The wing lies almost flat so it is barely fighting the air. The least drag of the three, which means quicker acceleration and a higher top speed.</p>
           <div class="mode-nums">
             <div><div class="mode-num-v">88.4 N</div><div class="mode-num-k">Downforce</div></div>
             <div><div class="mode-num-v">9.4 N</div><div class="mode-num-k">Drag</div></div>
@@ -765,7 +759,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
             <span class="mode-name">Cruise</span>
             <span class="mode-ang" style="color:var(--m-cruise)">+5°</span>
           </div>
-          <p class="mode-when">Holding speed, inside the dead band. A shallow positive angle for baseline stability, and the system’s efficiency sweet spot.</p>
+          <p class="mode-when">Holding a steady speed. A small angle buys real grip for almost no drag: ten times the downforce of neutral for less than a newton more. The efficient one.</p>
           <div class="mode-nums">
             <div><div class="mode-num-v">882.4 N</div><div class="mode-num-k">Downforce</div></div>
             <div><div class="mode-num-v">10.3 N</div><div class="mode-num-k">Drag</div></div>
@@ -782,7 +776,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
             <span class="mode-name">Airbrake</span>
             <span class="mode-ang" style="color:var(--m-airbrake)">+40°</span>
           </div>
-          <p class="mode-when">Under braking, below <em>−0.07 g</em>. Flow separates off the upper surface on purpose, and the wake does the work.</p>
+          <p class="mode-when">Under braking. The wing stands up into the air and becomes a brake. Maximum downforce to plant the car, plus a wall of drag that helps slow it down.</p>
           <div class="mode-nums">
             <div><div class="mode-num-v">1,708.8 N</div><div class="mode-num-k">Downforce</div></div>
             <div><div class="mode-num-v">262.0 N</div><div class="mode-num-k">Drag</div></div>
