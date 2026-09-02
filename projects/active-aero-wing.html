@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="theme-color" content="#080808"/>
 <title>AVIWS — Active Variable Incidence Wing System — Arsh Hashmi</title>
-<meta name="description" content="A fully autonomous rear wing that adjusts its angle of incidence in real time based on vehicle acceleration — no driver input, no external integration. Built from scratch in under two weeks."/>
+<meta name="description" content="A self-contained active rear wing that reads the car's acceleration and moves itself between three aerodynamic modes. CFD-validated, 3D printed, built and tested on a BMW E93."/>
 <link rel="canonical" href="https://arshhashmi.com/projects/active-aero-wing"/>
 <meta property="og:title" content="AVIWS — Active Variable Incidence Wing System"/>
-<meta property="og:description" content="A fully autonomous, self-contained active wing — three real-time modes, custom cambered airfoil, Arduino-driven, on-car validated."/>
-<meta property="og:image" content="https://arshhashmi.com/images/aviws/wing-standalone.jpg"/>
+<meta property="og:description" content="Three modes, no driver input, no vehicle integration. 1,620 N of downforce swing between neutral and airbrake, validated in CFD and on the road."/>
+<meta property="og:image" content="https://arshhashmi.com/images/aviws/car-rear.jpg"/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -20,14 +20,26 @@
   --paper:#080808;
   --surface:#0f0f0f;
   --surface-2:#141414;
-  --accent:#ffffff;
   --fog:#555555;
   --mist:#909090;
   --line:rgba(255,255,255,.09);
   --sans:'Sora',sans-serif;
   --mono:'IBM Plex Mono',monospace;
+  --ui:'Manrope',sans-serif;
   --amber:#f59e0b;
   --green:#22c55e;
+
+  /* ── Chart palette ───────────────────────────────────────────────
+     The three wing modes, coloured once and used everywhere on the
+     page so a mode's colour means the same thing in the CFD strip, the
+     bar charts and the state diagram. Dark-mode steps validated as a
+     set against this page's #0f0f0f chart surface: lightness band and
+     chroma floor pass, worst CVD ΔE 9.4 (deutan), worst normal-vision
+     ΔE 20.9, all three ≥3:1 contrast. Every bar also carries a text
+     label, so identity is never colour alone. */
+  --m-neutral:#3987e5;
+  --m-cruise:#199e70;
+  --m-airbrake:#d95926;
 }
 html{scroll-behavior:smooth;background:#080808}
 body{
@@ -42,7 +54,7 @@ body::before{
   background-size:40px 40px;
 }
 
-/* ── NAV ── */
+/* ── NAV (shared across every sub-page — unchanged) ── */
 .pnav{
   position:fixed;top:0;left:0;right:0;z-index:200;height:60px;
   padding:0 5vw;
@@ -53,46 +65,23 @@ body::before{
 .pnav-logo{display:flex;align-items:center;text-decoration:none;flex-shrink:0}
 .pnav-logo-wordmark{font-family:var(--sans);font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);white-space:nowrap;line-height:1}
 .pnav-links{display:flex;list-style:none;align-items:center;gap:.4rem;justify-content:center}
-.pnav-links a{font-family:'Manrope',sans-serif;font-size:.82rem;font-weight:600;letter-spacing:-.01em;color:rgba(255,255,255,.72);text-decoration:none;padding:.46rem 1.05rem;border-radius:7px;white-space:nowrap;background:rgba(255,255,255,.08);transition:color .14s,background .14s}
+.pnav-links a{font-family:var(--ui);font-size:.82rem;font-weight:600;letter-spacing:-.01em;color:rgba(255,255,255,.72);text-decoration:none;padding:.46rem 1.05rem;border-radius:7px;white-space:nowrap;background:rgba(255,255,255,.08);transition:color .14s,background .14s}
 .pnav-links a:hover{color:#fff;background:rgba(255,255,255,.16)}
 .pnav-links a.is-active{color:#fff;background:rgba(255,255,255,.14)}
 .pnav-right{display:flex;align-items:center;gap:.65rem;justify-self:end}
 .pnav-cta{font-family:var(--sans);font-size:.82rem;font-weight:400;letter-spacing:-.01em;color:rgba(255,255,255,.28);text-decoration:none;white-space:nowrap;transition:color .15s}
 .pnav-cta:hover{color:rgba(255,255,255,.55)}
 @media(max-width:680px){
-  /* The links were simply hidden here, which left every sub-page with no
-     navigation at all on a phone — just a logo and a Contact link. Wrap them
-     onto a second row instead. The bar grows from 60px to about 70px, which
-     every page's top offset already clears. */
-  .pnav{height:auto;padding:.6rem 5vw .55rem;grid-template-columns:1fr auto;row-gap:.5rem;align-items:center}
+  .pnav{
+    height:auto;padding:.55rem 4vw;row-gap:.5rem;
+    grid-template-columns:1fr auto;
+  }
   .pnav-logo{grid-column:1;grid-row:1}
   .pnav-right{grid-column:2;grid-row:1}
-  .pnav-links{
-    grid-column:1 / -1;grid-row:2;justify-content:space-between;
-    gap:.5rem;flex-wrap:nowrap;overflow:visible;margin:0;padding:0;
-  }
-  .pnav-links a{font-size:.8rem;padding:.45rem 0;flex:0 0 auto;background:none;border-radius:0;color:rgba(255,255,255,.62)}
-  .pnav-links a.is-active,.pnav-links a:hover{background:none;color:#fff}
-  .pnav-logo-wordmark{font-size:.74rem;letter-spacing:.06em}
-  .pnav-cta{font-size:.76rem}
-  /* The status pills crowd the logo out of the top row, and the hero
-     two hundred pixels below says the same thing. */
-  .pnav-badge,.pnav-free{display:none}
-  /* The floating back control was pinned under the taller two-row bar.
-     Qualified with body because the base rule is declared further down. */
-  body .back-fab{top:88px;left:1rem}
+  .pnav-links{grid-column:1/-1;grid-row:2;justify-content:space-between;gap:.3rem}
+  .pnav-links a{padding:.4rem .6rem;font-size:.76rem;background:none}
+  .pnav-logo-wordmark{font-size:.72rem}
 }
-.pnav-back{
-  display:inline-flex;align-items:center;gap:.5rem;
-  font-family:var(--mono);font-size:.6rem;font-weight:600;
-  letter-spacing:.16em;text-transform:uppercase;
-  color:var(--mist);text-decoration:none;
-  transition:color .2s;
-}
-.pnav-back:hover{color:var(--ink)}
-.pnav-back-arrow{display:inline-block;transition:transform .2s}
-.pnav-back:hover .pnav-back-arrow{transform:translateX(-3px)}
-/* Floating back fab */
 .back-fab{
   position:fixed;top:72px;left:1.5rem;z-index:150;
   display:inline-flex;align-items:center;gap:.48rem;
@@ -112,6 +101,7 @@ body::before{
 .back-fab-icon{display:flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);flex-shrink:0;transition:background .3s cubic-bezier(.16,1,.3,1),border-color .3s cubic-bezier(.16,1,.3,1),transform .3s cubic-bezier(.16,1,.3,1)}
 .back-fab:hover .back-fab-icon{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.22);transform:translateX(-1px)}
 .back-fab-icon svg{width:9px;height:9px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+body .back-fab{top:88px;left:1rem}
 /* View Transitions */
 @view-transition{navigation:auto}
 ::view-transition-old(root){animation:200ms ease-out both vt-out}
@@ -121,336 +111,287 @@ body::before{
 .pnav{view-transition-name:site-nav}
 .back-fab{view-transition-name:back-fab}
 ::view-transition-old(site-nav),::view-transition-new(site-nav),::view-transition-old(back-fab),::view-transition-new(back-fab){animation:none;mix-blend-mode:normal}
-.pnav-badge{
-  display:inline-flex;align-items:center;gap:.32rem;
-  border:1px solid rgba(245,158,11,.3);border-radius:999px;
-  background:rgba(245,158,11,.08);
-  padding:.22rem .52rem .22rem .38rem;
-  font-family:var(--mono);font-size:.5rem;font-weight:600;
-  letter-spacing:.14em;text-transform:uppercase;color:var(--amber);
-}
-.pnav-dot{
-  width:6px;height:6px;border-radius:50%;
-  background:var(--amber);box-shadow:0 0 7px rgba(245,158,11,.65);
-  animation:pulse 1.8s ease-in-out infinite;
-}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
-.pnav-free{
-  display:inline-flex;align-items:center;gap:.32rem;
-  border:1px solid rgba(34,197,94,.3);border-radius:999px;
-  background:rgba(34,197,94,.07);
-  padding:.22rem .52rem;
-  font-family:var(--mono);font-size:.5rem;font-weight:600;
-  letter-spacing:.14em;text-transform:uppercase;color:var(--green);
-}
 
-/* ── HERO ── */
+/* ══════════════════════════════════════════════════════════════════
+   HERO
+   ══════════════════════════════════════════════════════════════════ */
 .phero{
-  margin-top:3.5rem;
-  position:relative;height:72vh;min-height:480px;
-  overflow:hidden;
+  position:relative;height:88vh;min-height:560px;
+  display:flex;align-items:flex-end;overflow:hidden;
 }
-.phero-img{
-  position:absolute;inset:0;width:100%;height:100%;
-  object-fit:cover;object-position:50% 40%;
-  filter:brightness(.72) saturate(.9);
-}
+.phero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.8) contrast(1.05)}
 .phero-scrim{
   position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(8,8,8,.35) 0%,transparent 40%,rgba(8,8,8,.92) 100%);
+  background:
+    linear-gradient(to top,var(--paper) 2%,rgba(8,8,8,.55) 42%,rgba(8,8,8,.25) 70%,rgba(8,8,8,.72) 100%);
 }
-.phero-body{
-  position:absolute;bottom:0;left:0;right:0;
-  padding:3rem 6vw 3.5rem;
-}
-.phero-kicker{
-  font-family:var(--mono);font-size:.54rem;font-weight:600;
-  letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.5);
-  margin-bottom:.9rem;
-}
+.phero-body{position:relative;z-index:2;width:100%;padding:0 6vw 5.5rem;max-width:1500px;margin:0 auto}
 .phero-title{
-  font-family:var(--sans);font-size:clamp(2.4rem,5.5vw,5rem);
-  font-weight:700;letter-spacing:-.04em;line-height:.95;
-  margin-bottom:1.4rem;
+  font-family:var(--sans);font-size:clamp(2.6rem,6.4vw,6.2rem);font-weight:800;
+  letter-spacing:-.045em;line-height:.94;color:var(--ink);max-width:16ch;
 }
-.phero-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.6rem}
-.phero-tag{
-  font-family:var(--mono);font-size:.5rem;letter-spacing:.13em;text-transform:uppercase;
-  color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.16);
-  border-radius:999px;padding:.22rem .52rem;
+.phero-line{
+  margin-top:1.5rem;max-width:56ch;
+  font-size:clamp(1.02rem,1.35vw,1.3rem);font-weight:300;line-height:1.62;
+  color:rgba(255,255,255,.82);
 }
-.phero-stats{
-  display:flex;gap:2.5rem;flex-wrap:wrap;
+.phero-meta{
+  margin-top:2rem;display:flex;flex-wrap:wrap;gap:.55rem 1.9rem;
+  font-family:var(--ui);font-size:.92rem;font-weight:500;color:#8d8d8d;
 }
-.phero-stat{}
-.phero-stat-n{
-  font-family:var(--sans);font-size:1.8rem;font-weight:700;
-  letter-spacing:-.03em;line-height:1;display:block;
+.phero-meta b{color:var(--ink);font-weight:600}
+
+/* ══════════════════════════════════════════════════════════════════
+   LAYOUT
+   ══════════════════════════════════════════════════════════════════ */
+.pwrap{max-width:1500px;margin:0 auto;padding:0 6vw}
+.psec{padding:6.5rem 0}
+.psec-tight{padding-top:0}
+
+/* A section opens with a heading on the left and its opening paragraph
+   on the right — the page's basic editorial unit. */
+.shead{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:5vw;align-items:start}
+.stitle{
+  font-family:var(--sans);font-size:clamp(1.9rem,3.4vw,3.1rem);font-weight:700;
+  letter-spacing:-.038em;line-height:1.03;color:var(--ink);
 }
-.phero-stat-l{
-  font-family:var(--mono);font-size:.5rem;font-weight:500;
-  letter-spacing:.14em;text-transform:uppercase;color:var(--mist);
-  margin-top:.25rem;display:block;
+.slead{font-size:1.12rem;font-weight:300;line-height:1.78;color:var(--mist)}
+.slead p+p{margin-top:1.15rem}
+.slead b,.slead strong{color:var(--ink);font-weight:600}
+
+.prose{max-width:74ch;font-size:1.06rem;font-weight:300;line-height:1.82;color:var(--mist)}
+.prose p+p{margin-top:1.15rem}
+.prose b,.prose strong{color:var(--ink);font-weight:600}
+.pnote{
+  margin-top:1.6rem;font-family:var(--ui);font-size:.92rem;font-weight:500;
+  line-height:1.7;color:var(--fog);max-width:70ch;
 }
 
-/* ── CONTENT WRAPPER ── */
-.pcontent{max-width:1060px;margin:0 auto;padding:0 6vw}
+/* ══════════════════════════════════════════════════════════════════
+   FIGURES — the only objects on the page with an edge and a shadow
+   ══════════════════════════════════════════════════════════════════ */
+.fig{margin:0}
+.fig-img{
+  position:relative;overflow:hidden;border-radius:12px;background:#0a0a0a;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.06),0 26px 50px -30px rgba(0,0,0,1);
+}
+.fig-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.1s cubic-bezier(.16,1,.3,1)}
+.fig-img.contain{background:#101216}
+.fig-img.contain img{object-fit:contain}
+.fig:hover .fig-img img{transform:scale(1.025)}
+.fig-cap{
+  margin-top:.85rem;font-family:var(--ui);font-size:.88rem;font-weight:500;
+  line-height:1.55;color:var(--fog);
+}
+.fig-cap b{color:#9d9d9d;font-weight:600}
+.r43 .fig-img{aspect-ratio:4/3}
+.r169 .fig-img{aspect-ratio:16/9}
+.r52 .fig-img{aspect-ratio:5/2}
+.r34 .fig-img{aspect-ratio:3/4}
+.r11 .fig-img{aspect-ratio:1/1}
 
-/* ── SECTION ── */
-.psec{padding:4.5rem 0;border-bottom:1px solid var(--line)}
-.psec:last-child{border-bottom:none}
-.psec-label{
-  font-family:var(--mono);font-size:.54rem;font-weight:600;
-  letter-spacing:.22em;text-transform:uppercase;color:var(--fog);
-  display:block;margin-bottom:1.2rem;
-}
-.psec-title{
-  font-family:var(--sans);font-size:clamp(1.6rem,3vw,2.4rem);
-  font-weight:700;letter-spacing:-.03em;margin-bottom:1.6rem;
-}
-.psec-body{
-  font-size:.92rem;font-weight:300;line-height:1.9;color:var(--mist);
-  max-width:700px;
-}
-.psec-body p+p{margin-top:1rem}
-.psec-body strong{color:var(--ink);font-weight:600}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:2.2rem}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.8rem}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
+.mt3{margin-top:3.2rem}
+.mt2{margin-top:2.2rem}
 
-/* ── THREE MODES ── */
-.modes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem}
-@media(max-width:820px){.modes-grid{grid-template-columns:1fr}}
-.mode-card{
-  border:1px solid var(--line);border-radius:16px;padding:1.7rem 1.5rem;
-  background:rgba(255,255,255,.02);position:relative;overflow:hidden;
+/* Full-bleed plate — used once or twice, for the shots that earn it */
+.plate{
+  margin:4rem 0 0;border-radius:14px;overflow:hidden;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.06),0 40px 80px -44px rgba(0,0,0,1);
 }
-.mode-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:var(--mode-c,var(--mist));opacity:.6;
-}
-.mode-tag{
-  font-family:var(--mono);font-size:.5rem;font-weight:600;letter-spacing:.18em;
-  text-transform:uppercase;color:var(--mode-c,var(--mist));margin-bottom:1.1rem;display:block;
-}
-.mode-angle{font-family:var(--sans);font-size:2.4rem;font-weight:700;letter-spacing:-.03em;line-height:1;color:var(--ink)}
-.mode-angle-l{font-family:var(--mono);font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fog);margin:.35rem 0 1.2rem;display:block}
-.mode-desc{font-size:.82rem;line-height:1.7;color:var(--mist);margin-bottom:1.2rem}
-.mode-stats{display:grid;gap:.5rem;padding-top:1.1rem;border-top:1px solid var(--line)}
-.mode-stat{display:flex;align-items:baseline;justify-content:space-between;gap:.5rem}
-.mode-stat-k{font-family:var(--mono);font-size:.54rem;letter-spacing:.1em;text-transform:uppercase;color:var(--fog)}
-.mode-stat-v{font-family:var(--sans);font-size:.86rem;font-weight:600;color:var(--ink)}
+.plate img{width:100%;display:block;aspect-ratio:21/9;object-fit:cover}
 
-/* ── SPEC TABLE ── */
-.spec-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
-  gap:1px;border:1px solid var(--line);border-radius:14px;overflow:hidden;
-  margin-top:2rem;
+/* ══════════════════════════════════════════════════════════════════
+   AT A GLANCE
+   ══════════════════════════════════════════════════════════════════ */
+.glance{
+  display:grid;grid-template-columns:repeat(6,1fr);gap:2.4rem 2rem;
+  padding:2.8rem 0 0;
 }
-.spec-cell{
-  padding:1.1rem 1.2rem;
-  background:rgba(255,255,255,.02);
-  border-right:1px solid var(--line);
-  border-bottom:1px solid var(--line);
-}
-.spec-cell:nth-last-child(-n+3){border-bottom:none}
-.spec-cell:nth-child(3n){border-right:none}
-.spec-k{
-  font-family:var(--mono);font-size:.5rem;font-weight:600;
-  letter-spacing:.18em;text-transform:uppercase;color:var(--fog);
-  display:block;margin-bottom:.4rem;
-}
-.spec-v{
-  font-family:var(--sans);font-size:.95rem;font-weight:600;
-  letter-spacing:-.01em;color:var(--ink);
-}
+.gl-v{font-family:var(--sans);font-size:1.72rem;font-weight:700;letter-spacing:-.03em;line-height:1.05;color:var(--ink)}
+.gl-k{margin-top:.45rem;font-family:var(--ui);font-size:.88rem;font-weight:500;line-height:1.45;color:var(--fog)}
 
-/* ── PHASE TIMELINE ── */
-.phases{display:grid;gap:0;margin-top:2rem}
-.phase{
-  display:grid;grid-template-columns:48px 1fr;gap:0 1.4rem;
+/* ══════════════════════════════════════════════════════════════════
+   THREE MODES
+   ══════════════════════════════════════════════════════════════════ */
+/* The CFD plots are 3:1 strips, so each mode is a row — plot on the left at
+   a size where the streamlines actually read, numbers on the right — rather
+   than three narrow columns that would crop the plots to nothing. */
+.modes{display:grid;gap:3.4rem;margin-top:3.4rem}
+.mode{display:grid;grid-template-columns:1.6fr 1fr;gap:3.2rem;align-items:center}
+.mode-shot{
+  border-radius:12px;overflow:hidden;background:#eef2f6;aspect-ratio:3/1;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 22px 44px -28px rgba(0,0,0,1);
+}
+.mode-shot img{width:100%;height:100%;object-fit:cover;display:block}
+.mode-rule{height:3px;width:56px;border-radius:3px}
+.mode-top{display:flex;align-items:baseline;gap:.9rem;margin-top:1.15rem}
+.mode-name{font-family:var(--sans);font-size:1.62rem;font-weight:700;letter-spacing:-.03em;color:var(--ink)}
+.mode-ang{font-family:var(--sans);font-size:1.62rem;font-weight:700;letter-spacing:-.03em;margin-left:auto}
+.mode-when{
+  margin-top:.7rem;font-family:var(--ui);font-size:.98rem;font-weight:500;
+  line-height:1.6;color:var(--mist);
+}
+.mode-when em{font-style:normal;color:var(--ink);font-weight:600}
+.mode-nums{display:flex;gap:2.6rem;margin-top:1.5rem}
+.mode-num-v{font-family:var(--sans);font-size:1.34rem;font-weight:600;letter-spacing:-.02em;color:var(--ink)}
+.mode-num-k{margin-top:.2rem;font-family:var(--ui);font-size:.86rem;font-weight:500;color:var(--fog)}
+
+/* ══════════════════════════════════════════════════════════════════
+   CHARTS
+   Two measures on wildly different scales (88–1,709 N of downforce
+   against 9–262 N of drag), so they get two charts on two scales —
+   never one chart with two axes.
+   ══════════════════════════════════════════════════════════════════ */
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:4.5rem;margin-top:3.4rem}
+.chart-title{font-family:var(--sans);font-size:1.12rem;font-weight:600;letter-spacing:-.02em;color:var(--ink)}
+.chart-sub{margin-top:.35rem;font-family:var(--ui);font-size:.88rem;font-weight:500;color:var(--fog)}
+.bars{margin-top:1.7rem;display:grid;gap:.95rem}
+.bar-row{
+  display:grid;grid-template-columns:5.6rem 1fr auto;align-items:center;gap:1rem;
   position:relative;
 }
-.phase-spine{
-  display:flex;flex-direction:column;align-items:center;
+.bar-lab{font-family:var(--ui);font-size:.94rem;font-weight:600;color:var(--mist)}
+.bar-track{height:18px;background:rgba(255,255,255,.05);border-radius:4px;overflow:hidden}
+.bar-fill{
+  height:100%;width:var(--w);border-radius:4px;
+  transform-origin:left center;
+  animation:barIn 1.1s cubic-bezier(.16,1,.3,1) both;
 }
-.phase-node{
-  width:36px;height:36px;border-radius:50%;
-  border:1px solid rgba(255,255,255,.18);
-  background:var(--surface-2);
-  display:grid;place-items:center;
-  font-family:var(--mono);font-size:.52rem;font-weight:600;
-  color:var(--mist);flex-shrink:0;
-  position:relative;z-index:1;
+@keyframes barIn{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.bar-val{font-family:var(--sans);font-size:.98rem;font-weight:600;color:var(--ink);white-space:nowrap;font-variant-numeric:tabular-nums}
+/* Hover layer: the exact figure, in both unit systems, on the row. */
+.bar-row::after{
+  content:attr(data-tip);
+  position:absolute;left:5.6rem;bottom:calc(100% + 8px);z-index:5;
+  padding:.5rem .75rem;border-radius:8px;white-space:nowrap;
+  background:#1c1c1c;border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 14px 30px -14px rgba(0,0,0,1);
+  font-family:var(--ui);font-size:.86rem;font-weight:500;color:var(--ink);
+  opacity:0;transform:translateY(3px);pointer-events:none;
+  transition:opacity .18s ease,transform .18s ease;
 }
-.phase-node.done{
-  border-color:var(--green);
-  background:rgba(34,197,94,.1);
-  color:var(--green);
-}
-.phase-node.active{
-  border-color:var(--amber);
-  background:rgba(245,158,11,.1);
-  color:var(--amber);
-}
-.phase-line{
-  flex:1;width:1px;background:var(--line);
-  margin:0 auto;min-height:24px;
-}
-.phase:last-child .phase-line{display:none}
-.phase-body{padding-bottom:2.2rem}
-.phase-label{
-  font-family:var(--mono);font-size:.5rem;font-weight:600;
-  letter-spacing:.16em;text-transform:uppercase;
-  display:flex;align-items:center;gap:.5rem;
-  margin-bottom:.5rem;padding-top:.55rem;
-}
-.phase-status-pill{
-  font-size:.44rem;letter-spacing:.14em;
-  border-radius:999px;padding:.14rem .38rem;
-}
-.phase-status-pill.done{color:var(--green);border:1px solid rgba(34,197,94,.28);background:rgba(34,197,94,.08)}
-.phase-status-pill.active{color:var(--amber);border:1px solid rgba(245,158,11,.28);background:rgba(245,158,11,.08)}
-.phase-status-pill.upcoming{color:var(--fog);border:1px solid var(--line)}
-.phase-title{
-  font-family:var(--sans);font-size:1.05rem;font-weight:620;
-  letter-spacing:-.01em;line-height:1.2;margin-bottom:.5rem;
-}
-.phase-desc{font-size:.84rem;font-weight:300;line-height:1.75;color:var(--mist)}
-.phase-desc ul{padding-left:1.1rem;margin-top:.4rem;display:grid;gap:.25rem}
-.phase-desc li{color:var(--mist);line-height:1.6}
-.phase-desc li strong{color:var(--ink);font-weight:600}
+.bar-row:hover::after,.bar-row:focus-within::after{opacity:1;transform:translateY(0)}
 
-/* ── IMAGE GRID ── */
-.img-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2rem}
-.img-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;margin-top:2rem}
-.img-grid-wide{display:grid;grid-template-columns:2fr 1fr;gap:1rem;margin-top:2rem}
-.pimg{
-  border-radius:12px;overflow:hidden;border:1px solid var(--line);
-  aspect-ratio:4/3;position:relative;background:var(--surface-2);
+/* ── Data table: the chart's table view, and the full result set ── */
+.tbl-wrap{margin-top:4rem;overflow-x:auto}
+table.dt{border-collapse:collapse;width:100%;min-width:720px}
+table.dt caption{
+  text-align:left;padding-bottom:1rem;
+  font-family:var(--ui);font-size:.94rem;font-weight:500;color:var(--fog);
 }
-.pimg.tall{aspect-ratio:3/4}
-.pimg.wide{aspect-ratio:16/9}
-.pimg img{
-  width:100%;height:100%;object-fit:cover;display:block;
-  transition:transform .6s cubic-bezier(.16,1,.3,1);
+table.dt th,table.dt td{
+  text-align:right;padding:.85rem 1.1rem;
+  border-bottom:1px solid var(--line);
+  font-family:var(--sans);font-size:.98rem;font-weight:400;color:var(--mist);
+  font-variant-numeric:tabular-nums;
 }
-.pimg:hover img{transform:scale(1.04)}
-.pimg-caption{
-  position:absolute;bottom:0;left:0;right:0;
-  background:linear-gradient(transparent,rgba(8,8,8,.85));
-  padding:.85rem .8rem .55rem;
-  font-family:var(--mono);font-size:.48rem;letter-spacing:.12em;
-  text-transform:uppercase;color:rgba(255,255,255,.6);
+table.dt th{
+  font-family:var(--ui);font-size:.86rem;font-weight:600;color:#8d8d8d;
+  border-bottom-color:rgba(255,255,255,.18);
 }
+table.dt th:first-child,table.dt td:first-child{text-align:left}
+table.dt td:first-child{color:var(--ink);font-weight:600}
+table.dt tbody tr:last-child td{border-bottom:none}
+.dt-swatch{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:.6rem;vertical-align:baseline}
 
-/* ── FREE CTA BOX ── */
-.cta-box{
-  margin:3rem 0 0;
-  border:1px solid rgba(34,197,94,.22);
-  border-radius:20px;
-  background:radial-gradient(circle at 20% 0%,rgba(34,197,94,.06),transparent 55%),
-    linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.005));
-  padding:2.4rem 2.6rem;
-  display:flex;align-items:flex-start;justify-content:space-between;
-  gap:2rem;flex-wrap:wrap;
+/* ══════════════════════════════════════════════════════════════════
+   CONTROL LOGIC DIAGRAM
+   ══════════════════════════════════════════════════════════════════ */
+.loop{display:grid;grid-template-columns:repeat(4,1fr);gap:1.3rem;margin-top:3.2rem}
+.loop-step{position:relative;padding-right:1.3rem}
+.loop-n{font-family:var(--ui);font-size:.86rem;font-weight:600;color:var(--fog)}
+.loop-t{margin-top:.5rem;font-family:var(--sans);font-size:1.08rem;font-weight:600;letter-spacing:-.02em;color:var(--ink)}
+.loop-d{margin-top:.45rem;font-family:var(--ui);font-size:.92rem;font-weight:500;line-height:1.6;color:var(--mist)}
+.loop-step:not(:last-child)::after{
+  content:'';position:absolute;right:.2rem;top:.45rem;
+  width:7px;height:7px;border-right:1.5px solid rgba(255,255,255,.22);
+  border-top:1.5px solid rgba(255,255,255,.22);transform:rotate(45deg);
 }
-.cta-box-left{}
-.cta-kicker{
-  font-family:var(--mono);font-size:.54rem;font-weight:600;
-  letter-spacing:.2em;text-transform:uppercase;color:var(--green);
-  margin-bottom:.7rem;display:block;
-}
-.cta-title{
-  font-family:var(--sans);font-size:clamp(1.5rem,2.5vw,2rem);
-  font-weight:700;letter-spacing:-.03em;margin-bottom:.8rem;
-}
-.cta-desc{font-size:.88rem;font-weight:300;line-height:1.8;color:var(--mist);max-width:520px}
-.cta-actions{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1.6rem}
-.cta-btn-primary{
-  display:inline-flex;align-items:center;gap:.5rem;
-  background:var(--green);color:#050f06;
-  font-family:var(--mono);font-size:.6rem;font-weight:700;
-  letter-spacing:.16em;text-transform:uppercase;
-  padding:.85rem 1.8rem;border-radius:10px;text-decoration:none;
-  transition:opacity .2s,transform .2s;border:none;cursor:pointer;
-}
-.cta-btn-primary:hover{opacity:.88;transform:translateY(-1px)}
-.cta-btn-secondary{
-  display:inline-flex;align-items:center;gap:.5rem;
-  border:1px solid var(--line);background:rgba(255,255,255,.03);
-  color:var(--ink);
-  font-family:var(--mono);font-size:.6rem;font-weight:600;
-  letter-spacing:.16em;text-transform:uppercase;
-  padding:.85rem 1.8rem;border-radius:10px;text-decoration:none;
-  transition:.25s;
-}
-.cta-btn-secondary:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.states{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem;margin-top:2.6rem}
+.state{padding:1.4rem 1.5rem;border-radius:12px;background:var(--surface);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
+.state-if{font-family:var(--mono);font-size:.94rem;font-weight:500;color:var(--ink)}
+.state-then{margin-top:.7rem;font-family:var(--ui);font-size:.94rem;font-weight:500;line-height:1.6;color:var(--mist)}
+.state-then b{font-weight:700}
 
-/* ── WHAT'S INCLUDED LIST ── */
-.includes-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-  gap:1px;border:1px solid var(--line);border-radius:14px;overflow:hidden;
-  margin-top:1.8rem;
-}
-.inc-item{
-  padding:1.2rem 1.3rem;background:rgba(255,255,255,.02);
-  display:flex;align-items:flex-start;gap:.7rem;
-}
-.inc-icon{
-  font-family:var(--mono);font-size:.8rem;color:var(--green);
-  flex-shrink:0;margin-top:.08rem;
-}
-.inc-text{}
-.inc-title{font-family:var(--sans);font-size:.9rem;font-weight:600;margin-bottom:.18rem}
-.inc-desc{font-family:var(--mono);font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:var(--fog)}
+/* ══════════════════════════════════════════════════════════════════
+   BUILD SPEC LIST
+   ══════════════════════════════════════════════════════════════════ */
+.kit{display:grid;grid-template-columns:repeat(2,1fr);gap:0 4.5rem;margin-top:2.6rem}
+.kit-row{display:grid;grid-template-columns:11rem 1fr;gap:1.5rem;padding:1.05rem 0;border-bottom:1px solid var(--line)}
+.kit-k{font-family:var(--ui);font-size:.94rem;font-weight:600;color:#8d8d8d}
+.kit-v{font-size:.98rem;font-weight:300;line-height:1.6;color:var(--mist)}
+.kit-v b{color:var(--ink);font-weight:600}
 
-/* ── FOOTER ── */
+/* ── Callout: used for the one failure and the one big finding ── */
+.callout{
+  margin-top:3rem;padding:2rem 2.2rem;border-radius:14px;
+  background:var(--surface);box-shadow:inset 0 0 0 1px rgba(255,255,255,.07);
+  display:grid;grid-template-columns:auto 1fr;gap:1.6rem;align-items:start;
+}
+.callout-mark{width:3px;height:100%;min-height:3.2rem;border-radius:3px;background:var(--m-airbrake)}
+.callout.good .callout-mark{background:var(--m-cruise)}
+.callout-t{font-family:var(--sans);font-size:1.18rem;font-weight:600;letter-spacing:-.02em;color:var(--ink)}
+.callout-d{margin-top:.6rem;font-size:1rem;font-weight:300;line-height:1.75;color:var(--mist);max-width:80ch}
+.callout-d b{color:var(--ink);font-weight:600}
+
+/* ── Next-up list ── */
+.next{display:grid;grid-template-columns:repeat(3,1fr);gap:2.6rem;margin-top:3rem}
+.next-t{font-family:var(--sans);font-size:1.14rem;font-weight:600;letter-spacing:-.02em;color:var(--ink)}
+.next-d{margin-top:.6rem;font-size:.98rem;font-weight:300;line-height:1.72;color:var(--mist)}
+
+/* ══════════════════════════════════════════════════════════════════
+   FOOTER (shared)
+   ══════════════════════════════════════════════════════════════════ */
 .pfooter{
-  padding:2.4rem 6vw;
+  margin-top:5rem;padding:2.6rem 6vw;
   border-top:1px solid var(--line);
   display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
 }
-.pfooter-brand{
-  font-family:var(--sans);font-size:.9rem;font-weight:600;letter-spacing:.02em;
-  text-decoration:none;color:var(--ink);
-}
-.pfooter-note{
-  font-family:var(--mono);font-size:.52rem;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--fog);
-}
+.pfooter-brand{font-family:var(--sans);font-size:.92rem;font-weight:600;letter-spacing:.02em;text-decoration:none;color:var(--ink)}
+.pfooter-note{font-family:var(--ui);font-size:.9rem;font-weight:500;color:var(--fog)}
 .pfooter-back{
-  font-family:var(--mono);font-size:.54rem;font-weight:600;
-  letter-spacing:.14em;text-transform:uppercase;
-  color:var(--mist);text-decoration:none;
-  border:1px solid var(--line);padding:.45rem .9rem;border-radius:999px;
-  transition:.25s;
+  font-family:var(--sans);font-size:.92rem;font-weight:600;letter-spacing:-.01em;
+  color:var(--ink);text-decoration:none;padding-bottom:4px;
+  background-image:linear-gradient(currentColor,currentColor);
+  background-repeat:no-repeat;background-position:0 100%;background-size:100% 1px;
 }
-.pfooter-back:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 
-/* ── RESPONSIVE ── */
+/* ══════════════════════════════════════════════════════════════════
+   RESPONSIVE — desktop is the target; these keep phones honest
+   ══════════════════════════════════════════════════════════════════ */
+@media(max-width:1180px){
+  .glance{grid-template-columns:repeat(3,1fr)}
+  .charts{grid-template-columns:1fr;gap:3.4rem}
+  .loop{grid-template-columns:1fr 1fr}
+  .loop-step:nth-child(2)::after{display:none}
+}
+@media(max-width:900px){
+  .shead{grid-template-columns:1fr;gap:1.6rem}
+  .states,.next,.grid3,.grid4{grid-template-columns:1fr}
+  .mode{grid-template-columns:1fr;gap:1.5rem}
+  .kit{grid-template-columns:1fr;gap:0}
+  .psec{padding:4.4rem 0}
+}
 @media(max-width:700px){
-  .phero{height:55vh}
-  .img-grid-2,.img-grid-3,.img-grid-wide{grid-template-columns:1fr}
-  .cta-box{flex-direction:column}
-  .spec-cell:nth-child(3n){border-right:1px solid var(--line)}
-  .spec-cell:nth-last-child(-n+3){border-bottom:1px solid var(--line)}
-  .spec-grid{grid-template-columns:1fr 1fr}
-  .spec-cell:nth-child(2n){border-right:none}
-  .spec-cell:nth-last-child(-n+2){border-bottom:none}
-  .includes-grid{grid-template-columns:1fr}
+  .phero{height:78vh;min-height:460px}
+  .phero-body{padding:0 5vw 3.4rem}
+  .grid2{grid-template-columns:1fr;gap:1.6rem}
+  .glance{grid-template-columns:1fr 1fr;gap:1.8rem 1.4rem}
+  .loop{grid-template-columns:1fr}
+  .loop-step::after{display:none!important}
+  .loop-step{padding-right:0}
+  .plate img{aspect-ratio:16/9}
+  .callout{grid-template-columns:1fr;gap:1rem}
+  .callout-mark{width:100%;height:3px;min-height:0}
+  .bar-row{grid-template-columns:4.6rem 1fr auto;gap:.7rem}
+  .kit-row{grid-template-columns:1fr;gap:.3rem}
 }
-
-/* ── MOBILE TYPE FLOOR ──────────────────────────────────────────────
-   This page runs its mono labels from .54rem down to .44rem — 7px on a
-   phone, well past the point of being readable. Lift everything to a
-   floor and pull the tracking in so the wider glyphs still fit. */
-@media(max-width:680px){
-  .phero-tag,.phero-stat-l,
-  .mode-tag,.mode-angle-l,.spec-k,.phase-label,.inc-desc{
-    font-size:.64rem;letter-spacing:.11em;
-  }
-  .phero-kicker,.psec-label,.mode-stat-k,.cta-kicker,
-  .pfooter-note,.pfooter-back,.phase-node{font-size:.66rem;letter-spacing:.13em}
-  .phase-status-pill{font-size:.62rem;letter-spacing:.09em}
-  .pimg-caption{font-size:.68rem;letter-spacing:.02em;line-height:1.5}
+@media(prefers-reduced-motion:reduce){
+  .bar-fill{animation:none}
+  .fig:hover .fig-img img{transform:none}
 }
 </style>
 </head>
@@ -468,8 +409,6 @@ body::before{
     <li><a href="../about.html">About Me</a></li>
   </ul>
   <div class="pnav-right">
-    <div class="pnav-free">Build Complete</div>
-    <div class="pnav-badge"><span class="pnav-dot"></span>V2 In Progress</div>
     <a href="../contact.html" class="pnav-cta">Contact</a>
   </div>
 </nav>
@@ -478,392 +417,708 @@ body::before{
   Back
 </a>
 
-<!-- HERO -->
+<!-- ═══════════════════════════════════════════════ HERO ══ -->
 <section class="phero">
-  <video class="phero-img phero-video" data-inview-video
+  <video class="phero-img" data-inview-video
          data-src="../videos/active-aero-wing-hero.mp4"
-         poster="../images/aviws/wing-standalone.jpg"
+         poster="../images/aviws/car-rear.jpg"
          muted playsinline loop preload="none"
-         aria-label="AVIWS on-car test footage — the wing shifting angle of incidence in real time"></video>
+         aria-label="The wing shifting its angle of incidence during an on-car test run"></video>
   <div class="phero-scrim"></div>
   <div class="phero-body">
-    <p class="phero-kicker">AVIWS — Personal Project, Autonomous Active Aerodynamics</p>
-    <h1 class="phero-title">Active Variable<br>Incidence Wing System</h1>
-    <div class="phero-tags">
-      <span class="phero-tag">Fusion 360</span>
-      <span class="phero-tag">Autodesk CFD</span>
-      <span class="phero-tag">Arduino Nano</span>
-      <span class="phero-tag">Embedded C++</span>
-      <span class="phero-tag">FDM 3D Printing</span>
-    </div>
-    <div class="phero-stats">
-      <div class="phero-stat">
-        <span class="phero-stat-n">&lt;2 Wks</span>
-        <span class="phero-stat-l">Concept to on-car test</span>
-      </div>
-      <div class="phero-stat">
-        <span class="phero-stat-n">3 Modes</span>
-        <span class="phero-stat-l">Fully autonomous</span>
-      </div>
-      <div class="phero-stat">
-        <span class="phero-stat-n">85.7:1</span>
-        <span class="phero-stat-l">Cruise L/D ratio</span>
-      </div>
+    <h1 class="phero-title">Active Variable Incidence Wing System</h1>
+    <p class="phero-line">A rear wing that reads the car's acceleration and moves itself
+       between three aerodynamic modes. No driver input, no vehicle integration, nothing
+       plugged into the car.</p>
+    <div class="phero-meta">
+      <span>Personal project, <b>summer 2026</b></span>
+      <span>Designed, printed and tested <b>solo</b></span>
+      <span>Testbed: <b>2011 BMW E93</b></span>
     </div>
   </div>
 </section>
 
-<!-- CONTENT -->
-<div class="pcontent">
+<div class="pwrap">
 
-  <!-- ── OVERVIEW ── -->
+  <!-- ═════════════════════════════════════════ THE PROBLEM ══ -->
   <section class="psec">
-    <span class="psec-label">Overview</span>
-    <h2 class="psec-title">What this project is</h2>
-    <div class="psec-body">
-      <p>I built AVIWS — the Active Variable Incidence Wing System — from scratch in under two weeks. It's a fully autonomous rear wing that adjusts its angle of incidence in real time based on vehicle acceleration. <strong>No driver input, no external vehicle integration — entirely self-contained.</strong></p>
-      <p>Three modes handle the full range of a driving cycle. Under acceleration the wing flattens to shed drag — the same principle as F1's DRS. At cruise it holds a shallow angle for an efficient downforce-to-drag ratio. Under braking it deploys as a full airbrake to supplement the car's own brakes.</p>
-      <p>It's rooted in two real precedents: the variable-incidence wing of the <strong>Vought F-8 Crusader</strong> — the only production aircraft to ever implement the concept — and the active lateral aero system of the <strong>Zenvo TSR-1</strong>.</p>
-      <p>The build covers the full process: a custom cambered airfoil designed in Fusion 360, CFD validation across all three modes in Autodesk CFD, 15+ FDM-printed components across a modular 1400&nbsp;mm span assembly, embedded C++ firmware on an Arduino Nano with a moving-average IMU filter and debounce control logic, and full on-car validation on my own car.</p>
+    <div class="shead">
+      <h2 class="stitle">A fixed wing is a compromise you drive around.</h2>
+      <div class="slead">
+        <p>Downforce and drag pull in opposite directions. A wing set up for
+           high-downforce cornering drags badly down a straight; a wing set up for
+           low-drag top speed gives you nothing under braking or lateral load. Every
+           fixed rear wing ever bolted to a car picks a point on that trade and lives
+           with it.</p>
+        <p><b>AVIWS resolves it by refusing to pick.</b> An onboard IMU watches
+           longitudinal acceleration, and the wing pitches to whichever angle the car
+           actually needs right now — flat under throttle, a shallow positive angle at
+           cruise, and fully deployed as an airbrake under braking.</p>
+      </div>
     </div>
 
-    <div class="img-grid-wide">
-      <div class="pimg wide">
-        <img src="../images/aviws/oncar.jpg" alt="AVIWS mounted on the trunk during an on-car test, with live heading and speed overlay" loading="lazy" decoding="async">
-        <div class="pimg-caption">On-car test — live heading &amp; speed overlay</div>
-      </div>
-      <div class="pimg">
-        <img src="../images/aviws/cad-fusion360.jpg" alt="Fusion 360 assembly showing the full wing, servo, and trunk-mount components" loading="lazy" decoding="async">
-        <div class="pimg-caption">Fusion 360 — full wing assembly</div>
+    <div class="glance">
+      <div><div class="gl-v">1,400 mm</div><div class="gl-k">Span, tip to tip</div></div>
+      <div><div class="gl-v">3</div><div class="gl-k">Autonomous modes</div></div>
+      <div><div class="gl-v">−5° → 40°</div><div class="gl-k">Angle of incidence</div></div>
+      <div><div class="gl-v">1,620 N</div><div class="gl-k">Downforce swing across the range</div></div>
+      <div><div class="gl-v">20 Hz</div><div class="gl-k">Control loop</div></div>
+      <div><div class="gl-v">0</div><div class="gl-k">Wires into the car</div></div>
+    </div>
+
+    <div class="plate">
+      <img src="../images/aviws/car-rear.jpg"
+           alt="The finished wing mounted on the trunk lid of a black BMW E93, seen from behind"
+           loading="lazy" decoding="async">
+    </div>
+    <p class="fig-cap" style="max-width:80ch">The finished system on the development car. The
+       whole assembly — wing, brackets, servos, electronics and its own battery — mounts to the
+       trunk lid on suction cups and comes off without leaving a mark.</p>
+  </section>
+
+  <!-- ═════════════════════════════════════════ PRIOR ART ══ -->
+  <section class="psec psec-tight">
+    <div class="shead">
+      <h2 class="stitle">Two references, one of them airborne.</h2>
+      <div class="slead">
+        <p>The variable-incidence idea is borrowed from the <b>Vought F-8 Crusader</b>, the
+           only production aircraft that pivoted its entire wing rather than its control
+           surfaces — it raised the wing's incidence for carrier landings so the fuselage
+           could stay level. The second reference is the <b>Zenvo TSR-1</b>, whose rear wing
+           tilts laterally through a corner to generate a yaw-stabilising moment.</p>
+        <p>The closest everyday relative is <b>F1's DRS</b>, which flattens the rear wing on
+           designated straights to shed drag. AVIWS does the same thing under acceleration —
+           and then adds the mode DRS doesn't have: a third, high-angle position that deploys
+           the wing as an active braking aid.</p>
       </div>
     </div>
   </section>
 
-  <!-- ── THREE MODES ── -->
+  <!-- ═════════════════════════════════════════ THREE MODES ══ -->
   <section class="psec">
-    <span class="psec-label">How It Works</span>
-    <h2 class="psec-title">Three modes, fully autonomous</h2>
-    <div class="psec-body">
-      <p>An onboard IMU reads vehicle acceleration continuously. A moving-average filter smooths the signal, and debounce logic decides which mode the wing should be in — then holds it there until the driving state genuinely changes, so it doesn't hunt back and forth at the boundary.</p>
-    </div>
-
-    <div class="modes-grid">
-      <div class="mode-card" style="--mode-c:#3ddc84">
-        <span class="mode-tag">Acceleration</span>
-        <span class="mode-angle">−5°</span>
-        <span class="mode-angle-l">Angle of incidence</span>
-        <p class="mode-desc">Flattens to shed drag and maximize straight-line performance — the same principle as F1's DRS.</p>
-        <div class="mode-stats">
-          <div class="mode-stat"><span class="mode-stat-k">Drag @ 30 mph</span><span class="mode-stat-v">9.4 N</span></div>
-        </div>
-      </div>
-
-      <div class="mode-card" style="--mode-c:#60a5fa">
-        <span class="mode-tag">Cruise</span>
-        <span class="mode-angle">+5°</span>
-        <span class="mode-angle-l">Angle of incidence</span>
-        <p class="mode-desc">Holds a low angle producing high downforce with minimal drag — an efficient default state.</p>
-        <div class="mode-stats">
-          <div class="mode-stat"><span class="mode-stat-k">Downforce</span><span class="mode-stat-v">882.4 N</span></div>
-          <div class="mode-stat"><span class="mode-stat-k">Drag</span><span class="mode-stat-v">10.3 N</span></div>
-          <div class="mode-stat"><span class="mode-stat-k">L/D Ratio</span><span class="mode-stat-v">85.7:1</span></div>
-        </div>
-      </div>
-
-      <div class="mode-card" style="--mode-c:#f87171">
-        <span class="mode-tag">Braking</span>
-        <span class="mode-angle">40°</span>
-        <span class="mode-angle-l">Angle of incidence</span>
-        <p class="mode-desc">Deploys as a full airbrake, generating a massive increase in drag to supplement braking forces.</p>
-        <div class="mode-stats">
-          <div class="mode-stat"><span class="mode-stat-k">Drag</span><span class="mode-stat-v">262 N</span></div>
-          <div class="mode-stat"><span class="mode-stat-k">vs. Cruise</span><span class="mode-stat-v">+2,443%</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── SPECS ── -->
-  <section class="psec">
-    <span class="psec-label">Specifications</span>
-    <h2 class="psec-title">Key numbers</h2>
-    <div class="spec-grid">
-      <div class="spec-cell">
-        <span class="spec-k">Wing Span</span>
-        <span class="spec-v">1,400 mm</span>
-      </div>
-      <div class="spec-cell">
-        <span class="spec-k">Printed Components</span>
-        <span class="spec-v">15+ (FDM)</span>
-      </div>
-      <div class="spec-cell">
-        <span class="spec-k">Actuation Modes</span>
-        <span class="spec-v">3, Autonomous</span>
-      </div>
-      <div class="spec-cell">
-        <span class="spec-k">Airfoil</span>
-        <span class="spec-v">Custom Cambered</span>
-      </div>
-      <div class="spec-cell">
-        <span class="spec-k">Controller</span>
-        <span class="spec-v">Arduino Nano</span>
-      </div>
-      <div class="spec-cell">
-        <span class="spec-k">Firmware</span>
-        <span class="spec-v">Embedded C++</span>
-      </div>
-      <div class="spec-cell">
-        <span class="spec-k">Sensing</span>
-        <span class="spec-v">IMU, Moving Avg. Filter</span>
-      </div>
-      <div class="spec-cell">
-        <span class="spec-k">CAD Tool</span>
-        <span class="spec-v">Fusion 360</span>
-      </div>
-      <div class="spec-cell">
-        <span class="spec-k">CFD Tool</span>
-        <span class="spec-v">Autodesk CFD</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── BUILD PHASES ── -->
-  <section class="psec">
-    <span class="psec-label">Build Process</span>
-    <h2 class="psec-title">Phase by phase</h2>
-    <div class="phases">
-
-      <div class="phase">
-        <div class="phase-spine">
-          <div class="phase-node done">01</div>
-          <div class="phase-line"></div>
-        </div>
-        <div class="phase-body">
-          <div class="phase-label">
-            Phase 1 — Concept &amp; Inspiration
-            <span class="phase-status-pill done">Done</span>
-          </div>
-          <div class="phase-title">Two real precedents, one autonomous system</div>
-          <div class="phase-desc">
-            <ul>
-              <li>Studied the <strong>Vought F-8 Crusader's</strong> variable-incidence wing — the only production aircraft to use the concept</li>
-              <li>Looked at the <strong>Zenvo TSR-1's</strong> active lateral aero system as a second reference point</li>
-              <li>Defined the three-mode behavior: flatten under acceleration, hold at cruise, deploy under braking</li>
-              <li>Set target angles of −5°, +5°, and 40° for each mode</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="phase">
-        <div class="phase-spine">
-          <div class="phase-node done">02</div>
-          <div class="phase-line"></div>
-        </div>
-        <div class="phase-body">
-          <div class="phase-label">
-            Phase 2 — Airfoil &amp; CAD
-            <span class="phase-status-pill done">Done</span>
-          </div>
-          <div class="phase-title">Custom cambered airfoil, modeled in Fusion 360</div>
-          <div class="phase-desc">
-            <ul>
-              <li>Designed a custom cambered airfoil profile from scratch</li>
-              <li>Split the 1,400 mm span across 15+ individually printable components</li>
-              <li>Modeled the servo, trunk-mount bracket, and linkage arms as one assembly</li>
-              <li>Ran motion studies on the linkage to validate the −5° to 40° actuation range</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="phase">
-        <div class="phase-spine">
-          <div class="phase-node done">03</div>
-          <div class="phase-line"></div>
-        </div>
-        <div class="phase-body">
-          <div class="phase-label">
-            Phase 3 — CFD Validation
-            <span class="phase-status-pill done">Done</span>
-          </div>
-          <div class="phase-title">Autodesk CFD across all three modes</div>
-          <div class="phase-desc">
-            <ul>
-              <li>Simulated flow at each mode's incidence angle — acceleration, cruise, and braking</li>
-              <li>Extracted the drag and downforce figures used to size the control logic thresholds</li>
-              <li>Streamline and velocity-magnitude visualizations informed the final geometry</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="phase">
-        <div class="phase-spine">
-          <div class="phase-node done">04</div>
-          <div class="phase-line"></div>
-        </div>
-        <div class="phase-body">
-          <div class="phase-label">
-            Phase 4 — Fabrication
-            <span class="phase-status-pill done">Done</span>
-          </div>
-          <div class="phase-title">15+ FDM-printed components, assembled into one wing</div>
-          <div class="phase-desc">
-            <ul>
-              <li>Printed and assembled every wing segment, mount, and linkage arm</li>
-              <li>Mounted to the trunk lid via a custom printed bracket</li>
-              <li>Routed wiring for the IMU, servo, and control electronics</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="phase">
-        <div class="phase-spine">
-          <div class="phase-node done">05</div>
-          <div class="phase-line"></div>
-        </div>
-        <div class="phase-body">
-          <div class="phase-label">
-            Phase 5 — Firmware &amp; Electronics
-            <span class="phase-status-pill done">Done</span>
-          </div>
-          <div class="phase-title">Arduino Nano running embedded C++</div>
-          <div class="phase-desc">
-            <ul>
-              <li>Moving-average filter smooths raw IMU acceleration readings</li>
-              <li>Debounce logic decides mode transitions so the wing doesn't hunt at the boundary</li>
-              <li>Entirely self-contained — no vehicle ECU integration, no driver input</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="phase">
-        <div class="phase-spine">
-          <div class="phase-node done">06</div>
-          <div class="phase-line"></div>
-        </div>
-        <div class="phase-body">
-          <div class="phase-label">
-            Phase 6 — On-Car Validation
-            <span class="phase-status-pill done">Done</span>
-          </div>
-          <div class="phase-title">Tested on my own car, in real driving conditions</div>
-          <div class="phase-desc">
-            <ul>
-              <li>Confirmed autonomous mode-switching under real acceleration and braking events</li>
-              <li>Logged heading and speed alongside wing behavior to verify timing</li>
-              <li>Validated the CFD-predicted drag and downforce figures held up on-car</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="phase">
-        <div class="phase-spine">
-          <div class="phase-node active">07</div>
-        </div>
-        <div class="phase-body">
-          <div class="phase-label">
-            Phase 7 — V2 Redesign
-            <span class="phase-status-pill active">In Progress</span>
-          </div>
-          <div class="phase-title">Rebuilding for durability</div>
-          <div class="phase-desc">
-            <ul>
-              <li>Revisiting mounts and printed components for a more durable second version</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /phases -->
-
-    <div class="img-grid-3">
-      <div class="pimg">
-        <img src="../images/aviws/wing-standalone.jpg" alt="The assembled wing off the car, showing the 15+ printed components" loading="lazy" decoding="async">
-        <div class="pimg-caption">Assembled wing — 15+ printed components</div>
-      </div>
-      <div class="pimg">
-        <img src="../images/aviws/cfd-autodesk.jpg" alt="Autodesk CFD streamline and velocity-magnitude visualization" loading="lazy" decoding="async">
-        <div class="pimg-caption">Autodesk CFD — streamline analysis</div>
-      </div>
-      <div class="pimg">
-        <img src="../images/aviws/oncar-speed.jpg" alt="On-car validation at speed with live heading and speed overlay" loading="lazy" decoding="async">
-        <div class="pimg-caption">On-car validation at speed</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── FULL REPORT / REACH OUT ── -->
-  <section class="psec">
-    <span class="psec-label">Full Write-Up</span>
-    <h2 class="psec-title">Want the deep dive?</h2>
-
-    <div class="cta-box">
-      <div class="cta-box-left">
-        <span class="cta-kicker">✓ I'm actively redesigning it for V2</span>
-        <div class="cta-title">Every detail —<br>design, testing, and code</div>
-        <p class="cta-desc">The full report covers every part of the design and testing process: the CFD across all three modes, the firmware and IMU calibration, and everything that went into getting it running on-car. Includes the code. If you have questions about the design, the testing, or want to build one yourself — reach out, I'd love to chat about it.</p>
-        <div class="cta-actions">
-          <a href="mailto:arshhashmi.nyc@gmail.com?subject=AVIWS%20%E2%80%94%20Active%20Wing%20System&body=Hey%20Arsh%2C%20I%27d%20like%20to%20hear%20more%20about%20AVIWS." class="cta-btn-primary">
-            Email Me About It →
-          </a>
-          <a href="../about.html#reach" class="cta-btn-secondary">
-            More Ways To Reach Me
-          </a>
-        </div>
+    <div class="shead">
+      <h2 class="stitle">Three modes, chosen by the accelerometer.</h2>
+      <div class="slead">
+        <p>Each mode was simulated in Autodesk Fusion CFD 2027 before anything was printed —
+           steady-state incompressible flow, k-epsilon turbulence, 30 mph inlet. The plots
+           below are velocity-magnitude streamlines through the wing at each of the three
+           commanded angles.</p>
       </div>
     </div>
 
-    <div class="includes-grid">
-      <div class="inc-item">
-        <span class="inc-icon">✓</span>
-        <div class="inc-text">
-          <div class="inc-title">Full Design &amp; Testing Write-Up</div>
-          <div class="inc-desc">Every phase, from concept to on-car validation</div>
+    <div class="modes">
+      <div class="mode">
+        <div class="mode-shot"><img src="../images/aviws/cfd-neutral.jpg"
+             alt="CFD streamlines at minus 5 degrees: flow stays attached and almost undisturbed" loading="lazy" decoding="async"></div>
+        <div class="mode-txt">
+          <div class="mode-rule" style="background:var(--m-neutral)"></div>
+          <div class="mode-top">
+            <span class="mode-name">Neutral</span>
+            <span class="mode-ang" style="color:var(--m-neutral)">−5°</span>
+          </div>
+          <p class="mode-when">Under throttle — <em>accel &gt; +0.09 g</em>. The wing lies down and gets out of the way so the drivetrain isn’t fighting it.</p>
+          <div class="mode-nums">
+            <div><div class="mode-num-v">88.4 N</div><div class="mode-num-k">Downforce</div></div>
+            <div><div class="mode-num-v">9.4 N</div><div class="mode-num-k">Drag</div></div>
+          </div>
         </div>
       </div>
-      <div class="inc-item">
-        <span class="inc-icon">✓</span>
-        <div class="inc-text">
-          <div class="inc-title">Arduino Firmware</div>
-          <div class="inc-desc">The actual embedded C++ running on-car</div>
+
+      <div class="mode">
+        <div class="mode-shot"><img src="../images/aviws/cfd-cruise.jpg"
+             alt="CFD streamlines at plus 5 degrees: flow bends around the wing but stays attached" loading="lazy" decoding="async"></div>
+        <div class="mode-txt">
+          <div class="mode-rule" style="background:var(--m-cruise)"></div>
+          <div class="mode-top">
+            <span class="mode-name">Cruise</span>
+            <span class="mode-ang" style="color:var(--m-cruise)">+5°</span>
+          </div>
+          <p class="mode-when">Holding speed — <em>|accel| &lt; 0.07 g</em>. A shallow positive angle for baseline stability, and the system’s efficiency sweet spot.</p>
+          <div class="mode-nums">
+            <div><div class="mode-num-v">882.4 N</div><div class="mode-num-k">Downforce</div></div>
+            <div><div class="mode-num-v">10.3 N</div><div class="mode-num-k">Drag</div></div>
+          </div>
         </div>
       </div>
-      <div class="inc-item">
-        <span class="inc-icon">✓</span>
-        <div class="inc-text">
-          <div class="inc-title">IMU Calibration</div>
-          <div class="inc-desc">Moving-average filter &amp; debounce logic</div>
+
+      <div class="mode">
+        <div class="mode-shot"><img src="../images/aviws/cfd-airbrake.jpg"
+             alt="CFD streamlines at plus 40 degrees: flow separates off the upper surface into a large slow wake" loading="lazy" decoding="async"></div>
+        <div class="mode-txt">
+          <div class="mode-rule" style="background:var(--m-airbrake)"></div>
+          <div class="mode-top">
+            <span class="mode-name">Airbrake</span>
+            <span class="mode-ang" style="color:var(--m-airbrake)">+40°</span>
+          </div>
+          <p class="mode-when">Under braking — <em>decel &gt; 0.07 g</em>. Flow separates off the upper surface on purpose, and the wake does the work.</p>
+          <div class="mode-nums">
+            <div><div class="mode-num-v">1,708.8 N</div><div class="mode-num-k">Downforce</div></div>
+            <div><div class="mode-num-v">262.0 N</div><div class="mode-num-k">Drag</div></div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-</div><!-- /pcontent -->
+  <!-- ═════════════════════════════════════════ THE NUMBERS ══ -->
+  <section class="psec psec-tight">
+    <div class="shead">
+      <h2 class="stitle">What the simulation actually said.</h2>
+      <div class="slead">
+        <p>The headline isn't the airbrake figure. It's the cruise one: going from neutral to
+           cruise buys <b>ten times the downforce for nine-tenths of a newton of extra drag</b>.
+           That is the whole argument for a cambered profile that works at a shallow angle
+           rather than a flat plate that has to be tipped into the wind to do anything.</p>
+      </div>
+    </div>
+
+    <div class="charts">
+      <figure class="fig" style="margin:0">
+        <figcaption class="chart-title">Downforce by mode</figcaption>
+        <div class="chart-sub">Newtons at 30 mph. Higher is more grip.</div>
+        <div class="bars">
+          <div class="bar-row" tabindex="0" data-tip="Neutral, −5° — 88.4 N (19.9 lb)">
+            <span class="bar-lab">Neutral</span>
+            <div class="bar-track"><div class="bar-fill" style="--w:5.2%;background:var(--m-neutral)"></div></div>
+            <span class="bar-val">88.4 N</span>
+          </div>
+          <div class="bar-row" tabindex="0" data-tip="Cruise, +5° — 882.4 N (198.4 lb)">
+            <span class="bar-lab">Cruise</span>
+            <div class="bar-track"><div class="bar-fill" style="--w:51.6%;background:var(--m-cruise)"></div></div>
+            <span class="bar-val">882.4 N</span>
+          </div>
+          <div class="bar-row" tabindex="0" data-tip="Airbrake, +40° — 1,708.8 N (384.1 lb)">
+            <span class="bar-lab">Airbrake</span>
+            <div class="bar-track"><div class="bar-fill" style="--w:100%;background:var(--m-airbrake)"></div></div>
+            <span class="bar-val">1,708.8 N</span>
+          </div>
+        </div>
+      </figure>
+
+      <figure class="fig" style="margin:0">
+        <figcaption class="chart-title">Drag by mode</figcaption>
+        <div class="chart-sub">Newtons at 30 mph, on its own scale. Lower is faster.</div>
+        <div class="bars">
+          <div class="bar-row" tabindex="0" data-tip="Neutral, −5° — 9.4 N (2.1 lb)">
+            <span class="bar-lab">Neutral</span>
+            <div class="bar-track"><div class="bar-fill" style="--w:3.6%;background:var(--m-neutral)"></div></div>
+            <span class="bar-val">9.4 N</span>
+          </div>
+          <div class="bar-row" tabindex="0" data-tip="Cruise, +5° — 10.3 N (2.3 lb)">
+            <span class="bar-lab">Cruise</span>
+            <div class="bar-track"><div class="bar-fill" style="--w:3.9%;background:var(--m-cruise)"></div></div>
+            <span class="bar-val">10.3 N</span>
+          </div>
+          <div class="bar-row" tabindex="0" data-tip="Airbrake, +40° — 262.0 N (58.9 lb)">
+            <span class="bar-lab">Airbrake</span>
+            <div class="bar-track"><div class="bar-fill" style="--w:100%;background:var(--m-airbrake)"></div></div>
+            <span class="bar-val">262.0 N</span>
+          </div>
+        </div>
+      </figure>
+    </div>
+
+    <div class="tbl-wrap">
+      <table class="dt">
+        <caption>Full CFD result set. Downforce-to-drag ratio is the efficiency figure —
+                 higher means more grip per unit of drag.</caption>
+        <thead>
+          <tr>
+            <th scope="col">Mode</th><th scope="col">Angle</th><th scope="col">Trigger</th>
+            <th scope="col">Downforce (N)</th><th scope="col">(lb)</th>
+            <th scope="col">Drag (N)</th><th scope="col">(lb)</th>
+            <th scope="col">D/D ratio</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="dt-swatch" style="background:var(--m-neutral)"></span>Neutral</td>
+            <td>−5°</td><td>accel &gt; +0.09 g</td>
+            <td>88.4</td><td>19.9</td><td>9.4</td><td>2.1</td><td>9.4 : 1</td>
+          </tr>
+          <tr>
+            <td><span class="dt-swatch" style="background:var(--m-cruise)"></span>Cruise</td>
+            <td>+5°</td><td>|accel| &lt; 0.07 g</td>
+            <td>882.4</td><td>198.4</td><td>10.3</td><td>2.3</td><td>85.7 : 1</td>
+          </tr>
+          <tr>
+            <td><span class="dt-swatch" style="background:var(--m-airbrake)"></span>Airbrake</td>
+            <td>+40°</td><td>decel &gt; 0.07 g</td>
+            <td>1,708.8</td><td>384.1</td><td>262.0</td><td>58.9</td><td>6.5 : 1</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="pnote">All three runs at a 30 mph (13.4 m/s) inlet, air at standard conditions
+         (ρ 1.205 kg/m³, μ 1.817×10⁻⁵ Pa·s), steady-state incompressible, k-epsilon turbulence
+         with mesh refinement at the wing surface. Reynolds numbers ran 772,398 at +5° to
+         1,153,020 at +40°, fully turbulent across every case. Forces taken from the
+         fluid-forces-on-walls output.</p>
+    </div>
+
+    <div class="callout good">
+      <div class="callout-mark"></div>
+      <div>
+        <div class="callout-t">Neutral → cruise: +898% downforce, +10% drag.</div>
+        <p class="callout-d">Neutral → airbrake is the dramatic one — <b>+1,620.4 N of downforce
+           and +252.6 N of drag</b>, a 2,687% increase in drag that is precisely the airbrake
+           effect the system was built to exploit. But cruise is where the wing earns its keep,
+           and it is the mode the car spends most of its life in.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════ AIRFOIL ══ -->
+  <section class="psec">
+    <div class="shead">
+      <h2 class="stitle">The profile had to make downforce at a shallow angle.</h2>
+      <div class="slead">
+        <p>The section started as a standard cambered airfoil, mounted inverted so the pressure
+           differential works downward. It was then modified: <b>more curvature on the upper
+           surface</b> to accelerate the flow and drop the static pressure, and a
+           <b>flatter lower surface</b> to hold a higher-pressure region underneath.</p>
+        <p>Cambered rather than symmetric was a deliberate call. A symmetric section like a
+           NACA 0012 makes nothing at zero angle of attack, which would mean every newton of
+           cruise downforce had to be bought with servo angle. A cambered inverted profile
+           makes downforce passively at neutral incidence — so the actuator isn't holding a
+           load for the majority of the drive.</p>
+      </div>
+    </div>
+
+    <div class="grid2 mt3">
+      <figure class="fig r169">
+        <div class="fig-img contain"><img src="../images/aviws/cad-airfoil-1.jpg"
+             alt="Initial cambered airfoil cross-section sketched in CAD" loading="lazy" decoding="async"></div>
+        <figcaption class="fig-cap"><b>Initial section.</b> A standard cambered profile, inverted.</figcaption>
+      </figure>
+      <figure class="fig r169">
+        <div class="fig-img contain"><img src="../images/aviws/cad-airfoil-2.jpg"
+             alt="Revised airfoil cross-section with increased upper-surface curvature" loading="lazy" decoding="async"></div>
+        <figcaption class="fig-cap"><b>Final section.</b> Upper curvature increased, lower surface
+          flattened, for a larger pressure asymmetry at the same angle.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════ GEOMETRY ══ -->
+  <section class="psec psec-tight">
+    <div class="shead">
+      <h2 class="stitle">1,400 mm of span, in three aerodynamic sections.</h2>
+      <div class="slead">
+        <p>A <b>900 mm centre section</b> carries the constant profile and does the bulk of the
+           work. Either side of it, a <b>250 mm outboard section</b> lofts from the centre
+           profile at its inboard end to a higher-angle profile at the tip — more downforce
+           toward the tips and a better spanwise load distribution, with no hard geometric
+           break to trip the flow.</p>
+        <p>Endplates close both tips. They stop high-pressure air migrating around the wingtip
+           to the low-pressure side, which is what generates induced drag and bleeds away
+           effective lift — and they double as the structural mounting interface, with M3 heat-set
+           inserts moulded straight into the print so nothing needs a nut on the back face.</p>
+      </div>
+    </div>
+
+    <div class="grid3 mt3">
+      <figure class="fig r169">
+        <div class="fig-img contain"><img src="../images/aviws/cad-center.jpg"
+             alt="The 900mm central wing element extruded in CAD" loading="lazy" decoding="async"></div>
+        <figcaption class="fig-cap"><b>Centre element.</b> 900 mm at a constant section.</figcaption>
+      </figure>
+      <figure class="fig r169">
+        <div class="fig-img contain"><img src="../images/aviws/cad-outboard.jpg"
+             alt="The 250mm outboard section showing its lofted transition geometry" loading="lazy" decoding="async"></div>
+        <figcaption class="fig-cap"><b>Outboard section.</b> 250 mm, lofted between two profiles.</figcaption>
+      </figure>
+      <figure class="fig r169">
+        <div class="fig-img contain"><img src="../images/aviws/cad-endplate.jpg"
+             alt="Endplate CAD showing mounting hole layout" loading="lazy" decoding="async"></div>
+        <figcaption class="fig-cap"><b>Endplate.</b> Aerodynamic fence and mounting interface in one part.</figcaption>
+      </figure>
+    </div>
+
+    <figure class="fig r169 mt3">
+      <div class="fig-img contain"><img src="../images/aviws/cad-wing-final.jpg"
+           alt="The finished wing assembly in CAD with both endplates attached" loading="lazy" decoding="async"></div>
+      <figcaption class="fig-cap"><b>The finished assembly in CAD</b>, endplates on, before a single part was printed.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ═════════════════════════════════════════ FABRICATION ══ -->
+  <section class="psec">
+    <div class="shead">
+      <h2 class="stitle">The plan was foam and fibreglass. It didn't survive contact.</h2>
+      <div class="slead">
+        <p>The original fabrication route was XPS foam: hot-wire the profile using printed
+           templates pinned to each face of the block, stack the slices, fair the surface
+           against a printed two-part female mould, then laminate it in 4 oz fibreglass and
+           marine epoxy.</p>
+        <p><b>It got abandoned before it started.</b> Hot-wire cutting is only as good as the
+           hand guiding it, and any deviation propagates through every slice in the stack.
+           Fairing foam to a CAD-defined profile is slow and has no guaranteed dimensional
+           accuracy, and lamination adds its own variables on top.</p>
+      </div>
+    </div>
+
+    <div class="grid2 mt3">
+      <figure class="fig r34">
+        <div class="fig-img"><img src="../images/aviws/foam-template.jpg"
+             alt="A 3D printed cross-section template for hot-wire cutting foam" loading="lazy" decoding="async"></div>
+        <figcaption class="fig-cap"><b>The road not taken.</b> A printed 10 mm profile template,
+          made to guide a hot wire through an XPS block.</figcaption>
+      </figure>
+      <figure class="fig r34">
+        <div class="fig-img"><img src="../images/aviws/printing.jpg"
+             alt="A wing section being printed on an FDM 3D printer" loading="lazy" decoding="async"></div>
+        <figcaption class="fig-cap"><b>What happened instead.</b> Every part printed straight
+          from the CAD geometry — 5% infill, three walls.</figcaption>
+      </figure>
+    </div>
+
+    <div class="prose mt3">
+      <p>Switching to FDM traded mass for precision, and the trade was worth making. Every part
+         comes off the bed as the CAD file drew it, and the features that would have been
+         miserable to build into a foam core — hinge bores, dowel holes, heat-set insert
+         pockets, servo mounting geometry — are simply part of the print. <b>PLA</b> for the
+         structural components, chosen for dimensional stability and stiffness at these speeds.</p>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════ MODULAR ══ -->
+  <section class="psec psec-tight">
+    <div class="shead">
+      <h2 class="stitle">Printed in 200 mm pieces, then welded into one.</h2>
+      <div class="slead">
+        <p>No consumer printer swallows a 1,400 mm span, and a monolithic wing would mean
+           reprinting the whole thing to fix any part of it. The centre element is split into
+           <b>200 mm modules</b>, joined on <b>10 mm dowel pins</b> in bored holes on each
+           mating face — the dowels hold spanwise alignment and carry shear across the joint,
+           so the assembly loads as one continuous element instead of a chain of segments.</p>
+        <p>Then every external seam was <b>plastic welded</b>: a soldering iron run along the
+           joint melts and intermixes the PLA on both sides, fusing the modules into a single
+           structure. Dowels do alignment and shear; the weld does continuous spanwise rigidity.</p>
+      </div>
+    </div>
+
+    <div class="grid3 mt3">
+      <figure class="fig r34">
+        <div class="fig-img"><img src="../images/aviws/section-tip.jpg"
+             alt="A printed outboard wing section with its angled lofted geometry" loading="lazy" decoding="async"></div>
+        <figcaption class="fig-cap"><b>An outboard tip section</b>, straight off the printer.</figcaption>
+      </figure>
+      <figure class="fig r34">
+        <div class="fig-img"><img src="../images/aviws/weld-seam.jpg"
+             alt="Close-up of a plastic welded seam between two wing modules" loading="lazy" decoding="async"></div>
+        <figcaption class="fig-cap"><b>A welded seam</b> between two modules, fused along its length.</figcaption>
+      </figure>
+      <figure class="fig r34">
+        <div class="fig-img"><img src="../images/aviws/bracket-hand.jpg"
+             alt="A printed support bracket held in hand, showing its open lattice structure" loading="lazy" decoding="async"></div>
+        <figcaption class="fig-cap"><b>A support bracket.</b> The open lattice is where the
+          wiring lives.</figcaption>
+      </figure>
+    </div>
+
+    <figure class="fig r52 mt3">
+      <div class="fig-img"><img src="../images/aviws/wing-assembled.jpg"
+           alt="The fully assembled and welded 1400mm wing element with endplates, on the floor" loading="lazy" decoding="async"></div>
+      <figcaption class="fig-cap"><b>All 1,400 mm of it</b>, assembled and welded, before mounting.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ═════════════════════════════════════════ ACTUATION ══ -->
+  <section class="psec">
+    <div class="shead">
+      <h2 class="stitle">Direct drive, because a pushrod would flex.</h2>
+      <div class="slead">
+        <p>Two <b>DS3218 servos</b> — 20 kg·cm stall at 6 V, full metal gears — sit in pockets
+           in the support brackets with their output shafts on the wing's hinge axis. Metal
+           gears were non-negotiable: aerodynamic hinge moment scales with the square of
+           velocity, and at highway speed a wing this size will strip or back-drive the plastic
+           gears in a hobby servo like an SG90 rated at 1.8 kg·cm.</p>
+        <p>The servos drive the wing through a <b>custom-designed horn</b> rather than a generic
+           one, to kill the angular slop that shows up when an off-the-shelf horn meets a
+           third-party spline. Direct drive was chosen over a pushrod linkage because a slender
+           rod resisting that hinge moment is a buckling risk exactly when you need it most —
+           in the airbrake position, at maximum load.</p>
+      </div>
+    </div>
+
+    <div class="grid2 mt3">
+      <figure class="fig r43">
+        <div class="fig-img contain"><img src="../images/aviws/cad-mechanism.jpg"
+             alt="CAD close-up of the actuation mechanism, servo and hinge axis" loading="lazy" decoding="async"></div>
+        <figcaption class="fig-cap"><b>The mechanism.</b> Servo pocket, hinge axis and horn, with
+          the electronics recessed into the bracket body.</figcaption>
+      </figure>
+      <figure class="fig r43">
+        <div class="fig-img contain"><img src="../images/aviws/cad-airbrake.jpg"
+             alt="CAD view of the wing pitched to its 40 degree airbrake position" loading="lazy" decoding="async"></div>
+        <figcaption class="fig-cap"><b>Fully deployed.</b> The wing at its +40° airbrake stop —
+          the top of a 45° sweep, well inside the servo's 270° range.</figcaption>
+      </figure>
+    </div>
+
+    <figure class="fig r52 mt3">
+      <div class="fig-img contain"><img src="../images/aviws/cad-assembly.jpg"
+           alt="CAD render of the complete assembly: wing element, both support brackets and the servos"
+           loading="lazy" decoding="async"></div>
+      <figcaption class="fig-cap"><b>The whole system, as drawn.</b> Wing element, both support
+        brackets, servos and electronics — everything that goes on the car, and nothing that
+        goes in it.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ═════════════════════════════════════════ ELECTRONICS ══ -->
+  <section class="psec psec-tight">
+    <div class="shead">
+      <h2 class="stitle">Five components, and reasons for each.</h2>
+      <div class="slead">
+        <p>The brief for the electronics was the fewest parts that would do the job reliably.
+           An ESP32 has more of everything, but a single-axis loop with two inputs and one
+           output doesn't need dual cores or WiFi — and reliability scales inversely with part
+           count. The whole assembly is recessed into the bracket's lattice rather than boxed
+           separately, wiring zip-tied at intervals so nothing moves under vibration.</p>
+      </div>
+    </div>
+
+    <div class="kit">
+      <div class="kit-row"><div class="kit-k">Microcontroller</div>
+        <div class="kit-v"><b>Arduino Nano.</b> 5 V logic, hardware I²C, PWM — talks to both the
+          IMU and the servos with no level shifting.</div></div>
+      <div class="kit-row"><div class="kit-k">Sensing</div>
+        <div class="kit-v"><b>GY-521 (MPU-6050).</b> 3-axis accelerometer and gyro over I²C. Only
+          the longitudinal axis is used; the other five are there for the lateral version.</div></div>
+      <div class="kit-row"><div class="kit-k">Actuation</div>
+        <div class="kit-v"><b>2 × DS3218.</b> 20 kg·cm, metal gears, mirrored either side of the
+          hinge and commanded to supplementary angles so they turn the wing the same way.</div></div>
+      <div class="kit-row"><div class="kit-k">Power</div>
+        <div class="kit-v"><b>LM2596 buck, 12 V → 5 V.</b> A linear LM7805 would burn the 7 V
+          differential as 3.5 W of heat in a sealed housing; the switcher runs 77–92% efficient.</div></div>
+      <div class="kit-row"><div class="kit-k">Source</div>
+        <div class="kit-v"><b>12 V jump-start pack.</b> Low internal resistance, so it holds
+          voltage through servo current transients where alkalines sag.</div></div>
+      <div class="kit-row"><div class="kit-k">Decoupling</div>
+        <div class="kit-v"><b>100 µF + 100 nF.</b> Bulk storage for actuation surges, plus a
+          low-ESR ceramic for the megahertz switching noise the electrolytic can't touch.</div></div>
+    </div>
+
+    <p class="pnote">One deliberate detail: the servos are fed straight from the buck output
+       rather than through the Nano's onboard 5 V pin. A loaded DS3218 can pull over an amp,
+       which the Nano's regulator is not rated to supply — routing around it removes an entire
+       failure mode.</p>
+
+    <div class="grid2 mt3">
+      <figure class="fig r43">
+        <div class="fig-img"><img src="../images/aviws/electronics.jpg"
+             alt="The assembled electronics mounted in the wing bracket with wiring routed through the lattice" loading="lazy" decoding="async"></div>
+        <figcaption class="fig-cap"><b>Built into the bracket.</b> Red is 5 V, black and brown are
+          the common ground, yellow and orange carry servo PWM.</figcaption>
+      </figure>
+      <figure class="fig r43">
+        <div class="fig-img contain"><img src="../images/aviws/schematic.jpg"
+             alt="Full circuit schematic showing the Nano, MPU-6050, servos and buck converter" loading="lazy" decoding="async"></div>
+        <figcaption class="fig-cap"><b>The circuit.</b> Servo power and logic power split at the
+          buck output; I²C on A4/A5, servo signals on D5 and D6.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════ CONTROL ══ -->
+  <section class="psec">
+    <div class="shead">
+      <h2 class="stitle">A three-state controller, and a one-second fuse.</h2>
+      <div class="slead">
+        <p>The firmware is deliberately dumb. The wing lives at three well-defined angles, not
+           along a continuous spectrum, so bang-bang control is both sufficient and more robust
+           against sensor noise than a proportional loop would be. What matters is everything
+           wrapped around the threshold comparison.</p>
+      </div>
+    </div>
+
+    <div class="loop">
+      <div class="loop-step">
+        <div class="loop-n">01</div>
+        <div class="loop-t">Read</div>
+        <p class="loop-d">Raw 16-bit accelerometer over I²C, divided by 16,384 for the ±2 g
+           full-scale range.</p>
+      </div>
+      <div class="loop-step">
+        <div class="loop-n">02</div>
+        <div class="loop-t">Correct</div>
+        <p class="loop-d">Subtract a 0.07 g offset — gravity bleeding into the longitudinal
+           axis from an imperfect mounting angle, measured stationary and level.</p>
+      </div>
+      <div class="loop-step">
+        <div class="loop-n">03</div>
+        <div class="loop-t">Filter</div>
+        <p class="loop-d">Ten-sample moving average in a circular buffer, to kill engine
+           vibration, road inputs and buffeting off the wing itself.</p>
+      </div>
+      <div class="loop-step">
+        <div class="loop-n">04</div>
+        <div class="loop-t">Debounce</div>
+        <p class="loop-d">A new mode has to hold for a full second before it's executed. Any
+           reversion resets the timer.</p>
+      </div>
+    </div>
+
+    <div class="states">
+      <div class="state">
+        <div class="state-if" style="color:var(--m-neutral)">accel &gt; +0.09 g</div>
+        <p class="state-then">→ <b>Neutral</b>, −5°. Under throttle, get out of the way.</p>
+      </div>
+      <div class="state">
+        <div class="state-if" style="color:var(--m-cruise)">|accel| &lt; 0.07 g</div>
+        <p class="state-then">→ <b>Cruise</b>, +5°. Holding speed, hold baseline downforce.</p>
+      </div>
+      <div class="state">
+        <div class="state-if" style="color:var(--m-airbrake)">accel &lt; −0.07 g</div>
+        <p class="state-then">→ <b>Airbrake</b>, +40°. Braking, deploy everything.</p>
+      </div>
+    </div>
+
+    <p class="pnote">The loop polls at 50 ms — a 20 Hz update rate. That's far faster than it
+       needs to be: aerodynamic loads on a street car shift over hundreds of milliseconds, and
+       the one-second debounce, not the polling rate, is what actually sets how quickly the
+       wing responds. The filter itself adds about 500 ms of lag, which sits comfortably
+       underneath that.</p>
+  </section>
+
+  <!-- ═════════════════════════════════════════ TESTING ══ -->
+  <section class="psec psec-tight">
+    <div class="shead">
+      <h2 class="stitle">Bench first, then a real road.</h2>
+      <div class="slead">
+        <p>On the bench: an I²C scan to confirm the MPU-6050 at address 0x68, each servo driven
+           individually and then together to verify the mirrored position logic, the IMU tilted
+           by hand along each axis to identify the longitudinal one, and the filter checked by
+           tapping the sensor to confirm brief impulses didn't cross a threshold.</p>
+        <p>Then the whole thing went on the trunk lid of a 2011 E93 on suction cups — chosen
+           precisely because they leave the car untouched and move to any other car without
+           refabricating anything. A laptop ran into the cabin on a USB lead for live serial,
+           and a GoPro on the roof watched the wing.</p>
+      </div>
+    </div>
+
+    <div class="grid2 mt3">
+      <figure class="fig r169">
+        <div class="fig-img"><img src="../images/aviws/oncar-driving.jpg"
+             alt="Driver's-eye GoPro view of the wing mounted on the trunk while driving" loading="lazy" decoding="async"></div>
+        <figcaption class="fig-cap"><b>The GoPro feed.</b> A continuous record of the wing
+          actuating, to check mode changes landed at the right points in the acceleration profile.</figcaption>
+      </figure>
+      <figure class="fig r169">
+        <div class="fig-img"><img src="../images/aviws/calibration.jpg"
+             alt="A laptop in the passenger seat showing live g-force readings from the IMU" loading="lazy" decoding="async"></div>
+        <figcaption class="fig-cap"><b>Live calibration.</b> Serial output in the passenger seat —
+          how the 0.07 g offset and both thresholds got tuned on the road rather than the bench.</figcaption>
+      </figure>
+    </div>
+
+    <div class="prose mt3">
+      <p>It worked. The wing flattened under throttle, settled back to cruise at steady speed,
+         and deployed fully under braking, at the points in the acceleration profile it was
+         supposed to. The <b>one-second debounce turned out to be the critical detail</b> —
+         earlier firmware without it hunted between modes on road undulations, gear changes and
+         small throttle inputs. The thresholds proved sensitive enough for ordinary street
+         driving without needing to be provoked. The suction mount didn't move.</p>
+    </div>
+
+    <figure class="fig r52 mt3">
+      <div class="fig-img"><img src="../images/aviws/oncar-gopro.jpg"
+           alt="The wing mounted on the car during an on-road test run through a neighbourhood" loading="lazy" decoding="async"></div>
+      <figcaption class="fig-cap">On the road, mid-test.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ═════════════════════════════════════════ FAILURE ══ -->
+  <section class="psec">
+    <div class="shead">
+      <h2 class="stitle">And then something broke.</h2>
+      <div class="slead">
+        <p>The connecting arm between the servo horn and the wing element <b>fractured on one
+           of its thinner sections</b> during testing. The wall thickness there wasn't enough to
+           carry the bending moment from the horn while aerodynamic hinge moment was working on
+           the wing at the same time. The system kept running afterwards, but with degraded
+           positional accuracy on that side.</p>
+      </div>
+    </div>
+
+    <div class="grid2 mt3">
+      <figure class="fig r43">
+        <div class="fig-img"><img src="../images/aviws/arm-fracture.jpg"
+             alt="The fractured connecting arm, showing the failure at a thin structural section" loading="lazy" decoding="async"></div>
+        <figcaption class="fig-cap"><b>The failure.</b> A thin cross-section that should have
+          been thicker, with a sharper fillet than it should have had.</figcaption>
+      </figure>
+      <div>
+        <div class="callout" style="margin-top:0">
+          <div class="callout-mark"></div>
+          <div>
+            <div class="callout-t">A design deficiency, not a dead end.</div>
+            <p class="callout-d">This is a part-level mistake with a part-level fix, and it is
+               first in the queue for the next revision: <b>more wall thickness at the failure
+               location, a larger fillet radius</b> at the stress concentration, and probably
+               <b>CF-PLA</b> for that one component to buy stiffness without much mass. Nothing
+               about the architecture needs to change.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════ NEXT ══ -->
+  <section class="psec psec-tight">
+    <div class="shead">
+      <h2 class="stitle">Where it goes from here.</h2>
+      <div class="slead">
+        <p>The architecture was drawn with the second axis in mind from the beginning — which is
+           why the IMU's full six degrees of freedom are read even though the controller
+           currently uses exactly one of them.</p>
+      </div>
+    </div>
+
+    <div class="next">
+      <div>
+        <div class="next-t">A lateral axis</div>
+        <p class="next-d">The MPU-6050's lateral acceleration data is already there. A second
+           servo axis on the hinge would let the wing tilt through a corner to generate a
+           yaw-stabilising moment — the Zenvo idea, at this scale.</p>
+      </div>
+      <div>
+        <div class="next-t">Telemetry</div>
+        <p class="next-d">Moving to an ESP32 buys wireless logging of wing angle, acceleration
+           and mode state to a phone, which turns threshold tuning into something driven by
+           data rather than by feel.</p>
+      </div>
+      <div>
+        <div class="next-t">The arm, properly</div>
+        <p class="next-d">Thicker wall, better fillet, stiffer material. The known failure gets
+           fixed before anything new gets added on top of it.</p>
+      </div>
+    </div>
+
+    <p class="pnote">Built solo, in a week, with a consumer 3D printer and off-the-shelf parts.
+       The core system works, the one failure mode is understood, and the next iteration is
+       already specified.</p>
+  </section>
+
+</div><!-- /pwrap -->
 
 <!-- FOOTER -->
 <footer class="pfooter">
   <a href="../index.html" class="pfooter-brand">ENGINEERINGWITHARSH</a>
-  <span class="pfooter-note">AVIWS · Personal Project · 2026</span>
-  <a href="../index.html" class="pfooter-back">← Back to portfolio</a>
+  <span class="pfooter-note">AVIWS · Personal project · 2026</span>
+  <a href="../builds.html" class="pfooter-back">Back to what I've built</a>
 </footer>
 
 <script>
-/* In-view video: the AVIWS hero clip plays only while it's actually on
-   screen. src is set lazily via data-src so nothing downloads until the
-   observer fires — right after load, since the hero sits at the top of the
-   page — rather than blocking the initial render. Muted+playsinline so
-   autoplay is allowed everywhere, including iOS Safari. */
+/* The hero clip plays only while it's on screen. src is set lazily from
+   data-src so nothing downloads until the observer fires. Muted+playsinline
+   so autoplay is allowed everywhere, iOS Safari included. */
 (function(){
   const vids=document.querySelectorAll('[data-inview-video]');
   if(!vids.length)return;
-  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
   vids.forEach(v=>{
-    if(reduce)return;
     let loaded=false;
     const obs=new IntersectionObserver(entries=>{
       entries.forEach(e=>{
@@ -874,9 +1129,26 @@ body::before{
           v.pause();
         }
       });
-    },{threshold:.3});
+    },{threshold:.25});
     obs.observe(v);
   });
+})();
+
+/* Bars fill when the chart scrolls into view rather than on load, so the
+   animation is actually seen. Falls back to drawn-in-place with no JS. */
+(function(){
+  const fills=document.querySelectorAll('.bar-fill');
+  if(!fills.length)return;
+  if(!('IntersectionObserver' in window))return;
+  fills.forEach(f=>{f.style.animationPlayState='paused';});
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting)return;
+      obs.unobserve(e.target);
+      e.target.style.animationPlayState='running';
+    });
+  },{rootMargin:'0px 0px -12% 0px'});
+  fills.forEach(f=>obs.observe(f));
 })();
 </script>
 </body>
