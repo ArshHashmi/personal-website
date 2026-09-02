@@ -406,14 +406,8 @@ table.dt tbody tr:last-child td{border-bottom:none}
 }
 .sim-legend-k{font-family:var(--ui);font-size:.78rem;font-weight:500;color:#767c88}
 .sim-wing-shape{fill:#d7dbe2;stroke:rgba(255,255,255,.5);stroke-width:1.2}
-/* Enough car to say "this is a trunk lid" and no more: a deck, a rear
-   lip, a lamp. Painted over the flow so the bodywork hides the
-   streamlines behind it. */
-.sim-deck{fill:#161b23}
-.sim-deck-hi{fill:none;stroke:rgba(255,255,255,.22);stroke-width:1.6;stroke-linecap:round}
-.sim-lamp{fill:rgba(217,89,38,.55)}
-.sim-mast{fill:#333a45;stroke:rgba(255,255,255,.10);stroke-width:1}
-.sim-hinge{fill:var(--flow,#6f7683);transition:fill .7s ease}
+.sim-strut{stroke:#4a505b;stroke-width:5;stroke-linecap:round}
+.sim-deck{stroke:#2b3038;stroke-width:2.5;stroke-linecap:round}
 
 /* The mode read-out floats on the stage, where the eye already is. */
 .sim-badge{
@@ -636,17 +630,12 @@ table.dt tbody tr:last-child td{border-bottom:none}
           <defs id="simDefs"></defs>
           <g class="sim-flow" id="simFlow"></g>
           <g class="sim-tracers" id="simTracers"></g>
-          <path class="sim-deck" d="M -20,286 C 140,276 320,266 470,264
-                                    C 530,263 562,270 578,284 L 590,352
-                                    L -20,352 Z"/>
-          <path class="sim-deck-hi" d="M -20,286 C 140,276 320,266 470,264
-                                       C 530,263 562,270 578,284"/>
-          <rect class="sim-lamp" x="566" y="292" width="15" height="7" rx="3.5"/>
-          <path class="sim-mast" d="M 413,265 L 449,265 L 436,203 L 425,203 Z"/>
+          <line class="sim-deck" x1="120" y1="300" x2="780" y2="300"/>
+          <line class="sim-strut" x1="396" y1="299" x2="430" y2="200"/>
+          <line class="sim-strut" x1="464" y1="299" x2="430" y2="200"/>
           <g id="simWing">
             <path class="sim-wing-shape" id="simFoil" transform="translate(430,200)"/>
           </g>
-          <circle class="sim-hinge" cx="430" cy="200" r="4.2"/>
         </svg>
 
         <div class="sim-badge">
@@ -1431,7 +1420,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
   const root=document.getElementById('sim');
   if(!root)return;
 
-  const W=900, WX=430, WY=200, FY=186, TOP=20, BOT=250, NLINES=17;
+  const W=900, WX=430, WY=200, FY=186, TOP=22, BOT=286, NLINES=17;
   /* Each mode carries a sequential ramp in its own hue, dark to bright, for
      the velocity field. One hue per ramp rather than a rainbow, so the
      colour still decodes as "how fast" against this surface. */
