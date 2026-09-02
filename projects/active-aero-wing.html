@@ -126,8 +126,9 @@ body .back-fab{top:88px;left:1rem}
    HERO
    ══════════════════════════════════════════════════════════════════ */
 .phero{
-  position:relative;height:88vh;min-height:560px;
+  position:relative;min-height:88vh;
   display:flex;align-items:flex-end;overflow:hidden;
+  padding-top:76px;
 }
 .phero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.8) contrast(1.05)}
 .phero-scrim{
@@ -157,6 +158,8 @@ body .back-fab{top:88px;left:1rem}
 .pwrap{max-width:1500px;margin:0 auto;padding:0 6vw}
 .psec{padding:6.5rem 0}
 .psec-tight{padding-top:0}
+.build-banner{padding-top:9rem}
+.build-banner .stitle{font-size:clamp(2.6rem,5vw,4.4rem);letter-spacing:-.045em}
 
 /* A section opens with a heading on the left and its opening paragraph
    on the right — the page's basic editorial unit. */
@@ -482,9 +485,16 @@ table.dt tbody tr:last-child td{border-bottom:none}
 .sim-hint{font-family:var(--ui);font-size:.88rem;font-weight:500;line-height:1.55;color:var(--fog)}
 
 @media(max-width:1100px){
-  .sim{grid-template-columns:1fr;gap:1.8rem}
-  .sim-side{gap:1.3rem}
-  .sim-pedals{margin-top:.4rem}
+  /* align-items:start is right for the two-column desktop layout and wrong
+     here: in a flex column it stops the stage stretching to the full width. */
+  .sim{display:flex;flex-direction:column;gap:1.15rem;align-items:stretch}
+  .sim-left,.sim-side{display:contents}
+  .sim-stage{order:1}
+  .sim-pedals{order:2;margin-top:0}
+  .sim-g{order:3}
+  .sim-out{order:4}
+  .sim-legend{order:5}
+  .sim-hint{order:6}
 }
 @media(max-width:760px){
   /* The 900x340 viewBox collapses to a 130px-tall sliver at phone width and
@@ -528,7 +538,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
   /* svh is the viewport with the Safari toolbar showing, so the hero always
      fits on first paint instead of hiding its own meta line behind the bar.
      vh stays as the fallback for anything that doesn't know svh. */
-  .phero{height:78vh;min-height:440px}
+  .phero{min-height:78vh;padding-top:116px}
   .phero-body{padding:0 5vw 3rem}
   .grid2{grid-template-columns:1fr;gap:1.6rem}
   .glance{grid-template-columns:1fr 1fr;gap:1.8rem 1.4rem}
@@ -542,6 +552,8 @@ table.dt tbody tr:last-child td{border-bottom:none}
   .kit-row{grid-template-columns:1fr;gap:.3rem}
   .tbl-hint{display:block}
   .psec{padding:3.6rem 0}
+  .build-banner{padding-top:5rem}
+  .build-banner .stitle{font-size:clamp(2rem,8vw,2.7rem)}
   .pwrap{padding:0 5vw}
   .stitle{font-size:clamp(1.75rem,7.2vw,2.3rem)}
   .slead{font-size:1.04rem;line-height:1.7}
@@ -553,7 +565,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
   .pfooter-note{width:100%}
 }
 @supports (height:100svh){
-  @media(max-width:700px){ .phero{height:78svh} }
+  @media(max-width:700px){ .phero{min-height:78svh} }
 }
 @media(prefers-reduced-motion:reduce){
   .bar-fill{animation:none}
@@ -609,16 +621,10 @@ table.dt tbody tr:last-child td{border-bottom:none}
   <!-- ═════════════════════════════════════════ SIMULATOR ══ -->
   <section class="psec sim-sec">
     <div class="shead">
-      <h2 class="stitle">Drive it.</h2>
+      <h2 class="stitle">Try it out.</h2>
       <div class="slead">
-        <p>This is the car's control logic running in your browser: same 20 Hz loop, same
-           moving average, same thresholds, same debounce gate. Hold the throttle and the wing
+        <p>The car's control logic, running in your browser. Hold the throttle and the wing
            lies flat. Hold the brake and it stands up. Let go and it settles back to cruise.</p>
-        <p>The timings are tightened here so it answers a click rather than a corner. On the
-           car the filter runs ten samples and the gate a full second, which is the subject of
-           the control section further down.</p>
-        <p>Downforce and drag are interpolated from the three CFD points and scaled with the
-           square of velocity, so the figures moving on screen are the ones from the report.</p>
       </div>
     </div>
 
@@ -698,60 +704,12 @@ table.dt tbody tr:last-child td{border-bottom:none}
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- ═════════════════════════════════════════ THE PROBLEM ══ -->
-  <section class="psec">
-    <div class="shead">
-      <h2 class="stitle">A fixed wing is a compromise you drive around.</h2>
-      <div class="slead">
-        <p>Downforce and drag pull in opposite directions. A wing set up for
-           high-downforce cornering drags badly down a straight; a wing set up for
-           low-drag top speed gives you nothing under braking or lateral load. Every
-           fixed rear wing ever bolted to a car picks a point on that trade and lives
-           with it.</p>
-        <p><b>AVIWS resolves it by refusing to pick.</b> An onboard IMU watches
-           longitudinal acceleration, and the wing pitches to whichever angle the car
-           actually needs right now. Flat under throttle, a shallow positive angle at
-           cruise, and fully deployed as an airbrake under braking.</p>
-      </div>
-    </div>
-
-    <div class="glance">
-      <div><div class="gl-v">1,400 mm</div><div class="gl-k">Span, tip to tip</div></div>
-      <div><div class="gl-v">3</div><div class="gl-k">Autonomous modes</div></div>
-      <div><div class="gl-v">−5° → 40°</div><div class="gl-k">Angle of incidence</div></div>
-      <div><div class="gl-v">1,620 N</div><div class="gl-k">Downforce swing across the range</div></div>
-      <div><div class="gl-v">20 Hz</div><div class="gl-k">Control loop</div></div>
-      <div><div class="gl-v">0</div><div class="gl-k">Wires into the car</div></div>
-    </div>
-
-    <div class="plate">
-      <img src="../images/aviws/car-rear.jpg"
-           alt="The finished wing mounted on the trunk lid of a black BMW E93, seen from behind"
-           loading="lazy" decoding="async">
-    </div>
-    <p class="fig-cap" style="max-width:80ch">The finished system on the development car. The
-       whole assembly (wing, brackets, servos, electronics and its own battery) mounts to the
-       trunk lid on suction cups and comes off without leaving a mark.</p>
-  </section>
-
-  <!-- ═════════════════════════════════════════ PRIOR ART ══ -->
-  <section class="psec psec-tight">
-    <div class="shead">
-      <h2 class="stitle">Two references, one of them airborne.</h2>
-      <div class="slead">
-        <p>The variable-incidence idea is borrowed from the <b>Vought F-8 Crusader</b>, the
-           only production aircraft that pivoted its entire wing rather than its control
-           surfaces. It raised the wing's incidence for carrier landings so the fuselage
-           could stay level. The second reference is the <b>Zenvo TSR-1</b>, whose rear wing
-           tilts laterally through a corner to generate a yaw-stabilising moment.</p>
-        <p>The closest everyday relative is <b>F1's DRS</b>, which flattens the rear wing on
-           designated straights to shed drag. AVIWS does the same thing under acceleration,
-           then adds the mode DRS doesn't have: a third, high-angle position that deploys
-           the wing as an active braking aid.</p>
-      </div>
-    </div>
+    <p class="pnote">Same 20 Hz loop as the car, same moving average, same thresholds, same
+       debounce gate, with the timings tightened so it answers a click rather than a corner.
+       On the car the filter runs ten samples and the gate a full second, which the control
+       section gets into. Downforce and drag are interpolated from the three CFD points and
+       scaled with the square of velocity, so the figures moving on screen are the report's.</p>
   </section>
 
   <!-- ═════════════════════════════════════════ THREE MODES ══ -->
@@ -924,6 +882,72 @@ table.dt tbody tr:last-child td{border-bottom:none}
            and +252.6 N of drag</b>, a 2,687% increase in drag that is precisely the airbrake
            effect the system was built to exploit. But cruise is where the wing earns its keep,
            and it is the mode the car spends most of its life in.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════ HOW I BUILT IT ══ -->
+  <section class="psec build-banner">
+    <div class="shead">
+      <h2 class="stitle">How I built it.</h2>
+      <div class="slead">
+        <p>The rest of it: why a wing has to move at all, how the section was
+           drawn, how it got printed and welded into one piece, what drives it,
+           what runs it, and what broke the first time out.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════ THE PROBLEM ══ -->
+  <section class="psec">
+    <div class="shead">
+      <h2 class="stitle">A fixed wing is a compromise you drive around.</h2>
+      <div class="slead">
+        <p>Downforce and drag pull in opposite directions. A wing set up for
+           high-downforce cornering drags badly down a straight; a wing set up for
+           low-drag top speed gives you nothing under braking or lateral load. Every
+           fixed rear wing ever bolted to a car picks a point on that trade and lives
+           with it.</p>
+        <p><b>AVIWS resolves it by refusing to pick.</b> An onboard IMU watches
+           longitudinal acceleration, and the wing pitches to whichever angle the car
+           actually needs right now. Flat under throttle, a shallow positive angle at
+           cruise, and fully deployed as an airbrake under braking.</p>
+      </div>
+    </div>
+
+    <div class="glance">
+      <div><div class="gl-v">1,400 mm</div><div class="gl-k">Span, tip to tip</div></div>
+      <div><div class="gl-v">3</div><div class="gl-k">Autonomous modes</div></div>
+      <div><div class="gl-v">−5° → 40°</div><div class="gl-k">Angle of incidence</div></div>
+      <div><div class="gl-v">1,620 N</div><div class="gl-k">Downforce swing across the range</div></div>
+      <div><div class="gl-v">20 Hz</div><div class="gl-k">Control loop</div></div>
+      <div><div class="gl-v">0</div><div class="gl-k">Wires into the car</div></div>
+    </div>
+
+    <div class="plate">
+      <img src="../images/aviws/car-rear.jpg"
+           alt="The finished wing mounted on the trunk lid of a black BMW E93, seen from behind"
+           loading="lazy" decoding="async">
+    </div>
+    <p class="fig-cap" style="max-width:80ch">The finished system on the development car. The
+       whole assembly (wing, brackets, servos, electronics and its own battery) mounts to the
+       trunk lid on suction cups and comes off without leaving a mark.</p>
+  </section>
+
+  <!-- ═════════════════════════════════════════ PRIOR ART ══ -->
+  <section class="psec psec-tight">
+    <div class="shead">
+      <h2 class="stitle">Two references, one of them airborne.</h2>
+      <div class="slead">
+        <p>The variable-incidence idea is borrowed from the <b>Vought F-8 Crusader</b>, the
+           only production aircraft that pivoted its entire wing rather than its control
+           surfaces. It raised the wing's incidence for carrier landings so the fuselage
+           could stay level. The second reference is the <b>Zenvo TSR-1</b>, whose rear wing
+           tilts laterally through a corner to generate a yaw-stabilising moment.</p>
+        <p>The closest everyday relative is <b>F1's DRS</b>, which flattens the rear wing on
+           designated straights to shed drag. AVIWS does the same thing under acceleration,
+           then adds the mode DRS doesn't have: a third, high-angle position that deploys
+           the wing as an active braking aid.</p>
       </div>
     </div>
   </section>
