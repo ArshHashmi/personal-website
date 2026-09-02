@@ -381,7 +381,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
    ══════════════════════════════════════════════════════════════════ */
 .sim{
   display:grid;grid-template-columns:minmax(0,1.68fr) minmax(300px,1fr);
-  gap:2.6rem;margin-top:3rem;align-items:stretch;
+  gap:2.6rem;margin-top:3rem;align-items:start;
 }
 .sim-stage{
   position:relative;border-radius:14px;overflow:hidden;
@@ -396,10 +396,9 @@ table.dt tbody tr:last-child td{border-bottom:none}
    thing that moves, so speed reads without animating the field itself. */
 .sim-flow path{fill:none;stroke-width:1.7;stroke-linecap:round}
 .sim-tracers path{fill:none;stroke-width:2.4;stroke-linecap:round}
-.sim-legend{
-  position:absolute;left:1.4rem;bottom:1.1rem;
-  display:flex;align-items:center;gap:.5rem;
-}
+.sim-left{display:flex;flex-direction:column;gap:.8rem;min-width:0}
+.sim-legend{display:flex;align-items:center;gap:.55rem}
+.sim-legend-k:first-child{margin-right:auto;color:#8d8d8d}
 .sim-legend-bar{
   width:112px;height:7px;border-radius:4px;
   background:linear-gradient(90deg,#0e2036,#8cc4ff);
@@ -407,8 +406,13 @@ table.dt tbody tr:last-child td{border-bottom:none}
 }
 .sim-legend-k{font-family:var(--ui);font-size:.78rem;font-weight:500;color:#767c88}
 .sim-wing-shape{fill:#d7dbe2;stroke:rgba(255,255,255,.5);stroke-width:1.2}
-.sim-strut{stroke:#4a505b;stroke-width:5;stroke-linecap:round}
-.sim-deck{stroke:#2b3038;stroke-width:2.5;stroke-linecap:round}
+/* Enough car to say "this is a trunk lid" and no more: a deck, a rear
+   lip, a lamp. Painted over the flow so the bodywork hides the
+   streamlines behind it. */
+.sim-deck{fill:#161b23}
+.sim-deck-hi{fill:none;stroke:rgba(255,255,255,.22);stroke-width:1.6;stroke-linecap:round}
+.sim-lamp{fill:rgba(217,89,38,.55)}
+.sim-mast{fill:#333a45;stroke:rgba(255,255,255,.10);stroke-width:1}
 .sim-hinge{fill:var(--flow,#6f7683);transition:fill .7s ease}
 
 /* The mode read-out floats on the stage, where the eye already is. */
@@ -497,9 +501,9 @@ table.dt tbody tr:last-child td{border-bottom:none}
   .sim-badge{left:1rem;top:.95rem;gap:.55rem}
   .sim-badge-name,.sim-badge-ang{font-size:1.15rem}
   .sim-pending{left:1rem;top:2.75rem;font-size:.8rem}
-  .sim-legend{left:1rem;bottom:.8rem;gap:.4rem}
-  .sim-legend-bar{width:78px;height:6px}
-  .sim-legend-k{font-size:.72rem}
+  .sim-legend{gap:.45rem}
+  .sim-legend-bar{width:74px;height:6px}
+  .sim-legend-k{font-size:.76rem}
   .sim-speed{right:1.1rem;top:.85rem}
   .sim-out{gap:1rem}
   .sim-out-v{font-size:1.3rem}
@@ -625,19 +629,24 @@ table.dt tbody tr:last-child td{border-bottom:none}
     </div>
 
     <div class="sim" id="sim">
+      <div class="sim-left">
       <div class="sim-stage">
         <svg class="sim-svg" viewBox="0 0 900 340" role="img"
              aria-label="Side view of the wing in a stream of air. The wing changes angle as you use the throttle and brake.">
           <defs id="simDefs"></defs>
           <g class="sim-flow" id="simFlow"></g>
           <g class="sim-tracers" id="simTracers"></g>
-          <line class="sim-deck" x1="120" y1="300" x2="780" y2="300"/>
-          <line class="sim-strut" x1="392" y1="299" x2="416" y2="186"/>
-          <line class="sim-strut" x1="470" y1="299" x2="446" y2="186"/>
+          <path class="sim-deck" d="M -20,286 C 140,276 320,266 470,264
+                                    C 530,263 562,270 578,284 L 590,352
+                                    L -20,352 Z"/>
+          <path class="sim-deck-hi" d="M -20,286 C 140,276 320,266 470,264
+                                       C 530,263 562,270 578,284"/>
+          <rect class="sim-lamp" x="566" y="292" width="15" height="7" rx="3.5"/>
+          <path class="sim-mast" d="M 413,265 L 449,265 L 436,203 L 425,203 Z"/>
           <g id="simWing">
-            <path class="sim-wing-shape" id="simFoil" transform="translate(430,175)"/>
+            <path class="sim-wing-shape" id="simFoil" transform="translate(430,200)"/>
           </g>
-          <circle class="sim-hinge" cx="430" cy="175" r="4.5"/>
+          <circle class="sim-hinge" cx="430" cy="200" r="4.2"/>
         </svg>
 
         <div class="sim-badge">
@@ -646,16 +655,18 @@ table.dt tbody tr:last-child td{border-bottom:none}
         </div>
         <div class="sim-pending" id="simPending">Debouncing</div>
 
-        <div class="sim-legend">
-          <span class="sim-legend-k">slow</span>
-          <span class="sim-legend-bar" id="simLegend"></span>
-          <span class="sim-legend-k">fast</span>
-        </div>
-
         <div class="sim-speed">
           <div class="sim-speed-v" id="simSpeed">0</div>
           <div class="sim-speed-k">mph</div>
         </div>
+      </div>
+
+      <div class="sim-legend">
+        <span class="sim-legend-k">Airspeed over the section</span>
+        <span class="sim-legend-k">slow</span>
+        <span class="sim-legend-bar" id="simLegend"></span>
+        <span class="sim-legend-k">fast</span>
+      </div>
       </div>
 
       <div class="sim-side">
@@ -1420,7 +1431,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
   const root=document.getElementById('sim');
   if(!root)return;
 
-  const W=900, WX=430, WY=175, TOP=22, BOT=286, NLINES=17;
+  const W=900, WX=430, WY=200, FY=186, TOP=20, BOT=250, NLINES=17;
   /* Each mode carries a sequential ramp in its own hue, dark to bright, for
      the velocity field. One hue per ramp rather than a rainbow, so the
      colour still decodes as "how fast" against this surface. */
@@ -1498,7 +1509,10 @@ table.dt tbody tr:last-child td{border-bottom:none}
                 [0.10,1.000],[0.05,0.988]];
   const CHORD=186, RATIO=86/391, LEVEL=8.8*Math.PI/180;
   function foilPath(){
-    const H=CHORD*RATIO, xo=0.40*CHORD, yo=H/2;
+    /* Origin on the lower surface at 38% chord: the wing turns about the
+       point the bracket holds, so the rotation looks anchored rather than
+       centred on nothing. */
+    const H=CHORD*RATIO, xo=0.38*CHORD, yo=0.951*H;
     const cs=Math.cos(LEVEL), sn=Math.sin(LEVEL);
     const P=q=>{
       const x=q[0]*CHORD-xo, y=q[1]*H-yo;
@@ -1541,7 +1555,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
     const turn=interp(ang,'df')/1708.8;
     for(let k=0;k<lines.length;k++){
       const L=lines[k], y0=L.y;
-      const infl=Math.exp(-Math.pow(y0-WY,2)/(2*72*72));
+      const infl=Math.exp(-Math.pow(y0-FY,2)/(2*72*72));
       const amp=turn*54*infl;
       let d='M0,'+y0.toFixed(1);
       for(let x=25;x<=W;x+=25){
@@ -1564,7 +1578,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
      element and slows a little above it; past the stall angle the wake
      behind it goes slow, which is the dark band in the CFD plots. */
   function speedAt(x,y0,turn,sep){
-    const dy=y0-WY;
+    const dy=y0-FY;
     const near=Math.exp(-Math.pow(x-WX,2)/(2*100*100));
     const under=Math.exp(-Math.pow(dy-30,2)/(2*40*40));
     const over =Math.exp(-Math.pow(dy+34,2)/(2*46*46));
