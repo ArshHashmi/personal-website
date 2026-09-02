@@ -268,6 +268,7 @@ body .back-fab{top:88px;left:1rem}
   line-height:1.6;color:var(--mist);
 }
 .mode-when em{font-style:normal;color:var(--ink);font-weight:600}
+.mode-when b{color:var(--ink);font-weight:700}
 .mode-nums{display:flex;gap:2.6rem;margin-top:1.5rem}
 .mode-num-v{font-family:var(--sans);font-size:1.34rem;font-weight:600;letter-spacing:-.02em;color:var(--ink)}
 .mode-num-k{margin-top:.2rem;font-family:var(--ui);font-size:.86rem;font-weight:500;color:var(--fog)}
@@ -742,7 +743,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
             <span class="mode-name">Neutral</span>
             <span class="mode-ang" style="color:var(--m-neutral)">−5°</span>
           </div>
-          <p class="mode-when">Under throttle. The wing lies almost flat so it is barely fighting the air. The least drag of the three, which means quicker acceleration and a higher top speed.</p>
+          <p class="mode-when"><b>Under throttle:</b> the wing lies almost flat so it is barely fighting the air. The least drag of the three, which means quicker acceleration and a higher top speed.</p>
           <div class="mode-nums">
             <div><div class="mode-num-v">88.4 N</div><div class="mode-num-k">Downforce</div></div>
             <div><div class="mode-num-v">9.4 N</div><div class="mode-num-k">Drag</div></div>
@@ -759,7 +760,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
             <span class="mode-name">Cruise</span>
             <span class="mode-ang" style="color:var(--m-cruise)">+5°</span>
           </div>
-          <p class="mode-when">Holding a steady speed. A small angle buys real grip for almost no drag: ten times the downforce of neutral for less than a newton more. The efficient one.</p>
+          <p class="mode-when"><b>Holding a steady speed:</b> a small angle buys real grip for almost no drag. Ten times the downforce of neutral for less than a newton more, which makes this the efficient one.</p>
           <div class="mode-nums">
             <div><div class="mode-num-v">882.4 N</div><div class="mode-num-k">Downforce</div></div>
             <div><div class="mode-num-v">10.3 N</div><div class="mode-num-k">Drag</div></div>
@@ -776,7 +777,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
             <span class="mode-name">Airbrake</span>
             <span class="mode-ang" style="color:var(--m-airbrake)">+40°</span>
           </div>
-          <p class="mode-when">Under braking. The wing stands up into the air and becomes a brake. Maximum downforce to plant the car, plus a wall of drag that helps slow it down.</p>
+          <p class="mode-when"><b>Under braking:</b> the wing stands up into the air and becomes a brake. Maximum downforce to plant the car, plus a wall of drag that helps slow it down.</p>
           <div class="mode-nums">
             <div><div class="mode-num-v">1,708.8 N</div><div class="mode-num-k">Downforce</div></div>
             <div><div class="mode-num-v">262.0 N</div><div class="mode-num-k">Drag</div></div>
@@ -790,12 +791,6 @@ table.dt tbody tr:last-child td{border-bottom:none}
   <section class="psec psec-tight">
     <div class="shead">
       <h3 class="stitle">What the simulation actually said.</h3>
-      <div class="slead">
-        <p>The headline isn't the airbrake figure. It's the cruise one: going from neutral to
-           cruise buys <b>ten times the downforce for nine-tenths of a newton of extra drag</b>.
-           That is the whole argument for a cambered profile that works at a shallow angle
-           rather than a flat plate that has to be tipped into the wind to do anything.</p>
-      </div>
     </div>
 
     <div class="charts">
