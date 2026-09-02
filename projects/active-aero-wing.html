@@ -635,9 +635,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
           <line class="sim-strut" x1="392" y1="299" x2="416" y2="186"/>
           <line class="sim-strut" x1="470" y1="299" x2="446" y2="186"/>
           <g id="simWing">
-            <path class="sim-wing-shape"
-                  d="M -74,-2 C -40,-15 30,-14 106,14 C 34,11 -34,13 -74,-2 Z"
-                  transform="translate(430,175)"/>
+            <path class="sim-wing-shape" id="simFoil" transform="translate(430,175)"/>
           </g>
           <circle class="sim-hinge" cx="430" cy="175" r="4.5"/>
         </svg>
@@ -1483,6 +1481,51 @@ table.dt tbody tr:last-child td{border-bottom:none}
     tracerG.appendChild(tr);
     lines.push({y:y,el:p,tr:tr,stops:stops});
   }
+
+  /* ── The wing section ─────────────────────────────────────────────
+     Sampled column by column off the CAD sketch of the final profile
+     (cad-airfoil-2): 190 mm chord, 30 mm of drop from leading edge to
+     trailing edge, a 4.55:1 bounding box. The blunt end is the leading
+     edge, the sharp tip the trailing edge. Stored normalised, x from the
+     nose and y from the top of that box, then levelled so the chord line
+     is horizontal at zero incidence and the angle the widget reports is
+     the angle it draws. */
+  const FOIL_U=[[0.05,0.477],[0.10,0.477],[0.20,0.488],[0.30,0.477],[0.40,0.442],
+                [0.50,0.407],[0.60,0.349],[0.70,0.279],[0.80,0.198],[0.90,0.105],
+                [0.975,0.023],[1.00,0.023]];
+  const FOIL_L=[[1.00,0.023],[0.975,0.081],[0.90,0.256],[0.80,0.454],[0.70,0.616],
+                [0.60,0.756],[0.50,0.861],[0.40,0.942],[0.30,0.988],[0.20,1.000],
+                [0.10,1.000],[0.05,0.988]];
+  const CHORD=186, RATIO=86/391, LEVEL=8.8*Math.PI/180;
+  function foilPath(){
+    const H=CHORD*RATIO, xo=0.40*CHORD, yo=H/2;
+    const cs=Math.cos(LEVEL), sn=Math.sin(LEVEL);
+    const P=q=>{
+      const x=q[0]*CHORD-xo, y=q[1]*H-yo;
+      return [x*cs-y*sn, x*sn+y*cs];
+    };
+    const f=v=>v.toFixed(2);
+    /* Catmull-Rom through the samples, so the surfaces read as curves
+       rather than the faceted polyline the raw points would give. */
+    function seg(list){
+      const q=list.map(P); let d='';
+      for(let i=0;i<q.length-1;i++){
+        const p0=q[i-1]||q[i], p1=q[i], p2=q[i+1], p3=q[i+2]||q[i+1];
+        d+='C'+f(p1[0]+(p2[0]-p0[0])/6)+','+f(p1[1]+(p2[1]-p0[1])/6)
+          +' '+f(p2[0]-(p3[0]-p1[0])/6)+','+f(p2[1]-(p3[1]-p1[1])/6)
+          +' '+f(p2[0])+','+f(p2[1]);
+      }
+      return d;
+    }
+    const u0=P(FOIL_U[0]), lEnd=P(FOIL_L[FOIL_L.length-1]);
+    const bulge=0.055*CHORD;
+    return 'M'+f(u0[0])+','+f(u0[1])+seg(FOIL_U)+seg(FOIL_L)
+      +'C'+f(lEnd[0]-bulge*cs)+','+f(lEnd[1]-bulge*sn)
+      +' '+f(u0[0]-bulge*cs)+','+f(u0[1]-bulge*sn)
+      +' '+f(u0[0])+','+f(u0[1])+'Z';
+  }
+  const foilEl=document.getElementById('simFoil');
+  if(foilEl)foilEl.setAttribute('d',foilPath());
 
   const lerp=(a,b,t)=>a+(b-a)*t;
   function interp(a,key){
