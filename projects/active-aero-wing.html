@@ -158,8 +158,28 @@ body .back-fab{top:88px;left:1rem}
 .pwrap{max-width:1500px;margin:0 auto;padding:0 6vw}
 .psec{padding:6.5rem 0}
 .psec-tight{padding-top:0}
-.build-banner{padding-top:9rem}
-.build-banner .stitle{font-size:clamp(2.6rem,5vw,4.4rem);letter-spacing:-.045em}
+/* Three main sections, with everything else sitting under them as
+   subsections. Scale alone carries the hierarchy: a banner runs about half
+   again the size of the heads beneath it, so no rules across the page. */
+.sec-banner{padding-top:9rem}
+.sec-banner .stitle{font-size:clamp(2.6rem,5.4vw,4.6rem);letter-spacing:-.045em}
+.sec-banner-first{padding-top:5.5rem}
+.shead-solo{display:block}
+
+/* End of the build: the one place the page asks for something. */
+.build-cta{
+  display:flex;align-items:center;justify-content:space-between;gap:2rem;
+  padding:2.1rem 2.3rem;border-radius:14px;text-decoration:none;color:inherit;
+  background:#12161c;box-shadow:inset 0 0 0 1px rgba(255,255,255,.09);
+  transition:background .35s ease,box-shadow .35s ease,transform .35s cubic-bezier(.16,1,.3,1);
+}
+.build-cta:hover{background:#171c24;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2);transform:translateY(-2px)}
+.build-cta:focus-visible{outline:2px solid rgba(255,255,255,.55);outline-offset:3px}
+.build-cta-txt{display:flex;flex-direction:column;gap:.45rem;min-width:0}
+.build-cta-t{font-family:var(--sans);font-size:1.4rem;font-weight:700;letter-spacing:-.03em;color:var(--ink)}
+.build-cta-d{font-family:var(--ui);font-size:.96rem;font-weight:500;line-height:1.55;color:var(--mist);max-width:52ch}
+.build-cta-arrow{flex-shrink:0;color:var(--ink);transition:transform .35s cubic-bezier(.16,1,.3,1)}
+.build-cta:hover .build-cta-arrow{transform:translateX(5px)}
 
 /* A section opens with a heading on the left and its opening paragraph
    on the right — the page's basic editorial unit. */
@@ -482,7 +502,6 @@ table.dt tbody tr:last-child td{border-bottom:none}
 .pedal-brake.is-down{background:#43200f;box-shadow:inset 0 0 0 1px rgba(217,89,38,.85)}
 .pedal:focus-visible{outline:2px solid rgba(255,255,255,.55);outline-offset:3px}
 .pedal-key{display:block;margin-top:.3rem;font-family:var(--ui);font-size:.8rem;font-weight:500;color:#7d838f}
-.sim-hint{font-family:var(--ui);font-size:.88rem;font-weight:500;line-height:1.55;color:var(--fog)}
 
 @media(max-width:1100px){
   /* align-items:start is right for the two-column desktop layout and wrong
@@ -494,7 +513,6 @@ table.dt tbody tr:last-child td{border-bottom:none}
   .sim-g{order:3}
   .sim-out{order:4}
   .sim-legend{order:5}
-  .sim-hint{order:6}
 }
 @media(max-width:760px){
   /* The 900x340 viewBox collapses to a 130px-tall sliver at phone width and
@@ -552,13 +570,18 @@ table.dt tbody tr:last-child td{border-bottom:none}
   .kit-row{grid-template-columns:1fr;gap:.3rem}
   .tbl-hint{display:block}
   .psec{padding:3.6rem 0}
-  .build-banner{padding-top:5rem}
-  .build-banner .stitle{font-size:clamp(2rem,8vw,2.7rem)}
+  .sec-banner{padding-top:5rem}
+  .sec-banner-first{padding-top:3rem}
+  .sec-banner .stitle{font-size:clamp(2.1rem,9vw,3rem)}
+  .build-cta{padding:1.5rem 1.4rem;gap:1.1rem;border-radius:12px}
+  .build-cta-t{font-size:1.15rem}
+  .build-cta-d{font-size:.9rem}
+  .build-cta-arrow{width:20px;height:11px}
   .pwrap{padding:0 5vw}
   .stitle{font-size:clamp(1.75rem,7.2vw,2.3rem)}
   .slead{font-size:1.04rem;line-height:1.7}
   .prose{font-size:1.02rem;line-height:1.75}
-  .fig-cap,.pnote,.sim-hint{font-size:.92rem}
+  .fig-cap,.pnote{font-size:.92rem}
   .pfooter{padding:2rem 5vw;gap:1.1rem}
   .pfooter-back{padding:.6rem 0}
   .pfooter-brand{display:inline-block;padding:.6rem 0}
@@ -605,27 +628,15 @@ table.dt tbody tr:last-child td{border-bottom:none}
   <div class="phero-scrim"></div>
   <div class="phero-body">
     <h1 class="phero-title">Active Variable Incidence Wing System</h1>
-    <p class="phero-line">A rear wing that reads the car's acceleration and moves itself
-       between three aerodynamic modes. No driver input, no vehicle integration, nothing
-       plugged into the car.</p>
-    <div class="phero-meta">
-      <span>Personal project, <b>summer 2026</b></span>
-      <span>Designed, printed and tested <b>solo</b></span>
-      <span>Testbed: <b>2011 BMW E93</b></span>
-    </div>
   </div>
 </section>
 
 <div class="pwrap">
 
   <!-- ═════════════════════════════════════════ SIMULATOR ══ -->
-  <section class="psec sim-sec">
-    <div class="shead">
+  <section class="psec sec-banner sec-banner-first sim-sec">
+    <div class="shead shead-solo">
       <h2 class="stitle">Try it out.</h2>
-      <div class="slead">
-        <p>The car's control logic, running in your browser. Hold the throttle and the wing
-           lies flat. Hold the brake and it stands up. Let go and it settles back to cruise.</p>
-      </div>
     </div>
 
     <div class="sim" id="sim">
@@ -690,10 +701,6 @@ table.dt tbody tr:last-child td{border-bottom:none}
           </div>
         </div>
 
-        <p class="sim-hint">The shaded band is the cruise dead zone. The wing only commits to a
-           new mode once acceleration has held outside it long enough to prove it meant it,
-           which is what stops a pothole from deploying the airbrake.</p>
-
         <div class="sim-pedals">
           <button type="button" class="pedal pedal-brake" id="pedBrake">
             Brake<span class="pedal-key">hold, or press S</span>
@@ -704,18 +711,23 @@ table.dt tbody tr:last-child td{border-bottom:none}
         </div>
       </div>
     </div>
+  </section>
 
-    <p class="pnote">Same 20 Hz loop as the car, same moving average, same thresholds, same
-       debounce gate, with the timings tightened so it answers a click rather than a corner.
-       On the car the filter runs ten samples and the gate a full second, which the control
-       section gets into. Downforce and drag are interpolated from the three CFD points and
-       scaled with the square of velocity, so the figures moving on screen are the report's.</p>
+  <!-- ═════════════════════════════════════════ THE NUMBERS ══ -->
+  <section class="psec sec-banner">
+    <div class="shead">
+      <h2 class="stitle">The numbers.</h2>
+      <div class="slead">
+        <p>Three CFD runs, one for each commanded angle, and what they say the wing is
+           actually worth at each of them.</p>
+      </div>
+    </div>
   </section>
 
   <!-- ═════════════════════════════════════════ THREE MODES ══ -->
-  <section class="psec">
+  <section class="psec psec-tight">
     <div class="shead">
-      <h2 class="stitle">Three modes, chosen by the accelerometer.</h2>
+      <h3 class="stitle">Three modes, chosen by the accelerometer.</h3>
       <div class="slead">
         <p>Each mode was simulated in Autodesk Fusion CFD 2027 before anything was printed:
            steady-state incompressible flow, k-epsilon turbulence, 30 mph inlet. The plots
@@ -781,7 +793,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
   <!-- ═════════════════════════════════════════ THE NUMBERS ══ -->
   <section class="psec psec-tight">
     <div class="shead">
-      <h2 class="stitle">What the simulation actually said.</h2>
+      <h3 class="stitle">What the simulation actually said.</h3>
       <div class="slead">
         <p>The headline isn't the airbrake figure. It's the cruise one: going from neutral to
            cruise buys <b>ten times the downforce for nine-tenths of a newton of extra drag</b>.
@@ -887,7 +899,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
   </section>
 
   <!-- ═════════════════════════════════════════ HOW I BUILT IT ══ -->
-  <section class="psec build-banner">
+  <section class="psec sec-banner">
     <div class="shead">
       <h2 class="stitle">How I built it.</h2>
       <div class="slead">
@@ -899,9 +911,9 @@ table.dt tbody tr:last-child td{border-bottom:none}
   </section>
 
   <!-- ═════════════════════════════════════════ THE PROBLEM ══ -->
-  <section class="psec">
+  <section class="psec psec-tight">
     <div class="shead">
-      <h2 class="stitle">A fixed wing is a compromise you drive around.</h2>
+      <h3 class="stitle">A fixed wing is a compromise you drive around.</h3>
       <div class="slead">
         <p>Downforce and drag pull in opposite directions. A wing set up for
            high-downforce cornering drags badly down a straight; a wing set up for
@@ -937,7 +949,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
   <!-- ═════════════════════════════════════════ PRIOR ART ══ -->
   <section class="psec psec-tight">
     <div class="shead">
-      <h2 class="stitle">Two references, one of them airborne.</h2>
+      <h3 class="stitle">Two references, one of them airborne.</h3>
       <div class="slead">
         <p>The variable-incidence idea is borrowed from the <b>Vought F-8 Crusader</b>, the
            only production aircraft that pivoted its entire wing rather than its control
@@ -955,7 +967,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
   <!-- ═════════════════════════════════════════ AIRFOIL ══ -->
   <section class="psec">
     <div class="shead">
-      <h2 class="stitle">The profile had to make downforce at a shallow angle.</h2>
+      <h3 class="stitle">The profile had to make downforce at a shallow angle.</h3>
       <div class="slead">
         <p>The section started as a standard cambered airfoil, mounted inverted so the pressure
            differential works downward. It was then modified: <b>more curvature on the upper
@@ -987,7 +999,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
   <!-- ═════════════════════════════════════════ GEOMETRY ══ -->
   <section class="psec psec-tight">
     <div class="shead">
-      <h2 class="stitle">1,400 mm of span, in three aerodynamic sections.</h2>
+      <h3 class="stitle">1,400 mm of span, in three aerodynamic sections.</h3>
       <div class="slead">
         <p>A <b>900 mm centre section</b> carries the constant profile and does the bulk of the
            work. Either side of it, a <b>250 mm outboard section</b> lofts from the centre
@@ -1029,7 +1041,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
   <!-- ═════════════════════════════════════════ FABRICATION ══ -->
   <section class="psec">
     <div class="shead">
-      <h2 class="stitle">The plan was foam and fibreglass. It didn't survive contact.</h2>
+      <h3 class="stitle">The plan was foam and fibreglass. It didn't survive contact.</h3>
       <div class="slead">
         <p>The original fabrication route was XPS foam: hot-wire the profile using printed
            templates pinned to each face of the block, stack the slices, fair the surface
@@ -1069,7 +1081,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
   <!-- ═════════════════════════════════════════ MODULAR ══ -->
   <section class="psec psec-tight">
     <div class="shead">
-      <h2 class="stitle">Printed in 200 mm pieces, then welded into one.</h2>
+      <h3 class="stitle">Printed in 200 mm pieces, then welded into one.</h3>
       <div class="slead">
         <p>No consumer printer swallows a 1,400 mm span, and a monolithic wing would mean
            reprinting the whole thing to fix any part of it. The centre element is split into
@@ -1111,7 +1123,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
   <!-- ═════════════════════════════════════════ ACTUATION ══ -->
   <section class="psec">
     <div class="shead">
-      <h2 class="stitle">Direct drive, because a pushrod would flex.</h2>
+      <h3 class="stitle">Direct drive, because a pushrod would flex.</h3>
       <div class="slead">
         <p>Two <b>DS3218 servos</b>, rated 20 kg·cm stall at 6 V with full metal gears, sit in pockets
            in the support brackets with their output shafts on the wing's hinge axis. Metal
@@ -1154,7 +1166,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
   <!-- ═════════════════════════════════════════ ELECTRONICS ══ -->
   <section class="psec psec-tight">
     <div class="shead">
-      <h2 class="stitle">Five components, and reasons for each.</h2>
+      <h3 class="stitle">Five components, and reasons for each.</h3>
       <div class="slead">
         <p>The brief for the electronics was the fewest parts that would do the job reliably.
            An ESP32 has more of everything, but a single-axis loop with two inputs and one
@@ -1209,7 +1221,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
   <!-- ═════════════════════════════════════════ CONTROL ══ -->
   <section class="psec">
     <div class="shead">
-      <h2 class="stitle">A three-state controller, and a one-second fuse.</h2>
+      <h3 class="stitle">A three-state controller, and a one-second fuse.</h3>
       <div class="slead">
         <p>The firmware is deliberately dumb. The wing lives at three well-defined angles, not
            along a continuous spectrum, so bang-bang control is both sufficient and more robust
@@ -1270,7 +1282,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
   <!-- ═════════════════════════════════════════ TESTING ══ -->
   <section class="psec psec-tight">
     <div class="shead">
-      <h2 class="stitle">Bench first, then a real road.</h2>
+      <h3 class="stitle">Bench first, then a real road.</h3>
       <div class="slead">
         <p>On the bench: an I²C scan to confirm the MPU-6050 at address 0x68, each servo driven
            individually and then together to verify the mirrored position logic, the IMU tilted
@@ -1317,7 +1329,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
   <!-- ═════════════════════════════════════════ FAILURE ══ -->
   <section class="psec">
     <div class="shead">
-      <h2 class="stitle">And then something broke.</h2>
+      <h3 class="stitle">And then something broke.</h3>
       <div class="slead">
         <p>The connecting arm between the servo horn and the wing element <b>fractured on one
            of its thinner sections</b> during testing. The wall thickness there wasn't enough to
@@ -1353,7 +1365,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
   <!-- ═════════════════════════════════════════ NEXT ══ -->
   <section class="psec psec-tight">
     <div class="shead">
-      <h2 class="stitle">Where it goes from here.</h2>
+      <h3 class="stitle">Where it goes from here.</h3>
       <div class="slead">
         <p>The architecture was drawn with the second axis in mind from the beginning, which is
            why the IMU's full six degrees of freedom are read even though the controller
@@ -1384,6 +1396,22 @@ table.dt tbody tr:last-child td{border-bottom:none}
     <p class="pnote">Built solo, in a week, with a consumer 3D printer and off-the-shelf parts.
        The core system works, the one failure mode is understood, and the next iteration is
        already specified.</p>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════ BUILD ONE YOURSELF ══ -->
+  <section class="psec psec-tight">
+    <a href="../guides/active-aero-wing.html" class="build-cta">
+      <span class="build-cta-txt">
+        <span class="build-cta-t">Interested in building one?</span>
+        <span class="build-cta-d">The full how-to guide: CAD and print settings, the wiring,
+          the firmware, and how to calibrate it on your own car.</span>
+      </span>
+      <svg class="build-cta-arrow" width="26" height="14" viewBox="0 0 26 14" fill="none" aria-hidden="true">
+        <path d="M1 7h22M18 2l5 5-5 5" stroke="currentColor" stroke-width="1.7"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
   </section>
 
 </div><!-- /pwrap -->

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en" style="background:#080808">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="#080808"/>
+<title>Build guide: Active Variable Incidence Wing System | Arsh Hashmi</title>
+<meta name="description" content="The full how-to for building an autonomous active rear wing: CAD and print settings, wiring, firmware and on-car calibration."/>
+<link rel="canonical" href="https://arshhashmi.com/guides/active-aero-wing"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#f0f0f0;
+  --paper:#080808;
+  --surface:#0f0f0f;
+  --surface-2:#141414;
+  --fog:#555555;
+  --mist:#909090;
+  --line:rgba(255,255,255,.09);
+  --sans:'Sora',sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+  --ui:'Manrope',sans-serif;
+  --amber:#f59e0b;
+  --green:#22c55e;
+
+  /* ── Chart palette ───────────────────────────────────────────────
+     The three wing modes, coloured once and used everywhere on the
+     page so a mode's colour means the same thing in the CFD strip, the
+     bar charts and the state diagram. Dark-mode steps validated as a
+     set against this page's #0f0f0f chart surface: lightness band and
+     chroma floor pass, worst CVD ΔE 9.4 (deutan), worst normal-vision
+     ΔE 20.9, all three ≥3:1 contrast. Every bar also carries a text
+     label, so identity is never colour alone. */
+  --m-neutral:#3987e5;
+  --m-cruise:#199e70;
+  --m-airbrake:#d95926;
+}
+html{
+  scroll-behavior:smooth;background:#080808;
+  -webkit-text-size-adjust:100%;text-size-adjust:100%;
+}
+a,button{-webkit-tap-highlight-color:rgba(255,255,255,.12);touch-action:manipulation}
+body{
+  background:var(--paper);color:var(--ink);
+  font-family:var(--sans);overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+
+/* ── NAV (shared across every sub-page — unchanged) ── */
+.pnav{
+  position:fixed;top:0;left:0;right:0;z-index:200;height:60px;
+  padding:0 5vw;
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+  background:rgba(8,8,8,.88);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--line);
+}
+.pnav-logo{display:flex;align-items:center;text-decoration:none;flex-shrink:0}
+.pnav-logo-wordmark{font-family:var(--sans);font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);white-space:nowrap;line-height:1}
+.pnav-links{display:flex;list-style:none;align-items:center;gap:.4rem;justify-content:center}
+.pnav-links a{font-family:var(--ui);font-size:.82rem;font-weight:600;letter-spacing:-.01em;color:rgba(255,255,255,.72);text-decoration:none;padding:.46rem 1.05rem;border-radius:7px;white-space:nowrap;background:rgba(255,255,255,.08);transition:color .14s,background .14s}
+.pnav-links a:hover{color:#fff;background:rgba(255,255,255,.16)}
+.pnav-links a.is-active{color:#fff;background:rgba(255,255,255,.14)}
+.pnav-right{display:flex;align-items:center;gap:.65rem;justify-self:end}
+.pnav-cta{font-family:var(--sans);font-size:.82rem;font-weight:400;letter-spacing:-.01em;color:rgba(255,255,255,.28);text-decoration:none;white-space:nowrap;transition:color .15s}
+.pnav-cta:hover{color:rgba(255,255,255,.55)}
+@media(max-width:680px){
+  .pnav{
+    height:auto;padding:.55rem 4vw;row-gap:.5rem;
+    grid-template-columns:1fr auto;
+  }
+  .pnav-logo{grid-column:1;grid-row:1}
+  .pnav-right{grid-column:2;grid-row:1}
+  .pnav-links{grid-column:1/-1;grid-row:2;justify-content:space-between;gap:.3rem}
+  .pnav-links a{
+    padding:.55rem .55rem;font-size:.82rem;background:none;
+    display:flex;align-items:center;min-height:42px;
+  }
+  .pnav-logo{min-height:34px;align-items:center}
+  .pnav-logo-wordmark{font-size:.76rem}
+  .pnav-cta{padding:.5rem 0;font-size:.82rem}
+}
+.back-fab{
+  position:fixed;top:72px;left:1.5rem;z-index:150;
+  display:inline-flex;align-items:center;gap:.48rem;
+  font-family:var(--mono);font-size:.56rem;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(240,240,240,.42);
+  background:rgba(10,10,10,.62);
+  backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);
+  border:1px solid rgba(255,255,255,.08);border-radius:999px;
+  padding:.5rem 1rem .5rem .68rem;
+  text-decoration:none;
+  box-shadow:0 2px 18px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.05);
+  transition:color .3s cubic-bezier(.16,1,.3,1),border-color .3s cubic-bezier(.16,1,.3,1),background .3s cubic-bezier(.16,1,.3,1),box-shadow .3s cubic-bezier(.16,1,.3,1),transform .3s cubic-bezier(.16,1,.3,1);
+}
+.back-fab:hover{color:rgba(240,240,240,.95);border-color:rgba(255,255,255,.22);background:rgba(22,22,22,.88);box-shadow:0 4px 26px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.1);transform:translateX(-2px)}
+.back-fab:active{transform:translateX(-1px) scale(.98);transition-duration:.1s}
+.back-fab-icon{display:flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);flex-shrink:0;transition:background .3s cubic-bezier(.16,1,.3,1),border-color .3s cubic-bezier(.16,1,.3,1),transform .3s cubic-bezier(.16,1,.3,1)}
+.back-fab:hover .back-fab-icon{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.22);transform:translateX(-1px)}
+.back-fab-icon svg{width:9px;height:9px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+body .back-fab{top:88px;left:1rem}
+@media(max-width:900px){ .back-fab{display:none} }
+/* View Transitions */
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:200ms ease-out both vt-out}
+::view-transition-new(root){animation:380ms cubic-bezier(.16,1,.3,1) 80ms both vt-in}
+@keyframes vt-out{to{opacity:0;transform:translateY(-6px)}}
+@keyframes vt-in{from{opacity:0;transform:translateY(10px)}}
+.pnav{view-transition-name:site-nav}
+.back-fab{view-transition-name:back-fab}
+::view-transition-old(site-nav),::view-transition-new(site-nav),::view-transition-old(back-fab),::view-transition-new(back-fab){animation:none;mix-blend-mode:normal}
+
+/* ══════════════════════════════════════════════════════════════════
+   HERO
+   ══════════════════════════════════════════════════════════════════ */
+/* ── Page head ── */
+.ghero{padding:9rem 6vw 0;max-width:1400px;margin:0 auto}
+.gkicker{font-family:var(--ui);font-size:.95rem;font-weight:600;color:var(--mist);display:block;margin-bottom:1.1rem}
+.gtitle{
+  font-family:var(--sans);font-size:clamp(2.4rem,5.6vw,4.8rem);font-weight:800;
+  letter-spacing:-.045em;line-height:1;color:var(--ink);max-width:16ch;
+}
+.glead{margin-top:1.6rem;font-size:1.12rem;font-weight:300;line-height:1.78;color:var(--mist);max-width:56ch}
+
+/* ── Status ── */
+.gstatus{
+  margin:3.2rem 0 0;padding:1.5rem 1.7rem;border-radius:13px;
+  background:#12161c;box-shadow:inset 0 0 0 1px rgba(255,255,255,.09);
+  max-width:64ch;
+}
+.gstatus-t{font-family:var(--sans);font-size:1.1rem;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
+.gstatus-d{margin-top:.5rem;font-family:var(--ui);font-size:.96rem;font-weight:500;line-height:1.6;color:var(--mist)}
+
+/* ── What it will cover ── */
+.gsec{padding:5.5rem 6vw 0;max-width:1400px;margin:0 auto}
+.gsec-t{font-family:var(--sans);font-size:clamp(1.7rem,3vw,2.4rem);font-weight:700;letter-spacing:-.035em;color:var(--ink)}
+.gchapters{margin-top:2.2rem;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.6rem 3vw}
+.gchap{display:flex;gap:1.1rem;align-items:baseline}
+.gchap-n{font-family:var(--sans);font-size:.95rem;font-weight:700;color:var(--fog);flex-shrink:0;min-width:1.6rem}
+.gchap-b{min-width:0}
+.gchap-t{font-family:var(--sans);font-size:1.06rem;font-weight:600;letter-spacing:-.015em;color:var(--ink)}
+.gchap-d{margin-top:.3rem;font-family:var(--ui);font-size:.93rem;font-weight:500;line-height:1.55;color:var(--mist)}
+
+/* ── Back to the write-up ── */
+.gback{
+  margin:5rem 6vw 0;max-width:1400px;
+  display:flex;align-items:center;justify-content:space-between;gap:2rem;
+  padding:2.1rem 2.3rem;border-radius:14px;text-decoration:none;color:inherit;
+  background:#12161c;box-shadow:inset 0 0 0 1px rgba(255,255,255,.09);
+  transition:background .35s ease,box-shadow .35s ease,transform .35s cubic-bezier(.16,1,.3,1);
+}
+@media(min-width:1520px){.gback{margin-left:auto;margin-right:auto}}
+.gback:hover{background:#171c24;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2);transform:translateY(-2px)}
+.gback:focus-visible{outline:2px solid rgba(255,255,255,.55);outline-offset:3px}
+.gback-txt{display:flex;flex-direction:column;gap:.45rem;min-width:0}
+.gback-t{font-family:var(--sans);font-size:1.4rem;font-weight:700;letter-spacing:-.03em;color:var(--ink)}
+.gback-d{font-family:var(--ui);font-size:.96rem;font-weight:500;line-height:1.55;color:var(--mist);max-width:52ch}
+.gback-arrow{flex-shrink:0;color:var(--ink);transition:transform .35s cubic-bezier(.16,1,.3,1)}
+.gback:hover .gback-arrow{transform:translateX(5px)}
+
+.pfooter{
+  margin-top:5rem;padding:2.6rem 6vw;
+  border-top:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+}
+.pfooter-brand{font-family:var(--sans);font-size:.92rem;font-weight:600;letter-spacing:.02em;text-decoration:none;color:var(--ink)}
+.pfooter-note{font-family:var(--ui);font-size:.9rem;font-weight:500;color:var(--fog)}
+.pfooter-back{
+  font-family:var(--sans);font-size:.92rem;font-weight:600;letter-spacing:-.01em;
+  color:var(--ink);text-decoration:none;padding-bottom:4px;
+  background-image:linear-gradient(currentColor,currentColor);
+  background-repeat:no-repeat;background-position:0 100%;background-size:100% 1px;
+}
+
+@media(max-width:900px){
+  .gchapters{grid-template-columns:1fr;gap:1.4rem}
+}
+@media(max-width:700px){
+  .ghero{padding:7.5rem 5vw 0}
+  .gsec{padding:3.8rem 5vw 0}
+  .glead{font-size:1.04rem;line-height:1.7}
+  .gstatus{padding:1.3rem 1.3rem;margin-top:2.4rem}
+  .gback{margin:3.4rem 5vw 0;padding:1.5rem 1.4rem;gap:1.1rem;border-radius:12px}
+  .gback-t{font-size:1.15rem}
+  .gback-d{font-size:.9rem}
+  .gback-arrow{width:20px;height:11px}
+  .pfooter{padding:2rem 5vw;gap:1.1rem}
+  .pfooter-back{padding:.6rem 0}
+  .pfooter-brand{display:inline-block;padding:.6rem 0}
+  .pfooter-note{width:100%}
+}
+</style>
+</head>
+<body>
+
+<nav class="pnav">
+  <a href="../index.html#hero-name" class="pnav-logo">
+    <span class="pnav-logo-wordmark">ENGINEERINGWITHARSH</span>
+  </a>
+  <ul class="pnav-links">
+    <li><a href="../index.html#hero-name">Home</a></li>
+    <li><a href="../builds.html">What I Built</a></li>
+    <li><a href="../guides.html" class="is-active">How-To Guides</a></li>
+    <li><a href="../about.html">About Me</a></li>
+  </ul>
+  <div class="pnav-right">
+    <a href="../contact.html" class="pnav-cta">Contact</a>
+  </div>
+</nav>
+<a href="../guides.html" class="back-fab" aria-label="Back to guides">
+  <span class="back-fab-icon"><svg viewBox="0 0 9 9"><polyline points="6,1 2,4.5 6,8"/></svg></span>
+  Back
+</a>
+
+<header class="ghero">
+  <span class="gkicker">How-to guide</span>
+  <h1 class="gtitle">Build an active aero wing</h1>
+  <p class="glead">Everything needed to put an autonomous, self-contained rear wing on your own
+     car: the CAD and the print settings, the bracket and the actuation, the wiring, the
+     firmware, and how to calibrate the thresholds on a real road.</p>
+
+  <div class="gstatus">
+    <div class="gstatus-t">Being written up now</div>
+    <p class="gstatus-d">The build is finished and on the car. I am turning the working notes
+       into something you can actually follow, step by step, with the files attached. The
+       full write-up of how it was designed and tested is already up if you want the
+       reasoning in the meantime.</p>
+  </div>
+</header>
+
+<section class="gsec">
+  <h2 class="gsec-t">What it will cover.</h2>
+  <div class="gchapters">
+    <div class="gchap"><span class="gchap-n">01</span><div class="gchap-b">
+      <div class="gchap-t">Bill of materials</div>
+      <div class="gchap-d">Every part with the reason it was chosen, and what to buy instead if you cannot get it.</div></div></div>
+    <div class="gchap"><span class="gchap-n">02</span><div class="gchap-b">
+      <div class="gchap-t">The airfoil and the CAD</div>
+      <div class="gchap-d">Drawing a cambered section that makes downforce at a shallow angle, and the files to start from.</div></div></div>
+    <div class="gchap"><span class="gchap-n">03</span><div class="gchap-b">
+      <div class="gchap-t">Printing the sections</div>
+      <div class="gchap-d">Splitting a 1,400 mm span onto a consumer bed, with the infill, walls and orientation that held up.</div></div></div>
+    <div class="gchap"><span class="gchap-n">04</span><div class="gchap-b">
+      <div class="gchap-t">Dowels, welding and assembly</div>
+      <div class="gchap-d">Aligning the modules, then fusing the seams so the wing behaves as one structural element.</div></div></div>
+    <div class="gchap"><span class="gchap-n">05</span><div class="gchap-b">
+      <div class="gchap-t">Bracket and actuation</div>
+      <div class="gchap-d">The servo pocket, the hinge axis, and the custom horn that takes the slop out of the linkage.</div></div></div>
+    <div class="gchap"><span class="gchap-n">06</span><div class="gchap-b">
+      <div class="gchap-t">Wiring the electronics</div>
+      <div class="gchap-d">The full circuit: microcontroller, IMU, servos and the buck converter, and why the servos bypass the board.</div></div></div>
+    <div class="gchap"><span class="gchap-n">07</span><div class="gchap-b">
+      <div class="gchap-t">Firmware</div>
+      <div class="gchap-d">The three-state controller, the moving average, and the debounce that stops a pothole deploying the airbrake.</div></div></div>
+    <div class="gchap"><span class="gchap-n">08</span><div class="gchap-b">
+      <div class="gchap-t">Mounting and calibration</div>
+      <div class="gchap-d">Getting it on the car, finding your own gravity offset, and tuning the thresholds on a real road.</div></div></div>
+  </div>
+</section>
+
+<a href="../projects/active-aero-wing.html" class="gback">
+  <span class="gback-txt">
+    <span class="gback-t">Read how it was designed and tested</span>
+    <span class="gback-d">The full write-up: the CFD, the three modes, the fabrication, and the
+      part that broke the first time out.</span>
+  </span>
+  <svg class="gback-arrow" width="26" height="14" viewBox="0 0 26 14" fill="none" aria-hidden="true">
+    <path d="M1 7h22M18 2l5 5-5 5" stroke="currentColor" stroke-width="1.7"
+          stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</a>
+
+<footer class="pfooter">
+  <a href="../index.html" class="pfooter-brand">ENGINEERINGWITHARSH</a>
+  <span class="pfooter-note">AVIWS build guide · 2026</span>
+  <a href="../guides.html" class="pfooter-back">Back to all guides</a>
+</footer>
+
+</body>
+</html>
