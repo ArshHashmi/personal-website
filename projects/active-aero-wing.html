@@ -390,10 +390,22 @@ table.dt tbody tr:last-child td{border-bottom:none}
   transition:box-shadow .6s ease;
 }
 .sim-svg{display:block;width:100%;height:auto}
-.sim-flow path{
-  fill:none;stroke:var(--flow,#6f7683);stroke-width:1.6;stroke-linecap:round;
-  transition:stroke .7s ease;
+/* The field lines are coloured along their length by local velocity, the
+   way the Fusion plots are: bright where the flow accelerates under the
+   wing, dark through the separated wake. The tracers on top are the only
+   thing that moves, so speed reads without animating the field itself. */
+.sim-flow path{fill:none;stroke-width:1.7;stroke-linecap:round}
+.sim-tracers path{fill:none;stroke-width:2.4;stroke-linecap:round}
+.sim-legend{
+  position:absolute;left:1.4rem;bottom:1.1rem;
+  display:flex;align-items:center;gap:.5rem;
 }
+.sim-legend-bar{
+  width:112px;height:7px;border-radius:4px;
+  background:linear-gradient(90deg,#0e2036,#8cc4ff);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);
+}
+.sim-legend-k{font-family:var(--ui);font-size:.78rem;font-weight:500;color:#767c88}
 .sim-wing-shape{fill:#d7dbe2;stroke:rgba(255,255,255,.5);stroke-width:1.2}
 .sim-strut{stroke:#4a505b;stroke-width:5;stroke-linecap:round}
 .sim-deck{stroke:#2b3038;stroke-width:2.5;stroke-linecap:round}
@@ -485,6 +497,9 @@ table.dt tbody tr:last-child td{border-bottom:none}
   .sim-badge{left:1rem;top:.95rem;gap:.55rem}
   .sim-badge-name,.sim-badge-ang{font-size:1.15rem}
   .sim-pending{left:1rem;top:2.75rem;font-size:.8rem}
+  .sim-legend{left:1rem;bottom:.8rem;gap:.4rem}
+  .sim-legend-bar{width:78px;height:6px}
+  .sim-legend-k{font-size:.72rem}
   .sim-speed{right:1.1rem;top:.85rem}
   .sim-out{gap:1rem}
   .sim-out-v{font-size:1.3rem}
@@ -613,7 +628,9 @@ table.dt tbody tr:last-child td{border-bottom:none}
       <div class="sim-stage">
         <svg class="sim-svg" viewBox="0 0 900 340" role="img"
              aria-label="Side view of the wing in a stream of air. The wing changes angle as you use the throttle and brake.">
+          <defs id="simDefs"></defs>
           <g class="sim-flow" id="simFlow"></g>
+          <g class="sim-tracers" id="simTracers"></g>
           <line class="sim-deck" x1="120" y1="300" x2="780" y2="300"/>
           <line class="sim-strut" x1="392" y1="299" x2="416" y2="186"/>
           <line class="sim-strut" x1="470" y1="299" x2="446" y2="186"/>
@@ -630,6 +647,12 @@ table.dt tbody tr:last-child td{border-bottom:none}
           <span class="sim-badge-ang" id="simAngle">+5°</span>
         </div>
         <div class="sim-pending" id="simPending">Debouncing</div>
+
+        <div class="sim-legend">
+          <span class="sim-legend-k">slow</span>
+          <span class="sim-legend-bar" id="simLegend"></span>
+          <span class="sim-legend-k">fast</span>
+        </div>
 
         <div class="sim-speed">
           <div class="sim-speed-v" id="simSpeed">0</div>
@@ -1400,10 +1423,13 @@ table.dt tbody tr:last-child td{border-bottom:none}
   if(!root)return;
 
   const W=900, WX=430, WY=175, TOP=22, BOT=286, NLINES=17;
+  /* Each mode carries a sequential ramp in its own hue, dark to bright, for
+     the velocity field. One hue per ramp rather than a rainbow, so the
+     colour still decodes as "how fast" against this surface. */
   const MODES={
-    neutral :{name:'Neutral', ang:-5, col:'#3987e5'},
-    cruise  :{name:'Cruise',  ang: 5, col:'#199e70'},
-    airbrake:{name:'Airbrake',ang:40, col:'#d95926'}
+    neutral :{name:'Neutral', ang:-5, col:'#3987e5', lo:[14,32,54],  hi:[140,196,255]},
+    cruise  :{name:'Cruise',  ang: 5, col:'#199e70', lo:[11,42,32],  hi:[95,224,174]},
+    airbrake:{name:'Airbrake',ang:40, col:'#d95926', lo:[46,20,9],   hi:[255,160,106]}
   };
   /* The three CFD points, at the 30 mph they were solved at. */
   const PTS=[{a:-5,df:88.4,dg:9.4},{a:5,df:882.4,dg:10.3},{a:40,df:1708.8,dg:262.0}];
@@ -1430,13 +1456,32 @@ table.dt tbody tr:last-child td{border-bottom:none}
   document.getElementById('simTickLo').style.left=pct(BRK_T)+'%';
   document.getElementById('simTickHi').style.left=pct(ACC_T)+'%';
 
+  const NS='http://www.w3.org/2000/svg';
+  const tracerG=document.getElementById('simTracers');
+  const defs=document.getElementById('simDefs');
+  const STOPS=13;
   const lines=[];
   for(let i=0;i<NLINES;i++){
     const y=TOP+(BOT-TOP)*i/(NLINES-1);
-    const p=document.createElementNS('http://www.w3.org/2000/svg','path');
-    p.setAttribute('stroke-dasharray','54 22');
+    const grad=document.createElementNS(NS,'linearGradient');
+    grad.setAttribute('id','simGrad'+i);
+    grad.setAttribute('gradientUnits','userSpaceOnUse');
+    grad.setAttribute('x1','0');grad.setAttribute('y1','0');
+    grad.setAttribute('x2',String(W));grad.setAttribute('y2','0');
+    const stops=[];
+    for(let k=0;k<STOPS;k++){
+      const st=document.createElementNS(NS,'stop');
+      st.setAttribute('offset',(k/(STOPS-1)*100).toFixed(2)+'%');
+      grad.appendChild(st); stops.push(st);
+    }
+    defs.appendChild(grad);
+    const p=document.createElementNS(NS,'path');
+    p.setAttribute('stroke','url(#simGrad'+i+')');
     flowG.appendChild(p);
-    lines.push({y:y,el:p});
+    const tr=document.createElementNS(NS,'path');
+    tr.setAttribute('stroke-dasharray','9 148');
+    tracerG.appendChild(tr);
+    lines.push({y:y,el:p,tr:tr,stops:stops});
   }
 
   const lerp=(a,b,t)=>a+(b-a)*t;
@@ -1467,7 +1512,51 @@ table.dt tbody tr:last-child td{border-bottom:none}
         d+='L'+x.toFixed(1)+','+y.toFixed(1);
       }
       L.el.setAttribute('d',d);
+      L.tr.setAttribute('d',d);
     }
+  }
+
+  /* Local velocity as a multiple of freestream. The suction side of an
+     inverted wing is its underside, so the flow accelerates below the
+     element and slows a little above it; past the stall angle the wake
+     behind it goes slow, which is the dark band in the CFD plots. */
+  function speedAt(x,y0,turn,sep){
+    const dy=y0-WY;
+    const near=Math.exp(-Math.pow(x-WX,2)/(2*100*100));
+    const under=Math.exp(-Math.pow(dy-30,2)/(2*40*40));
+    const over =Math.exp(-Math.pow(dy+34,2)/(2*46*46));
+    let m=1+turn*1.05*near*under-turn*0.34*near*over;
+    if(sep>0.01&&x>WX){
+      const run=Math.min(1,(x-WX)/260);
+      const core=Math.exp(-Math.pow(dy+10,2)/(2*70*70));
+      m-=sep*0.85*core*run;
+    }
+    return m;
+  }
+  const hex=n=>Math.round(Math.max(0,Math.min(255,n))).toString(16).padStart(2,'0');
+  function ramp(lo,hi,t){
+    return '#'+hex(lo[0]+(hi[0]-lo[0])*t)+hex(lo[1]+(hi[1]-lo[1])*t)+hex(lo[2]+(hi[2]-lo[2])*t);
+  }
+  /* Repainting 13 stops across 17 gradients is 221 attribute writes, so it
+     runs on 2-degree steps of the sweep rather than every frame. Visually
+     identical, and roughly a twentieth of the work on a phone. */
+  let paintedAt=null;
+  function paint(ang,sep,M){
+    const key=Math.round(ang/2)+'|'+M.name;
+    if(key===paintedAt)return;
+    paintedAt=key;
+    const turn=interp(ang,'df')/1708.8;
+    for(let k=0;k<lines.length;k++){
+      const L=lines[k];
+      for(let j=0;j<L.stops.length;j++){
+        const x=W*j/(L.stops.length-1);
+        const m=speedAt(x,L.y,turn,sep);
+        const t=Math.max(0,Math.min(1,(m-0.1)/1.85));
+        L.stops[j].setAttribute('stop-color',ramp(M.lo,M.hi,t));
+      }
+    }
+    const lg=document.getElementById('simLegend');
+    if(lg)lg.style.background='linear-gradient(90deg,'+ramp(M.lo,M.hi,0)+','+ramp(M.lo,M.hi,1)+')';
   }
 
   let v=0, gas=false, brake=false, ang=5, targetAng=5;
@@ -1530,7 +1619,12 @@ table.dt tbody tr:last-child td{border-bottom:none}
     let dt=(now-last)/1000; last=now;
     if(dt>0.1)dt=0.1;
 
-    aInst = brake ? -BRAKE_G : (gas ? GAS_G : -(0.014+0.000022*v*v));
+    /* Lifting off is not braking. The old coast drag crossed -0.07 g above
+       about 52 mph and deployed the airbrake on a throttle lift, so it is
+       gentler now and clamped short of the threshold: coasting always lands
+       in the cruise band, which is what the car does. */
+    const coast=-Math.min(0.055,0.009+0.0000075*v*v);
+    aInst = brake ? -BRAKE_G : (gas ? GAS_G : coast);
     if(v<=0&&!gas){v=0;if(!brake)aInst=0;}
     if(brake&&v<=0){v=0;aInst=0;}
     v+=aInst*MPH_PER_G*dt;
@@ -1549,15 +1643,20 @@ table.dt tbody tr:last-child td{border-bottom:none}
 
     wingG.setAttribute('transform','rotate('+(-ang).toFixed(2)+','+WX+','+WY+')');
 
+    const M=MODES[mode];
+    paint(ang,sep,M);
+
     const spd=Math.max(0,Math.min(1,v/70));
     dashOff-=v*dt*7.4;
+    flowG.setAttribute('opacity',(0.20+0.62*spd).toFixed(3));
+    tracerG.setAttribute('opacity',(0.10+0.75*spd).toFixed(3));
+    const trCol=ramp(M.lo,M.hi,1);
     for(let i=0;i<lines.length;i++){
-      const e=lines[i].el;
-      e.setAttribute('stroke-dashoffset',dashOff.toFixed(1));
-      e.setAttribute('stroke-opacity',(0.10+0.52*spd).toFixed(3));
+      const tr=lines[i].tr;
+      tr.setAttribute('stroke-dashoffset',dashOff.toFixed(1));
+      tr.setAttribute('stroke',trCol);
     }
 
-    const M=MODES[mode];
     root.style.setProperty('--flow',M.col);
     el.mode.textContent=M.name;
     const shown=Math.round(ang);
@@ -1589,6 +1688,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
   window.addEventListener('resize',fitStage);
 
   paths(5,0,0);
+  paint(5,0,MODES.cruise);
   requestAnimationFrame(frame);
 })();
 </script>
