@@ -41,7 +41,11 @@
   --m-cruise:#199e70;
   --m-airbrake:#d95926;
 }
-html{scroll-behavior:smooth;background:#080808}
+html{
+  scroll-behavior:smooth;background:#080808;
+  -webkit-text-size-adjust:100%;text-size-adjust:100%;
+}
+a,button{-webkit-tap-highlight-color:rgba(255,255,255,.12);touch-action:manipulation}
 body{
   background:var(--paper);color:var(--ink);
   font-family:var(--sans);overflow-x:hidden;
@@ -79,8 +83,13 @@ body::before{
   .pnav-logo{grid-column:1;grid-row:1}
   .pnav-right{grid-column:2;grid-row:1}
   .pnav-links{grid-column:1/-1;grid-row:2;justify-content:space-between;gap:.3rem}
-  .pnav-links a{padding:.4rem .6rem;font-size:.76rem;background:none}
-  .pnav-logo-wordmark{font-size:.72rem}
+  .pnav-links a{
+    padding:.55rem .55rem;font-size:.82rem;background:none;
+    display:flex;align-items:center;min-height:42px;
+  }
+  .pnav-logo{min-height:34px;align-items:center}
+  .pnav-logo-wordmark{font-size:.76rem}
+  .pnav-cta{padding:.5rem 0;font-size:.82rem}
 }
 .back-fab{
   position:fixed;top:72px;left:1.5rem;z-index:150;
@@ -102,6 +111,7 @@ body::before{
 .back-fab:hover .back-fab-icon{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.22);transform:translateX(-1px)}
 .back-fab-icon svg{width:9px;height:9px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 body .back-fab{top:88px;left:1rem}
+@media(max-width:900px){ .back-fab{display:none} }
 /* View Transitions */
 @view-transition{navigation:auto}
 ::view-transition-old(root){animation:200ms ease-out both vt-out}
@@ -276,7 +286,8 @@ body .back-fab{top:88px;left:1rem}
 .bar-row:hover::after,.bar-row:focus-within::after{opacity:1;transform:translateY(0)}
 
 /* ── Data table: the chart's table view, and the full result set ── */
-.tbl-wrap{margin-top:4rem;overflow-x:auto}
+.tbl-wrap{margin-top:4rem;overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.tbl-hint{display:none;margin-top:.9rem;font-family:var(--ui);font-size:.86rem;font-weight:500;color:var(--fog)}
 table.dt{border-collapse:collapse;width:100%;min-width:720px}
 table.dt caption{
   text-align:left;padding-bottom:1rem;
@@ -447,7 +458,10 @@ table.dt tbody tr:last-child td{border-bottom:none}
   color:var(--ink);background:#181b20;
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.09);
   transition:background .12s ease,box-shadow .12s ease,transform .12s ease;
+  /* Holding is the whole interaction, so suppress everything iOS does to a
+     long press: the callout menu, the selection, and the scroll. */
   touch-action:none;user-select:none;-webkit-user-select:none;
+  -webkit-touch-callout:none;
 }
 .pedal:hover{background:#1e222a}
 .pedal.is-down{transform:translateY(2px)}
@@ -462,10 +476,23 @@ table.dt tbody tr:last-child td{border-bottom:none}
   .sim-side{gap:1.3rem}
   .sim-pedals{margin-top:.4rem}
 }
-@media(max-width:700px){
-  .sim-speed-v{font-size:2.2rem}
+@media(max-width:760px){
+  /* The 900x340 viewBox collapses to a 130px-tall sliver at phone width and
+     the wing disappears. JS swaps in a tighter viewBox around the wing; these
+     sizes stop the overlays crowding the smaller stage. */
+  .sim-speed-v{font-size:2.1rem}
+  .sim-speed-k{font-size:.8rem}
+  .sim-badge{left:1rem;top:.95rem;gap:.55rem}
   .sim-badge-name,.sim-badge-ang{font-size:1.15rem}
+  .sim-pending{left:1rem;top:2.75rem;font-size:.8rem}
+  .sim-speed{right:1.1rem;top:.85rem}
   .sim-out{gap:1rem}
+  .sim-out-v{font-size:1.3rem}
+  .sim-g-track{height:30px}
+  /* Thumbs, not cursors. */
+  .pedal{padding:1.35rem 1rem;font-size:1.05rem;border-radius:13px}
+  .pedal-key{font-size:.82rem}
+  .sim-pedals{gap:.8rem}
 }
 
 /* ══════════════════════════════════════════════════════════════════
@@ -485,8 +512,11 @@ table.dt tbody tr:last-child td{border-bottom:none}
   .psec{padding:4.4rem 0}
 }
 @media(max-width:700px){
-  .phero{height:78vh;min-height:460px}
-  .phero-body{padding:0 5vw 3.4rem}
+  /* svh is the viewport with the Safari toolbar showing, so the hero always
+     fits on first paint instead of hiding its own meta line behind the bar.
+     vh stays as the fallback for anything that doesn't know svh. */
+  .phero{height:78vh;min-height:440px}
+  .phero-body{padding:0 5vw 3rem}
   .grid2{grid-template-columns:1fr;gap:1.6rem}
   .glance{grid-template-columns:1fr 1fr;gap:1.8rem 1.4rem}
   .loop{grid-template-columns:1fr}
@@ -497,6 +527,20 @@ table.dt tbody tr:last-child td{border-bottom:none}
   .callout-mark{width:100%;height:3px;min-height:0}
   .bar-row{grid-template-columns:4.6rem 1fr auto;gap:.7rem}
   .kit-row{grid-template-columns:1fr;gap:.3rem}
+  .tbl-hint{display:block}
+  .psec{padding:3.6rem 0}
+  .pwrap{padding:0 5vw}
+  .stitle{font-size:clamp(1.75rem,7.2vw,2.3rem)}
+  .slead{font-size:1.04rem;line-height:1.7}
+  .prose{font-size:1.02rem;line-height:1.75}
+  .fig-cap,.pnote,.sim-hint{font-size:.92rem}
+  .pfooter{padding:2rem 5vw;gap:1.1rem}
+  .pfooter-back{padding:.6rem 0}
+  .pfooter-brand{display:inline-block;padding:.6rem 0}
+  .pfooter-note{width:100%}
+}
+@supports (height:100svh){
+  @media(max-width:700px){ .phero{height:78svh} }
 }
 @media(prefers-reduced-motion:reduce){
   .bar-fill{animation:none}
@@ -554,10 +598,12 @@ table.dt tbody tr:last-child td{border-bottom:none}
     <div class="shead">
       <h2 class="stitle">Drive it.</h2>
       <div class="slead">
-        <p>This is the car's control logic running in your browser: the same 20 Hz loop, the
-           same ten-sample moving average, the same thresholds, the same one second debounce.
-           Hold the throttle and the wing lies flat. Hold the brake and it stands up. Let go
-           and it settles back to cruise.</p>
+        <p>This is the car's control logic running in your browser: same 20 Hz loop, same
+           moving average, same thresholds, same debounce gate. Hold the throttle and the wing
+           lies flat. Hold the brake and it stands up. Let go and it settles back to cruise.</p>
+        <p>The timings are tightened here so it answers a click rather than a corner. On the
+           car the filter runs ten samples and the gate a full second, which is the subject of
+           the control section further down.</p>
         <p>Downforce and drag are interpolated from the three CFD points and scaled with the
            square of velocity, so the figures moving on screen are the ones from the report.</p>
       </div>
@@ -618,8 +664,8 @@ table.dt tbody tr:last-child td{border-bottom:none}
         </div>
 
         <p class="sim-hint">The shaded band is the cruise dead zone. The wing only commits to a
-           new mode once acceleration has stayed outside it for a full second, which is what
-           stops a pothole from deploying the airbrake.</p>
+           new mode once acceleration has held outside it long enough to prove it meant it,
+           which is what stops a pothole from deploying the airbrake.</p>
 
         <div class="sim-pedals">
           <button type="button" class="pedal pedal-brake" id="pedBrake">
@@ -841,6 +887,7 @@ table.dt tbody tr:last-child td{border-bottom:none}
           </tr>
         </tbody>
       </table>
+      <p class="tbl-hint">Swipe the table sideways for the rest of the columns.</p>
       <p class="pnote">All three runs at a 30 mph (13.4 m/s) inlet, air at standard conditions
          (ρ 1.205 kg/m³, μ 1.817×10⁻⁵ Pa·s), steady-state incompressible, k-epsilon turbulence
          with mesh refinement at the wing surface. Reynolds numbers ran 772,398 at +5° to
@@ -1360,7 +1407,11 @@ table.dt tbody tr:last-child td{border-bottom:none}
   };
   /* The three CFD points, at the 30 mph they were solved at. */
   const PTS=[{a:-5,df:88.4,dg:9.4},{a:5,df:882.4,dg:10.3},{a:40,df:1708.8,dg:262.0}];
-  const ACC_T=0.09, BRK_T=-0.07, DEBOUNCE=1000, FILTER=10, TICK=50;
+  /* The car filters ten samples and debounces a full second, which is right
+     for a road but reads as lag when someone is tapping a button. Tightened
+     to a quarter-second window and a 400 ms gate so it answers a click; the
+     structure of the loop is unchanged. */
+  const ACC_T=0.09, BRK_T=-0.07, DEBOUNCE=400, FILTER=5, TICK=50;
   const GAS_G=0.30, BRAKE_G=0.85, MPH_PER_G=21.94;
 
   const flowG=document.getElementById('simFlow');
@@ -1488,9 +1539,9 @@ table.dt tbody tr:last-child td{border-bottom:none}
     acc+=dt*1000;
     while(acc>=TICK){acc-=TICK;shownF=control(now);}
 
-    /* Servo sweep: the report's target is the full 45 degrees inside
-       500 ms, so a shade over 90 degrees a second. */
-    const rate=95*dt;
+    /* The report's target is the full 45 degrees inside 500 ms. Run it at
+       the quick end of that so the wing keeps up with the gate. */
+    const rate=150*dt;
     if(Math.abs(targetAng-ang)<=rate)ang=targetAng; else ang+=Math.sign(targetAng-ang)*rate;
 
     const sep=Math.max(0,Math.min(1,(ang-14)/26));
@@ -1525,6 +1576,18 @@ table.dt tbody tr:last-child td{border-bottom:none}
 
     requestAnimationFrame(frame);
   }
+  /* A phone gets a tighter window on the same scene rather than a shrunken
+     copy of it: same wing, same flow, less empty upstream air. */
+  const svg=document.querySelector('.sim-svg');
+  const narrow=window.matchMedia('(max-width:760px)');
+  function fitStage(){
+    if(!svg)return;
+    svg.setAttribute('viewBox',narrow.matches?'214 6 472 326':'0 0 900 340');
+  }
+  fitStage();
+  (narrow.addEventListener?narrow.addEventListener.bind(narrow,'change'):narrow.addListener.bind(narrow))(fitStage);
+  window.addEventListener('resize',fitStage);
+
   paths(5,0,0);
   requestAnimationFrame(frame);
 })();
