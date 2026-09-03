@@ -209,8 +209,17 @@ body .back-fab{top:88px;left:1rem}
   position:fixed;inset:0;z-index:400;display:flex;flex-direction:column;
   align-items:center;justify-content:center;gap:1.1rem;padding:4vh 4vw;
   background:rgba(4,5,7,.94);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
-  opacity:0;transition:opacity .22s ease;
+  opacity:0;pointer-events:none;transition:opacity .22s ease;
 }
+/* display:flex from an author sheet beats the browser's [hidden] rule, so
+   without this the closed overlay stays laid out: a transparent sheet over
+   the whole page eating every click on it. Both the display rule and the
+   pointer-events default guard against that. */
+.lb[hidden]{display:none}
+/* Interactive the moment it is shown. Tying this to .on would make it
+   depend on a class added in a rAF callback, which is one more thing that
+   can not happen. */
+.lb:not([hidden]){pointer-events:auto}
 .lb.on{opacity:1}
 .lb img{
   max-width:100%;max-height:78vh;object-fit:contain;display:block;
