@@ -204,6 +204,167 @@ body .back-fab{top:88px;left:1rem}
   .pfooter-note{width:100%}
 }
 
+
+/* ══════════════════════════════════════════════════════════════════
+   GUIDE
+   Long-form build instructions. Steps are numbered and self-contained,
+   the reasoning sits in callouts beside the doing, and every number in
+   here comes from the report rather than from memory.
+   ══════════════════════════════════════════════════════════════════ */
+.gwrap{max-width:1400px;margin:0 auto;padding:0 6vw}
+.gsec{padding:5.5rem 0 0}
+.gsec-t{font-family:var(--sans);font-size:clamp(1.8rem,3.2vw,2.6rem);font-weight:700;letter-spacing:-.035em;line-height:1.06;color:var(--ink)}
+.gsec-lead{margin-top:1.1rem;font-size:1.08rem;font-weight:300;line-height:1.75;color:var(--mist);max-width:62ch}
+.gsec-lead b{color:var(--ink);font-weight:600}
+.gp{margin-top:1.1rem;font-size:1.04rem;font-weight:300;line-height:1.78;color:var(--mist);max-width:66ch}
+.gp b{color:var(--ink);font-weight:600}
+.gp code,.ginline{font-family:var(--mono);font-size:.92em;color:var(--ink);background:rgba(255,255,255,.07);padding:.12em .4em;border-radius:4px}
+
+/* ── Meta strip ── */
+.gmeta{
+  margin-top:2.6rem;display:grid;min-width:0;
+  grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:1.6rem 2rem;
+}
+.gmeta-v{font-family:var(--sans);font-size:1.5rem;font-weight:700;letter-spacing:-.03em;color:var(--ink)}
+.gmeta-k{margin-top:.3rem;font-family:var(--ui);font-size:.9rem;font-weight:500;line-height:1.45;color:var(--fog)}
+
+/* ── Steps ── */
+.step{display:grid;grid-template-columns:3.4rem minmax(0,1fr);gap:1.6rem;margin-top:3.4rem}
+.step > div{min-width:0}
+.step-n{
+  font-family:var(--sans);font-size:1.05rem;font-weight:700;color:var(--ink);
+  width:3.4rem;height:3.4rem;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.07);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);
+}
+.step-t{font-family:var(--sans);font-size:1.32rem;font-weight:700;letter-spacing:-.025em;color:var(--ink);padding-top:.6rem}
+.step .gp:first-of-type{margin-top:.8rem}
+
+/* ── Callouts ── */
+.note,.warn{
+  margin-top:1.5rem;padding:1.25rem 1.4rem;border-radius:12px;max-width:66ch;
+  background:#12161c;box-shadow:inset 0 0 0 1px rgba(255,255,255,.09);
+}
+.warn{background:#1c1410;box-shadow:inset 0 0 0 1px rgba(217,89,38,.4)}
+.note-t,.warn-t{font-family:var(--sans);font-size:1.02rem;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
+.warn-t{color:#ffa06a}
+.note-d,.warn-d{margin-top:.5rem;font-family:var(--ui);font-size:.98rem;font-weight:500;line-height:1.65;color:var(--mist)}
+.note-d b,.warn-d b{color:var(--ink);font-weight:700}
+
+/* ── Bill of materials ── */
+.bom-wrap{margin-top:2rem;overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.bom{width:100%;min-width:660px;border-collapse:collapse;font-family:var(--ui);font-size:.96rem}
+.bom th{
+  text-align:left;font-weight:700;color:var(--ink);font-size:.9rem;
+  padding:.8rem .9rem;border-bottom:1px solid rgba(255,255,255,.16);white-space:nowrap;
+}
+.bom td{padding:.9rem;border-bottom:1px solid rgba(255,255,255,.07);color:var(--mist);vertical-align:top;line-height:1.5}
+.bom td:first-child{color:var(--ink);font-weight:600}
+.bom tr:last-child td{border-bottom:0}
+.bom-qty{white-space:nowrap;color:var(--ink)}
+.bom-hint{display:none;margin-top:.85rem;font-family:var(--ui);font-size:.88rem;font-weight:500;color:var(--fog)}
+
+/* ── Checklists ── */
+.check{margin-top:1.6rem;display:grid;gap:.75rem;max-width:66ch;padding:0;list-style:none}
+/* Not a grid. In a grid container every child element becomes its own
+   item, so the <b> lead-in and the sentence after it landed in separate
+   cells and the text wrapped a word at a time. An absolutely positioned
+   marker leaves the content as ordinary flowing inline text. */
+.check li{
+  position:relative;padding-left:2.2rem;
+  font-family:var(--ui);font-size:1rem;font-weight:500;line-height:1.6;color:var(--mist);
+}
+.check li::before{
+  content:'';position:absolute;left:0;top:.18em;
+  width:1.35rem;height:1.35rem;border-radius:5px;
+  box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.28);
+}
+.check li b{color:var(--ink);font-weight:700}
+
+/* ── Spec pairs ── */
+.specs{margin-top:1.8rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(190px,100%),1fr));gap:1.4rem 2rem;max-width:70ch;min-width:0}
+.spec-v{font-family:var(--sans);font-size:1.25rem;font-weight:700;letter-spacing:-.025em;color:var(--ink)}
+.spec-k{margin-top:.25rem;font-family:var(--ui);font-size:.9rem;font-weight:500;line-height:1.45;color:var(--fog)}
+
+/* ── Figures ── */
+.gfig{margin:2.2rem 0 0}
+.gfig-img{
+  position:relative;overflow:hidden;border-radius:12px;background:#0a0a0a;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.06),0 26px 50px -30px rgba(0,0,0,1);
+}
+.gfig-img img{width:100%;height:100%;object-fit:cover;display:block}
+.gfig-img.contain{background:#0d1117}
+.gfig-img.contain img{object-fit:contain}
+.r169 .gfig-img{aspect-ratio:16/9}
+.r43  .gfig-img{aspect-ratio:4/3}
+.gfig-cap{margin-top:.85rem;font-family:var(--ui);font-size:.94rem;font-weight:500;line-height:1.6;color:var(--fog);max-width:70ch}
+.gfig-cap b{color:var(--ink);font-weight:700}
+.gpair{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;margin-top:2.2rem}
+.gpair .gfig{margin-top:0}
+
+/* ── Code ── */
+.code-wrap{margin-top:1.8rem;border-radius:12px;overflow:hidden;background:#0c1015;box-shadow:inset 0 0 0 1px rgba(255,255,255,.09)}
+.code-bar{
+  padding:.7rem 1.1rem;border-bottom:1px solid rgba(255,255,255,.09);
+  font-family:var(--ui);font-size:.88rem;font-weight:600;color:var(--mist);
+}
+.code{margin:0;padding:1.1rem;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.code code{font-family:var(--mono);font-size:.86rem;line-height:1.75;color:#cfd6e0;white-space:pre;display:block}
+.code .c{color:#6b7480}
+.code .k{color:#8cc4ff}
+.code .n{color:#ffa06a}
+
+/* ── Mode row ── */
+.modes3{margin-top:2rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+.m3{padding:1.3rem 1.4rem;border-radius:13px;background:#12161c;box-shadow:inset 0 0 0 1px rgba(255,255,255,.09)}
+.m3-top{display:flex;align-items:baseline;justify-content:space-between;gap:.8rem}
+.m3-n{font-family:var(--sans);font-size:1.15rem;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
+.m3-a{font-family:var(--sans);font-size:1.05rem;font-weight:700}
+.m3-d{margin-top:.6rem;font-family:var(--ui);font-size:.94rem;font-weight:500;line-height:1.55;color:var(--mist)}
+.m3-f{margin-top:.9rem;font-family:var(--ui);font-size:.9rem;font-weight:500;color:var(--fog)}
+.m3-f b{color:var(--ink);font-weight:700}
+
+@media(max-width:900px){
+  .gpair{grid-template-columns:1fr;gap:1.4rem}
+  .modes3{grid-template-columns:1fr}
+}
+@media(max-width:700px){
+  .gwrap{padding:0 5vw}
+  .gsec{padding-top:3.6rem}
+  .gsec-t{font-size:clamp(1.55rem,6.4vw,2.1rem)}
+  .gsec-lead{font-size:1.02rem}
+  .gp{font-size:1rem}
+  .step{grid-template-columns:minmax(0,1fr);gap:.9rem;margin-top:2.6rem}
+  .step-n{width:2.7rem;height:2.7rem;font-size:.95rem}
+  .step-t{padding-top:0;font-size:1.18rem}
+  .gmeta{gap:1.3rem 1.4rem}
+  .gmeta-v{font-size:1.3rem}
+  .bom-hint{display:block}
+  .note,.warn{padding:1.1rem 1.15rem}
+  .code code{font-size:.8rem}
+}
+
+@media(max-width:700px){
+  /* A scrolling table on a phone hides the column that matters and leaves
+     tall empty rows behind it. Each part becomes its own card instead,
+     captioned from the header row it no longer has. */
+  .bom-wrap{overflow-x:visible}
+  .bom{min-width:0;display:block}
+  .bom thead{display:none}
+  .bom tbody,.bom tr,.bom td{display:block}
+  .bom tr{
+    padding:1.1rem 1.2rem;margin-bottom:.9rem;border-radius:12px;
+    background:#12161c;box-shadow:inset 0 0 0 1px rgba(255,255,255,.09);
+  }
+  .bom td{border:0;padding:0}
+  .bom td:first-child{font-size:1.08rem;font-weight:700;line-height:1.35}
+  .bom td[data-l]::before{
+    content:attr(data-l);display:block;
+    font-family:var(--ui);font-size:.8rem;font-weight:600;letter-spacing:.005em;
+    color:var(--fog);margin:.75rem 0 .15rem;
+  }
+  .bom-hint{display:none}
+}
 </style>
 </head>
 <body>
@@ -230,48 +391,824 @@ body .back-fab{top:88px;left:1rem}
 <header class="ghero">
   <span class="gkicker">How-to guide</span>
   <h1 class="gtitle">Build an active aero wing</h1>
-  <p class="glead">Everything needed to put an autonomous, self-contained rear wing on your own
-     car: the CAD and the print settings, the bracket and the actuation, the wiring, the
-     firmware, and how to calibrate the thresholds on a real road.</p>
+  <p class="glead">A rear wing that reads how hard the car is accelerating or braking and moves
+     itself to suit: flat under throttle, a shallow angle at cruise, fully up as an airbrake
+     when you slow down. No driver input, and nothing wired into the car. This is how mine was
+     built, with the reasoning behind each decision so you can change what you need to.</p>
 
-  <div class="gstatus">
-    <div class="gstatus-t">Being written up now</div>
-    <p class="gstatus-d">The build is finished and on the car. I am turning the working notes
-       into something you can actually follow, step by step, with the files attached. The
-       full write-up of how it was designed and tested is already up if you want the
-       reasoning in the meantime.</p>
+  <div class="gmeta">
+    <div><div class="gmeta-v">1,400 mm</div><div class="gmeta-k">Span, tip to tip</div></div>
+    <div><div class="gmeta-v">3</div><div class="gmeta-k">Autonomous modes</div></div>
+    <div><div class="gmeta-v">~1 week</div><div class="gmeta-k">Solo, start to on-car</div></div>
+    <div><div class="gmeta-v">FDM only</div><div class="gmeta-k">No machining, no moulds</div></div>
+    <div><div class="gmeta-v">0</div><div class="gmeta-k">Wires into the car</div></div>
   </div>
 </header>
 
-<section class="gsec">
-  <h2 class="gsec-t">What it will cover.</h2>
-  <div class="gchapters">
-    <div class="gchap"><span class="gchap-n">01</span><div class="gchap-b">
-      <div class="gchap-t">Bill of materials</div>
-      <div class="gchap-d">Every part with the reason it was chosen, and what to buy instead if you cannot get it.</div></div></div>
-    <div class="gchap"><span class="gchap-n">02</span><div class="gchap-b">
-      <div class="gchap-t">The airfoil and the CAD</div>
-      <div class="gchap-d">Drawing a cambered section that makes downforce at a shallow angle, and the files to start from.</div></div></div>
-    <div class="gchap"><span class="gchap-n">03</span><div class="gchap-b">
-      <div class="gchap-t">Printing the sections</div>
-      <div class="gchap-d">Splitting a 1,400 mm span onto a consumer bed, with the infill, walls and orientation that held up.</div></div></div>
-    <div class="gchap"><span class="gchap-n">04</span><div class="gchap-b">
-      <div class="gchap-t">Dowels, welding and assembly</div>
-      <div class="gchap-d">Aligning the modules, then fusing the seams so the wing behaves as one structural element.</div></div></div>
-    <div class="gchap"><span class="gchap-n">05</span><div class="gchap-b">
-      <div class="gchap-t">Bracket and actuation</div>
-      <div class="gchap-d">The servo pocket, the hinge axis, and the custom horn that takes the slop out of the linkage.</div></div></div>
-    <div class="gchap"><span class="gchap-n">06</span><div class="gchap-b">
-      <div class="gchap-t">Wiring the electronics</div>
-      <div class="gchap-d">The full circuit: microcontroller, IMU, servos and the buck converter, and why the servos bypass the board.</div></div></div>
-    <div class="gchap"><span class="gchap-n">07</span><div class="gchap-b">
-      <div class="gchap-t">Firmware</div>
-      <div class="gchap-d">The three-state controller, the moving average, and the debounce that stops a pothole deploying the airbrake.</div></div></div>
-    <div class="gchap"><span class="gchap-n">08</span><div class="gchap-b">
-      <div class="gchap-t">Mounting and calibration</div>
-      <div class="gchap-d">Getting it on the car, finding your own gravity offset, and tuning the thresholds on a real road.</div></div></div>
-  </div>
-</section>
+<div class="gwrap">
+
+  <!-- ════════════════════════════════ WHAT YOU ARE BUILDING ══ -->
+  <section class="gsec">
+    <h2 class="gsec-t">What you are building.</h2>
+    <p class="gsec-lead">A fixed wing is a compromise. Set it up for grip through a corner and it
+      holds you back on the straight; set it up for a low-drag top speed and it gives you very
+      little when you need the rear planted. This one does not pick. An accelerometer on the
+      wing reads longitudinal acceleration and drives a servo to one of three angles.</p>
+
+    <div class="modes3">
+      <div class="m3">
+        <div class="m3-top"><span class="m3-n">Neutral</span><span class="m3-a" style="color:#3987e5">&minus;5&deg;</span></div>
+        <p class="m3-d">Under throttle. The wing lies almost flat so it is barely fighting the
+          air. The least drag of the three.</p>
+        <div class="m3-f"><b>88.4 N</b> downforce &middot; <b>9.4 N</b> drag</div>
+      </div>
+      <div class="m3">
+        <div class="m3-top"><span class="m3-n">Cruise</span><span class="m3-a" style="color:#199e70">+5&deg;</span></div>
+        <p class="m3-d">Holding a steady speed. A small angle buys real grip for almost no drag.
+          The efficient one, and where the car spends most of its life.</p>
+        <div class="m3-f"><b>882.4 N</b> downforce &middot; <b>10.3 N</b> drag</div>
+      </div>
+      <div class="m3">
+        <div class="m3-top"><span class="m3-n">Airbrake</span><span class="m3-a" style="color:#d95926">+40&deg;</span></div>
+        <p class="m3-d">Under braking. The wing stands up into the air and becomes a brake:
+          downforce to plant the car, drag to help slow it.</p>
+        <div class="m3-f"><b>1,708.8 N</b> downforce &middot; <b>262.0 N</b> drag</div>
+      </div>
+    </div>
+    <p class="gp">Those figures are from CFD at a 30 mph inlet, so treat them as the shape of the
+      behaviour rather than what your car will feel. The useful comparison is between them:
+      going from neutral to cruise multiplies downforce roughly tenfold for under a newton of
+      extra drag, and that is the whole argument for a cambered section that works at a shallow
+      angle instead of a flat plate you have to tip into the wind.</p>
+
+    <figure class="gfig r169">
+      <div class="gfig-img"><img src="../images/aviws/car-rear.jpg"
+           alt="The finished wing mounted on the trunk lid of a black BMW E93" loading="lazy" decoding="async"></div>
+      <figcaption class="gfig-cap"><b>The finished thing.</b> Wing, brackets, servos, electronics
+        and its own battery, mounted on the trunk lid and removable without a mark.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ════════════════════════════════ BEFORE YOU START ══ -->
+  <section class="gsec">
+    <h2 class="gsec-t">Before you start.</h2>
+    <p class="gsec-lead">None of this is difficult on its own. It is a printed part, a hobby
+      servo and about forty lines of Arduino. The work is in getting the geometry right and
+      being honest about the mounting.</p>
+
+    <ul class="check">
+      <li><b>CAD you can loft in.</b> Fusion 360 was used here. Any parametric package works.</li>
+      <li><b>An FDM printer.</b> Anything with a bed around 200&nbsp;mm. The wing is printed in
+        sections precisely so the bed size stops mattering.</li>
+      <li><b>Soldering, at a basic level.</b> A few dupont joints and a barrel jack.</li>
+      <li><b>Enough Arduino to upload a sketch</b> and read the serial monitor. The firmware is
+        given in full below.</li>
+    </ul>
+
+    <div class="warn">
+      <div class="warn-t">Read this part before you build the mount</div>
+      <p class="warn-d">Mine ran on <b>suction cups</b>, which is the right call for testing
+        because it leaves the car untouched and comes off in seconds. It is not the right call
+        for sustained speed. A wing of this size makes real force, and the report's own
+        conclusion is that a future version should fasten to the trunk lid or lip properly.
+        <b>Decide how it is held on before you decide how fast to go with it</b>, keep early
+        testing to low speeds on a road you know, and check the mount every single time.</p>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════ MATERIALS ══ -->
+  <section class="gsec">
+    <h2 class="gsec-t">What you need.</h2>
+    <p class="gsec-lead">Everything here was chosen for a reason, and the reason matters more
+      than the part number. Where a substitution is safe, the note says so.</p>
+
+    <div class="bom-wrap">
+      <table class="bom">
+        <thead>
+          <tr><th>Part</th><th>Spec</th><th class="bom-qty">Qty</th><th>Why this one</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Arduino Nano</td>
+            <td data-l="Spec">ATmega328P, 5&nbsp;V logic</td>
+            <td data-l="Qty" class="bom-qty">1</td>
+            <td data-l="Why this one">Hardware I&sup2;C on A4/A5 and PWM, at 5&nbsp;V, so it talks to both the sensor and
+              the servos with no level shifting. An ESP32 has more of everything, but a
+              single-axis loop with two inputs and one output does not need it, and fewer parts
+              is fewer things that fail.</td>
+          </tr>
+          <tr>
+            <td>GY-521 breakout (MPU-6050)</td>
+            <td data-l="Spec">3-axis accelerometer + gyro, I&sup2;C</td>
+            <td data-l="Qty" class="bom-qty">1</td>
+            <td data-l="Why this one">The breakout rather than the bare chip: it carries its own 3.3&nbsp;V regulator,
+              I&sup2;C pull-ups and decoupling, which removes several discrete parts from the
+              circuit. Only one axis is used, but the other five are there for later.</td>
+          </tr>
+          <tr>
+            <td>DS3218 servo</td>
+            <td data-l="Spec">20&nbsp;kg&middot;cm at 6&nbsp;V, metal gears, 270&deg;</td>
+            <td data-l="Qty" class="bom-qty">2</td>
+            <td data-l="Why this one"><b>Metal gears are not optional.</b> Aerodynamic hinge moment rises with the
+              square of speed, and at highway pace a wing this size will strip or back-drive the
+              plastic gears in something like an SG90, which is rated at 1.8&nbsp;kg&middot;cm.</td>
+          </tr>
+          <tr>
+            <td>LM2596 buck converter</td>
+            <td data-l="Spec">4&ndash;40&nbsp;V in, adjustable, LED readout</td>
+            <td data-l="Qty" class="bom-qty">1</td>
+            <td data-l="Why this one">Switching, not linear. A 7805 dropping 12&nbsp;V to 5&nbsp;V burns the whole
+              differential as heat: about 3.5&nbsp;W at half an amp, inside a sealed enclosure.
+              The LM2596 runs 77&ndash;92% efficient. Get the version with the voltage display,
+              it saves you a multimeter during setup.</td>
+          </tr>
+          <tr>
+            <td>12&nbsp;V jump-start pack</td>
+            <td data-l="Spec">Portable, high capacity</td>
+            <td data-l="Qty" class="bom-qty">1</td>
+            <td data-l="Why this one">Low internal resistance, so it holds voltage when a loaded servo pulls current.
+              Alkaline packs sag badly under that transient and reset the microcontroller.</td>
+          </tr>
+          <tr>
+            <td>Electrolytic capacitor</td>
+            <td data-l="Spec">100&nbsp;&micro;F</td>
+            <td data-l="Qty" class="bom-qty">1</td>
+            <td data-l="Why this one">Across the buck output. Bulk storage for the current surge when a servo moves, so
+              the 5&nbsp;V rail does not dip and reset the Nano.</td>
+          </tr>
+          <tr>
+            <td>Ceramic capacitor</td>
+            <td data-l="Spec">100&nbsp;nF</td>
+            <td data-l="Qty" class="bom-qty">1</td>
+            <td data-l="Why this one">Across the Nano's VIN and GND. Its low ESR catches the megahertz switching noise
+              off the servo motors that the electrolytic cannot.</td>
+          </tr>
+          <tr>
+            <td>PLA filament</td>
+            <td data-l="Spec">Structural parts</td>
+            <td data-l="Qty" class="bom-qty">&mdash;</td>
+            <td data-l="Why this one">Dimensionally stable and stiff enough at these speeds. CF-PLA is worth it for the
+              connecting arm specifically, for reasons the last section gets into.</td>
+          </tr>
+          <tr>
+            <td>Dowel pins</td>
+            <td data-l="Spec">10&nbsp;mm diameter</td>
+            <td data-l="Qty" class="bom-qty">several</td>
+            <td data-l="Why this one">One diameter throughout, so a single bore size covers every joint and there is
+              nothing to mix up.</td>
+          </tr>
+          <tr>
+            <td>M3 heat-set inserts + screws</td>
+            <td data-l="Spec">Brass inserts</td>
+            <td data-l="Qty" class="bom-qty">a handful</td>
+            <td data-l="Why this one">Moulded into the endplates and brackets so nothing needs a nut on the back face.
+              You will take this apart more than once.</td>
+          </tr>
+          <tr>
+            <td>Barrel jack + wire</td>
+            <td data-l="Spec">Panel or inline</td>
+            <td data-l="Qty" class="bom-qty">1</td>
+            <td data-l="Why this one">So the battery disconnects without disturbing the loom.</td>
+          </tr>
+          <tr>
+            <td>Mounting base</td>
+            <td data-l="Spec">Suction cups to start</td>
+            <td data-l="Qty" class="bom-qty">2</td>
+            <td data-l="Why this one">Non-destructive and fits any trunk. See the warning above about what it is
+              actually good for.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="bom-hint">Swipe the table sideways for the rest of the columns.</p>
+
+    <p class="gp"><b>Tools:</b> a soldering iron (it does double duty for both the electrical work
+      and for plastic-welding the wing seams), a heat-set insert tip, hex keys, and a laptop for
+      the serial monitor during calibration.</p>
+  </section>
+
+  <!-- ════════════════════════════════ STEP 1 ══ -->
+  <section class="gsec">
+    <h2 class="gsec-t">Step 1. Draw the section.</h2>
+    <p class="gsec-lead">Everything downstream is set by the cross section, so this is the part
+      worth slowing down for.</p>
+
+    <div class="step">
+      <div class="step-n">1</div>
+      <div>
+        <div class="step-t">Start from a cambered profile, mounted inverted</div>
+        <p class="gp">Take a standard cambered airfoil and turn it upside down. Right way up it
+          makes lift; inverted, the same pressure difference works downward and makes downforce.</p>
+        <p class="gp">Then modify it: <b>more curvature on the upper surface</b> so the flow
+          accelerates over it and static pressure drops, and a <b>flatter lower surface</b> to
+          hold a higher-pressure region underneath. That asymmetry is the downforce.</p>
+        <div class="note">
+          <div class="note-t">Why not a symmetric section?</div>
+          <p class="note-d">A symmetric profile like a NACA 0012 makes nothing at zero angle of
+            attack. Every newton of cruise downforce would have to be bought with servo angle,
+            which means the actuator holds a load for most of the drive. A cambered inverted
+            section makes downforce passively at neutral incidence, so the servo mostly rests.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="gpair">
+      <figure class="gfig r169">
+        <div class="gfig-img contain"><img src="../images/aviws/cad-airfoil-1.jpg"
+             alt="The initial cambered airfoil cross-section sketched in CAD" loading="lazy" decoding="async"></div>
+        <figcaption class="gfig-cap"><b>Initial section.</b> A standard cambered profile,
+          inverted.</figcaption>
+      </figure>
+      <figure class="gfig r169">
+        <div class="gfig-img contain"><img src="../images/aviws/cad-airfoil-2.jpg"
+             alt="The final airfoil section, dimensioned at 190 mm chord and 30 mm drop" loading="lazy" decoding="async"></div>
+        <figcaption class="gfig-cap"><b>Final section.</b> 190&nbsp;mm chord, 30&nbsp;mm from the
+          leading edge down to the trailing edge, with the upper curvature increased and the
+          lower surface flattened.</figcaption>
+      </figure>
+    </div>
+
+    <div class="step">
+      <div class="step-n">2</div>
+      <div>
+        <div class="step-t">Lay out the span in three pieces</div>
+        <p class="gp">1,400&nbsp;mm tip to tip, split into a <b>900&nbsp;mm centre section</b> that
+          holds the profile constant and does most of the work, and <b>two 250&nbsp;mm outboard
+          sections</b> either side.</p>
+        <p class="gp">The outboard pieces are lofted, not extruded: the inboard end matches the
+          centre profile exactly, the outboard end is a higher-angle version of it. That puts
+          more downforce toward the tips and spreads the load better across the span, and lofting
+          between two sketches rather than butting two extrusions together means there is no hard
+          geometric break for the flow to trip over.</p>
+      </div>
+    </div>
+
+    <div class="gpair">
+      <figure class="gfig r169">
+        <div class="gfig-img contain"><img src="../images/aviws/cad-center.jpg"
+             alt="The 900 mm centre section extruded in CAD" loading="lazy" decoding="async"></div>
+        <figcaption class="gfig-cap"><b>Centre section.</b> 900&nbsp;mm at a constant profile.</figcaption>
+      </figure>
+      <figure class="gfig r169">
+        <div class="gfig-img contain"><img src="../images/aviws/cad-outboard.jpg"
+             alt="The lofted 250 mm outboard section attached to the centre element" loading="lazy" decoding="async"></div>
+        <figcaption class="gfig-cap"><b>Outboard section.</b> Lofted from the centre profile to a
+          higher-angle one at the tip.</figcaption>
+      </figure>
+    </div>
+
+    <div class="step">
+      <div class="step-n">3</div>
+      <div>
+        <div class="step-t">Add endplates, and make them do two jobs</div>
+        <p class="gp">A wingtip leaks: high-pressure air from one surface curls around the end to
+          the low-pressure side. That leak is induced drag, and it eats the effective lift
+          coefficient. A vertical plate at each tip blocks the path.</p>
+        <p class="gp">While you are there, make them the mounting interface too. <b>M3 heat-set
+          inserts moulded into the endplate</b> with clearance holes on the mating face means
+          screws thread straight in and nothing needs a nut behind it. You will be taking this
+          apart repeatedly during tuning, and that decision pays for itself quickly.</p>
+      </div>
+    </div>
+
+    <figure class="gfig r169">
+      <div class="gfig-img contain"><img src="../images/aviws/cad-wing-final.jpg"
+           alt="The finished wing assembly in CAD with endplates fitted" loading="lazy" decoding="async"></div>
+      <figcaption class="gfig-cap"><b>The assembly in CAD</b>, endplates on, before a single part
+        was printed.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ════════════════════════════════ STEP 2 ══ -->
+  <section class="gsec">
+    <h2 class="gsec-t">Step 2. Print it.</h2>
+    <p class="gsec-lead">The original plan was XPS foam cut with a hot wire against printed
+      templates, faired against a printed mould, then laminated in fibreglass and epoxy. It was
+      abandoned before it started, and it is worth knowing why.</p>
+
+    <p class="gp">Hot-wire cutting is only as good as the hand guiding it, and any deviation
+      propagates through every slice in the stack. Fairing foam down to a CAD-defined profile is
+      slow with no guaranteed dimensional accuracy, and lamination adds its own variables on top.
+      <b>Printing gives you the CAD geometry every time</b>, and features that would be miserable
+      to build into a foam core &mdash; hinge bores, dowel holes, insert pockets, servo mounting
+      geometry &mdash; are simply part of the part. You pay for that in mass. It is worth it.</p>
+
+    <div class="gpair">
+      <figure class="gfig r43">
+        <div class="gfig-img"><img src="../images/aviws/foam-template.jpg"
+             alt="A 3D printed profile template made to guide a hot wire through foam" loading="lazy" decoding="async"></div>
+        <figcaption class="gfig-cap"><b>The road not taken.</b> A printed 10&nbsp;mm profile
+          template, made to guide a hot wire through an XPS block.</figcaption>
+      </figure>
+      <figure class="gfig r43">
+        <div class="gfig-img"><img src="../images/aviws/printing.jpg"
+             alt="A wing section printing on an FDM machine" loading="lazy" decoding="async"></div>
+        <figcaption class="gfig-cap"><b>What happened instead.</b> Every part straight off the bed
+          as the CAD file drew it.</figcaption>
+      </figure>
+    </div>
+
+    <div class="step">
+      <div class="step-n">4</div>
+      <div>
+        <div class="step-t">Split the span into 200 mm modules</div>
+        <p class="gp">No consumer bed swallows 1,400&nbsp;mm, and a single-piece wing would mean
+          reprinting the whole thing to fix any one part of it. Cut the centre element into
+          <b>200&nbsp;mm sections</b> and print them individually.</p>
+        <div class="specs">
+          <div><div class="spec-v">5%</div><div class="spec-k">Infill</div></div>
+          <div><div class="spec-v">3</div><div class="spec-k">Perimeters / walls</div></div>
+          <div><div class="spec-v">PLA</div><div class="spec-k">Structural parts</div></div>
+          <div><div class="spec-v">200 mm</div><div class="spec-k">Section length</div></div>
+        </div>
+        <p class="gp">Low infill with three walls is deliberate. On a part like this the shell
+          carries the load, so walls buy you stiffness where infill would only buy you mass in
+          the middle where it does the least.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">5</div>
+      <div>
+        <div class="step-t">Join with dowels, then weld the seams</div>
+        <p class="gp">Bore a <b>10&nbsp;mm dowel hole</b> into each mating face and pin the sections
+          together. The dowels do two jobs: they hold spanwise alignment so the profile stays
+          continuous across the joint, and they carry shear across it so the wing behaves as one
+          structural element instead of a row of separately loaded segments.</p>
+        <p class="gp">Then fuse the joints. Run a <b>soldering iron tip along each external seam</b>
+          so the PLA melts and intermixes across the joint face. Dowels handle alignment and
+          shear; the weld gives you continuous rigidity along the bond line so nothing can shift
+          under load. Do this on the seams between the 200&nbsp;mm centre modules and at the
+          junction with the angled outboard sections.</p>
+        <div class="note">
+          <div class="note-t">Why bother with both</div>
+          <p class="note-d">Dowels alone leave a pinned multi-body assembly that can move
+            slightly under aerodynamic load. The weld turns it into one part. Mechanical
+            alignment plus thermal joining is the standard answer for FDM assemblies that need
+            both positional accuracy and structural continuity.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="gpair">
+      <figure class="gfig r43">
+        <div class="gfig-img"><img src="../images/aviws/section-tip.jpg"
+             alt="Printed wing sections dowelled together" loading="lazy" decoding="async"></div>
+        <figcaption class="gfig-cap"><b>Dowelled up.</b> Sections aligned on 10&nbsp;mm pins before
+          welding.</figcaption>
+      </figure>
+      <figure class="gfig r43">
+        <div class="gfig-img"><img src="../images/aviws/weld-seam.jpg"
+             alt="A plastic-welded seam between two printed wing modules" loading="lazy" decoding="async"></div>
+        <figcaption class="gfig-cap"><b>Welded.</b> The fused seam line between two modules.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════ STEP 3 ══ -->
+  <section class="gsec">
+    <h2 class="gsec-t">Step 3. Make it move.</h2>
+    <p class="gsec-lead">The fewer parts between the servo shaft and the wing, the less slop
+      there is to fight. This is a direct drive with nothing in between.</p>
+
+    <div class="step">
+      <div class="step-n">6</div>
+      <div>
+        <div class="step-t">Pocket the servo into the bracket</div>
+        <p class="gp">Model a pocket in the support bracket that the DS3218 drops into flush, and
+          fix it through its mounting ears with M3 screws into heat-set inserts in the bracket
+          body. <b>Line the servo output shaft up with the wing's hinge axis.</b> If those two are
+          coaxial there is no linkage to design.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">7</div>
+      <div>
+        <div class="step-t">Print your own servo horn</div>
+        <p class="gp">Do not use the horn in the box. Generic horns on third-party splines have
+          angular play, and any play at the horn is multiplied out at the wing tip. Model a horn
+          around <b>the actual spline geometry of your servo</b> so it goes on with zero slop.</p>
+        <div class="note">
+          <div class="note-t">Why direct drive instead of a pushrod</div>
+          <p class="note-d">A pushrod linkage is easier to package, but a slender rod resisting
+            the hinge moment is a buckling risk exactly when you least want one: in the airbrake
+            position, at maximum aerodynamic load. Direct drive has nothing to buckle.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="gpair">
+      <figure class="gfig r169">
+        <div class="gfig-img contain"><img src="../images/aviws/cad-mechanism.jpg"
+             alt="CAD of the actuation mechanism showing the servo pocket and hinge axis" loading="lazy" decoding="async"></div>
+        <figcaption class="gfig-cap"><b>The mechanism.</b> Servo pocket, hinge axis and horn, with
+          the electronics recessed into the bracket body.</figcaption>
+      </figure>
+      <figure class="gfig r169">
+        <div class="gfig-img contain"><img src="../images/aviws/cad-airbrake.jpg"
+             alt="The wing element drawn at its 40 degree airbrake position" loading="lazy" decoding="async"></div>
+        <figcaption class="gfig-cap"><b>Fully deployed.</b> The wing at its +40&deg; stop, the top
+          of a 45&deg; sweep and well inside the servo's 270&deg; range.</figcaption>
+      </figure>
+    </div>
+
+    <div class="step">
+      <div class="step-n">8</div>
+      <div>
+        <div class="step-t">Mirror the second servo</div>
+        <p class="gp">There is one servo at each end, and they face opposite directions. They
+          therefore need <b>supplementary angles</b>: whatever you send to one, send
+          <span class="ginline">180 &minus; pos</span> to the other, or they will fight each other
+          across the hinge. The firmware below does this in a single function so you can never
+          forget it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════ STEP 4 ══ -->
+  <section class="gsec">
+    <h2 class="gsec-t">Step 4. Wire it.</h2>
+    <p class="gsec-lead">Five components and a shared ground. The only part with a trap in it is
+      where the servo power comes from.</p>
+
+    <div class="step">
+      <div class="step-n">9</div>
+      <div>
+        <div class="step-t">Power the servos from the buck, not from the Nano</div>
+        <p class="gp">A loaded DS3218 can pull <b>over an amp</b> while it moves. The Nano's
+          onboard regulator is not rated for that, and it shares a pass element with the board's
+          own logic supply, so a servo transient can brown out the microcontroller.</p>
+        <p class="gp">Feed <b>both servos straight from the LM2596's 5&nbsp;V output</b>, bypassing
+          the Nano's regulator entirely. The Nano and the sensor run from the same 5&nbsp;V rail,
+          with the MPU-6050 drawing from the Nano's regulated 5&nbsp;V pin, which is fine because
+          its draw is tiny. Everything shares a common ground: I&sup2;C will not work reliably
+          without it, and neither will the servo signal reference.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">10</div>
+      <div>
+        <div class="step-t">Add the two capacitors</div>
+        <p class="gp"><b>100&nbsp;&micro;F electrolytic across the buck output</b>, for bulk storage
+          that absorbs the current surge when a servo starts moving so the rail does not sag.
+          <b>100&nbsp;nF ceramic across the Nano's VIN and GND</b>, for the high-frequency
+          switching noise off the servo motors. The electrolytic's ESR is too high to catch that;
+          the ceramic's is low enough.</p>
+        <p class="gp">The GY-521 breakout already carries its own decoupling, so the I&sup2;C lines
+          need nothing added.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">11</div>
+      <div>
+        <div class="step-t">Pin it out</div>
+        <div class="specs">
+          <div><div class="spec-v">D5, D6</div><div class="spec-k">Servo signal lines</div></div>
+          <div><div class="spec-v">A4 / A5</div><div class="spec-k">I&sup2;C SDA / SCL to the IMU</div></div>
+          <div><div class="spec-v">5 V</div><div class="spec-k">Buck output, straight to both servos</div></div>
+          <div><div class="spec-v">12 V</div><div class="spec-k">Battery in, via barrel jack</div></div>
+        </div>
+        <p class="gp">Use a <b>barrel jack for the battery</b> so the pack can come off without
+          disturbing anything else. Route the loom through the bracket's own lattice and zip-tie
+          it at intervals, so nothing moves under vibration.</p>
+      </div>
+    </div>
+
+    <div class="gpair">
+      <figure class="gfig r169">
+        <div class="gfig-img contain"><img src="../images/aviws/schematic.jpg"
+             alt="The full circuit schematic: Nano, MPU-6050, two servos and the buck converter" loading="lazy" decoding="async"></div>
+        <figcaption class="gfig-cap"><b>The circuit.</b> Servo power and logic power split at the
+          buck output.</figcaption>
+      </figure>
+      <figure class="gfig r169">
+        <div class="gfig-img"><img src="../images/aviws/electronics.jpg"
+             alt="The assembled electronics wired into the printed bracket" loading="lazy" decoding="async"></div>
+        <figcaption class="gfig-cap"><b>Assembled.</b> Recessed into the bracket rather than boxed
+          separately, and zip-tied so nothing shifts.</figcaption>
+      </figure>
+    </div>
+
+    <div class="note">
+      <div class="note-t">Mount the IMU flat, and mind which way it faces</div>
+      <p class="note-d">The sensor needs to sit as level as you can get it, with its
+        <b>X axis pointing along the direction of travel</b>. Any tilt bleeds gravity into the
+        longitudinal reading, which is exactly the signal the whole system runs on. Fasten it
+        through its mounting holes with M3, then add tape or a zip tie: it has to hold position
+        under vibration and aerodynamic buffeting, not just sit there.</p>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════ STEP 5 ══ -->
+  <section class="gsec">
+    <h2 class="gsec-t">Step 5. The firmware.</h2>
+    <p class="gsec-lead">Three states, not a continuous curve. The wing lives at three defined
+      angles, so a threshold comparison is enough and it is far more robust against sensor noise
+      than a proportional loop would be. Everything interesting is what wraps around that
+      comparison.</p>
+
+    <p class="gp">You need three libraries: <span class="ginline">Servo.h</span> and
+      <span class="ginline">Wire.h</span> ship with the Arduino IDE, and
+      <span class="ginline">MPU6050.h</span> is the Electronic Cats library, installed through the
+      Library Manager.</p>
+
+    <div class="step">
+      <div class="step-n">12</div>
+      <div>
+        <div class="step-t">Read the sensor, and clean up the signal</div>
+        <p class="gp">Pull the raw 16-bit accelerometer value over I&sup2;C and divide by
+          <b>16,384</b> to get gravities, which is the scale factor for the sensor's default
+          &plusmn;2&nbsp;g range. Then two corrections:</p>
+        <ul class="check">
+          <li><b>Subtract a fixed offset.</b> Mine was <b>0.07&nbsp;g</b>, which is gravity
+            bleeding into the longitudinal axis because the sensor is not mounted perfectly
+            level. Yours will be different. You measure it in step 14.</li>
+          <li><b>Average the last ten samples.</b> A rolling buffer, replacing the oldest reading
+            each pass. Raw MEMS output in a car is full of engine vibration, road input and the
+            wing's own buffeting, and without this you get threshold crossings that are noise
+            rather than driving.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">13</div>
+      <div>
+        <div class="step-t">Compare, then wait a second before you believe it</div>
+        <p class="gp">Above <b>+0.09&nbsp;g</b> go to neutral; below <b>&minus;0.07&nbsp;g</b> go to
+          airbrake; anything between is cruise. The important part is what happens next:
+          <b>a new mode has to hold for a full second before it is executed.</b></p>
+        <div class="note">
+          <div class="note-t">The debounce is the whole trick</div>
+          <p class="note-d">Without it the wing chases every pothole, gear change and throttle
+            twitch, and earlier versions of this firmware hunted between positions constantly. A
+            one-second gate on <span class="ginline">millis()</span> costs you nothing you would
+            notice while driving and removes the problem completely. The loop keeps polling at
+            full rate during the wait, it just does not act.</p>
+        </div>
+        <p class="gp">The loop runs on a <b>50&nbsp;ms delay</b>, a 20&nbsp;Hz update rate. That is
+          far faster than it needs to be, since aerodynamic loads on a road car change over
+          hundreds of milliseconds, but it costs nothing and the debounce is what actually sets
+          the response time.</p>
+      </div>
+    </div>
+
+    <div class="code-wrap">
+      <div class="code-bar">aviws.ino &middot; the whole thing</div>
+      <pre class="code"><code><span class="k">#include</span> &lt;Servo.h&gt;
+<span class="k">#include</span> &lt;Wire.h&gt;
+<span class="k">#include</span> &lt;MPU6050.h&gt;
+
+Servo servo1; Servo servo2;
+MPU6050 mpu;
+
+<span class="c">// Wing positions, in servo units. Calibrate these yourself (step 15).</span>
+<span class="k">#define</span> POS_NEUTRAL   <span class="n">110</span>   <span class="c">// under acceleration</span>
+<span class="k">#define</span> POS_CRUISE     <span class="n">65</span>   <span class="c">// steady speed</span>
+<span class="k">#define</span> POS_AIRBRAKE    <span class="n">0</span>   <span class="c">// under braking</span>
+
+<span class="c">// Thresholds, in g, applied after the offset below</span>
+<span class="k">#define</span> ACCEL_THRESHOLD  <span class="n">0.09</span>
+<span class="k">#define</span> BRAKE_THRESHOLD <span class="n">-0.07</span>
+
+<span class="c">// Your mounting offset. Measure it, do not copy mine.</span>
+<span class="k">#define</span> OFFSET         <span class="n">0.07</span>
+<span class="k">#define</span> FILTER_SIZE      <span class="n">10</span>   <span class="c">// rolling average window</span>
+<span class="k">#define</span> CHANGE_DELAY   <span class="n">1000</span>   <span class="c">// debounce, ms</span>
+
+<span class="k">float</span> readings[FILTER_SIZE];
+<span class="k">int</span> filterIndex = <span class="n">0</span>;
+<span class="k">float</span> filterSum = <span class="n">0</span>;
+<span class="k">unsigned long</span> lastChangeTime = <span class="n">0</span>;
+<span class="k">int</span> currentPosition = POS_CRUISE;
+<span class="k">int</span> targetPosition  = POS_CRUISE;
+
+<span class="k">void</span> setWingPosition(<span class="k">int</span> pos) {
+  <span class="c">// The servos are mirrored across the hinge, so they take</span>
+  <span class="c">// supplementary angles or they fight each other.</span>
+  servo1.write(pos);
+  servo2.write(<span class="n">180</span> - pos);
+  currentPosition = pos;
+}
+
+<span class="k">float</span> getFilteredAccel() {
+  <span class="k">int16_t</span> ax, ay, az, gx, gy, gz;
+  mpu.getMotion6(&amp;ax, &amp;ay, &amp;az, &amp;gx, &amp;gy, &amp;gz);
+  <span class="k">float</span> accelG = (ax / <span class="n">16384.0</span>) - OFFSET;
+  filterSum -= readings[filterIndex];
+  readings[filterIndex] = accelG;
+  filterSum += readings[filterIndex];
+  filterIndex = (filterIndex + <span class="n">1</span>) % FILTER_SIZE;
+  <span class="k">return</span> filterSum / FILTER_SIZE;
+}
+
+<span class="k">void</span> setup() {
+  servo1.attach(<span class="n">5</span>);
+  servo2.attach(<span class="n">6</span>);
+  Serial.begin(<span class="n">9600</span>);
+  Wire.begin();
+  mpu.initialize();
+  Serial.println(mpu.testConnection() ? <span class="n">"MPU6050 connected"</span>
+                                      : <span class="n">"MPU6050 connection failed"</span>);
+  <span class="k">for</span> (<span class="k">int</span> i = <span class="n">0</span>; i &lt; FILTER_SIZE; i++) readings[i] = <span class="n">0</span>;
+  setWingPosition(POS_CRUISE);
+  Serial.println(<span class="n">"Wing starting at cruise position"</span>);
+}
+
+<span class="k">void</span> loop() {
+  <span class="k">float</span> accel = getFilteredAccel();
+  Serial.print(<span class="n">"Accel: "</span>); Serial.print(accel); Serial.print(<span class="n">"g -> "</span>);
+
+  <span class="k">if</span> (accel &gt; ACCEL_THRESHOLD) {
+    Serial.println(<span class="n">"NEUTRAL (accelerating)"</span>);
+    targetPosition = POS_NEUTRAL;
+  } <span class="k">else if</span> (accel &lt; BRAKE_THRESHOLD) {
+    Serial.println(<span class="n">"AIRBRAKE (braking)"</span>);
+    targetPosition = POS_AIRBRAKE;
+  } <span class="k">else</span> {
+    Serial.println(<span class="n">"CRUISE"</span>);
+    targetPosition = POS_CRUISE;
+  }
+
+  <span class="c">// Only commit once the new mode has held for CHANGE_DELAY.</span>
+  <span class="k">if</span> (targetPosition != currentPosition) {
+    <span class="k">if</span> (millis() - lastChangeTime &gt;= CHANGE_DELAY) {
+      setWingPosition(targetPosition);
+      lastChangeTime = millis();
+    }
+  } <span class="k">else</span> {
+    lastChangeTime = millis();
+  }
+
+  delay(<span class="n">50</span>);   <span class="c">// 20 Hz</span>
+}</code></pre>
+    </div>
+
+    <div class="warn">
+      <div class="warn-t">Do not trust my position numbers</div>
+      <p class="warn-d">The three <span class="ginline">POS_</span> values are servo units, not
+        degrees, and they were found empirically on my hardware. Your servo horn will be clocked
+        differently and your hinge geometry will differ, so those numbers will put your wing
+        somewhere else entirely. <b>Step 15 is how you find your own.</b></p>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════ STEP 6 ══ -->
+  <section class="gsec">
+    <h2 class="gsec-t">Step 6. Bench test, before it goes near the car.</h2>
+    <p class="gsec-lead">Everything here is checkable on a desk with the Nano on USB and the
+      12&nbsp;V pack feeding the buck. Do all of it.</p>
+
+    <div class="step">
+      <div class="step-n">14</div>
+      <div>
+        <div class="step-t">Work through it in order</div>
+        <ul class="check">
+          <li><b>I&sup2;C scan first.</b> Confirm the MPU-6050 answers at <b>0x68</b>. If it does
+            not, nothing after this matters.</li>
+          <li><b>Each servo alone, then both together.</b> Confirms D5 and D6 are wired right and
+            that the mirrored logic actually turns them the same way at the hinge.</li>
+          <li><b>Find your offset.</b> Sit the sensor still and level and watch the serial output.
+            Whatever it reads instead of zero is your <span class="ginline">OFFSET</span>. Mine
+            was 0.07&nbsp;g.</li>
+          <li><b>Confirm the axis.</b> Tilt the sensor along each axis in turn and watch which one
+            responds. That is the one that must point along the car.</li>
+          <li><b>Prove the filter works.</b> Tap the sensor sharply. The raw value should jump and
+            the filtered value should barely move. If a tap crosses a threshold, your filter is
+            not doing its job.</li>
+          <li><b>Hand-tilt through all three modes</b> and confirm the wing goes where it should,
+            and holds position when you push against it.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">15</div>
+      <div>
+        <div class="step-t">Calibrate your own position values</div>
+        <p class="gp">Sweep the servos through their range using serial input and note the servo
+          value at each of the three physical angles you want: <b>&minus;5&deg;</b> for neutral,
+          <b>+5&deg;</b> for cruise, <b>+40&deg;</b> for the airbrake. Those three numbers are your
+          <span class="ginline">POS_NEUTRAL</span>, <span class="ginline">POS_CRUISE</span> and
+          <span class="ginline">POS_AIRBRAKE</span>.</p>
+        <p class="gp">The full sweep is 45&deg;, comfortably inside the DS3218's 270&deg; range, so
+          the servo stays in its strongest region throughout.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════ STEP 7 ══ -->
+  <section class="gsec">
+    <h2 class="gsec-t">Step 7. On the car.</h2>
+    <p class="gsec-lead">Mine went on the trunk lid of a 2011 BMW E93. Nothing about the design is
+      specific to that car, which was the point.</p>
+
+    <div class="step">
+      <div class="step-n">16</div>
+      <div>
+        <div class="step-t">Position the brackets</div>
+        <p class="gp">Mount the two brackets <b>symmetrically about the car's centreline</b> so the
+          aerodynamic load is shared evenly, and put the wing at the <b>rearmost practical point</b>
+          on the lid. The further back it sits, the longer the moment arm to the rear axle and the
+          more of its downforce ends up where you want it.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">17</div>
+      <div>
+        <div class="step-t">Tune it on a road, not on the bench</div>
+        <p class="gp">Run a wire from the Nano into the cabin and keep a laptop on the serial
+          monitor in the passenger seat. You are watching two things: the live acceleration
+          reading, and whether the mode changes land where the driving actually changes.</p>
+        <p class="gp">This is how the 0.07&nbsp;g offset was found and how both thresholds were
+          settled &mdash; under real road conditions rather than by guessing on a desk. A camera
+          pointed at the wing is worth setting up too: it gives you a record you can replay
+          against the serial log to check that transitions happened where you thought they did.</p>
+        <div class="note">
+          <div class="note-t">What good looks like</div>
+          <p class="note-d">The wing should flatten under normal throttle, sit at cruise at steady
+            speed, and deploy under normal braking &mdash; all without you having to drive
+            unusually hard to trigger it. It should also sit still at a constant cruise rather
+            than hunting between modes. If it hunts, your thresholds are too close together or
+            your filter window is too short.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="gpair">
+      <figure class="gfig r169">
+        <div class="gfig-img"><img src="../images/aviws/oncar-gopro.jpg"
+             alt="Driver's view of the wing mounted on the car during a road test" loading="lazy" decoding="async"></div>
+        <figcaption class="gfig-cap"><b>On the road.</b> A camera on the roof gives you a record to
+          replay against the serial log.</figcaption>
+      </figure>
+      <figure class="gfig r169">
+        <div class="gfig-img"><img src="../images/aviws/calibration.jpg"
+             alt="A laptop in the passenger seat showing live g-force readings during calibration" loading="lazy" decoding="async"></div>
+        <figcaption class="gfig-cap"><b>Live calibration.</b> Serial output in the passenger seat is
+          how the offset and both thresholds got set.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════ WHAT BROKE ══ -->
+  <section class="gsec">
+    <h2 class="gsec-t">What broke, and what to do about it.</h2>
+    <p class="gsec-lead">One failure, and it is the most useful thing in this guide because you
+      can design it out before you print anything.</p>
+
+    <p class="gp">The <b>connecting arm between the servo horn and the wing fractured</b> during
+      testing, at one of its thinner sections. The wall thickness there was not enough to carry
+      the bending moment from the horn while the aerodynamic hinge moment was working on the wing
+      at the same time. The system kept running afterwards, but with degraded positional accuracy
+      on that side.</p>
+
+    <figure class="gfig r43" style="max-width:520px">
+      <div class="gfig-img"><img src="../images/aviws/arm-fracture.jpg"
+           alt="The fractured connecting arm, showing the break at a thin structural section" loading="lazy" decoding="async"></div>
+      <figcaption class="gfig-cap"><b>The failure.</b> A thin cross-section that should have been
+        thicker, with a sharper fillet than it should have had.</figcaption>
+    </figure>
+
+    <div class="note">
+      <div class="note-t">Three changes to make before you print yours</div>
+      <p class="note-d"><b>More wall thickness</b> at the narrow point of the connecting arm.
+        <b>A larger fillet radius</b> where it changes section, since a sharp internal corner is a
+        stress concentration and that is where it let go. And <b>CF-PLA for that one part</b>,
+        which buys stiffness for very little mass. This is a part-level mistake with a part-level
+        fix; nothing about the architecture needs to change.</p>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════ NEXT ══ -->
+  <section class="gsec">
+    <h2 class="gsec-t">Where you could take it.</h2>
+    <p class="gsec-lead">The architecture was drawn with more than one axis in mind, which is why
+      the IMU's full six degrees of freedom are read even though the controller uses exactly one
+      of them.</p>
+    <ul class="check">
+      <li><b>A lateral axis.</b> The lateral acceleration data is already there. A second servo
+        axis on the hinge would let the wing tilt through a corner to generate a yaw-stabilising
+        moment.</li>
+      <li><b>Telemetry.</b> Moving to an ESP32 buys wireless logging of wing angle, acceleration
+        and mode state to a phone, which turns threshold tuning into something driven by data
+        rather than by feel.</li>
+      <li><b>A proper mount.</b> Fastening to the trunk lid or lip instead of suction cups, which
+        also lets you set the wing at a better height above the surface.</li>
+    </ul>
+  </section>
+
+  <!-- ════════════════════════════════ FURTHER READING ══ -->
+  <section class="gsec" style="padding-bottom:1rem">
+    <h2 class="gsec-t">The full detail.</h2>
+    <p class="gsec-lead">This guide is the practical half. The report behind it carries the
+      design reasoning, the CFD method and results in full, and the references.</p>
+  </section>
+</div>
 
 <a href="../projects/active-aero-wing.html" class="gback">
   <span class="gback-txt">
