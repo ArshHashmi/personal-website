@@ -365,6 +365,90 @@ body .back-fab{top:88px;left:1rem}
   }
   .bom-hint{display:none}
 }
+
+/* ── Downloads ──
+   The parts are provided, so this is the section the page is built around.
+   Each card is one printable part with its own file. */
+.dl-all{
+  display:flex;align-items:center;justify-content:space-between;gap:1.6rem;
+  margin-top:2rem;padding:1.7rem 1.9rem;border-radius:14px;text-decoration:none;color:inherit;
+  background:#12161c;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);
+  transition:background .3s ease,box-shadow .3s ease,transform .3s cubic-bezier(.16,1,.3,1);
+}
+.dl-all:hover{background:#171c24;box-shadow:inset 0 0 0 1px rgba(255,255,255,.24);transform:translateY(-2px)}
+.dl-all:focus-visible{outline:2px solid rgba(255,255,255,.55);outline-offset:3px}
+.dl-all-t{font-family:var(--sans);font-size:1.3rem;font-weight:700;letter-spacing:-.03em;color:var(--ink);display:block}
+.dl-all-d{margin-top:.4rem;font-family:var(--ui);font-size:.95rem;font-weight:500;line-height:1.5;color:var(--mist);display:block}
+.dl-icon{flex-shrink:0;color:var(--ink)}
+
+.parts{margin-top:1.6rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:1.1rem}
+.part{
+  display:flex;flex-direction:column;gap:.55rem;min-width:0;
+  padding:1.25rem 1.35rem;border-radius:13px;
+  background:#0f1319;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);
+}
+.part-top{display:flex;align-items:baseline;justify-content:space-between;gap:1rem}
+.part-n{font-family:var(--sans);font-size:1.06rem;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
+.part-q{flex-shrink:0;font-family:var(--ui);font-size:.86rem;font-weight:600;color:var(--fog)}
+.part-d{font-family:var(--ui);font-size:.93rem;font-weight:500;line-height:1.55;color:var(--mist)}
+.part-dl{
+  margin-top:auto;padding-top:.9rem;display:inline-flex;align-items:center;gap:.5rem;
+  font-family:var(--sans);font-size:.92rem;font-weight:600;letter-spacing:-.01em;
+  color:var(--ink);text-decoration:none;align-self:flex-start;
+}
+.part-dl span{
+  padding-bottom:3px;
+  background-image:linear-gradient(currentColor,currentColor);
+  background-repeat:no-repeat;background-position:0 100%;background-size:100% 1px;
+}
+.part-dl svg{flex-shrink:0;transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.part-dl:hover svg{transform:translateY(2px)}
+.part.is-missing .part-dl{pointer-events:none;color:var(--fog)}
+.part.is-missing .part-dl span{background:none}
+
+/* ── Licence strip ── */
+.lic{
+  margin-top:2rem;padding:1.4rem 1.5rem;border-radius:13px;
+  background:#181207;box-shadow:inset 0 0 0 1px rgba(245,165,36,.32);
+}
+.lic-t{font-family:var(--sans);font-size:1.05rem;font-weight:700;letter-spacing:-.02em;color:#f5c06a}
+.lic-d{margin-top:.55rem;font-family:var(--ui);font-size:.98rem;font-weight:500;line-height:1.65;color:var(--mist)}
+.lic-d b{color:var(--ink);font-weight:700}
+.lic-d a{color:#f5c06a;text-decoration:underline;text-underline-offset:3px}
+
+/* ── Print table ── */
+.pt-wrap{margin-top:2rem;overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.pt{width:100%;min-width:640px;border-collapse:collapse;font-family:var(--ui);font-size:.96rem}
+.pt th{text-align:left;font-weight:700;color:var(--ink);font-size:.9rem;padding:.8rem .9rem;border-bottom:1px solid rgba(255,255,255,.16);white-space:nowrap}
+.pt td{padding:.9rem;border-bottom:1px solid rgba(255,255,255,.07);color:var(--mist);vertical-align:top;line-height:1.5}
+.pt td:first-child{color:var(--ink);font-weight:600}
+.pt tr:last-child td{border-bottom:0}
+
+@media(max-width:700px){
+  .dl-all{padding:1.35rem 1.3rem;gap:1rem;border-radius:12px}
+  .dl-all-t{font-size:1.12rem}
+  .dl-all-d{font-size:.9rem}
+  .dl-icon{width:22px;height:22px}
+  .parts{grid-template-columns:1fr}
+  /* Same stacking as the materials table: the column worth reading is last. */
+  .pt-wrap{overflow-x:visible}
+  .pt{min-width:0;display:block}
+  .pt thead{display:none}
+  .pt tbody,.pt tr,.pt td{display:block}
+  .pt tr{padding:1.1rem 1.2rem;margin-bottom:.9rem;border-radius:12px;background:#12161c;box-shadow:inset 0 0 0 1px rgba(255,255,255,.09)}
+  .pt td{border:0;padding:0}
+  .pt td:first-child{font-size:1.06rem;font-weight:700}
+  .pt td[data-l]::before{
+    content:attr(data-l);display:block;
+    font-family:var(--ui);font-size:.8rem;font-weight:600;color:var(--fog);margin:.75rem 0 .15rem;
+  }
+}
+
+.pfooter-legal{display:flex;align-items:center;gap:.9rem;font-family:'Manrope',sans-serif;font-size:.88rem;font-weight:500}
+.pfooter-legal a{color:#7d7d7d;text-decoration:none}
+.pfooter-legal a:hover{color:#f0f0f0}
+.pfooter-legal span{color:#3d3d3d}
+@media(max-width:700px){.pfooter-legal{width:100%;padding:.35rem 0}}
 </style>
 </head>
 <body>
@@ -393,14 +477,16 @@ body .back-fab{top:88px;left:1rem}
   <h1 class="gtitle">Build an active aero wing</h1>
   <p class="glead">A rear wing that reads how hard the car is accelerating or braking and moves
      itself to suit: flat under throttle, a shallow angle at cruise, fully up as an airbrake
-     when you slow down. No driver input, and nothing wired into the car. This is how mine was
-     built, with the reasoning behind each decision so you can change what you need to.</p>
+     when you slow down. No driver input, and nothing wired into the car.</p>
+  <p class="glead"><b>You do not have to design any of it.</b> Every printed part is drawn and
+     ready to download below. This guide takes you from those files to a working wing on the
+     car, and explains what each decision is for as it goes.</p>
 
   <div class="gmeta">
     <div><div class="gmeta-v">1,400 mm</div><div class="gmeta-k">Span, tip to tip</div></div>
     <div><div class="gmeta-v">3</div><div class="gmeta-k">Autonomous modes</div></div>
     <div><div class="gmeta-v">~1 week</div><div class="gmeta-k">Solo, start to on-car</div></div>
-    <div><div class="gmeta-v">FDM only</div><div class="gmeta-k">No machining, no moulds</div></div>
+    <div><div class="gmeta-v">6</div><div class="gmeta-k">Printed parts, all provided</div></div>
     <div><div class="gmeta-v">0</div><div class="gmeta-k">Wires into the car</div></div>
   </div>
 </header>
@@ -473,6 +559,177 @@ body .back-fab{top:88px;left:1rem}
         conclusion is that a future version should fasten to the trunk lid or lip properly.
         <b>Decide how it is held on before you decide how fast to go with it</b>, keep early
         testing to low speeds on a road you know, and check the mount every single time.</p>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════ THE PARTS ══ -->
+  <section class="gsec" id="parts">
+    <h2 class="gsec-t">The parts.</h2>
+    <p class="gsec-lead">You do not have to draw any of this. Every printable part is here, ready
+      to slice. Download the lot, or pick off the ones you need.</p>
+
+    <a class="dl-all" href="../files/aviws/aviws-parts.zip" download>
+      <span>
+        <span class="dl-all-t">Download every part</span>
+        <span class="dl-all-d">One archive: the wing sections, the tips, the endplates, the
+          brackets, the horn and the arm. STL for printing, STEP if you want to change
+          something.</span>
+      </span>
+      <svg class="dl-icon" width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true">
+        <path d="M13 3v14m0 0 5-5m-5 5-5-5M4 21h18" stroke="currentColor" stroke-width="1.8"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+
+    <div class="parts">
+      <div class="part">
+        <div class="part-top"><span class="part-n">Wing centre section</span><span class="part-q">900 mm total</span></div>
+        <p class="part-d">The constant-profile middle of the wing, cut into 200 mm lengths so it
+          fits a normal bed. Print as many as make up your centre span.</p>
+        <a class="part-dl" href="../files/aviws/wing-centre-section.stl" download>
+          <span>wing-centre-section.stl</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 2v8m0 0 3-3m-3 3-3-3M2 12h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <div class="part">
+        <div class="part-top"><span class="part-n">Outboard tip section</span><span class="part-q">&times;2, mirrored</span></div>
+        <p class="part-d">250 mm each, lofted from the centre profile at the inboard end to a
+          higher-angle one at the tip. One left, one right.</p>
+        <a class="part-dl" href="../files/aviws/wing-tip.stl" download>
+          <span>wing-tip.stl</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 2v8m0 0 3-3m-3 3-3-3M2 12h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <div class="part">
+        <div class="part-top"><span class="part-n">Endplate</span><span class="part-q">&times;2, mirrored</span></div>
+        <p class="part-d">Closes each wingtip and doubles as the structural mounting face. The M3
+          heat-set pockets are already in the model.</p>
+        <a class="part-dl" href="../files/aviws/endplate.stl" download>
+          <span>endplate.stl</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 2v8m0 0 3-3m-3 3-3-3M2 12h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <div class="part">
+        <div class="part-top"><span class="part-n">Support bracket</span><span class="part-q">&times;2</span></div>
+        <p class="part-d">The upright that carries the wing. Includes the servo pocket, the hinge
+          bore and the recesses the electronics sit in.</p>
+        <a class="part-dl" href="../files/aviws/support-bracket.stl" download>
+          <span>support-bracket.stl</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 2v8m0 0 3-3m-3 3-3-3M2 12h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <div class="part">
+        <div class="part-top"><span class="part-n">Servo horn</span><span class="part-q">&times;2</span></div>
+        <p class="part-d">Cut to the DS3218 spline so it goes on without play. Do not substitute
+          the horn that came in the servo box.</p>
+        <a class="part-dl" href="../files/aviws/servo-horn.stl" download>
+          <span>servo-horn.stl</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 2v8m0 0 3-3m-3 3-3-3M2 12h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <div class="part">
+        <div class="part-top"><span class="part-n">Connecting arm</span><span class="part-q">&times;2</span></div>
+        <p class="part-d">Links the horn to the wing. <b>This is the part that broke on the first
+          build</b>, so print it in CF-PLA and read the last section before you fit it.</p>
+        <a class="part-dl" href="../files/aviws/connecting-arm.stl" download>
+          <span>connecting-arm.stl</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 2v8m0 0 3-3m-3 3-3-3M2 12h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="lic">
+      <div class="lic-t">Before you download them</div>
+      <p class="lic-d">These files are here so you can <b>build one for yourself</b>. Please do not
+        re-upload them anywhere, and do not sell them or anything printed from them. If someone
+        wants a set, send them to this page rather than the files, so they arrive with the
+        instructions and the safety notes attached. The full terms are on
+        <a href="../legal/terms.html">the usage page</a>, and they include the bit about there
+        being no warranty on any of this.</p>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════ PRINTING ══ -->
+  <section class="gsec">
+    <h2 class="gsec-t">Print them.</h2>
+    <p class="gsec-lead">Nothing here needs an exotic printer. The wing is split into 200 mm
+      sections precisely so bed size stops being the problem.</p>
+
+    <div class="specs">
+      <div><div class="spec-v">PLA</div><div class="spec-k">Everything except the arm</div></div>
+      <div><div class="spec-v">5%</div><div class="spec-k">Infill</div></div>
+      <div><div class="spec-v">3</div><div class="spec-k">Perimeters / walls</div></div>
+      <div><div class="spec-v">0.2 mm</div><div class="spec-k">A sensible layer height</div></div>
+    </div>
+
+    <p class="gp">Low infill with three walls is the important pairing. On parts like these the
+      shell carries the load, so walls buy you stiffness where infill would only add mass in the
+      middle where it does least. Turning infill up will not make the wing meaningfully stronger;
+      adding a wall will.</p>
+
+    <div class="pt-wrap">
+      <table class="pt">
+        <thead>
+          <tr><th>Part</th><th>Orientation</th><th>Supports</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Wing centre section</td>
+            <td data-l="Orientation">Chord flat on the bed, span running left to right</td>
+            <td data-l="Supports">None</td>
+            <td data-l="Notes">Gives the cleanest upper and lower surfaces, which is the whole
+              point of the section, and puts the dowel bores horizontal so they print round.</td>
+          </tr>
+          <tr>
+            <td>Outboard tip section</td>
+            <td data-l="Orientation">Same as the centre sections</td>
+            <td data-l="Supports">None</td>
+            <td data-l="Notes">Mirror the model for the second one. Check before you print two of
+              the same hand, which is an easy hour to lose.</td>
+          </tr>
+          <tr>
+            <td>Endplate</td>
+            <td data-l="Orientation">Flat on its face</td>
+            <td data-l="Supports">None</td>
+            <td data-l="Notes">Pause and drop the heat-set inserts in afterwards, not mid-print.</td>
+          </tr>
+          <tr>
+            <td>Support bracket</td>
+            <td data-l="Orientation">On its back face, upright</td>
+            <td data-l="Supports">Only under the servo pocket if your printer needs them</td>
+            <td data-l="Notes">The tallest part in the set. Layer lines running up the bracket put
+              the load across them rather than along them, which is what you want here.</td>
+          </tr>
+          <tr>
+            <td>Servo horn</td>
+            <td data-l="Orientation">Flat, spline bore vertical</td>
+            <td data-l="Supports">None</td>
+            <td data-l="Notes">Print one and test the fit on the spline before you commit to the
+              second. It should need a firm push, not a hammer.</td>
+          </tr>
+          <tr>
+            <td>Connecting arm</td>
+            <td data-l="Orientation">Flat, longest dimension along the bed</td>
+            <td data-l="Supports">None</td>
+            <td data-l="Notes"><b>CF-PLA, and 4 walls rather than 3.</b> This is the part that
+              fractured on the original build. It is small, it is quick, and it is worth the
+              better filament.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note">
+      <div class="note-t">Print one section first</div>
+      <p class="note-d">Before you commit to a whole wing, print a single 200 mm centre section
+        and check two things: that the <b>dowel bores take a 10 mm pin</b> without forcing, and
+        that the surface finish is something you are happy to have on the car. Tune once, then
+        run the rest.</p>
     </div>
   </section>
 
@@ -587,29 +844,25 @@ body .back-fab{top:88px;left:1rem}
       the serial monitor during calibration.</p>
   </section>
 
-  <!-- ════════════════════════════════ STEP 1 ══ -->
+  <!-- ════════════════════════════════ WHY THIS SHAPE ══ -->
   <section class="gsec">
-    <h2 class="gsec-t">Step 1. Draw the section.</h2>
-    <p class="gsec-lead">Everything downstream is set by the cross section, so this is the part
-      worth slowing down for.</p>
+    <h2 class="gsec-t">Why the wing is this shape.</h2>
+    <p class="gsec-lead">You do not need any of this to build one. It is here because knowing why
+      a part looks the way it does is what lets you change it safely later.</p>
 
-    <div class="step">
-      <div class="step-n">1</div>
-      <div>
-        <div class="step-t">Start from a cambered profile, mounted inverted</div>
-        <p class="gp">Take a standard cambered airfoil and turn it upside down. Right way up it
-          makes lift; inverted, the same pressure difference works downward and makes downforce.</p>
-        <p class="gp">Then modify it: <b>more curvature on the upper surface</b> so the flow
-          accelerates over it and static pressure drops, and a <b>flatter lower surface</b> to
-          hold a higher-pressure region underneath. That asymmetry is the downforce.</p>
-        <div class="note">
-          <div class="note-t">Why not a symmetric section?</div>
-          <p class="note-d">A symmetric profile like a NACA 0012 makes nothing at zero angle of
-            attack. Every newton of cruise downforce would have to be bought with servo angle,
-            which means the actuator holds a load for most of the drive. A cambered inverted
-            section makes downforce passively at neutral incidence, so the servo mostly rests.</p>
-        </div>
-      </div>
+    <p class="gp"><b>The section is cambered, and mounted inverted.</b> Right way up a cambered
+      airfoil makes lift; upside down the same pressure difference works downward. It was then
+      modified from stock: more curvature on the upper surface so the flow accelerates over it and
+      static pressure drops, and a flatter lower surface to hold a higher-pressure region
+      underneath. That asymmetry is the downforce. Chord is 190&nbsp;mm, with 30&nbsp;mm of drop
+      from the leading edge down to the trailing edge.</p>
+
+    <div class="note">
+      <div class="note-t">Why not a symmetric section</div>
+      <p class="note-d">A symmetric profile like a NACA 0012 makes nothing at zero angle of
+        attack. Every newton of cruise downforce would have to be bought with servo angle, which
+        means the actuator holds a load for most of the drive. A cambered inverted section makes
+        downforce passively at neutral incidence, so the servo mostly rests.</p>
     </div>
 
     <div class="gpair">
@@ -622,69 +875,45 @@ body .back-fab{top:88px;left:1rem}
       <figure class="gfig r169">
         <div class="gfig-img contain"><img src="../images/aviws/cad-airfoil-2.jpg"
              alt="The final airfoil section, dimensioned at 190 mm chord and 30 mm drop" loading="lazy" decoding="async"></div>
-        <figcaption class="gfig-cap"><b>Final section.</b> 190&nbsp;mm chord, 30&nbsp;mm from the
-          leading edge down to the trailing edge, with the upper curvature increased and the
-          lower surface flattened.</figcaption>
+        <figcaption class="gfig-cap"><b>Final section.</b> Upper curvature increased, lower surface
+          flattened, for a larger pressure asymmetry at the same angle.</figcaption>
       </figure>
     </div>
 
-    <div class="step">
-      <div class="step-n">2</div>
-      <div>
-        <div class="step-t">Lay out the span in three pieces</div>
-        <p class="gp">1,400&nbsp;mm tip to tip, split into a <b>900&nbsp;mm centre section</b> that
-          holds the profile constant and does most of the work, and <b>two 250&nbsp;mm outboard
-          sections</b> either side.</p>
-        <p class="gp">The outboard pieces are lofted, not extruded: the inboard end matches the
-          centre profile exactly, the outboard end is a higher-angle version of it. That puts
-          more downforce toward the tips and spreads the load better across the span, and lofting
-          between two sketches rather than butting two extrusions together means there is no hard
-          geometric break for the flow to trip over.</p>
-      </div>
-    </div>
+    <p class="gp"><b>The span is 1,400&nbsp;mm in three pieces.</b> A 900&nbsp;mm centre at a
+      constant profile does most of the work. The two 250&nbsp;mm outboard pieces are lofted
+      rather than extruded: the inboard end matches the centre profile exactly, the outboard end
+      is a higher-angle version of it. That puts more downforce toward the tips and spreads load
+      better across the span, with no hard geometric break for the flow to trip over.</p>
+
+    <p class="gp"><b>The endplates do two jobs.</b> A wingtip leaks, with high-pressure air curling
+      around the end to the low-pressure side; that leak is induced drag and it eats the effective
+      lift coefficient. A vertical plate blocks the path. They are also the structural mounting
+      face, with M3 heat-set pockets moulded in so screws thread straight in and nothing needs a
+      nut behind it.</p>
 
     <div class="gpair">
-      <figure class="gfig r169">
-        <div class="gfig-img contain"><img src="../images/aviws/cad-center.jpg"
-             alt="The 900 mm centre section extruded in CAD" loading="lazy" decoding="async"></div>
-        <figcaption class="gfig-cap"><b>Centre section.</b> 900&nbsp;mm at a constant profile.</figcaption>
-      </figure>
       <figure class="gfig r169">
         <div class="gfig-img contain"><img src="../images/aviws/cad-outboard.jpg"
              alt="The lofted 250 mm outboard section attached to the centre element" loading="lazy" decoding="async"></div>
         <figcaption class="gfig-cap"><b>Outboard section.</b> Lofted from the centre profile to a
           higher-angle one at the tip.</figcaption>
       </figure>
+      <figure class="gfig r169">
+        <div class="gfig-img contain"><img src="../images/aviws/cad-wing-final.jpg"
+             alt="The finished wing assembly in CAD with endplates fitted" loading="lazy" decoding="async"></div>
+        <figcaption class="gfig-cap"><b>The assembly in CAD</b>, endplates on, before a single part
+          was printed.</figcaption>
+      </figure>
     </div>
-
-    <div class="step">
-      <div class="step-n">3</div>
-      <div>
-        <div class="step-t">Add endplates, and make them do two jobs</div>
-        <p class="gp">A wingtip leaks: high-pressure air from one surface curls around the end to
-          the low-pressure side. That leak is induced drag, and it eats the effective lift
-          coefficient. A vertical plate at each tip blocks the path.</p>
-        <p class="gp">While you are there, make them the mounting interface too. <b>M3 heat-set
-          inserts moulded into the endplate</b> with clearance holes on the mating face means
-          screws thread straight in and nothing needs a nut behind it. You will be taking this
-          apart repeatedly during tuning, and that decision pays for itself quickly.</p>
-      </div>
-    </div>
-
-    <figure class="gfig r169">
-      <div class="gfig-img contain"><img src="../images/aviws/cad-wing-final.jpg"
-           alt="The finished wing assembly in CAD with endplates fitted" loading="lazy" decoding="async"></div>
-      <figcaption class="gfig-cap"><b>The assembly in CAD</b>, endplates on, before a single part
-        was printed.</figcaption>
-    </figure>
   </section>
 
   <!-- ════════════════════════════════ STEP 2 ══ -->
   <section class="gsec">
-    <h2 class="gsec-t">Step 2. Print it.</h2>
-    <p class="gsec-lead">The original plan was XPS foam cut with a hot wire against printed
-      templates, faired against a printed mould, then laminated in fibreglass and epoxy. It was
-      abandoned before it started, and it is worth knowing why.</p>
+    <h2 class="gsec-t">Step 1. Assemble the wing.</h2>
+    <p class="gsec-lead">Sections out of the printer, one wing at the end of it. Before that,
+      a word on the route not taken, because it explains why the parts are shaped for printing
+      in the first place.</p>
 
     <p class="gp">Hot-wire cutting is only as good as the hand guiding it, and any deviation
       propagates through every slice in the stack. Fairing foam down to a CAD-defined profile is
@@ -709,26 +938,7 @@ body .back-fab{top:88px;left:1rem}
     </div>
 
     <div class="step">
-      <div class="step-n">4</div>
-      <div>
-        <div class="step-t">Split the span into 200 mm modules</div>
-        <p class="gp">No consumer bed swallows 1,400&nbsp;mm, and a single-piece wing would mean
-          reprinting the whole thing to fix any one part of it. Cut the centre element into
-          <b>200&nbsp;mm sections</b> and print them individually.</p>
-        <div class="specs">
-          <div><div class="spec-v">5%</div><div class="spec-k">Infill</div></div>
-          <div><div class="spec-v">3</div><div class="spec-k">Perimeters / walls</div></div>
-          <div><div class="spec-v">PLA</div><div class="spec-k">Structural parts</div></div>
-          <div><div class="spec-v">200 mm</div><div class="spec-k">Section length</div></div>
-        </div>
-        <p class="gp">Low infill with three walls is deliberate. On a part like this the shell
-          carries the load, so walls buy you stiffness where infill would only buy you mass in
-          the middle where it does the least.</p>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-n">5</div>
+      <div class="step-n">1</div>
       <div>
         <div class="step-t">Join with dowels, then weld the seams</div>
         <p class="gp">Bore a <b>10&nbsp;mm dowel hole</b> into each mating face and pin the sections
@@ -767,12 +977,12 @@ body .back-fab{top:88px;left:1rem}
 
   <!-- ════════════════════════════════ STEP 3 ══ -->
   <section class="gsec">
-    <h2 class="gsec-t">Step 3. Make it move.</h2>
+    <h2 class="gsec-t">Step 2. Make it move.</h2>
     <p class="gsec-lead">The fewer parts between the servo shaft and the wing, the less slop
       there is to fight. This is a direct drive with nothing in between.</p>
 
     <div class="step">
-      <div class="step-n">6</div>
+      <div class="step-n">2</div>
       <div>
         <div class="step-t">Pocket the servo into the bracket</div>
         <p class="gp">Model a pocket in the support bracket that the DS3218 drops into flush, and
@@ -783,7 +993,7 @@ body .back-fab{top:88px;left:1rem}
     </div>
 
     <div class="step">
-      <div class="step-n">7</div>
+      <div class="step-n">3</div>
       <div>
         <div class="step-t">Print your own servo horn</div>
         <p class="gp">Do not use the horn in the box. Generic horns on third-party splines have
@@ -814,7 +1024,7 @@ body .back-fab{top:88px;left:1rem}
     </div>
 
     <div class="step">
-      <div class="step-n">8</div>
+      <div class="step-n">4</div>
       <div>
         <div class="step-t">Mirror the second servo</div>
         <p class="gp">There is one servo at each end, and they face opposite directions. They
@@ -828,12 +1038,12 @@ body .back-fab{top:88px;left:1rem}
 
   <!-- ════════════════════════════════ STEP 4 ══ -->
   <section class="gsec">
-    <h2 class="gsec-t">Step 4. Wire it.</h2>
+    <h2 class="gsec-t">Step 3. Wire it.</h2>
     <p class="gsec-lead">Five components and a shared ground. The only part with a trap in it is
       where the servo power comes from.</p>
 
     <div class="step">
-      <div class="step-n">9</div>
+      <div class="step-n">5</div>
       <div>
         <div class="step-t">Power the servos from the buck, not from the Nano</div>
         <p class="gp">A loaded DS3218 can pull <b>over an amp</b> while it moves. The Nano's
@@ -848,7 +1058,7 @@ body .back-fab{top:88px;left:1rem}
     </div>
 
     <div class="step">
-      <div class="step-n">10</div>
+      <div class="step-n">6</div>
       <div>
         <div class="step-t">Add the two capacitors</div>
         <p class="gp"><b>100&nbsp;&micro;F electrolytic across the buck output</b>, for bulk storage
@@ -862,7 +1072,7 @@ body .back-fab{top:88px;left:1rem}
     </div>
 
     <div class="step">
-      <div class="step-n">11</div>
+      <div class="step-n">7</div>
       <div>
         <div class="step-t">Pin it out</div>
         <div class="specs">
@@ -904,7 +1114,7 @@ body .back-fab{top:88px;left:1rem}
 
   <!-- ════════════════════════════════ STEP 5 ══ -->
   <section class="gsec">
-    <h2 class="gsec-t">Step 5. The firmware.</h2>
+    <h2 class="gsec-t">Step 4. The firmware.</h2>
     <p class="gsec-lead">Three states, not a continuous curve. The wing lives at three defined
       angles, so a threshold comparison is enough and it is far more robust against sensor noise
       than a proportional loop would be. Everything interesting is what wraps around that
@@ -916,7 +1126,7 @@ body .back-fab{top:88px;left:1rem}
       Library Manager.</p>
 
     <div class="step">
-      <div class="step-n">12</div>
+      <div class="step-n">8</div>
       <div>
         <div class="step-t">Read the sensor, and clean up the signal</div>
         <p class="gp">Pull the raw 16-bit accelerometer value over I&sup2;C and divide by
@@ -925,7 +1135,7 @@ body .back-fab{top:88px;left:1rem}
         <ul class="check">
           <li><b>Subtract a fixed offset.</b> Mine was <b>0.07&nbsp;g</b>, which is gravity
             bleeding into the longitudinal axis because the sensor is not mounted perfectly
-            level. Yours will be different. You measure it in step 14.</li>
+            level. Yours will be different. You measure it in the bench tests.</li>
           <li><b>Average the last ten samples.</b> A rolling buffer, replacing the oldest reading
             each pass. Raw MEMS output in a car is full of engine vibration, road input and the
             wing's own buffeting, and without this you get threshold crossings that are noise
@@ -935,7 +1145,7 @@ body .back-fab{top:88px;left:1rem}
     </div>
 
     <div class="step">
-      <div class="step-n">13</div>
+      <div class="step-n">9</div>
       <div>
         <div class="step-t">Compare, then wait a second before you believe it</div>
         <p class="gp">Above <b>+0.09&nbsp;g</b> go to neutral; below <b>&minus;0.07&nbsp;g</b> go to
@@ -965,7 +1175,7 @@ body .back-fab{top:88px;left:1rem}
 Servo servo1; Servo servo2;
 MPU6050 mpu;
 
-<span class="c">// Wing positions, in servo units. Calibrate these yourself (step 15).</span>
+<span class="c">// Wing positions, in servo units. Calibrate these yourself, see below.</span>
 <span class="k">#define</span> POS_NEUTRAL   <span class="n">110</span>   <span class="c">// under acceleration</span>
 <span class="k">#define</span> POS_CRUISE     <span class="n">65</span>   <span class="c">// steady speed</span>
 <span class="k">#define</span> POS_AIRBRAKE    <span class="n">0</span>   <span class="c">// under braking</span>
@@ -1052,18 +1262,18 @@ MPU6050 mpu;
       <p class="warn-d">The three <span class="ginline">POS_</span> values are servo units, not
         degrees, and they were found empirically on my hardware. Your servo horn will be clocked
         differently and your hinge geometry will differ, so those numbers will put your wing
-        somewhere else entirely. <b>Step 15 is how you find your own.</b></p>
+        somewhere else entirely. <b>The calibration step below is how you find your own.</b></p>
     </div>
   </section>
 
   <!-- ════════════════════════════════ STEP 6 ══ -->
   <section class="gsec">
-    <h2 class="gsec-t">Step 6. Bench test, before it goes near the car.</h2>
+    <h2 class="gsec-t">Step 5. Bench test, before it goes near the car.</h2>
     <p class="gsec-lead">Everything here is checkable on a desk with the Nano on USB and the
       12&nbsp;V pack feeding the buck. Do all of it.</p>
 
     <div class="step">
-      <div class="step-n">14</div>
+      <div class="step-n">10</div>
       <div>
         <div class="step-t">Work through it in order</div>
         <ul class="check">
@@ -1086,7 +1296,7 @@ MPU6050 mpu;
     </div>
 
     <div class="step">
-      <div class="step-n">15</div>
+      <div class="step-n">11</div>
       <div>
         <div class="step-t">Calibrate your own position values</div>
         <p class="gp">Sweep the servos through their range using serial input and note the servo
@@ -1102,12 +1312,12 @@ MPU6050 mpu;
 
   <!-- ════════════════════════════════ STEP 7 ══ -->
   <section class="gsec">
-    <h2 class="gsec-t">Step 7. On the car.</h2>
+    <h2 class="gsec-t">Step 6. On the car.</h2>
     <p class="gsec-lead">Mine went on the trunk lid of a 2011 BMW E93. Nothing about the design is
       specific to that car, which was the point.</p>
 
     <div class="step">
-      <div class="step-n">16</div>
+      <div class="step-n">12</div>
       <div>
         <div class="step-t">Position the brackets</div>
         <p class="gp">Mount the two brackets <b>symmetrically about the car's centreline</b> so the
@@ -1118,7 +1328,7 @@ MPU6050 mpu;
     </div>
 
     <div class="step">
-      <div class="step-n">17</div>
+      <div class="step-n">13</div>
       <div>
         <div class="step-t">Tune it on a road, not on the bench</div>
         <p class="gp">Run a wire from the Nano into the cabin and keep a laptop on the serial
@@ -1225,8 +1435,59 @@ MPU6050 mpu;
 <footer class="pfooter">
   <a href="../index.html" class="pfooter-brand">ENGINEERINGWITHARSH</a>
   <span class="pfooter-note">AVIWS build guide · 2026</span>
+  <span class="pfooter-legal"><a href="../legal/privacy.html">Privacy</a><span>&middot;</span><a href="../legal/terms.html">Using the files</a></span>
   <a href="../guides.html" class="pfooter-back">Back to all guides</a>
 </footer>
 
+
+<script>
+/* Download availability.
+   The guide lists every part whether or not its file has been uploaded yet.
+   Rather than hand someone a 404, each link is HEAD-checked once and the
+   card says so if the file is not there. A failed fetch (file://, offline,
+   a host that refuses HEAD) is treated as present, so the worst case is the
+   behaviour we already had. */
+(function(){
+  var cards=[].slice.call(document.querySelectorAll('.part'));
+  var all=document.querySelector('.dl-all');
+  if(!cards.length&&!all)return;
+  function mark(link,card,label){
+    link.removeAttribute('download');
+    link.setAttribute('aria-disabled','true');
+    var sp=link.querySelector('span');
+    if(sp)sp.textContent=label;
+    if(card)card.classList.add('is-missing');
+  }
+  function check(link,card,label){
+    var href=link.getAttribute('href');
+    if(!href)return;
+    try{
+      fetch(href,{method:'HEAD'}).then(function(r){
+        if(!r.ok)mark(link,card,label);
+      }).catch(function(){});
+    }catch(e){}
+  }
+  cards.forEach(function(c){
+    var a=c.querySelector('.part-dl');
+    if(a)check(a,c,'Not uploaded yet');
+  });
+  if(all){
+    var href=all.getAttribute('href');
+    try{
+      fetch(href,{method:'HEAD'}).then(function(r){
+        if(!r.ok){
+          all.removeAttribute('download');
+          all.setAttribute('aria-disabled','true');
+          var t=all.querySelector('.dl-all-t');
+          var d=all.querySelector('.dl-all-d');
+          if(t)t.textContent='Files going up shortly';
+          if(d)d.textContent='The parts are drawn and the guide below is complete. The archive '+
+            'lands here as soon as it is packaged.';
+        }
+      }).catch(function(){});
+    }catch(e){}
+  }
+})();
+</script>
 </body>
 </html>
