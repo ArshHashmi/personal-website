@@ -41,6 +41,10 @@
   --m-cruise:#199e70;
   --m-airbrake:#d95926;
 }
+/* hidden has to win against any display rule on this page. Without this a
+   class-level display:flex or grid quietly overrides it, and the element
+   stays laid out while looking absent. */
+[hidden]{display:none !important}
 html{
   scroll-behavior:smooth;background:#080808;
   -webkit-text-size-adjust:100%;text-size-adjust:100%;
@@ -242,33 +246,6 @@ body .back-fab{top:88px;left:1rem}
   .lb{padding:3vh 3vw}
   .lb img{max-height:70vh}
   .lb-cap{font-size:.88rem}
-}
-
-/* ── How DRS works ──
-   Drawn rather than photographed: every usable picture of a real car with
-   the flap open belongs to someone. Two positions of the same wing is all
-   the comparison needs anyway. */
-.drs-fig{margin-top:2.6rem}
-.drs{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
-.drs-panel{
-  padding:1.1rem 1.1rem 1.25rem;border-radius:13px;
-  background:#0f1319;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);
-}
-.drs-panel svg{display:block;width:100%;height:auto}
-.drs-air{fill:none;stroke:rgba(140,190,255,.42);stroke-width:2;stroke-linecap:round}
-.drs-air-turn{stroke:rgba(140,190,255,.8)}
-.drs-wing{fill:#d7dbe2}
-.drs-wing-open{fill:#5fe0ae}
-.drs-air-flat{stroke:rgba(140,190,255,.75)}
-.drs-post{stroke:#4a505b;stroke-width:5;stroke-linecap:round}
-.drs-lab{
-  margin-top:.9rem;font-family:var(--ui);font-size:.94rem;font-weight:500;
-  line-height:1.55;color:var(--mist);
-}
-.drs-lab b{color:var(--ink);font-weight:700}
-@media(max-width:700px){
-  .drs{grid-template-columns:1fr;gap:1rem}
-  .drs-lab{font-size:.9rem}
 }
 
 .fig{margin:0}
@@ -1006,7 +983,9 @@ table.dt tbody tr:last-child td{border-bottom:none}
   </section>
 
   <!-- ═════════════════════════════════════════ PRIOR ART ══ -->
-  <section class="psec psec-tight">
+  <!-- Parked. Delete the hidden attribute on the next line to bring the
+       whole section back; nothing else needs changing. -->
+  <section class="psec psec-tight" hidden>
     <div class="shead">
       <h3 class="stitle">Two references, one of them airborne.</h3>
       <div class="slead">
@@ -1022,46 +1001,6 @@ table.dt tbody tr:last-child td{border-bottom:none}
       </div>
     </div>
 
-    <figure class="fig drs-fig">
-      <div class="drs">
-        <div class="drs-panel">
-          <svg viewBox="0 0 260 150" role="img" aria-label="Wing at a steep angle: the air passing it is thrown upward and the wing is pushed down">
-            <g class="drs-air">
-              <path d="M6,24 H254"/>
-              <path d="M6,42 H254"/>
-              <path class="drs-air-turn" d="M6,74 H84 C116,74 140,66 170,54 C200,42 226,36 254,32"/>
-              <path class="drs-air-turn" d="M6,100 H84 C118,100 142,93 172,82 C202,71 228,65 254,61"/>
-              <path d="M6,128 H254"/>
-            </g>
-            <path class="drs-wing" transform="rotate(-32,130,86)"
-                  d="M96,82 C114,75 152,75 170,84 C152,90 114,90 96,82 Z"/>
-            <line class="drs-post" x1="130" y1="94" x2="130" y2="142"/>
-          </svg>
-          <div class="drs-lab"><b>Flap closed.</b> The wing sits at an angle and throws the air
-            upward. The air pushes back just as hard the other way, and that is what presses
-            the car into the road. It also drags.</div>
-        </div>
-        <div class="drs-panel">
-          <svg viewBox="0 0 260 150" role="img" aria-label="Wing laid flat: the air runs straight past it and the drag falls away">
-            <g class="drs-air">
-              <path d="M6,24 H254"/>
-              <path d="M6,42 H254"/>
-              <path class="drs-air-flat" d="M6,74 H254"/>
-              <path class="drs-air-flat" d="M6,100 H254"/>
-              <path d="M6,128 H254"/>
-            </g>
-            <path class="drs-wing drs-wing-open" transform="rotate(-4,130,86)"
-                  d="M96,82 C114,75 152,75 170,84 C152,90 114,90 96,82 Z"/>
-            <line class="drs-post" x1="130" y1="94" x2="130" y2="142"/>
-          </svg>
-          <div class="drs-lab"><b>Flap open.</b> Laid flat, it barely turns the air at all. You
-            give up the downforce and you get the straight-line speed back.</div>
-        </div>
-      </div>
-      <figcaption class="fig-cap">What DRS does on an F1 car, and the half of it this wing copies.
-        DRS only ever has these two positions, and both are about going faster. This wing adds
-        a third that is about slowing down.</figcaption>
-    </figure>
   </section>
 
   <!-- ═════════════════════════════════════════ AIRFOIL ══ -->
