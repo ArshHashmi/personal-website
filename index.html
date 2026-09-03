@@ -1360,13 +1360,17 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
     display:flex;flex-wrap:nowrap;justify-content:space-between;
     gap:.5rem;overflow:visible;
   }
+  /* The home page kept bare words while every sub-page had capsules, so the
+     bar read as navigation on one page and as a caption on the next. */
   .nav-links a{
-    font-size:.82rem;padding:.45rem 0;
-    background:none;border-radius:0;
-    color:rgba(255,255,255,.62);
+    font-size:.78rem;padding:.4rem .62rem;flex:0 0 auto;
+    background:rgba(255,255,255,.08);border-radius:8px;
+    color:rgba(255,255,255,.74);
+    display:flex;align-items:center;min-height:34px;
   }
+  .nav-links a.is-active,
   .nav-links a:hover,
-  .nav-links a:active{background:none;color:#fff}
+  .nav-links a:active{background:rgba(255,255,255,.2);color:#fff}
   .nav-right{display:none}
   .hero-name{font-size:clamp(3.3rem,18vw,5rem)}
   .hero-name-wrap{padding-top:8.5rem}
@@ -1580,7 +1584,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
      height, so it never changes mid-scroll. dvh grows as Safari collapses its
      toolbar, which resizes this box and rescales the object-fit:cover video —
      that reads as the page "zooming" while you scroll. Bottom-anchored cues
-     compensate for the toolbar via calc(100vh - 100dvh) instead. */
+     compensate for the toolbar via calc(100vh - 100svh) instead. */
   height:100vh;
   overflow:hidden;
   background:#020202;
@@ -1648,10 +1652,10 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 .hero-reel-hint{
   position:absolute;
   bottom:calc(2.8rem + env(safe-area-inset-bottom,0px));
-  /* (100vh - 100dvh) = height of Safari's bottom toolbar while it's showing,
-     and 0 once it collapses. Lifts the cue clear of the toolbar without
-     resizing any container. Ignored by browsers without dvh support. */
-  bottom:calc(2.8rem + (100vh - 100dvh) + env(safe-area-inset-bottom,0px));
+  /* (100vh - 100svh) = height of Safari's bottom toolbar while it's showing,
+     and it does not change as the bar retracts, so the cue never drifts.
+     Ignored by browsers without svh support. */
+  bottom:calc(2.8rem + (100vh - 100svh) + env(safe-area-inset-bottom,0px));
   left:50%;
   transform:translateX(-50%);
   display:flex;
@@ -1665,21 +1669,25 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   white-space:nowrap;
 }
 .hero-reel-hint.is-scrolling{opacity:0 !important;transition:opacity .25s ease}
+/* 10px mono capitals tracked out .22em over moving footage: the tell, and
+   barely legible with it. Set like a label, and lifted off the video with
+   a shadow so it holds against a bright frame. */
 .hero-reel-hint-mono{
-  font-family:var(--mono);
-  font-size:.62rem;
+  font-family:var(--ui);
+  font-size:.95rem;
   font-weight:600;
-  letter-spacing:.22em;
-  text-transform:uppercase;
-  color:rgba(255,255,255,.78);
+  letter-spacing:.005em;
+  color:#fff;
+  text-shadow:0 1px 14px rgba(0,0,0,.75),0 0 2px rgba(0,0,0,.5);
 }
 /* Bouncing chevron arrow */
 .hero-reel-hint-arrow{
-  width:20px;
-  height:20px;
-  border-right:2px solid rgba(255,255,255,.78);
-  border-bottom:2px solid rgba(255,255,255,.78);
+  width:22px;
+  height:22px;
+  border-right:2.5px solid #fff;
+  border-bottom:2.5px solid #fff;
   transform:rotate(45deg);
+  filter:drop-shadow(0 2px 10px rgba(0,0,0,.7));
   animation:hintBounce 1.4s ease-in-out infinite 2.4s;
 }
 @keyframes hintBounce{
@@ -1923,7 +1931,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 .hrf-scroll-down{
   position:absolute;
   bottom:calc(2.4rem + env(safe-area-inset-bottom,0px));
-  bottom:calc(2.4rem + (100vh - 100dvh) + env(safe-area-inset-bottom,0px));
+  bottom:calc(2.4rem + (100vh - 100svh) + env(safe-area-inset-bottom,0px));
   left:50%;
   transform:translateX(-50%);
   display:flex;
@@ -1963,11 +1971,10 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   /* ── Flash: same toolbar compensation as the sequence and the finale ──
      This box is 100vh, but Safari's bottom toolbar covers the last stretch
      of it, so a centred line renders below the middle of what you can
-     actually see. (100vh - 100dvh) is the toolbar's height while it's up
-     and 0 once it collapses; adding it to the bottom padding re-centres the
-     text on the visible area. Padding rather than height, so the box never
+     actually see. (100vh - 100svh) is the toolbar's height while it's up
+     it is a fixed number, so the text is placed once and stays there. Padding rather than height, so the box never
      resizes and the video behind it never rescales. */
-  .hero-reel-flash{padding:0 5vw;padding-bottom:calc(100vh - 100dvh)}
+  .hero-reel-flash{padding:0 5vw;padding-bottom:calc(100vh - 100svh)}
   .hrf-flash-text{white-space:nowrap;font-size:min(6.2vw,8.5rem);letter-spacing:.03em}
   .hero-boot-name{font-size:clamp(1.8rem,9vw,3rem)}
 
@@ -1988,11 +1995,10 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
        and left the name reading as "below centre". */
     padding:4.5rem 5vw;
     /* The box is 100vh, but iOS hides its bottom behind the toolbar, so a
-       centred block sits visually low. (100vh - 100dvh) is the toolbar height
-       while shown and 0 once collapsed; adding it to the bottom padding lifts
-       the block to the centre of the *visible* area. Padding (not height) so
+       centred block sits visually low. (100vh - 100svh) is the toolbar height
+       while shown, and fixed, so the block is placed once and stays there. Padding (not height) so
        the container never resizes and the video never rescales. */
-    padding-bottom:calc(4.5rem + (100vh - 100dvh));
+    padding-bottom:calc(4.5rem + (100vh - 100svh));
   }
   .hrf-photo-wrap{
     position:static;
@@ -2023,7 +2029,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   /* Same toolbar compensation as the flash and the finale — see above. */
   .hero-reel-sequence{
     padding:0 5vw;
-    padding-bottom:calc(100vh - 100dvh);
+    padding-bottom:calc(100vh - 100svh);
     justify-content:center;align-items:center;
   }
   .hrs-wt{flex-direction:column;align-items:center;gap:.8rem;text-align:center}
@@ -2466,6 +2472,30 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   .ct-item dt,.ec-when{font-size:.82rem}
   .cert-hint{font-size:.75rem}
 }
+
+/* ── Footer ──
+   The same three-part footer on every page: wordmark, what this page is,
+   one way onward. Colours are literal rather than tokenised because the
+   pages disagree about what --fog means. */
+.pfooter{
+  margin-top:5rem;padding:2.6rem 6vw;
+  border-top:1px solid rgba(255,255,255,.09);
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+}
+.pfooter-brand{font-family:'Sora',sans-serif;font-size:.92rem;font-weight:600;letter-spacing:.02em;text-decoration:none;color:#f0f0f0}
+.pfooter-note{font-family:'Manrope',sans-serif;font-size:.9rem;font-weight:500;color:#7d7d7d}
+.pfooter-back{
+  font-family:'Sora',sans-serif;font-size:.92rem;font-weight:600;letter-spacing:-.01em;
+  color:#f0f0f0;text-decoration:none;padding-bottom:4px;
+  background-image:linear-gradient(currentColor,currentColor);
+  background-repeat:no-repeat;background-position:0 100%;background-size:100% 1px;
+}
+@media(max-width:700px){
+  .pfooter{padding:2rem 5vw;gap:1.1rem}
+  .pfooter-brand{display:inline-block;padding:.6rem 0}
+  .pfooter-note{width:100%}
+  .pfooter-back{padding:.6rem 0}
+}
 </style>
 </head>
 <body>
@@ -2515,9 +2545,13 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
       v.src = window.innerWidth <= 768 ? 'videos/welding-mobile.mp4'
                                        : 'videos/welding.mp4';
       v.load();
+      var stop = function(){ v.pause(); v.currentTime = 0; };
+      v.addEventListener('playing', function h(){
+        v.removeEventListener('playing', h);
+        stop();
+      });
       var p = v.play();
-      if (p && p.then) p.then(function(){ v.pause(); v.currentTime = 0; })
-                        .catch(function(){});
+      if (p && p.then) p.then(stop).catch(function(){});
     })();
     </script>
     <div class="hero-reel-scrim"></div>
@@ -2969,9 +3003,10 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   </div>
 </section>
 
-<footer>
-  <p>© 2026 Arsh Hashmi</p>
-  <p>Mechanical Engineering · Binghamton University · Class of 2029</p>
+<footer class="pfooter">
+  <a href="#hero-name" class="pfooter-brand">ENGINEERINGWITHARSH</a>
+  <span class="pfooter-note">Mechanical Engineering · Binghamton University · Class of 2029</span>
+  <a href="contact.html" class="pfooter-back">Get in touch</a>
 </footer>
 
 <div class="about-modal" data-about-modal>
@@ -3637,8 +3672,10 @@ document.getElementById('navHomeBtn')?.addEventListener('click',e=>{
       ? 'videos/welding-mobile.mp4'
       : 'videos/welding.mp4';
     video.load();
+    const stop = () => { video.pause(); video.currentTime = 0; };
+    video.addEventListener('playing', function h(){ video.removeEventListener('playing', h); stop(); });
     const p = video.play();
-    if (p && p.then) p.then(() => { video.pause(); video.currentTime = 0; }).catch(() => {});
+    if (p && p.then) p.then(stop).catch(() => {});
   }
 
   /* Reduced-motion: show finale immediately, autoplay video */
@@ -4075,10 +4112,17 @@ document.getElementById('navHomeBtn')?.addEventListener('click',e=>{
      the images in cache and something else happened to trip a rebuild.
      There is nothing to gate on: it is 26 small JPEGs, about 1MB, and they
      are requested at low priority so they queue behind the hero. */
+  /* This used to wait for window.load, which does not fire until the hero
+     video has finished loading. On a phone that is a long wait and often
+     never happens inside a visit, so the rows stayed empty. Parsed DOM is
+     all this needs, with a timer as a backstop if idle never comes. */
+  let built = false;
+  const once = () => { if (built) return; built = true; buildIG(); };
   const idle = window.requestIdleCallback || (fn => setTimeout(fn, 200));
-  const schedule = () => idle(buildIG, { timeout: 1500 });
-  if (document.readyState === 'complete') schedule();
-  else window.addEventListener('load', schedule, { once: true });
+  const schedule = () => idle(once, { timeout: 1200 });
+  if (document.readyState !== 'loading') schedule();
+  else document.addEventListener('DOMContentLoaded', schedule, { once: true });
+  setTimeout(once, 2500);
 })();
 
 /* ── Scroll position save & restore for back/forward navigation ── */

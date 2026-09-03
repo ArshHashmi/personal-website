@@ -36,10 +36,10 @@
       /* Capsules on a phone too. They read as buttons on the desktop bar
          and as bare words here, which made the row look like a caption. */
       .nav-links a{
-        font-size:.8rem;padding:.5rem .55rem;flex:0 0 auto;
+        font-size:.78rem;padding:.4rem .62rem;flex:0 0 auto;
         background:rgba(255,255,255,.08);border-radius:8px;
-        color:rgba(255,255,255,.72);
-        display:flex;align-items:center;min-height:40px;
+        color:rgba(255,255,255,.74);
+        display:flex;align-items:center;min-height:34px;
       }
       .nav-links a.is-active,.nav-links a:hover{background:rgba(255,255,255,.2);color:#fff}
       .nav-logo-wordmark{font-size:.74rem;letter-spacing:.06em}
@@ -80,11 +80,31 @@
       /* Clear the floating BACK pill under the two-row bar. */
       main{padding-top:8.2rem}
     }
-
-    @media(max-width:390px){
-      .nav-links a{font-size:.74rem;padding:.45rem .4rem}
-    }
-  </style>
+  
+/* ── Footer ──
+   The same three-part footer on every page: wordmark, what this page is,
+   one way onward. Colours are literal rather than tokenised because the
+   pages disagree about what --fog means. */
+.pfooter{
+  margin-top:5rem;padding:2.6rem 6vw;
+  border-top:1px solid rgba(255,255,255,.09);
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+}
+.pfooter-brand{font-family:'Sora',sans-serif;font-size:.92rem;font-weight:600;letter-spacing:.02em;text-decoration:none;color:#f0f0f0}
+.pfooter-note{font-family:'Manrope',sans-serif;font-size:.9rem;font-weight:500;color:#7d7d7d}
+.pfooter-back{
+  font-family:'Sora',sans-serif;font-size:.92rem;font-weight:600;letter-spacing:-.01em;
+  color:#f0f0f0;text-decoration:none;padding-bottom:4px;
+  background-image:linear-gradient(currentColor,currentColor);
+  background-repeat:no-repeat;background-position:0 100%;background-size:100% 1px;
+}
+@media(max-width:700px){
+  .pfooter{padding:2rem 5vw;gap:1.1rem}
+  .pfooter-brand{display:inline-block;padding:.6rem 0}
+  .pfooter-note{width:100%}
+  .pfooter-back{padding:.6rem 0}
+}
+</style>
 </head>
 <body>
   <nav id="nav">
@@ -120,5 +140,11 @@
       <p class="cs-text">EV Go-Kart frame, autonomous vehicle sensor stack, and more — all fully documented as they're built.</p>
     </div>
   </main>
+<footer class="pfooter">
+  <a href="index.html" class="pfooter-brand">ENGINEERINGWITHARSH</a>
+  <span class="pfooter-note">How-to guides · 2026</span>
+  <a href="index.html" class="pfooter-back">Back to home</a>
+</footer>
+
 </body>
 </html>
