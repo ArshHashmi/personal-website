@@ -33,8 +33,15 @@
         grid-column:1 / -1;grid-row:2;justify-content:space-between;
         gap:.5rem;flex-wrap:nowrap;overflow:visible;margin:0;padding:0;
       }
-      .nav-links a{font-size:.8rem;padding:.45rem 0;flex:0 0 auto;background:none;border-radius:0;color:rgba(255,255,255,.62)}
-      .nav-links a.is-active,.nav-links a:hover{background:none;color:#fff}
+      /* Capsules on a phone too. They read as buttons on the desktop bar
+         and as bare words here, which made the row look like a caption. */
+      .nav-links a{
+        font-size:.8rem;padding:.5rem .55rem;flex:0 0 auto;
+        background:rgba(255,255,255,.08);border-radius:8px;
+        color:rgba(255,255,255,.72);
+        display:flex;align-items:center;min-height:40px;
+      }
+      .nav-links a.is-active,.nav-links a:hover{background:rgba(255,255,255,.2);color:#fff}
       .nav-logo-wordmark{font-size:.74rem;letter-spacing:.06em}
       .nav-cta{font-size:.76rem}
       /* The floating back control was pinned under the taller two-row bar.
@@ -162,7 +169,11 @@
       /* Clear the floating BACK pill under the two-row bar. */
       main{padding-top:8.2rem}
     }
-</style>
+
+    @media(max-width:390px){
+      .nav-links a{font-size:.74rem;padding:.45rem .4rem}
+    }
+  </style>
 </head>
 <body>
   <nav id="nav">

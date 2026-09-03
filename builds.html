@@ -57,8 +57,17 @@ nav{
     grid-column:1 / -1;grid-row:2;justify-content:space-between;
     gap:.5rem;flex-wrap:nowrap;overflow:visible;margin:0;padding:0;
   }
-  .nav-links a{font-size:.8rem;padding:.45rem 0;flex:0 0 auto;background:none;border-radius:0;color:rgba(255,255,255,.62)}
-  .nav-links a.is-active,.nav-links a:hover{background:none;color:#fff}
+  /* Capsules on a phone too. They read as buttons on the desktop bar and
+     as bare words here, which made the row look like a caption. The
+     horizontal padding was already in the layout budget, so this costs
+     no width. */
+  .nav-links a{
+    font-size:.8rem;padding:.5rem .55rem;flex:0 0 auto;
+    background:rgba(255,255,255,.08);border-radius:8px;
+    color:rgba(255,255,255,.72);
+    display:flex;align-items:center;min-height:40px;
+  }
+  .nav-links a.is-active,.nav-links a:hover{background:rgba(255,255,255,.2);color:#fff}
   .nav-logo-wordmark{font-size:.74rem;letter-spacing:.06em}
   .nav-cta{font-size:.76rem}
   /* The floating back control was pinned under the taller two-row bar.
@@ -1982,20 +1991,34 @@ nav{
      no per-pill shadow, a single recessed strip behind them, and labels
      that set their own width. Six fit in ~416px instead of 888px. Height
      stays at 44px for the tap target, which costs nothing horizontally. */
+  /* The labels were squeezed to make six fit the row: 8.6px mono capitals
+     tracked out .1em, 4px apart. All six fitted and not one was readable
+     or reliably hittable. Normal size and sentence case now, and the row
+     scrolls, with the edges faded so it is obvious that it does. */
   .work-subnav{
-    flex-wrap:nowrap;overflow-x:auto;gap:.25rem;
+    flex-wrap:nowrap;overflow-x:auto;gap:.35rem;
     scroll-snap-type:x proximity;scrollbar-width:none;
-    scroll-padding-inline:.25rem;
-    padding:.25rem;border:1px solid var(--line);border-radius:12px;
+    -webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;
+    scroll-padding-inline:.3rem;
+    padding:.3rem;border:1px solid var(--line);border-radius:12px;
     background:rgba(0,0,0,.28);
+    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%);
+            mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%);
   }
   .work-subnav::-webkit-scrollbar{display:none}
   .work-subtab{
-    min-height:40px;
+    min-height:42px;
+    /* The row is nowrap, so without this the tabs shrink to fit instead of
+       scrolling and their labels get clipped mid-word. This is what turned
+       "Buying & Selling" into "ing & Sell". */
+    flex:0 0 auto;
     min-width:0;
-    padding:.5rem .7rem;
-    font-size:.54rem;
-    letter-spacing:.1em;
+    padding:.55rem .9rem;
+    font-family:var(--ui);
+    font-size:.84rem;
+    font-weight:600;
+    letter-spacing:0;
+    text-transform:none;
     border:1px solid transparent;
     border-radius:9px;
     background:none;
@@ -2014,11 +2037,14 @@ nav{
      is the state now. */
   .work-sub-indicator{display:none}
 
-  .work-subtitle{font-size:.55rem;margin-bottom:.45rem}
+  .work-subtitle{
+    font-family:var(--ui);font-size:.8rem;font-weight:600;
+    letter-spacing:0;text-transform:none;margin-bottom:.5rem;
+  }
   .work-subdesc{font-size:.81rem;line-height:1.6;margin-bottom:.5rem}
   .work-sublist{gap:.35rem}
   .work-sublist li{font-size:.78rem;line-height:1.55}
-  .work-subgrid{gap:.9rem}
+  .work-subgrid{grid-template-columns:1fr;gap:.9rem}
   .work-submedia-stack{grid-template-columns:1fr;gap:.7rem}
   /* Each build becomes its own card, so a stack of six reads as six things
      rather than one long column of alternating text and thumbnails. */
@@ -2027,8 +2053,11 @@ nav{
     border:1px solid var(--line);border-radius:14px;
     background:rgba(255,255,255,.022);
   }
-  .work-subgroup-title{font-size:.55rem;color:var(--ink)}
-  .work-subgroup-desc{font-size:.75rem;line-height:1.55}
+  .work-subgroup-title{
+    font-family:var(--ui);font-size:.84rem;font-weight:700;
+    letter-spacing:0;text-transform:none;color:var(--ink);
+  }
+  .work-subgroup-desc{font-size:.85rem;line-height:1.6}
   /* The border-left on the media block doubled up with the one on the
      subgroup it sits inside, and just ate width once the grid was single
      column. */
@@ -2460,6 +2489,10 @@ section.panel.dark{background:var(--paper);color:var(--ink)}
 @media(max-width:680px){
   section.panel{padding:3rem 5vw 3.4rem}
   .sec-header{margin-bottom:1.8rem;padding-bottom:1.2rem;flex-direction:column;align-items:flex-start;gap:1rem}
+}
+
+@media(max-width:390px){
+  .nav-links a{font-size:.74rem;padding:.45rem .4rem}
 }
 </style>
 </head>

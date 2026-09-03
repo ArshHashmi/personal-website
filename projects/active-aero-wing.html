@@ -87,10 +87,15 @@ body::before{
   .pnav-logo{grid-column:1;grid-row:1}
   .pnav-right{grid-column:2;grid-row:1}
   .pnav-links{grid-column:1/-1;grid-row:2;justify-content:space-between;gap:.3rem}
+  /* Capsules on a phone too. They read as buttons on the desktop bar and
+     as bare words here, which made the row look like a caption. */
   .pnav-links a{
-    padding:.55rem .55rem;font-size:.82rem;background:none;
-    display:flex;align-items:center;min-height:42px;
+    padding:.5rem .55rem;font-size:.8rem;
+    background:rgba(255,255,255,.08);border-radius:8px;
+    color:rgba(255,255,255,.72);
+    display:flex;align-items:center;min-height:40px;
   }
+  .pnav-links a.is-active,.pnav-links a:hover{background:rgba(255,255,255,.2);color:#fff}
   .pnav-logo{min-height:34px;align-items:center}
   .pnav-logo-wordmark{font-size:.76rem}
   .pnav-cta{padding:.5rem 0;font-size:.82rem}
@@ -620,15 +625,20 @@ table.dt tbody tr:last-child td{border-bottom:none}
   .kit-row{grid-template-columns:1fr;gap:.3rem}
   .tbl-hint{display:block}
   .psec{padding:3.6rem 0}
+  /* On a phone the three main titles were 35px against 28px for the
+     subsection heads, close enough that the page read as one flat list.
+     Scale does the separating here, so it has to be a real gap: the
+     banners now run about 1.8x the heads under them, and carry more
+     weight. */
   .sec-banner{padding-top:5rem}
   .sec-banner-first{padding-top:3rem}
-  .sec-banner .stitle{font-size:clamp(2.1rem,9vw,3rem)}
+  .sec-banner .stitle{font-size:clamp(2.5rem,11.6vw,3.6rem);font-weight:800;line-height:.98}
   .build-cta{padding:1.5rem 1.4rem;gap:1.1rem;border-radius:12px}
   .build-cta-t{font-size:1.15rem}
   .build-cta-d{font-size:.9rem}
   .build-cta-arrow{width:20px;height:11px}
   .pwrap{padding:0 5vw}
-  .stitle{font-size:clamp(1.75rem,7.2vw,2.3rem)}
+  .stitle{font-size:clamp(1.55rem,6.6vw,2.05rem)}
   .slead{font-size:1.04rem;line-height:1.7}
   .prose{font-size:1.02rem;line-height:1.75}
   .fig-cap,.pnote{font-size:.92rem}
@@ -643,6 +653,10 @@ table.dt tbody tr:last-child td{border-bottom:none}
 @media(prefers-reduced-motion:reduce){
   .bar-fill{animation:none}
   .fig:hover .fig-img img{transform:none}
+}
+
+@media(max-width:390px){
+  .pnav-links a{font-size:.74rem;padding:.45rem .4rem}
 }
 </style>
 </head>

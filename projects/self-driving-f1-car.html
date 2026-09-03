@@ -71,8 +71,17 @@ body::before{
     grid-column:1 / -1;grid-row:2;justify-content:space-between;
     gap:.5rem;flex-wrap:nowrap;overflow:visible;margin:0;padding:0;
   }
-  .pnav-links a{font-size:.8rem;padding:.45rem 0;flex:0 0 auto;background:none;border-radius:0;color:rgba(255,255,255,.62)}
-  .pnav-links a.is-active,.pnav-links a:hover{background:none;color:#fff}
+  /* Capsules on a phone too. They read as buttons on the desktop bar and
+     as bare words here, which made the row look like a caption. The
+     horizontal padding was already in the layout budget, so this costs
+     no width. */
+  .pnav-links a{
+    font-size:.8rem;padding:.5rem .55rem;flex:0 0 auto;
+    background:rgba(255,255,255,.08);border-radius:8px;
+    color:rgba(255,255,255,.72);
+    display:flex;align-items:center;min-height:40px;
+  }
+  .pnav-links a.is-active,.pnav-links a:hover{background:rgba(255,255,255,.2);color:#fff}
   .pnav-logo-wordmark{font-size:.74rem;letter-spacing:.06em}
   .pnav-cta{font-size:.76rem}
   /* The status pills crowd the logo out of the top row, and the hero
@@ -409,6 +418,10 @@ body::before{
   .pfooter-note,.pfooter-back,.phase-node{font-size:.66rem;letter-spacing:.13em}
   .phase-status-pill{font-size:.62rem;letter-spacing:.09em}
   .pimg-caption{font-size:.68rem;letter-spacing:.02em;line-height:1.5}
+}
+
+@media(max-width:390px){
+  .pnav-links a{font-size:.74rem;padding:.45rem .4rem}
 }
 </style>
 </head>
