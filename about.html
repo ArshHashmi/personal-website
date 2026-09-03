@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>About — ENGINEERINGWITHARSH</title>
+  <title>About Arsh Hashmi | ENGINEERINGWITHARSH</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root{--ink:#f0f0f0;--paper:#080808;--surface:#111;--accent:#e8ff57;--fog:rgba(240,240,240,.08);--mist:rgba(240,240,240,.45);--line:rgba(240,240,240,.1);--sans:'Sora',sans-serif;--mono:'IBM Plex Mono',monospace}
+    :root{--ink:#f0f0f0;--paper:#080808;--surface:#0f0f0f;--fog:#7d7d7d;--mist:#909090;--line:rgba(255,255,255,.09);--sans:'Sora',sans-serif;--mono:'IBM Plex Mono',monospace;--ui:'Manrope',sans-serif}
     *{box-sizing:border-box;margin:0;padding:0}
     body{background:var(--paper);color:var(--ink);font-family:var(--sans);min-height:100vh;display:flex;flex-direction:column}
     nav{position:fixed;top:0;left:0;right:0;z-index:200;height:60px;padding:0 5vw;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;background:rgba(8,8,8,.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--line)}
@@ -59,117 +59,132 @@
     ::view-transition-new(root){animation:380ms cubic-bezier(.16,1,.3,1) 80ms both vt-in}
     @keyframes vt-out{to{opacity:0;transform:translateY(-6px)}}
     @keyframes vt-in{from{opacity:0;transform:translateY(10px)}}#nav{view-transition-name:site-nav}.back-fab{view-transition-name:back-fab}::view-transition-old(site-nav),::view-transition-new(site-nav),::view-transition-old(back-fab),::view-transition-new(back-fab){animation:none;mix-blend-mode:normal}
-    main{flex:1;max-width:860px;margin:0 auto;padding:5rem 2rem;padding-top:7rem;width:100%}
-    .hero-row{display:grid;grid-template-columns:1fr auto;gap:3rem;align-items:start;margin-bottom:4rem}
-    @media(max-width:600px){.hero-row{grid-template-columns:1fr}.headshot{display:none}}
-    .page-label{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mist);display:block;margin-bottom:1.25rem}
-    h1{font-size:clamp(2.5rem,6vw,4rem);font-weight:800;line-height:1.1;margin-bottom:1.25rem}
-    .bio{font-size:1.05rem;color:var(--mist);line-height:1.75;max-width:520px}
-    .bio p+p{margin-top:1em}
-    .headshot{width:200px;height:240px;object-fit:cover;object-position:top;border:1px solid var(--line);flex-shrink:0}
-    .links-row{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2rem}
-    .link-btn{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;padding:.6rem 1.3rem;border:1px solid var(--line);color:var(--ink);text-decoration:none;transition:background .2s,border-color .2s}
-    .link-btn:hover{background:rgba(255,255,255,.08);border-color:rgba(240,240,240,.3)}
-    .link-btn.accent{border-color:var(--accent);color:var(--accent)}
-    .link-btn.accent:hover{background:var(--accent);color:var(--paper)}
-    .divider{border:none;border-top:1px solid var(--line);margin:3rem 0}
-    .section-label{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mist);margin-bottom:1.5rem;display:block}
-    /* ── Wider shell now that the timeline + toolkit live here ── */
-    main{max-width:1080px}
-    .section-head{display:flex;align-items:baseline;gap:1rem;margin-bottom:1.8rem}
-    .section-head .section-label{margin-bottom:0}
-    .section-rule{flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+    main{flex:1;max-width:1220px;margin:0 auto;padding:7.5rem 6vw 0;width:100%}
 
-    /* ── CAREER TIMELINE ──────────────────────────────────────────
-       Rebuilt for this page: a single rail, one card per role. The old
-       version carried thumbnail buttons opening a lightbox, but the images
-       were mismatched (the 3D-printing role showed a front-wing render), so
-       the imagery is dropped rather than shown wrong. */
-    .tl{position:relative;padding-left:2rem}
-    .tl::before{
-      content:'';position:absolute;left:.32rem;top:.4rem;bottom:.4rem;width:1px;
-      background:linear-gradient(180deg,rgba(240,240,240,.28),rgba(240,240,240,.06));
+    /* ── Hero ── */
+    .ahero{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,.8fr);gap:5vw;align-items:start}
+    .akicker{font-family:var(--ui);font-size:.95rem;font-weight:600;color:var(--mist);display:block;margin-bottom:1.1rem}
+    .aname{
+      font-family:var(--sans);font-size:clamp(2.9rem,7.2vw,5.8rem);font-weight:800;
+      letter-spacing:-.05em;line-height:.92;color:var(--ink);
     }
-    .tl-item{position:relative;padding-bottom:2.6rem}
-    .tl-item:last-child{padding-bottom:0}
-    .tl-item::before{
-      content:'';position:absolute;left:-1.85rem;top:.45rem;width:9px;height:9px;
-      border-radius:50%;background:var(--paper);border:1.5px solid rgba(240,240,240,.4);
-      transition:border-color .3s ease,box-shadow .3s ease;
+    .abio{margin-top:2rem;display:grid;gap:1.15rem;min-width:0}
+    .abio p{font-size:1.12rem;font-weight:300;line-height:1.78;color:var(--mist);max-width:58ch}
+    .abio b{color:var(--ink);font-weight:600}
+    .aportrait{
+      position:relative;overflow:hidden;border-radius:14px;background:#0a0a0a;
+      aspect-ratio:4/5;
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.07),0 30px 60px -34px rgba(0,0,0,1);
     }
-    .tl-item.is-current::before{
-      border-color:var(--accent);
-      box-shadow:0 0 0 4px rgba(232,255,87,.12);
+    .aportrait img{width:100%;height:100%;object-fit:cover;object-position:center 38%;display:block;filter:saturate(.9) contrast(1.02)}
+
+    .alinks{margin-top:2.4rem;display:flex;flex-wrap:wrap;gap:1.1rem 2rem}
+    .alink{
+      display:inline-flex;align-items:center;gap:.5rem;padding-bottom:4px;
+      font-family:var(--sans);font-size:1rem;font-weight:600;letter-spacing:-.01em;
+      color:var(--ink);text-decoration:none;
+      background-image:linear-gradient(currentColor,currentColor);
+      background-repeat:no-repeat;background-position:0 100%;background-size:100% 1px;
+      transition:gap .35s cubic-bezier(.16,1,.3,1);
     }
-    .tl-when{
-      font-family:var(--mono);font-size:.58rem;font-weight:500;letter-spacing:.16em;
-      text-transform:uppercase;color:var(--mist);display:block;margin-bottom:.5rem;
+    .alink:hover{gap:.85rem}
+    .alink svg{flex-shrink:0}
+
+    /* ── Facts ── */
+    .afacts{
+      margin-top:5rem;display:grid;min-width:0;
+      grid-template-columns:repeat(auto-fit,minmax(min(165px,100%),1fr));gap:1.9rem 2rem;
     }
-    .tl-role{font-size:1.12rem;font-weight:700;letter-spacing:-.02em;line-height:1.25;color:var(--ink)}
-    .tl-org{font-size:.85rem;color:var(--mist);margin-top:.22rem}
-    .tl-loc{font-family:var(--mono);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;
-      color:rgba(240,240,240,.28);margin-top:.4rem}
-    .tl-summary{font-size:.88rem;line-height:1.7;color:var(--mist);margin-top:.85rem;max-width:62ch}
-    .tl-sub{margin-top:1rem;padding-left:.9rem;border-left:1px solid var(--line)}
-    .tl-sub-title{font-size:.82rem;font-weight:600;color:var(--ink);margin-bottom:.4rem}
-    .tl-list{list-style:none;margin-top:.7rem;display:grid;gap:.42rem;max-width:64ch}
-    .tl-list li{position:relative;padding-left:1rem;font-size:.83rem;line-height:1.65;color:var(--mist)}
-    .tl-list li::before{content:'';position:absolute;left:0;top:.62em;width:4px;height:1px;background:rgba(240,240,240,.35)}
-    .tl-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1rem}
+    /* Five of them, and auto-fit was breaking 4 + 1 and leaving the last one
+       stranded on a row of its own. */
+    @media(min-width:1040px){ .afacts{grid-template-columns:repeat(5,minmax(0,1fr))} }
+    /* Between those, three then two reads as a decision; four then one reads
+       as a mistake. */
+    @media(min-width:701px) and (max-width:1039px){ .afacts{grid-template-columns:repeat(3,minmax(0,1fr))} }
+    .fact-v{font-family:var(--sans);font-size:1.35rem;font-weight:700;letter-spacing:-.03em;color:var(--ink);line-height:1.2}
+    .fact-k{margin-top:.35rem;font-family:var(--ui);font-size:.92rem;font-weight:500;line-height:1.45;color:var(--fog)}
+
+    /* ── Sections ── */
+    .asec{padding-top:6.5rem}
+    .asec-t{font-family:var(--sans);font-size:clamp(2rem,3.8vw,3.1rem);font-weight:700;letter-spacing:-.04em;line-height:1.04;color:var(--ink)}
+    .asec-lead{margin-top:1.1rem;font-size:1.08rem;font-weight:300;line-height:1.75;color:var(--mist);max-width:60ch}
+
+    /* ── Timeline ──
+       Date on the left, the role on the right. No rule down the middle and
+       no marker dots: the columns already say where one entry ends. */
+    .tl{margin-top:3rem;display:grid;gap:3.2rem}
+    .tl-item{display:grid;grid-template-columns:minmax(0,10.5rem) minmax(0,1fr);gap:2.2rem;align-items:start}
+    .tl-when{font-family:var(--ui);font-size:.96rem;font-weight:600;color:var(--ink);line-height:1.45}
+    .tl-where{margin-top:.3rem;font-family:var(--ui);font-size:.9rem;font-weight:500;color:var(--fog);line-height:1.45}
+    .tl-body{min-width:0}
+    .tl-role{font-family:var(--sans);font-size:1.34rem;font-weight:700;letter-spacing:-.03em;line-height:1.15;color:var(--ink)}
+    .tl-org{margin-top:.35rem;font-family:var(--ui);font-size:1rem;font-weight:500;color:var(--mist)}
+    .tl-summary{margin-top:.95rem;font-size:1.02rem;font-weight:300;line-height:1.7;color:var(--mist);max-width:62ch}
+    .tl-sub{margin-top:1.6rem}
+    .tl-sub-title{font-family:var(--sans);font-size:1.05rem;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
+    .tl-list{margin-top:.85rem;padding:0;list-style:none;display:grid;gap:.6rem;max-width:62ch}
+    .tl-list li{
+      position:relative;padding-left:1.35rem;
+      font-family:var(--ui);font-size:.99rem;font-weight:500;line-height:1.6;color:var(--mist);
+    }
+    .tl-list li::before{content:'';position:absolute;left:0;top:.68em;width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.28)}
+    .tl-tags{margin-top:1.3rem;display:flex;flex-wrap:wrap;gap:.5rem}
     .tl-tag{
-      font-family:var(--mono);font-size:.53rem;letter-spacing:.11em;text-transform:uppercase;
-      color:rgba(240,240,240,.42);border:1px solid var(--line);border-radius:999px;padding:.24rem .6rem;
-      transition:border-color .25s ease,color .25s ease;
+      font-family:var(--ui);font-size:.88rem;font-weight:500;color:var(--mist);
+      padding:.4rem .75rem;border-radius:8px;background:rgba(255,255,255,.055);
     }
-    .tl-item:hover .tl-tag{border-color:rgba(240,240,240,.22);color:rgba(240,240,240,.6)}
 
-    /* ── TECHNICAL TOOLKIT ── */
-    .tk{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line)}
-    @media(max-width:860px){.tk{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:560px){.tk{grid-template-columns:1fr}}
-    .tk-col{padding:1.6rem;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
-    .tk-col:nth-child(3n){border-right:none}
-    @media(max-width:860px){
-      .tk-col{border-right:1px solid var(--line)}
-      .tk-col:nth-child(3n){border-right:1px solid var(--line)}
-      .tk-col:nth-child(2n){border-right:none}
-    }
-    @media(max-width:560px){.tk-col,.tk-col:nth-child(3n),.tk-col:nth-child(2n){border-right:none}}
-    .tk-head{
-      font-family:var(--mono);font-size:.56rem;font-weight:600;letter-spacing:.18em;
-      text-transform:uppercase;color:var(--ink);margin-bottom:.95rem;
-    }
-    .tk-items{display:flex;flex-wrap:wrap;gap:.35rem}
+    /* ── Toolkit ── */
+    .tk{margin-top:3rem;display:grid;min-width:0;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:2.6rem 2.4rem}
+    .tk-col{min-width:0}
+    .tk-head{font-family:var(--sans);font-size:1.08rem;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
+    .tk-items{margin-top:.95rem;display:flex;flex-wrap:wrap;gap:.5rem}
     .tk-item{
-      font-size:.72rem;font-weight:300;padding:.26rem .6rem;
-      border:1px solid var(--line);color:var(--mist);transition:border-color .25s,color .25s;
+      font-family:var(--ui);font-size:.9rem;font-weight:500;color:var(--mist);
+      padding:.42rem .78rem;border-radius:8px;background:rgba(255,255,255,.055);
     }
-    .tk-item:hover{border-color:var(--ink);color:var(--ink)}
 
-    /* ── REACH OUT ── */
-    .rch{text-align:center;padding:1rem 0 0}
-    .rch-title{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;letter-spacing:-.035em;margin-bottom:.8rem}
-    .rch-lede{font-size:.95rem;line-height:1.7;color:var(--mist);max-width:48ch;margin:0 auto 1.8rem}
-    .rch-btn{
-      display:inline-flex;align-items:center;gap:.7rem;font-family:var(--mono);
-      font-size:.8rem;font-weight:600;letter-spacing:.03em;
-      color:var(--paper);background:var(--ink);border:1px solid var(--ink);
-      border-radius:999px;padding:.9rem 1.7rem;text-decoration:none;
-      transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s ease,gap .3s ease;
-      box-shadow:0 10px 30px -14px rgba(255,255,255,.4);
+    /* ── Reach out ── */
+    .rch{
+      margin-top:6.5rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;
+      padding:2.3rem 2.5rem;border-radius:14px;text-decoration:none;color:inherit;
+      background:#12161c;box-shadow:inset 0 0 0 1px rgba(255,255,255,.09);
+      transition:background .35s ease,box-shadow .35s ease,transform .35s cubic-bezier(.16,1,.3,1);
     }
-    .rch-btn:hover{transform:translateY(-3px);gap:1rem;box-shadow:0 16px 40px -16px rgba(255,255,255,.5)}
-    @media(prefers-reduced-motion:reduce){.rch-btn{transition:none}.rch-btn:hover{transform:none}}
-  
-    /* ── MOBILE TYPE FLOOR ──────────────────────────────────────────
-       .53-.58rem is 8-9px on a phone; lift the mono labels to a floor
-       and tighten the tracking so they still fit their rows. */
-    @media(max-width:680px){
-      .tl-when,.tl-loc,.tl-tag,.tk-head{font-size:.64rem;letter-spacing:.12em}
-      /* Clear the floating BACK pill under the two-row bar. */
-      main{padding-top:8.2rem}
+    .rch:hover{background:#171c24;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2);transform:translateY(-2px)}
+    .rch:focus-visible{outline:2px solid rgba(255,255,255,.55);outline-offset:3px}
+    .rch-t{font-family:var(--sans);font-size:1.45rem;font-weight:700;letter-spacing:-.03em;color:var(--ink);display:block}
+    .rch-d{margin-top:.5rem;font-family:var(--ui);font-size:.98rem;font-weight:500;line-height:1.55;color:var(--mist);display:block;max-width:52ch}
+    .rch svg{flex-shrink:0;color:var(--ink);transition:transform .35s cubic-bezier(.16,1,.3,1)}
+    .rch:hover svg{transform:translateX(5px)}
+
+    @media(max-width:1000px){
+      .ahero{grid-template-columns:1fr;gap:2.4rem}
+      .aportrait{max-width:340px;aspect-ratio:1/1}
+      .tl-item{grid-template-columns:1fr;gap:.9rem}
+      .tl-when{font-size:.92rem}
     }
-  
+    @media(max-width:700px){
+      main{padding:7.5rem 5vw 0}
+      .aname{font-size:clamp(2.6rem,12vw,4rem)}
+      .abio p{font-size:1.04rem;line-height:1.72}
+      .aportrait{max-width:none;aspect-ratio:4/3}
+      .alinks{gap:.9rem 1.6rem;margin-top:2rem}
+      .afacts{margin-top:3.4rem;gap:1.5rem 1.4rem}
+      .fact-v{font-size:1.2rem}
+      .asec{padding-top:4.2rem}
+      .asec-t{font-size:clamp(1.75rem,7.6vw,2.4rem)}
+      .asec-lead{font-size:1.02rem}
+      .tl{gap:2.6rem;margin-top:2.2rem}
+      .tl-role{font-size:1.2rem}
+      .tl-summary{font-size:.99rem}
+      .tk{margin-top:2.2rem;gap:2rem 1.6rem}
+      .rch{margin-top:4rem;padding:1.6rem 1.5rem;gap:1.1rem;border-radius:12px}
+      .rch-t{font-size:1.18rem}
+      .rch-d{font-size:.92rem}
+      .rch svg{width:20px;height:11px}
+    }
+
 /* ── Footer ──
    The same three-part footer on every page: wordmark, what this page is,
    one way onward. Colours are literal rather than tokenised because the
@@ -217,180 +232,223 @@
     Back
   </a>
   <main>
-    <div class="hero-row">
+
+    <div class="ahero">
       <div>
-        <span class="page-label">About me</span>
-        <h1>Arsh<br>Hashmi.</h1>
-        <div class="bio">
-          <p>Mechanical Engineering & Computer Science student at Binghamton University. I build things that move — aerodynamic wings, autonomous vehicles, electric go-karts — and document every step so others can build them too.</p>
-          <p>Currently on the Binghamton Motorsports (SAE) aerodynamics team, running 3D printing at the MakerLab, and building out this site as a full open-source engineering resource.</p>
-          <p>Formerly: automotive flipping and custom builds, combat robotics (WCRL), quantitative trading competitions.</p>
+        <span class="akicker">About me</span>
+        <h1 class="aname">Arsh<br>Hashmi.</h1>
+
+        <div class="abio">
+          <p>Mechanical Engineering and Computer Science student at Binghamton University.
+             <b>I build things that move</b>: aerodynamic wings, autonomous vehicles, electric
+             go-karts. Then I document every step, so somebody else can build them too.</p>
+          <p>Right now that means aerodynamics on the Binghamton Motorsports SAE team, running
+             the 3D printers at the MakerLab, and turning this site into a proper open
+             engineering resource rather than a portfolio.</p>
+          <p>Before that: flipping and rebuilding cars, antweight combat robotics, and
+             quantitative trading competitions.</p>
         </div>
-        <div class="links-row">
-          <a href="builds.html" class="link-btn accent">View Projects →</a>
-          <a href="guides.html" class="link-btn">Free Guides</a>
-          <a href="contact.html" class="link-btn">Contact</a>
+
+        <div class="alinks">
+          <a class="alink" href="builds.html">See what I've built
+            <svg width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true"><path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="alink" href="guides.html">Build one yourself
+            <svg width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true"><path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="alink" href="contact.html">Get in touch
+            <svg width="13" height="9" viewBox="0 0 13 9" fill="none" aria-hidden="true"><path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
         </div>
       </div>
-      <img src="images/about/headshot.jpg" alt="Arsh Hashmi" class="headshot">
+
+      <figure class="aportrait">
+        <img src="images/about/headshot.jpg"
+             alt="Arsh Hashmi" loading="eager" decoding="async">
+      </figure>
     </div>
 
-    <hr class="divider">
-
-    <div class="section-head">
-      <span class="section-label">Career timeline</span>
-      <span class="section-rule"></span>
+    <div class="afacts">
+      <div><div class="fact-v">Binghamton</div><div class="fact-k">Watson College of Engineering, class of 2029</div></div>
+      <div><div class="fact-v">Mechanical + CS</div><div class="fact-k">Dual focus, economics minor</div></div>
+      <div><div class="fact-v">Aerodynamics</div><div class="fact-k">Binghamton Motorsports, SAE</div></div>
+      <div><div class="fact-v">MakerLab</div><div class="fact-k">Additive manufacturing technician</div></div>
+      <div><div class="fact-v">New York</div><div class="fact-k">Long Island, and Binghamton in term time</div></div>
     </div>
 
-    <div class="tl">
+    <!-- ════════════════════════════════ TIMELINE ══ -->
+    <section class="asec">
+      <h2 class="asec-t">What I've been doing.</h2>
+      <p class="asec-lead">Four things running at once, which is roughly the normal state of
+        affairs. The dates are start dates; everything here is still going.</p>
 
-      <div class="tl-item is-current">
-        <span class="tl-when">Feb 2026 — Present · 3 mos</span>
-        <div class="tl-role">Additive Manufacturing Technician</div>
-        <div class="tl-org">MakerLab · Binghamton University</div>
-        <div class="tl-loc">Binghamton, New York</div>
-        <p class="tl-summary">Operate and manage multiple FDM systems to fabricate student-submitted parts, ensuring print quality, dimensional accuracy, and proper material usage.</p>
-        <ul class="tl-list">
-          <li>Monitor, maintain, and troubleshoot printers through routine calibration, cleaning, and preventative maintenance.</li>
-          <li>Use laser scanning and digital fabrication tools for reverse engineering, prototyping, and custom part development.</li>
-          <li>Manage print requests in the MakerLab database, tracking status and prioritising workflow for fast turnaround.</li>
-          <li>Help students prepare CAD models for printing, verifying printability and recommending changes for stronger parts.</li>
-        </ul>
-        <div class="tl-tags">
-          <span class="tl-tag">Additive Manufacturing</span>
-          <span class="tl-tag">FDM 3D Printing</span>
-          <span class="tl-tag">Rapid Prototyping</span>
-          <span class="tl-tag">Reverse Engineering</span>
-          <span class="tl-tag">Laser Scanning</span>
-          <span class="tl-tag">Quality Control</span>
-        </div>
-      </div>
+      <div class="tl">
 
-      <div class="tl-item is-current">
-        <span class="tl-when">Sep 2025 — Present · 8 mos</span>
-        <div class="tl-role">Binghamton Motorsports (SAE)</div>
-        <div class="tl-org">Binghamton University</div>
-        <div class="tl-loc">Binghamton, New York</div>
-
-        <div class="tl-sub">
-          <div class="tl-sub-title">Formula Student Aerodynamics Apprentice (EV)</div>
-          <ul class="tl-list">
-            <li>Develop custom airfoils in Fusion 360 and Ansys Fluent CFD.</li>
-            <li>Build meshes and calculate drag/lift coefficients across conditions, iterating on airflow results.</li>
-            <li>Produce 3D-printed female moulds and manufacture parts with 3K/12K carbon layups, vacuum bagging, and curing.</li>
-          </ul>
+        <div class="tl-item">
+          <div>
+            <div class="tl-when">Since February 2026</div>
+            <div class="tl-where">Binghamton, New York</div>
+          </div>
+          <div class="tl-body">
+            <div class="tl-role">Additive Manufacturing Technician</div>
+            <div class="tl-org">MakerLab, Binghamton University</div>
+            <p class="tl-summary">Running the lab's FDM machines for student-submitted parts, and
+              keeping print quality, dimensional accuracy and material use where they should be.</p>
+            <ul class="tl-list">
+              <li>Maintain and troubleshoot the printers through routine calibration and preventative work.</li>
+              <li>Use laser scanning and digital fabrication for reverse engineering and prototyping.</li>
+              <li>Manage the print queue, tracking status and prioritising for fast turnaround.</li>
+              <li>Help students get their CAD ready to print, and suggest changes that make parts stronger.</li>
+            </ul>
+            <div class="tl-tags">
+              <span class="tl-tag">Additive manufacturing</span>
+              <span class="tl-tag">FDM 3D printing</span>
+              <span class="tl-tag">Rapid prototyping</span>
+              <span class="tl-tag">Reverse engineering</span>
+              <span class="tl-tag">Laser scanning</span>
+              <span class="tl-tag">Quality control</span>
+            </div>
+          </div>
         </div>
 
-        <div class="tl-sub">
-          <div class="tl-sub-title">EV Go-Kart Frame Engineer / Designer</div>
-          <ul class="tl-list">
-            <li>Contribute weekly to design and fabrication for an electric go-kart platform.</li>
-            <li>Merge individual parts into a master assembly in Fusion 360 and validate fit.</li>
-            <li>Build fabrication capability through MIG welding, notching, surface prep, and printed fit-check mockups.</li>
-          </ul>
+        <div class="tl-item">
+          <div>
+            <div class="tl-when">Since September 2025</div>
+            <div class="tl-where">Binghamton, New York</div>
+          </div>
+          <div class="tl-body">
+            <div class="tl-role">Binghamton Motorsports (SAE)</div>
+            <div class="tl-org">Binghamton University</div>
+
+            <div class="tl-sub">
+              <div class="tl-sub-title">Formula Student Aerodynamics Apprentice, EV</div>
+              <ul class="tl-list">
+                <li>Develop custom airfoils in Fusion 360 and Ansys Fluent CFD.</li>
+                <li>Build meshes and calculate drag and lift coefficients across conditions, iterating on the results.</li>
+                <li>Produce 3D-printed female moulds and lay up parts in 3K and 12K carbon, vacuum bagged and cured.</li>
+              </ul>
+            </div>
+
+            <div class="tl-sub">
+              <div class="tl-sub-title">EV Go-Kart Frame Engineer and Designer</div>
+              <ul class="tl-list">
+                <li>Contribute weekly to design and fabrication on an electric go-kart platform.</li>
+                <li>Merge individual parts into a master assembly in Fusion 360 and validate fit.</li>
+                <li>Build fabrication capability through MIG welding, notching, surface prep and printed fit-check mockups.</li>
+              </ul>
+            </div>
+
+            <div class="tl-tags">
+              <span class="tl-tag">Fusion 360</span>
+              <span class="tl-tag">Ansys Fluent</span>
+              <span class="tl-tag">CFD</span>
+              <span class="tl-tag">Carbon fibre</span>
+              <span class="tl-tag">Vacuum bagging</span>
+              <span class="tl-tag">MIG welding</span>
+            </div>
+          </div>
         </div>
 
-        <div class="tl-tags">
-          <span class="tl-tag">Fusion 360</span>
-          <span class="tl-tag">Ansys Fluent</span>
-          <span class="tl-tag">CFD</span>
-          <span class="tl-tag">Carbon Fibre</span>
-          <span class="tl-tag">Vacuum Bagging</span>
-          <span class="tl-tag">MIG Welding</span>
+        <div class="tl-item">
+          <div>
+            <div class="tl-when">Since August 2025</div>
+            <div class="tl-where">Binghamton, New York</div>
+          </div>
+          <div class="tl-body">
+            <div class="tl-role">Combat Robotics Engineer</div>
+            <div class="tl-org">Watson Combat Robotics League, Binghamton University</div>
+            <p class="tl-summary">Design, build and compete with antweight-class one-pound combat
+              robots in a team of three.</p>
+            <ul class="tl-list">
+              <li>Design regulation-compliant parts in Fusion 360 and improve structural integrity.</li>
+              <li>Print, machine and assemble successive iterations, validating tolerances and function each cycle.</li>
+              <li>Solder and integrate drive motors, radio systems, batteries and weapon motors to combat standards.</li>
+              <li>Refine designs against stress and performance data while staying inside competition rules.</li>
+            </ul>
+            <div class="tl-tags">
+              <span class="tl-tag">Fusion 360</span>
+              <span class="tl-tag">FDM 3D printing</span>
+              <span class="tl-tag">Soldering</span>
+              <span class="tl-tag">Tolerance analysis</span>
+              <span class="tl-tag">Arduino</span>
+              <span class="tl-tag">Embedded systems</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div>
+            <div class="tl-when">Since June 2022</div>
+            <div class="tl-where">New York, NY</div>
+          </div>
+          <div class="tl-body">
+            <div class="tl-role">Founder and Project Manager</div>
+            <div class="tl-org">Cosmic PCs</div>
+            <p class="tl-summary">An end-to-end custom hardware brand, covering demand generation,
+              build operations and getting the thing to the customer.</p>
+            <ul class="tl-list">
+              <li>Lead build scoping, component planning and quality control.</li>
+              <li>Coordinate timelines and deliverables across a small team.</li>
+              <li>Track sales, inventory and margins.</li>
+            </ul>
+            <div class="tl-tags">
+              <span class="tl-tag">E-commerce</span>
+              <span class="tl-tag">Hardware</span>
+              <span class="tl-tag">Operations</span>
+              <span class="tl-tag">Leadership</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════ TOOLKIT ══ -->
+    <section class="asec">
+      <h2 class="asec-t">What I know how to use.</h2>
+      <p class="asec-lead">Tools I have actually built something with, rather than everything I
+        have ever opened.</p>
+
+      <div class="tk">
+        <div class="tk-col">
+          <div class="tk-head">Engineering and CAD</div>
+          <div class="tk-items"><span class="tk-item">Fusion 360</span><span class="tk-item">Ansys Fluent CFD</span><span class="tk-item">SolidWorks</span><span class="tk-item">Tinkercad</span><span class="tk-item">FDM 3D printing</span><span class="tk-item">Laser scanning</span><span class="tk-item">DXF and waterjet</span><span class="tk-item">Carbon fibre layups</span><span class="tk-item">Vacuum bagging</span><span class="tk-item">MIG welding</span></div>
+        </div>
+        <div class="tk-col">
+          <div class="tk-head">Electronics and embedded</div>
+          <div class="tk-items"><span class="tk-item">Arduino</span><span class="tk-item">Soldering</span><span class="tk-item">CAN bus</span><span class="tk-item">PCB integration</span><span class="tk-item">Wiring harnesses</span><span class="tk-item">SimHub</span><span class="tk-item">Bluetooth modules</span><span class="tk-item">Motor controllers</span></div>
+        </div>
+        <div class="tk-col">
+          <div class="tk-head">Software and creative</div>
+          <div class="tk-items"><span class="tk-item">Photoshop</span><span class="tk-item">Illustrator</span><span class="tk-item">After Effects</span><span class="tk-item">DaVinci Resolve</span><span class="tk-item">CapCut</span><span class="tk-item">Canva</span><span class="tk-item">Excel</span><span class="tk-item">Google Suite</span><span class="tk-item">Web development</span></div>
+        </div>
+        <div class="tk-col">
+          <div class="tk-head">Automotive and fabrication</div>
+          <div class="tk-items"><span class="tk-item">Window tinting</span><span class="tk-item">Vinyl wrapping</span><span class="tk-item">Autobody</span><span class="tk-item">Interior upholstery</span><span class="tk-item">Vehicle diagnostics</span><span class="tk-item">Engine maintenance</span><span class="tk-item">Aftermarket audio</span><span class="tk-item">Car flipping</span></div>
+        </div>
+        <div class="tk-col">
+          <div class="tk-head">Research and analysis</div>
+          <div class="tk-items"><span class="tk-item">In-vivo coding</span><span class="tk-item">A priori coding</span><span class="tk-item">Interview protocols</span><span class="tk-item">Otter.ai</span><span class="tk-item">Academic writing</span><span class="tk-item">Presentational literacy</span></div>
+        </div>
+        <div class="tk-col">
+          <div class="tk-head">Languages</div>
+          <div class="tk-items"><span class="tk-item">English, native</span><span class="tk-item">Urdu, native</span><span class="tk-item">Hindi and Punjabi</span><span class="tk-item">Spanish, learning</span></div>
         </div>
       </div>
+    </section>
 
-      <div class="tl-item is-current">
-        <span class="tl-when">Aug 2025 — Present · 9 mos</span>
-        <div class="tl-role">Combat Robotics Engineer</div>
-        <div class="tl-org">Watson Combat Robotics League · Binghamton University</div>
-        <div class="tl-loc">Binghamton, New York</div>
-        <p class="tl-summary">Design, build, and compete with antweight-class (1&nbsp;lb) combat robots in a three-person team.</p>
-        <ul class="tl-list">
-          <li>Design regulation-compliant parts in Fusion 360 and improve structural integrity.</li>
-          <li>Print, machine, and assemble successive iterations, validating tolerances and function each cycle.</li>
-          <li>Solder and integrate drive motors, radio systems, batteries, and weapon motors to combat standards.</li>
-          <li>Refine designs against stress and performance test data while staying inside competition rules.</li>
-        </ul>
-        <div class="tl-tags">
-          <span class="tl-tag">Fusion 360</span>
-          <span class="tl-tag">FDM 3D Printing</span>
-          <span class="tl-tag">Soldering</span>
-          <span class="tl-tag">Tolerance Analysis</span>
-          <span class="tl-tag">Arduino IDE</span>
-          <span class="tl-tag">Embedded Systems</span>
-        </div>
-      </div>
-
-      <div class="tl-item is-current">
-        <span class="tl-when">Jun 2022 — Present</span>
-        <div class="tl-role">Founder &amp; Project Manager</div>
-        <div class="tl-org">Cosmic PCs</div>
-        <div class="tl-loc">New York, NY</div>
-        <p class="tl-summary">Run an end-to-end custom hardware brand covering demand generation, build operations, and customer delivery.</p>
-        <ul class="tl-list">
-          <li>Lead build scoping, component planning, and quality control.</li>
-          <li>Coordinate timelines and deliverables across a small team.</li>
-          <li>Track sales, inventory, and margins using structured spreadsheets.</li>
-        </ul>
-        <div class="tl-tags">
-          <span class="tl-tag">E-Commerce</span>
-          <span class="tl-tag">Hardware</span>
-          <span class="tl-tag">Operations</span>
-          <span class="tl-tag">Leadership</span>
-        </div>
-      </div>
-
-    </div>
-
-    <hr class="divider">
-
-    <div class="section-head">
-      <span class="section-label">Technical toolkit</span>
-      <span class="section-rule"></span>
-    </div>
-
-    <div class="tk">
-      <div class="tk-col">
-        <div class="tk-head">Engineering &amp; CAD</div>
-        <div class="tk-items"><span class="tk-item">Autodesk Fusion 360</span><span class="tk-item">ANSYS Fluent CFD</span><span class="tk-item">SolidWorks</span><span class="tk-item">Tinkercad</span><span class="tk-item">FDM 3D Printing</span><span class="tk-item">Laser Scanning</span><span class="tk-item">DXF / Waterjet</span><span class="tk-item">Carbon Fiber Layups</span><span class="tk-item">Vacuum Bagging</span><span class="tk-item">MIG Welding</span></div>
-      </div>
-      <div class="tk-col">
-        <div class="tk-head">Electronics &amp; Embedded</div>
-        <div class="tk-items"><span class="tk-item">Arduino IDE</span><span class="tk-item">Soldering</span><span class="tk-item">CAN-BUS Protocol</span><span class="tk-item">PCB Integration</span><span class="tk-item">Wiring Harnesses</span><span class="tk-item">SIMHUB</span><span class="tk-item">Bluetooth Modules</span><span class="tk-item">Motor Controllers</span></div>
-      </div>
-      <div class="tk-col">
-        <div class="tk-head">Software &amp; Creative</div>
-        <div class="tk-items"><span class="tk-item">Adobe Photoshop</span><span class="tk-item">Illustrator</span><span class="tk-item">After Effects</span><span class="tk-item">DaVinci Resolve</span><span class="tk-item">CapCut</span><span class="tk-item">Canva</span><span class="tk-item">Excel</span><span class="tk-item">Google Suite</span><span class="tk-item">Website Building</span></div>
-      </div>
-      <div class="tk-col">
-        <div class="tk-head">Automotive &amp; Fabrication</div>
-        <div class="tk-items"><span class="tk-item">Car Tinting</span><span class="tk-item">Vinyl Wrapping</span><span class="tk-item">Autobody</span><span class="tk-item">Interior Upholstery</span><span class="tk-item">Vehicle Diagnostics</span><span class="tk-item">Engine Maintenance</span><span class="tk-item">Aftermarket Audio</span><span class="tk-item">Car Flipping</span></div>
-      </div>
-      <div class="tk-col">
-        <div class="tk-head">Research &amp; Analysis</div>
-        <div class="tk-items"><span class="tk-item">En-vivo Coding</span><span class="tk-item">Apriori Coding</span><span class="tk-item">Interview Protocols</span><span class="tk-item">Otter.ai</span><span class="tk-item">Academic Writing</span><span class="tk-item">Presentational Literacy</span></div>
-      </div>
-      <div class="tk-col">
-        <div class="tk-head">Languages</div>
-        <div class="tk-items"><span class="tk-item">English (Native)</span><span class="tk-item">Urdu (Native)</span><span class="tk-item">Hindi / Punjabi</span><span class="tk-item">Spanish (Learning)</span></div>
-      </div>
-    </div>
-
-    <hr class="divider">
-
-    <div class="rch" id="reach">
-      <h2 class="rch-title">Reach out.</h2>
-      <p class="rch-lede">Advice, a question about a build, an idea you want made, or work you'd like to talk about — it all goes straight to my inbox.</p>
-      <a class="rch-btn" href="mailto:arshhashmi.nyc@gmail.com?subject=Hey%20Arsh"
-         aria-label="Email Arsh at arshhashmi.nyc@gmail.com">
-        arshhashmi.nyc@gmail.com
-        <svg width="14" height="10" viewBox="0 0 13 9" fill="none" aria-hidden="true">
-          <path d="M1 4.5h10M8 1.5l3 3-3 3" stroke="currentColor" stroke-width="1.5"
-                stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </a>
-    </div>
+    <a class="rch" href="mailto:arshhashmi.nyc@gmail.com?subject=Hey%20Arsh"
+       aria-label="Email Arsh at arshhashmi.nyc@gmail.com">
+      <span>
+        <span class="rch-t">Reach out.</span>
+        <span class="rch-d">Advice, a question about a build, an idea you want made, or work you
+          would like to talk about. It all goes straight to my inbox.</span>
+      </span>
+      <svg width="26" height="14" viewBox="0 0 26 14" fill="none" aria-hidden="true">
+        <path d="M1 7h22M18 2l5 5-5 5" stroke="currentColor" stroke-width="1.7"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
   </main>
 <footer class="pfooter">
   <a href="index.html" class="pfooter-brand">ENGINEERINGWITHARSH</a>
