@@ -486,7 +486,7 @@ body .back-fab{top:88px;left:1rem}
     <div><div class="gmeta-v">1,400 mm</div><div class="gmeta-k">Span, tip to tip</div></div>
     <div><div class="gmeta-v">3</div><div class="gmeta-k">Autonomous modes</div></div>
     <div><div class="gmeta-v">~1 week</div><div class="gmeta-k">Solo, start to on-car</div></div>
-    <div><div class="gmeta-v">6</div><div class="gmeta-k">Printed parts, all provided</div></div>
+    <div><div class="gmeta-v">9</div><div class="gmeta-k">Printed parts, all provided</div></div>
     <div><div class="gmeta-v">0</div><div class="gmeta-k">Wires into the car</div></div>
   </div>
 </header>
@@ -571,9 +571,9 @@ body .back-fab{top:88px;left:1rem}
     <a class="dl-all" href="../files/aviws/aviws-parts.zip" download>
       <span>
         <span class="dl-all-t">Download every part</span>
-        <span class="dl-all-d">One archive: the wing sections, the tips, the endplates, the
-          brackets, the horn and the arm. STL for printing, STEP if you want to change
-          something.</span>
+        <span class="dl-all-d">One archive, 12 STLs and a parts list: every wing section, both
+          tips, the brackets, the trunk mounts, the arms, the dowels and a whole-wing reference
+          model. About 210 KB.</span>
       </span>
       <svg class="dl-icon" width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true">
         <path d="M13 3v14m0 0 5-5m-5 5-5-5M4 21h18" stroke="currentColor" stroke-width="1.8"
@@ -583,64 +583,112 @@ body .back-fab{top:88px;left:1rem}
 
     <div class="parts">
       <div class="part">
-        <div class="part-top"><span class="part-n">Wing centre section</span><span class="part-q">900 mm total</span></div>
-        <p class="part-d">The constant-profile middle of the wing, cut into 200 mm lengths so it
-          fits a normal bed. Print as many as make up your centre span.</p>
-        <a class="part-dl" href="../files/aviws/wing-centre-section.stl" download>
-          <span>wing-centre-section.stl</span>
+        <div class="part-top"><span class="part-n">Wing centre section</span><span class="part-q">&times;4</span></div>
+        <p class="part-d">200 mm of constant-profile centre span each. Four of these plus the
+          edge piece below make up the 900 mm middle of the wing.</p>
+        <a class="part-dl" href="../files/aviws/wing-centre-200mm.stl" download>
+          <span>wing-centre-200mm.stl</span>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 2v8m0 0 3-3m-3 3-3-3M2 12h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
       </div>
 
       <div class="part">
-        <div class="part-top"><span class="part-n">Outboard tip section</span><span class="part-q">&times;2, mirrored</span></div>
-        <p class="part-d">250 mm each, lofted from the centre profile at the inboard end to a
-          higher-angle one at the tip. One left, one right.</p>
-        <a class="part-dl" href="../files/aviws/wing-tip.stl" download>
-          <span>wing-tip.stl</span>
+        <div class="part-top"><span class="part-n">Centre edge piece</span><span class="part-q">&times;1</span></div>
+        <p class="part-d">112 mm, same profile. This is the short one that closes the centre run
+          so the span lands on 1,400 mm rather than overshooting it.</p>
+        <a class="part-dl" href="../files/aviws/wing-centre-edge-112mm.stl" download>
+          <span>wing-centre-edge-112mm.stl</span>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 2v8m0 0 3-3m-3 3-3-3M2 12h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
       </div>
 
       <div class="part">
-        <div class="part-top"><span class="part-n">Endplate</span><span class="part-q">&times;2, mirrored</span></div>
-        <p class="part-d">Closes each wingtip and doubles as the structural mounting face. The M3
-          heat-set pockets are already in the model.</p>
-        <a class="part-dl" href="../files/aviws/endplate.stl" download>
-          <span>endplate.stl</span>
+        <div class="part-top"><span class="part-n">Wing tip, left</span><span class="part-q">&times;1</span></div>
+        <p class="part-d">250 mm, lofted from the centre profile at its inboard end to a
+          higher-angle one at the tip, with the endplate built in.</p>
+        <a class="part-dl" href="../files/aviws/wing-tip-left.stl" download>
+          <span>wing-tip-left.stl</span>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 2v8m0 0 3-3m-3 3-3-3M2 12h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
       </div>
 
       <div class="part">
-        <div class="part-top"><span class="part-n">Support bracket</span><span class="part-q">&times;2</span></div>
-        <p class="part-d">The upright that carries the wing. Includes the servo pocket, the hinge
-          bore and the recesses the electronics sit in.</p>
-        <a class="part-dl" href="../files/aviws/support-bracket.stl" download>
-          <span>support-bracket.stl</span>
+        <div class="part-top"><span class="part-n">Wing tip, right</span><span class="part-q">&times;1</span></div>
+        <p class="part-d">The other end, 247 mm. Print one of each rather than two of the same
+          hand, which is the easiest hour on this build to lose.</p>
+        <a class="part-dl" href="../files/aviws/wing-tip-right.stl" download>
+          <span>wing-tip-right.stl</span>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 2v8m0 0 3-3m-3 3-3-3M2 12h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
       </div>
 
       <div class="part">
-        <div class="part-top"><span class="part-n">Servo horn</span><span class="part-q">&times;2</span></div>
-        <p class="part-d">Cut to the DS3218 spline so it goes on without play. Do not substitute
-          the horn that came in the servo box.</p>
-        <a class="part-dl" href="../files/aviws/servo-horn.stl" download>
-          <span>servo-horn.stl</span>
+        <div class="part-top"><span class="part-n">Mounting bracket</span><span class="part-q">&times;2</span></div>
+        <p class="part-d">The upright that carries the wing: servo pocket, hinge bore and the
+          recesses the electronics sit in. 200 mm tall.</p>
+        <a class="part-dl" href="../files/aviws/mounting-bracket.stl" download>
+          <span>mounting-bracket.stl</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 2v8m0 0 3-3m-3 3-3-3M2 12h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <div class="part">
+        <div class="part-top"><span class="part-n">Trunk mount</span><span class="part-q">&times;2</span></div>
+        <p class="part-d">The base the bracket stands on, shaped to meet the trunk lid. This is
+          what the suction cups attach to.</p>
+        <a class="part-dl" href="../files/aviws/trunk-mount.stl" download>
+          <span>trunk-mount.stl</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 2v8m0 0 3-3m-3 3-3-3M2 12h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <div class="part">
+        <div class="part-top"><span class="part-n">Servo arm</span><span class="part-q">&times;2</span></div>
+        <p class="part-d">The small arm that goes on the servo output. Print one and check the fit
+          on the spline before you commit to the second.</p>
+        <a class="part-dl" href="../files/aviws/servo-arm.stl" download>
+          <span>servo-arm.stl</span>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 2v8m0 0 3-3m-3 3-3-3M2 12h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
       </div>
 
       <div class="part">
         <div class="part-top"><span class="part-n">Connecting arm</span><span class="part-q">&times;2</span></div>
-        <p class="part-d">Links the horn to the wing. <b>This is the part that broke on the first
-          build</b>, so print it in CF-PLA and read the last section before you fit it.</p>
+        <p class="part-d">Links the servo arm to the wing. <b>This is the part that broke on the
+          first build</b>, so print it in CF-PLA and read the last section before you fit it.</p>
         <a class="part-dl" href="../files/aviws/connecting-arm.stl" download>
           <span>connecting-arm.stl</span>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 2v8m0 0 3-3m-3 3-3-3M2 12h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
       </div>
+
+      <div class="part">
+        <div class="part-top"><span class="part-n">Dowel pin</span><span class="part-q">&times;6</span></div>
+        <p class="part-d">10 mm diameter, 60 mm long. One per seam, and there are six seams across
+          the span. Print them or buy them, whichever you trust more.</p>
+        <a class="part-dl" href="../files/aviws/dowel-pin.stl" download>
+          <span>dowel-pin.stl</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 2v8m0 0 3-3m-3 3-3-3M2 12h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <div class="part">
+        <div class="part-top"><span class="part-n">Whole-wing reference</span><span class="part-q">do not print</span></div>
+        <p class="part-d">All 1,400 mm in one piece. No consumer bed will take it. It is here so
+          you can check fit, orientation and how the sections are meant to sit together.</p>
+        <a class="part-dl" href="../files/aviws/wing-assembly-reference.stl" download>
+          <span>wing-assembly-reference.stl</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 2v8m0 0 3-3m-3 3-3-3M2 12h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="note">
+      <div class="note-t">The span adds up</div>
+      <p class="note-d">Four 200 mm sections, one 112 mm edge piece and the two tips come to
+        1,409 mm of parts, which closes to <b>1,400 mm</b> once the dowelled joints pull
+        together. Their combined solid volume is within <b>0.6%</b> of the one-piece reference
+        model, so nothing is missing from the set.</p>
     </div>
 
     <div class="lic">
@@ -683,30 +731,38 @@ body .back-fab{top:88px;left:1rem}
             <td data-l="Orientation">Chord flat on the bed, span running left to right</td>
             <td data-l="Supports">None</td>
             <td data-l="Notes">Gives the cleanest upper and lower surfaces, which is the whole
-              point of the section, and puts the dowel bores horizontal so they print round.</td>
+              point of the section, and puts the dowel bores horizontal so they print round.
+              200 x 200 mm footprint, so check it clears your bed before you start four of them.</td>
           </tr>
           <tr>
-            <td>Outboard tip section</td>
+            <td>Centre edge piece</td>
             <td data-l="Orientation">Same as the centre sections</td>
             <td data-l="Supports">None</td>
-            <td data-l="Notes">Mirror the model for the second one. Check before you print two of
-              the same hand, which is an easy hour to lose.</td>
+            <td data-l="Notes">Only one of these. It is the shortest piece in the wing at 112 mm.</td>
           </tr>
           <tr>
-            <td>Endplate</td>
-            <td data-l="Orientation">Flat on its face</td>
+            <td>Wing tip, left and right</td>
+            <td data-l="Orientation">Same as the centre sections</td>
             <td data-l="Supports">None</td>
-            <td data-l="Notes">Pause and drop the heat-set inserts in afterwards, not mid-print.</td>
+            <td data-l="Notes">These are separate files, not one mirrored twice. Print
+              <b>wing-tip-left</b> and <b>wing-tip-right</b>, one of each.</td>
           </tr>
           <tr>
-            <td>Support bracket</td>
+            <td>Mounting bracket</td>
             <td data-l="Orientation">On its back face, upright</td>
             <td data-l="Supports">Only under the servo pocket if your printer needs them</td>
-            <td data-l="Notes">The tallest part in the set. Layer lines running up the bracket put
-              the load across them rather than along them, which is what you want here.</td>
+            <td data-l="Notes">200 mm tall, the tallest part in the set. Layer lines running up the
+              bracket put the load across them rather than along them, which is what you want.</td>
           </tr>
           <tr>
-            <td>Servo horn</td>
+            <td>Trunk mount</td>
+            <td data-l="Orientation">Largest flat face down</td>
+            <td data-l="Supports">Under any overhang where it curves to meet the lid</td>
+            <td data-l="Notes">The biggest footprint here at 243 x 215 mm. Worth a test slice
+              before you commit six hours to it.</td>
+          </tr>
+          <tr>
+            <td>Servo arm</td>
             <td data-l="Orientation">Flat, spline bore vertical</td>
             <td data-l="Supports">None</td>
             <td data-l="Notes">Print one and test the fit on the spline before you commit to the
@@ -719,6 +775,13 @@ body .back-fab{top:88px;left:1rem}
             <td data-l="Notes"><b>CF-PLA, and 4 walls rather than 3.</b> This is the part that
               fractured on the original build. It is small, it is quick, and it is worth the
               better filament.</td>
+          </tr>
+          <tr>
+            <td>Dowel pin</td>
+            <td data-l="Orientation">Standing on end</td>
+            <td data-l="Supports">None</td>
+            <td data-l="Notes">10 mm by 60 mm. Six of them. Print at 100% infill, or use bought
+              pins, which will be rounder than anything an FDM machine gives you.</td>
           </tr>
         </tbody>
       </table>

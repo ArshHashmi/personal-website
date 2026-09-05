@@ -1,3 +1,5 @@
 
 # The source PDF as dropped in; the served copy lives in docs/
 Active Variable Incidence Wing System*.pdf
+
+.DS_Store

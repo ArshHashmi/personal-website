@@ -1,0 +1,32 @@
+ACTIVE VARIABLE INCIDENCE WING SYSTEM (AVIWS)
+Printable parts, with quantities for the full 1,400 mm span.
+
+  QTY  FILE                          SIZE (mm)          NOTES
+  ---  ----------------------------  -----------------  --------------------------------
+   4   wing-centre-200mm.stl         200 x 200 x 42     Constant-profile centre section
+   1   wing-centre-edge-112mm.stl    112 x 200 x 42     Short centre section, closes the run
+   1   wing-tip-left.stl             250 x 274 x 43     Lofted outboard tip, left
+   1   wing-tip-right.stl            247 x 273 x 43     Lofted outboard tip, right
+   2   mounting-bracket.stl           38 x 200 x 81     Upright: servo pocket + hinge bore
+   2   trunk-mount.stl                33 x 243 x 215    Base that meets the trunk lid
+   2   connecting-arm.stl             19 x 27 x 75      Horn to wing. PRINT IN CF-PLA.
+   2   servo-arm.stl                  15 x 11 x 30      Small arm on the servo output
+   -   dowel-pin.stl                 9.6 dia x 60       Joint pins. One per seam, 6 seams.
+   -   wing-assembly-reference.stl  1400 x 274 x 43     REFERENCE ONLY. Do not print: it is
+                                                        the whole wing in one piece, for
+                                                        checking fit and orientation.
+
+Span check: 4 x 200 + 112 + 250 + 247 = 1,409 mm of parts, which assembles to
+1,400 mm once the dowelled joints close up. The summed solid volume of those
+seven pieces is within 0.6% of the one-piece reference model, so the set is
+complete.
+
+Print settings: PLA, 5% infill, 3 walls, 0.2 mm layers.
+The connecting arm is the exception: CF-PLA and 4 walls. It is the part that
+fractured on the original build.
+
+legacy/  Two female moulds from the abandoned XPS foam and fibreglass route.
+         Not needed for the printed build. Kept for reference only.
+
+Terms: build one for yourself. Do not redistribute these files, and do not
+sell them or anything printed from them. https://arshhashmi.com/legal/terms
