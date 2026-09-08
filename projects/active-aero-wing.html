@@ -165,14 +165,14 @@ body .back-fab{top:88px;left:1rem}
    LAYOUT
    ══════════════════════════════════════════════════════════════════ */
 .pwrap{max-width:1500px;margin:0 auto;padding:0 6vw}
-.psec{padding:6.5rem 0}
+.psec{padding:4.25rem 0}
 .psec-tight{padding-top:0}
 /* Three main sections, with everything else sitting under them as
    subsections. Scale alone carries the hierarchy: a banner runs about half
    again the size of the heads beneath it, so no rules across the page. */
-.sec-banner{padding-top:9rem}
+.sec-banner{padding-top:6rem}
 .sec-banner .stitle{font-size:clamp(2.6rem,5.4vw,4.6rem);letter-spacing:-.045em}
-.sec-banner-first{padding-top:5.5rem}
+.sec-banner-first{padding-top:4rem}
 .shead-solo{display:block}
 
 /* End of the build: the one place the page asks for something. */
@@ -292,11 +292,12 @@ body .back-fab{top:88px;left:1rem}
    Sits right under the simulator, because that is the moment someone
    decides they want one. Narrow, so it reads as a signpost rather than as
    the end of the page. */
-/* Hugs its content rather than stretching the column: full width left the
-   arrow stranded half a metre from the words it belonged to. */
+/* Right-aligned under the simulator, and hugging its content: full width
+   left the arrow stranded half a metre from the words it belonged to. */
+.gbar-row{display:flex;justify-content:flex-end;margin-top:2rem}
 .gbar{
   display:inline-flex;align-items:center;gap:.85rem;
-  margin-top:2.2rem;padding:.9rem 1.3rem;border-radius:11px;
+  padding:.9rem 1.3rem;border-radius:11px;
   text-decoration:none;color:inherit;
   background:#12161c;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);
   transition:background .3s ease,box-shadow .3s ease,gap .3s cubic-bezier(.16,1,.3,1);
@@ -334,6 +335,7 @@ body .back-fab{top:88px;left:1rem}
 @media(max-width:700px){
   /* One clean line and a full-width tap target on a phone. The sentence
      that goes with it is on the card at the bottom of the page. */
+  .gbar-row{display:block;margin-top:1.5rem}
   .gbar{display:flex;justify-content:space-between;width:100%;padding:1rem 1.15rem;gap:1rem}
   .gbar-t{font-size:.99rem}
   .gbar-d{display:none}
@@ -754,14 +756,14 @@ table.dt tbody tr:last-child td{border-bottom:none}
   .bar-row{grid-template-columns:4.6rem 1fr auto;gap:.7rem}
   .kit-row{grid-template-columns:1fr;gap:.3rem}
   .tbl-hint{display:block}
-  .psec{padding:3.6rem 0}
+  .psec{padding:2.8rem 0}
   /* On a phone the three main titles were 35px against 28px for the
      subsection heads, close enough that the page read as one flat list.
      Scale does the separating here, so it has to be a real gap: the
      banners now run about 1.8x the heads under them, and carry more
      weight. */
-  .sec-banner{padding-top:5rem}
-  .sec-banner-first{padding-top:3rem}
+  .sec-banner{padding-top:3.6rem}
+  .sec-banner-first{padding-top:2.4rem}
   .sec-banner .stitle{font-size:clamp(2.5rem,11.6vw,3.6rem);font-weight:800;line-height:.98}
   .build-cta{padding:1.5rem 1.4rem;gap:1.1rem;border-radius:12px}
   .build-cta-t{font-size:1.15rem}
@@ -911,14 +913,16 @@ table.dt tbody tr:last-child td{border-bottom:none}
       </div>
     </div>
 
-    <a class="gbar" href="../guides/active-aero-wing.html">
-      <span class="gbar-t">Build one yourself</span>
-      <span class="gbar-d">Parts, print settings and the full how-to</span>
-      <svg width="26" height="14" viewBox="0 0 26 14" fill="none" aria-hidden="true">
-        <path d="M1 7h22M18 2l5 5-5 5" stroke="currentColor" stroke-width="1.7"
-              stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </a>
+    <div class="gbar-row">
+      <a class="gbar" href="../guides/active-aero-wing.html">
+        <span class="gbar-t">Build one yourself</span>
+        <span class="gbar-d">Parts, print settings and the full how-to</span>
+        <svg width="26" height="14" viewBox="0 0 26 14" fill="none" aria-hidden="true">
+          <path d="M1 7h22M18 2l5 5-5 5" stroke="currentColor" stroke-width="1.7"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
   </section>
 
   <!-- ═════════════════════════════════════════ THE NUMBERS ══ -->
