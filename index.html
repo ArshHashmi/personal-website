@@ -2287,6 +2287,15 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 .ig-pan-thumb img{
   width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;
 }
+/* Tiles fade in once their bitmap arrives, so a slow connection reads as
+   loading rather than as broken. The fade is an animation added on load,
+   with no fill mode on purpose: outside its own run the image falls back to
+   the resting opacity of 1, so an animation that never starts, or a class
+   that never lands, leaves a visible photo rather than an invisible one. */
+.ig-pan-thumb img.is-in{animation:igTileIn .4s ease}
+@keyframes igTileIn{from{opacity:0}to{opacity:1}}
+/* A tile whose file 404s collapses instead of leaving a grey hole */
+.ig-pan-thumb.is-missing{display:none}
 /* "Click to Watch" hover overlay via pseudo-element */
 .ig-pan-thumb::after{
   content:'Click to Watch';
@@ -2301,7 +2310,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   transition:opacity .16s;
   pointer-events:none;
 }
-.ig-pan-thumb:hover::after{opacity:1}
+@media(hover:hover){.ig-pan-thumb:hover::after{opacity:1}}
 
 /* Edge fades only — no dimming */
 .ig-pan-scrim{
@@ -2347,6 +2356,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 .ig-pan-feat img{
   position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
 }
+.ig-pan-feat img.is-in{animation:igTileIn .45s ease}
 .ig-pan-feat-badge{
   position:absolute;top:.7rem;left:.7rem;
   font-family:'Manrope',sans-serif;font-size:.62rem;font-weight:800;
@@ -2363,7 +2373,7 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   padding-bottom:1.4rem;gap:.5rem;
   opacity:0;transition:opacity .18s;z-index:1;
 }
-.ig-pan-feat:hover .ig-pan-feat-over{opacity:1}
+@media(hover:hover){.ig-pan-feat:hover .ig-pan-feat-over{opacity:1}}
 .ig-pan-feat-play{
   width:42px;height:42px;border-radius:50%;
   background:rgba(255,255,255,.92);
@@ -2398,10 +2408,66 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   filter:drop-shadow(0 1px 4px rgba(0,0,0,.6));
 }
 
-@media(max-width:600px){
-  .ig-pan-thumb{width:110px;height:110px}
-  .ig-pan-feat{border-radius:10px}
+/* ── Phones: swipeable strip, not a marquee ───────────────────────────
+   The panning rows are a desktop idiom. On a phone they are two animated
+   layers about 5,700px wide that iOS has to raster in full, which is what
+   leaves tiles grey, and they drag the photos out from under your thumb
+   while you are trying to look at them. Below 700px the same reels become
+   a strip you swipe, so only what is on screen has to load, and the latest
+   reel gets promoted above it at a size worth looking at. */
+@media(max-width:700px){
+  .ig-pan-wrap{
+    display:flex;flex-direction:column;gap:.9rem;
+    overflow:visible;border-radius:0;
+  }
+  .ig-pan-scrim{display:none}
 
+  /* Latest reel first, full width */
+  .ig-pan-feat-shell{
+    order:-1;position:static;inset:auto;
+    display:block;pointer-events:auto;gap:0;
+  }
+  .ig-pan-feat{
+    width:100%;height:auto;aspect-ratio:4/5;
+    border-radius:14px;
+    border-color:rgba(255,255,255,.14);
+    box-shadow:0 16px 40px rgba(0,0,0,.5);
+  }
+  .ig-pan-feat-badge{top:.6rem;left:.6rem}
+  /* No hover on a touch screen, so the play affordance is always on and the
+     decorative action bar steps aside rather than crowding it. */
+  .ig-pan-feat-over{
+    opacity:1;
+    background:linear-gradient(to top,rgba(0,0,0,.72) 0%,rgba(0,0,0,.06) 38%,transparent 100%);
+  }
+  .ig-post-bar{display:none}
+
+  /* One row, scrolled by hand, snapping, bleeding off the right edge so it
+     is obvious there is more of it */
+  .ig-pan-stage{gap:0;padding:0}
+  .ig-pan-row-1{display:none}
+  .ig-pan-row-0{
+    animation:none;
+    width:auto;gap:6px;
+    margin-right:-5vw;padding-right:5vw;
+    overflow-x:auto;overflow-y:hidden;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior-x:contain;
+    scroll-snap-type:x proximity;
+    scrollbar-width:none;
+  }
+  .ig-pan-row-0::-webkit-scrollbar{display:none}
+  .ig-pan-thumb{
+    width:118px;height:118px;border-radius:9px;
+    scroll-snap-align:start;
+  }
+}
+
+/* Reduced motion: hand the rows over rather than freezing them half-panned */
+@media(prefers-reduced-motion:reduce){
+  .ig-pan-ptr-arrow{animation:none}
+  .ig-pan-row{animation:none;width:auto;overflow-x:auto;scrollbar-width:none}
+  .ig-pan-row::-webkit-scrollbar{display:none}
 }
 
 @media(max-width:640px){
@@ -4032,43 +4098,79 @@ document.getElementById('navHomeBtn')?.addEventListener('click',e=>{
 
   const u = r => `https://www.instagram.com/reel/${r.id}/`;
 
-  /* ── Panning rows: use the 25 older reels, duplicated for seamless loop ── */
+  /* ── Panning rows (desktop) / swipe strip (phones) ── */
   const older = REELS.slice(0, -1); /* reels 1–25 */
 
-  /* Row 0 pans left, row 1 pans right (reversed order for visual variety) */
-  const rowData = [
-    older,
-    [...older].reverse(),
-  ];
+  /* Under 700px the CSS turns row 0 into a hand-scrolled strip and hides row
+     1, so there is no marquee to keep seamless and nothing off-screen that
+     has to be loaded up front. */
+  const phone = () => window.matchMedia('(max-width:700px)').matches;
 
-  rowData.forEach((reels, i) => {
-    const row = document.getElementById(`igRow${i}`);
-    if (!row) return;
-    /* Duplicate for seamless loop (CSS translateX(-50%) trick) */
-    const doubled = [...reels, ...reels];
-    doubled.forEach(r => {
-      const cell = document.createElement('a');
-      cell.className = 'ig-pan-thumb';
-      cell.href = u(r);
-      cell.target = '_blank';
-      cell.rel = 'noopener noreferrer';
-      cell.setAttribute('aria-label', 'View reel on Instagram');
+  /* Fade a tile in, but only if it actually had to travel. An image already
+     in cache is complete before a listener could attach, and fading that one
+     would just be a flicker. Nothing here can leave a tile invisible: the
+     class only ever adds an animation to an image that is already opaque. */
+  const reveal = img => {
+    if (img.complete && img.naturalWidth) return;
+    img.addEventListener('load', () => img.classList.add('is-in'), { once: true });
+  };
 
-      const img = document.createElement('img');
-      img.src = `images/reels/${r.n}.jpg`;
-      img.alt = '';
-      /* NOT loading="lazy". These sit in .ig-pan-row, which runs an infinite
-         translateX animation; Safari resolves lazy-load intersection against
-         the animated position and frequently never fires the load, leaving
-         cells blank. Deferral already happens at the section level — this
-         whole builder only runs once #ig-feed is near the viewport. */
-      img.loading = 'eager';
-      img.decoding = 'async';
-      img.fetchPriority = 'low';   /* behind the hero video and fonts */
-      cell.appendChild(img);
-      row.appendChild(cell);
+  const makeCell = (r, lazy) => {
+    const cell = document.createElement('a');
+    cell.className = 'ig-pan-thumb';
+    cell.href = u(r);
+    cell.target = '_blank';
+    cell.rel = 'noopener noreferrer';
+    cell.setAttribute('aria-label', 'View reel on Instagram');
+
+    const img = document.createElement('img');
+    img.alt = '';
+    img.decoding = 'async';
+    /* loading="lazy" is only safe in the strip. In the panning rows Safari
+       resolves the intersection against the animated position and often
+       never fires the load, which is what left cells grey. */
+    img.loading = lazy ? 'lazy' : 'eager';
+    /* Deliberately no fetchPriority. These used to be sent at 'low', which
+       parks 25 files behind a 3.9MB autoplaying hero video — on a phone the
+       queue often never drained inside a visit. */
+    img.onerror = () => cell.classList.add('is-missing');
+    img.src = `images/reels/${r.n}.jpg`;
+    reveal(img);
+
+    cell.appendChild(img);
+    return cell;
+  };
+
+  const buildRows = () => {
+    const row0 = document.getElementById('igRow0');
+    const row1 = document.getElementById('igRow1');
+    if (!row0 || !row1) return;
+    row0.textContent = '';
+    row1.textContent = '';
+
+    if (phone()) {
+      /* One row, each reel once. The first few load now; the rest arrive as
+         you swipe to them. */
+      older.forEach((r, i) => row0.appendChild(makeCell(r, i >= 6)));
+      return;
+    }
+
+    /* Row 0 pans left, row 1 pans right (reversed for visual variety), each
+       duplicated for the seamless translateX(-50%) loop. */
+    [older, [...older].reverse()].forEach((reels, i) => {
+      const row = i === 0 ? row0 : row1;
+      [...reels, ...reels].forEach(r => row.appendChild(makeCell(r, false)));
     });
-  });
+  };
+
+  buildRows();
+
+  /* Only fires when the viewport actually crosses 700px — a desktop resize or
+     an orientation change, not during normal use. */
+  const mq = window.matchMedia('(max-width:700px)');
+  const onFlip = () => buildRows();
+  if (mq.addEventListener) mq.addEventListener('change', onFlip);
+  else if (mq.addListener) mq.addListener(onFlip);
 
   /* ── Featured card: newest reel (DcZTctSq-AN / 26.jpg) ── */
   const featEl = document.getElementById('igFeatured');
@@ -4078,10 +4180,11 @@ document.getElementById('navHomeBtn')?.addEventListener('click',e=>{
   featEl.href = u(latest);
 
   const img = document.createElement('img');
-  img.src = `images/reels/${latest.n}.jpg`;
   img.alt = 'Latest reel';
-  img.loading = 'eager';   /* same reason as the row thumbs above */
+  img.loading = 'eager';
   img.decoding = 'async';
+  img.src = `images/reels/${latest.n}.jpg`;
+  reveal(img);
   featEl.appendChild(img);
 
   const badge = document.createElement('span');
