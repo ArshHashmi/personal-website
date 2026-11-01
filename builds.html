@@ -2521,6 +2521,11 @@ section.panel.dark{background:var(--paper);color:var(--ink)}
 .pfooter-legal a:hover{color:#f0f0f0}
 .pfooter-legal span{color:#3d3d3d}
 @media(max-width:700px){.pfooter-legal{width:100%;padding:.35rem 0}}
+
+/* Five links don't fit one phone row at full length, so the long labels
+   swap for one word each there (What I Built -> Builds, and so on). */
+.nav-short{display:none}
+@media(max-width:680px){.nav-long{display:none}.nav-short{display:inline}}
 </style>
 </head>
 <body>
@@ -2532,9 +2537,10 @@ section.panel.dark{background:var(--paper);color:var(--ink)}
   </a>
   <ul class="nav-links">
     <li><a href="index.html#hero-name">Home</a></li>
-    <li><a href="builds.html" class="is-active">What I Built</a></li>
-    <li><a href="guides.html">How-To Guides</a></li>
-    <li><a href="about.html">About Me</a></li>
+    <li><a href="builds.html" class="is-active"><span class="nav-long">What I Built</span><span class="nav-short">Builds</span></a></li>
+    <li><a href="guides.html"><span class="nav-long">How-To Guides</span><span class="nav-short">Guides</span></a></li>
+    <li><a href="my-picks.html"><span class="nav-long">My Picks</span><span class="nav-short">Picks</span></a></li>
+    <li><a href="about.html"><span class="nav-long">About Me</span><span class="nav-short">About</span></a></li>
   </ul>
   <div class="nav-right">
     <a href="contact.html" class="nav-cta">Contact</a>

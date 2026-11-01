@@ -2573,7 +2573,13 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
 .pfooter-legal a:hover{color:#f0f0f0}
 .pfooter-legal span{color:#3d3d3d}
 @media(max-width:700px){.pfooter-legal{width:100%;padding:.35rem 0}}
+
+/* Five links don't fit one phone row at full length, so the long labels
+   swap for one word each there (What I Built -> Builds, and so on). */
+.nav-short{display:none}
+@media(max-width:760px){.nav-long{display:none}.nav-short{display:inline}}
 </style>
+<link rel="stylesheet" href="picks/picks.css">
 </head>
 <body>
 
@@ -2584,9 +2590,10 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
   </a>
   <ul class="nav-links">
     <li><a href="#" id="navHomeBtn">Home</a></li>
-    <li><a href="builds.html">What I Built</a></li>
-    <li><a href="guides.html">How-To Guides</a></li>
-    <li><a href="about.html">About Me</a></li>
+    <li><a href="builds.html"><span class="nav-long">What I Built</span><span class="nav-short">Builds</span></a></li>
+    <li><a href="guides.html"><span class="nav-long">How-To Guides</span><span class="nav-short">Guides</span></a></li>
+    <li><a href="my-picks.html"><span class="nav-long">My Picks</span><span class="nav-short">Picks</span></a></li>
+    <li><a href="about.html"><span class="nav-long">About Me</span><span class="nav-short">About</span></a></li>
   </ul>
   <div class="nav-right">
     <a href="contact.html" class="nav-cta">Contact</a>
@@ -2794,6 +2801,17 @@ footer p{font-family:var(--mono);font-size:.62rem;font-weight:400;letter-spacing
     </div>
   </div>
 
+</section>
+
+<section class="picks-sec" aria-labelledby="picks-title">
+  <div class="picks-head">
+    <div>
+      <span class="picks-kicker">Tools from my videos</span>
+      <h2 class="picks-title" id="picks-title">My Picks</h2>
+    </div>
+    <a href="my-picks.html" class="picks-all">See all</a>
+  </div>
+  <div data-picks="preview"></div>
 </section>
 
 <!-- ABOUT -->
@@ -4284,6 +4302,8 @@ document.getElementById('navHomeBtn')?.addEventListener('click',e=>{
   }
 })();
 </script>
+<script src="picks/products.js" defer></script>
+<script src="picks/picks.js" defer></script>
 </body>
 </html>
 

@@ -1,0 +1,57 @@
+/* My Picks: cards, tabs and the reel pop-up, shared by my-picks.html, the home
+   page and the project pages. Colours are literal for the same reason as the
+   footer's: the pages disagree about what the tokens mean. */
+
+/* ── Preview section (home + project pages) ── */
+.picks-sec{padding:4.5rem 5vw 1rem;max-width:1200px;margin:0 auto}
+.picks-head{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1.6rem}
+.picks-kicker{display:block;font-family:'IBM Plex Mono',monospace;font-size:.58rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(240,240,240,.45);margin-bottom:.6rem}
+.picks-title{font-family:'Sora',sans-serif;font-size:clamp(1.6rem,3.5vw,2.6rem);font-weight:800;letter-spacing:-.04em;line-height:1;color:#f0f0f0}
+.picks-all{font-family:'Sora',sans-serif;font-size:.92rem;font-weight:600;letter-spacing:-.01em;color:#f0f0f0;text-decoration:none;padding:.6rem 0 4px;background-image:linear-gradient(currentColor,currentColor);background-repeat:no-repeat;background-position:0 100%;background-size:100% 1px}
+
+/* ── Category tabs: the nav's capsules ── */
+.picks-tabs{display:flex;gap:.4rem;margin-bottom:1.5rem;overflow-x:auto;scrollbar-width:none}
+.picks-tabs::-webkit-scrollbar{display:none}
+.picks-tab{flex:0 0 auto;font-family:'Manrope',sans-serif;font-size:.82rem;font-weight:600;letter-spacing:-.01em;color:rgba(255,255,255,.72);background:rgba(255,255,255,.08);border:0;border-radius:7px;padding:.46rem 1.05rem;min-height:36px;cursor:pointer;transition:color .14s,background .14s}
+.picks-tab:hover{color:#fff;background:rgba(255,255,255,.16)}
+.picks-tab[aria-pressed="true"]{color:#080808;background:#f0f0f0}
+.picks-empty{border:1px dashed rgba(255,255,255,.1);padding:2.5rem 1.5rem;text-align:center;font-size:.9rem;color:rgba(240,240,240,.45)}
+
+/* ── Grid and cards ── */
+.picks-grid{display:grid;gap:.75rem;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.pick{display:flex;flex-direction:column;background:#0f0f0f;border:1px solid rgba(255,255,255,.09);transition:border-color .2s}
+.pick:hover{border-color:rgba(240,240,240,.3)}
+.pick-media{position:relative;display:block;width:100%;aspect-ratio:4/3;background:#161616;border:0;padding:0;overflow:hidden}
+button.pick-media{cursor:pointer}
+.pick-media img{display:block;width:100%;height:100%;object-fit:cover}
+.pick-play{position:absolute;left:.7rem;bottom:.7rem;font-family:'Manrope',sans-serif;font-size:.74rem;font-weight:700;color:#fff;background:rgba(8,8,8,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:.38rem .8rem}
+.pick-body{display:flex;flex-direction:column;gap:.55rem;padding:1.1rem 1.1rem 1.2rem;flex:1}
+.pick-top{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.pick-brand{font-family:'IBM Plex Mono',monospace;font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#f0f0f0;border:1px solid rgba(255,255,255,.28);padding:.22rem .55rem}
+.pick-feat{font-family:'IBM Plex Mono',monospace;font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#e8ff57}
+.pick-name{font-family:'Sora',sans-serif;font-size:1.05rem;font-weight:700;line-height:1.3;color:#f0f0f0}
+.pick-blurb{font-family:'Manrope',sans-serif;font-size:.88rem;font-weight:500;line-height:1.5;color:#909090}
+.pick-btns{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:auto;padding-top:.4rem}
+.pick-btn{flex:1 1 auto;display:inline-flex;align-items:center;justify-content:center;min-height:42px;font-family:'Manrope',sans-serif;font-size:.8rem;font-weight:600;letter-spacing:-.01em;text-decoration:none;white-space:nowrap;color:#f0f0f0;background:transparent;border:1.5px solid rgba(255,255,255,.28);border-radius:999px;padding:.55rem 1.2rem;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.pick-btn:hover{border-color:#f0f0f0}
+.pick-btn.is-primary{color:#080808;background:#f0f0f0;border-color:#f0f0f0}
+.pick-btn.is-primary:hover{background:transparent;color:#f0f0f0}
+.pick-btn:disabled{color:rgba(240,240,240,.35);background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.08);cursor:not-allowed}
+
+/* Phones: the preview becomes a swipe strip, like the reels on the home page. */
+@media(max-width:700px){
+  .picks-sec{padding:3rem 5vw .5rem}
+  .picks-grid.is-strip{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:80%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 -5vw;padding:0 5vw;scroll-padding:0 5vw}
+  .picks-grid.is-strip::-webkit-scrollbar{display:none}
+  .picks-grid.is-strip>.pick{scroll-snap-align:start}
+}
+
+/* ── Reel pop-up ── */
+.picks-dlg{margin:auto;padding:0;border:1px solid rgba(255,255,255,.12);background:#0f0f0f;color:#f0f0f0;width:min(540px,calc(100vw - 2rem));max-height:calc(100dvh - 2rem);overflow:auto;overscroll-behavior:contain}
+.picks-dlg::backdrop{background:rgba(0,0,0,.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.picks-dlg-inner{padding:.75rem}
+.picks-dlg-close{display:block;margin:0 0 .75rem auto;font-family:'Manrope',sans-serif;font-size:.8rem;font-weight:600;color:#f0f0f0;background:rgba(255,255,255,.08);border:0;border-radius:7px;padding:.46rem 1rem;min-height:36px;cursor:pointer}
+.picks-dlg-close:hover{background:rgba(255,255,255,.16)}
+.picks-dlg-box{min-height:420px}
+.picks-dlg-box .instagram-media{margin:0 auto!important;min-width:0!important;width:100%!important;background:#fff}
+.picks-dlg-box .instagram-media>a{display:block;padding:2rem;text-align:center;font-family:'Manrope',sans-serif;color:#080808}
