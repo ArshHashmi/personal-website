@@ -7,7 +7,7 @@
    blurb     one short line on why you use it
    link      store or affiliate URL; leave "" and the button says "link coming soon"
    reel      Instagram reel URL; leave "" to hide the reel button and pop-up
-   featured  true puts it first, and in the previews on the home and project pages */
+   featured  true puts it first in its category and marks it "Top pick" */
 window.PICKS = [
   {
     name: "3PCS Torque Wrench Set",

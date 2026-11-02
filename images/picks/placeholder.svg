@@ -1,5 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
-  <rect width="400" height="300" fill="#161616"/>
-  <path d="M0 0H400M0 50H400M0 100H400M0 150H400M0 200H400M0 250H400M0 0V300M50 0V300M100 0V300M150 0V300M200 0V300M250 0V300M300 0V300M350 0V300" stroke="#ffffff" stroke-opacity=".05"/>
-  <text x="200" y="156" text-anchor="middle" font-family="Menlo, monospace" font-size="13" letter-spacing="3" fill="#ffffff" fill-opacity=".35">PHOTO COMING SOON</text>
+  <rect width="400" height="300" fill="#121212"/>
+  <text x="200" y="155" text-anchor="middle" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="500" fill="#ffffff" fill-opacity=".28">Photo coming soon</text>
 </svg>

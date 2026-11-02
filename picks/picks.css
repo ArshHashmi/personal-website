@@ -1,73 +1,99 @@
-/* My Picks: cards, tabs and the reel pop-up, shared by my-picks.html, the home
-   page and the project pages. Colours are literal for the same reason as the
-   footer's: the pages disagree about what the tokens mean. */
+/* My Picks: the product shelf and reel pop-up on my-picks.html. Built from the
+   pieces the rest of the site already uses: the arc cards from What I Built
+   (rounded media, name with a grey state beside it, an underlined link with
+   an arrow) and the soft tags from About Me for the category filter and the
+   brand. */
 
-/* ── Preview section (home + project pages) ── */
-.picks-sec{padding:4.5rem 5vw 1rem}
-.picks-head{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1.6rem}
-.picks-kicker{display:block;font-family:'IBM Plex Mono',monospace;font-size:.58rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(240,240,240,.45);margin-bottom:.6rem}
-.picks-title{font-family:'Sora',sans-serif;font-size:clamp(1.6rem,3.5vw,2.6rem);font-weight:800;letter-spacing:-.04em;line-height:1;color:#f0f0f0}
-.picks-all{font-family:'Sora',sans-serif;font-size:.92rem;font-weight:600;letter-spacing:-.01em;color:#f0f0f0;text-decoration:none;padding:.6rem 0 4px;background-image:linear-gradient(currentColor,currentColor);background-repeat:no-repeat;background-position:0 100%;background-size:100% 1px}
-
-/* ── Category tabs: the nav's capsules ── */
-.picks-tabs{display:flex;gap:.4rem;margin-bottom:1.5rem;overflow-x:auto;scrollbar-width:none}
+/* ── Category filter: About's tags, the selected one lit ── */
+.picks-tabs{display:flex;gap:.45rem;margin-bottom:2.6rem;overflow-x:auto;scrollbar-width:none}
 .picks-tabs::-webkit-scrollbar{display:none}
-.picks-tab{flex:0 0 auto;font-family:'Manrope',sans-serif;font-size:.82rem;font-weight:600;letter-spacing:-.01em;color:rgba(255,255,255,.72);background:rgba(255,255,255,.08);border:0;border-radius:7px;padding:.46rem 1.05rem;min-height:36px;cursor:pointer;transition:color .14s,background .14s}
-.picks-tab:hover{color:#fff;background:rgba(255,255,255,.16)}
-.picks-tab[aria-pressed="true"]{color:#080808;background:#f0f0f0}
-.picks-empty{border:1px dashed rgba(255,255,255,.1);padding:2.5rem 1.5rem;text-align:center;font-size:.9rem;color:rgba(240,240,240,.45)}
-
-/* ── Grid and cards ── */
-.picks-grid{display:grid;gap:.75rem;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
-.pick{display:flex;flex-direction:column;background:#0f0f0f;border:1px solid rgba(255,255,255,.09);transition:border-color .2s}
-.pick:hover{border-color:rgba(240,240,240,.3)}
-.pick-media{position:relative;display:block;width:100%;aspect-ratio:4/3;background:#161616;border:0;padding:0;overflow:hidden}
-button.pick-media{cursor:pointer}
-.pick-media img{display:block;width:100%;height:100%;object-fit:cover}
-.pick-play{position:absolute;left:.7rem;bottom:.7rem;font-family:'Manrope',sans-serif;font-size:.74rem;font-weight:700;color:#fff;background:rgba(8,8,8,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:.38rem .8rem}
-.pick-body{display:flex;flex-direction:column;gap:.55rem;padding:1.1rem 1.1rem 1.2rem;flex:1}
-.pick-top{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
-.pick-brand{font-family:'IBM Plex Mono',monospace;font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#f0f0f0;border:1px solid rgba(255,255,255,.28);padding:.22rem .55rem}
-.pick-feat{font-family:'IBM Plex Mono',monospace;font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#e8ff57}
-.pick-name{font-family:'Sora',sans-serif;font-size:1.05rem;font-weight:700;line-height:1.3;color:#f0f0f0}
-.pick-blurb{font-family:'Manrope',sans-serif;font-size:.88rem;font-weight:500;line-height:1.5;color:#909090}
-.pick-btns{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:auto;padding-top:.4rem}
-.pick-btn{flex:1 1 auto;display:inline-flex;align-items:center;justify-content:center;min-height:42px;font-family:'Manrope',sans-serif;font-size:.8rem;font-weight:600;letter-spacing:-.01em;text-decoration:none;white-space:nowrap;color:#f0f0f0;background:transparent;border:1.5px solid rgba(255,255,255,.28);border-radius:999px;padding:.55rem 1.2rem;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
-.pick-btn:hover{border-color:#f0f0f0}
-.pick-btn.is-primary{color:#080808;background:#f0f0f0;border-color:#f0f0f0}
-.pick-btn.is-primary:hover{background:transparent;color:#f0f0f0}
-.pick-btn:disabled{color:rgba(240,240,240,.35);background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.08);cursor:not-allowed}
-
-/* Phones: a two-up shop grid with square photos, so a list of picks doesn't
-   take a screen per product; the preview becomes a swipe strip, like the
-   reels on the home page. */
-@media(max-width:700px){
-  .picks-sec{padding:3rem 5vw .5rem}
-  .picks-tab{padding:.46rem .8rem}
-  .picks-grid{grid-template-columns:1fr 1fr;gap:.6rem}
-  .pick-media{aspect-ratio:1}
-  .pick-play{left:.5rem;bottom:.5rem;font-size:.68rem;padding:.3rem .65rem}
-  .pick-body{padding:.8rem .8rem .9rem;gap:.45rem}
-  .pick-brand,.pick-feat{font-size:.56rem;letter-spacing:.12em}
-  .pick-name{font-size:.92rem}
-  .pick-blurb{font-size:.8rem}
-  .pick-btns{flex-direction:column;gap:.4rem}
-  .pick-btn{min-height:40px;font-size:.76rem;padding:.5rem .7rem}
-  .picks-grid.is-strip{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:62%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 -5vw;padding:0 5vw;scroll-padding:0 5vw}
-  .picks-grid.is-strip::-webkit-scrollbar{display:none}
-  .picks-grid.is-strip>.pick{scroll-snap-align:start}
+.picks-tab{
+  flex:0 0 auto;min-height:38px;padding:.4rem .9rem;border:0;border-radius:8px;
+  font-family:'Manrope',sans-serif;font-size:.88rem;font-weight:500;
+  color:#909090;background:rgba(255,255,255,.055);cursor:pointer;
+  transition:color .15s,background .15s;
 }
+.picks-tab:hover{color:#f0f0f0}
+.picks-tab[aria-pressed="true"]{color:#f0f0f0;background:rgba(255,255,255,.14)}
+.picks-empty{font-family:'Manrope',sans-serif;font-size:.95rem;font-weight:500;color:#7d7d7d;padding:1rem 0 3rem}
 
-/* ── Reel pop-up ── */
-.picks-dlg{margin:auto;padding:0;border:1px solid rgba(255,255,255,.12);background:#0f0f0f;color:#f0f0f0;width:min(540px,calc(100vw - 2rem));max-height:calc(100dvh - 2rem);overflow:auto;overscroll-behavior:contain}
-.picks-dlg::backdrop{background:rgba(0,0,0,.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-.picks-dlg-inner{padding:.75rem}
-.picks-dlg-close{display:block;margin:0 0 .75rem auto;font-family:'Manrope',sans-serif;font-size:.8rem;font-weight:600;color:#f0f0f0;background:rgba(255,255,255,.08);border:0;border-radius:7px;padding:.46rem 1rem;min-height:36px;cursor:pointer}
+/* ── The shelf: What I Built's grid, three across ── */
+.picks-grid{display:grid;grid-template-columns:repeat(3,1fr);column-gap:2.4rem;row-gap:3.6rem}
+@media(max-width:1180px){.picks-grid{grid-template-columns:repeat(2,1fr)}}
+
+.pick{display:flex;flex-direction:column}
+.pick-media{
+  position:relative;display:block;width:100%;padding:0;border:0;overflow:hidden;
+  border-radius:12px;background:#0a0a0a;aspect-ratio:4/3;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.06),0 26px 50px -30px rgba(0,0,0,1);
+}
+button.pick-media{cursor:pointer}
+.pick-media img{
+  display:block;width:100%;height:100%;object-fit:cover;
+  filter:saturate(.86) contrast(1.02);transform:scale(1.01);
+  transition:transform 1.2s cubic-bezier(.16,1,.3,1),filter .7s ease;
+}
+.pick:hover .pick-media img{transform:scale(1.045);filter:saturate(1.02) contrast(1.04)}
+.pick-play{
+  position:absolute;left:.8rem;bottom:.8rem;display:inline-flex;align-items:center;gap:.45rem;
+  font-family:'Manrope',sans-serif;font-size:.8rem;font-weight:600;color:#f0f0f0;
+  padding:.38rem .75rem .38rem .6rem;border-radius:8px;
+  background:rgba(8,8,8,.62);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+}
+.pick-play svg{width:9px;height:10px;fill:currentColor}
+
+.pick-brand{
+  align-self:flex-start;margin-top:1.25rem;
+  font-family:'Manrope',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.08em;
+  color:#909090;padding:.28rem .6rem;border-radius:6px;background:rgba(255,255,255,.055);
+}
+.pick-top{display:flex;align-items:baseline;justify-content:space-between;gap:1.2rem;margin-top:.8rem}
+.pick-name{font-family:'Sora',sans-serif;font-size:1.3rem;font-weight:700;letter-spacing:-.03em;line-height:1.15;color:#f0f0f0}
+.pick-state{flex-shrink:0;font-family:'Manrope',sans-serif;font-size:.84rem;font-weight:500;color:#7d7d7d}
+.pick-line{margin-top:.5rem;font-size:.95rem;line-height:1.6;color:#909090}
+
+/* Links, not buttons: the underline-and-arrow every other page uses. */
+.pick-links{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1.6rem;margin-top:1.1rem}
+.pick-link{
+  display:inline-flex;align-items:center;gap:.5rem;padding:0 0 4px;border:0;
+  font-family:'Sora',sans-serif;font-size:.92rem;font-weight:600;letter-spacing:-.01em;
+  color:#f0f0f0;text-decoration:none;background:none;
+  background-image:linear-gradient(currentColor,currentColor);
+  background-repeat:no-repeat;background-position:0 100%;background-size:100% 1px;
+  transition:gap .4s cubic-bezier(.16,1,.3,1);
+}
+.pick-link:hover{gap:.8rem}
+.pick-link svg{flex-shrink:0}
+.pick-link.is-quiet{color:#909090}
+.pick-link.is-quiet:hover{color:#f0f0f0}
+.pick-link:disabled{color:#555;background-image:none;cursor:not-allowed;gap:.5rem}
+
+@media(max-width:640px){
+  .picks-tabs{margin:0 -5vw 2rem;padding:0 5vw}
+  .picks-grid{display:flex;flex-direction:column;gap:2.9rem}
+  .pick-media{border-radius:10px;aspect-ratio:16/11}
+  .pick-brand{margin-top:1rem}
+  .pick-name{font-size:1.2rem}
+  .pick-state{font-size:.8rem}
+  .pick-line{font-size:.92rem;line-height:1.55}
+  .pick-link{font-size:.88rem;min-height:36px;align-items:flex-end}
+}
+@media(prefers-reduced-motion:reduce){.pick-media img,.pick-link{transition:none}}
+
+/* ── Reel pop-up: Instagram's embed on the page's own surface ── */
+.picks-dlg{
+  margin:auto;padding:0;border:0;border-radius:14px;background:#0f0f0f;color:#f0f0f0;
+  width:min(500px,calc(100vw - 2rem));max-height:calc(100dvh - 2rem);overflow:auto;overscroll-behavior:contain;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 40px 80px -30px rgba(0,0,0,1);
+}
+.picks-dlg::backdrop{background:rgba(0,0,0,.8);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.picks-dlg-inner{padding:.8rem}
+.picks-dlg-close{
+  display:block;margin:0 0 .8rem auto;min-height:36px;padding:.4rem .9rem;border:0;border-radius:8px;
+  font-family:'Manrope',sans-serif;font-size:.85rem;font-weight:600;color:#f0f0f0;
+  background:rgba(255,255,255,.08);cursor:pointer;
+}
 .picks-dlg-close:hover{background:rgba(255,255,255,.16)}
 .picks-dlg-box{min-height:420px}
-.picks-dlg-box .instagram-media{margin:0 auto!important;min-width:0!important;width:100%!important;background:#fff}
-.picks-dlg-box .instagram-media>a{display:block;padding:2rem;text-align:center;font-family:'Manrope',sans-serif;color:#080808}
-
-/* On the project pages the preview sits inside the page's own content column,
-   which already supplies the side padding. */
-.picks-sec.is-inset{padding-left:0;padding-right:0}
+.picks-dlg-box .instagram-media{margin:0 auto!important;min-width:0!important;width:100%!important;border-radius:10px!important}
+.picks-dlg-box .instagram-media>a{display:block;padding:2rem;text-align:center;font-family:'Manrope',sans-serif;color:#909090}
