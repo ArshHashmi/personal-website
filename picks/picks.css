@@ -3,7 +3,7 @@
    footer's: the pages disagree about what the tokens mean. */
 
 /* ── Preview section (home + project pages) ── */
-.picks-sec{padding:4.5rem 5vw 1rem;max-width:1200px;margin:0 auto}
+.picks-sec{padding:4.5rem 5vw 1rem}
 .picks-head{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1.6rem}
 .picks-kicker{display:block;font-family:'IBM Plex Mono',monospace;font-size:.58rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(240,240,240,.45);margin-bottom:.6rem}
 .picks-title{font-family:'Sora',sans-serif;font-size:clamp(1.6rem,3.5vw,2.6rem);font-weight:800;letter-spacing:-.04em;line-height:1;color:#f0f0f0}
@@ -38,10 +38,22 @@ button.pick-media{cursor:pointer}
 .pick-btn.is-primary:hover{background:transparent;color:#f0f0f0}
 .pick-btn:disabled{color:rgba(240,240,240,.35);background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.08);cursor:not-allowed}
 
-/* Phones: the preview becomes a swipe strip, like the reels on the home page. */
+/* Phones: a two-up shop grid with square photos, so a list of picks doesn't
+   take a screen per product; the preview becomes a swipe strip, like the
+   reels on the home page. */
 @media(max-width:700px){
   .picks-sec{padding:3rem 5vw .5rem}
-  .picks-grid.is-strip{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:80%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 -5vw;padding:0 5vw;scroll-padding:0 5vw}
+  .picks-tab{padding:.46rem .8rem}
+  .picks-grid{grid-template-columns:1fr 1fr;gap:.6rem}
+  .pick-media{aspect-ratio:1}
+  .pick-play{left:.5rem;bottom:.5rem;font-size:.68rem;padding:.3rem .65rem}
+  .pick-body{padding:.8rem .8rem .9rem;gap:.45rem}
+  .pick-brand,.pick-feat{font-size:.56rem;letter-spacing:.12em}
+  .pick-name{font-size:.92rem}
+  .pick-blurb{font-size:.8rem}
+  .pick-btns{flex-direction:column;gap:.4rem}
+  .pick-btn{min-height:40px;font-size:.76rem;padding:.5rem .7rem}
+  .picks-grid.is-strip{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:62%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 -5vw;padding:0 5vw;scroll-padding:0 5vw}
   .picks-grid.is-strip::-webkit-scrollbar{display:none}
   .picks-grid.is-strip>.pick{scroll-snap-align:start}
 }
@@ -55,3 +67,7 @@ button.pick-media{cursor:pointer}
 .picks-dlg-box{min-height:420px}
 .picks-dlg-box .instagram-media{margin:0 auto!important;min-width:0!important;width:100%!important;background:#fff}
 .picks-dlg-box .instagram-media>a{display:block;padding:2rem;text-align:center;font-family:'Manrope',sans-serif;color:#080808}
+
+/* On the project pages the preview sits inside the page's own content column,
+   which already supplies the side padding. */
+.picks-sec.is-inset{padding-left:0;padding-right:0}
